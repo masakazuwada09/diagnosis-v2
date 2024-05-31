@@ -43,7 +43,9 @@ import Pusher from 'pusher-js';
 import PatientAnestesiaQueue from "./pages/department/his-anesthesia/PatientAnestesiaQueue.jsx";
 import Inventory from "./pages/department/his-nurse/Inventory.jsx";
 import PatientMonitoring from "./pages/department/his-anesthesia/PatientMonitoring.jsx";
-import PatientERQueue from "./pages/hims/PatientERQueue.jsx";
+import PatientERQueue from "./pages/hims/his-er/PatientERQueue.jsx";
+import PatientBillingQueue from "./pages/hims/his-billing/PatientBillingQueue.jsx";
+import PatientHousekeepingQueue from "./pages/hims/his-housekeeping/PatientHousekeepingQueue.jsx";
 window.Pusher = Pusher;
  
 axios.interceptors.request.use(
@@ -142,7 +144,7 @@ const router = createBrowserRouter(
 		<Route path="/" element={<Root />}>
 			<Route path="index" element={<AppRoutes />}></Route>
 			<Route path="login" element={<Login />}></Route>
-			<Route path="rhu-nurse">
+			<Route path="his-nurse">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
 				<Route path="telemedicine" element={<Appointments />}></Route>
@@ -150,21 +152,7 @@ const router = createBrowserRouter(
 				<Route path="my-account" element={<MyAccount />}></Route>
 				{/* <Route path="inventory" element = {<Inventory />}></Route> */}
 			</Route>
-			<Route path="rhu-doctor">
-				<Route path="" element={<Dashboard />}></Route>
-				<Route path="patients" element={<Patients />}></Route>
-				<Route path="telemedicine" element={<Appointments />}></Route>
-				<Route
-					path="patient-queue"
-					element={<DoctorPatientQueue />}
-				></Route>
-				<Route
-					path="patient-referrals"
-					element={<DoctorPatientReferrals />}
-				></Route>
-				<Route path="my-account" element={<MyAccount />}></Route>
-			</Route>
-			<Route path="rhu-lab">
+			<Route path="his-laboratory">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
 				<Route
@@ -173,7 +161,7 @@ const router = createBrowserRouter(
 				></Route>
 				<Route path="my-account" element={<MyAccount />}></Route>
 			</Route>
-			<Route path="rhu-xray">
+			<Route path="his-imaging">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
 				<Route
@@ -182,7 +170,7 @@ const router = createBrowserRouter(
 				></Route>
 				<Route path="my-account" element={<MyAccount />}></Route>
 			</Route>
-			<Route path="rhu-cashier">
+			<Route path="his-cashier">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route
 					path="patient-cashier-queue"
@@ -191,7 +179,7 @@ const router = createBrowserRouter(
 				<Route path="my-account" element={<MyAccount />}></Route>
 			</Route>
 
-			<Route path="rhu-pharmacy">
+			<Route path="his-pharmacy">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
 				<Route path="consignments" element={<Consignments />}></Route>
@@ -231,13 +219,12 @@ const router = createBrowserRouter(
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patient-monitoring" element = {<PatientMonitoring />}></Route>
 			</Route>
-			<Route path="his-nurse">
+			{/* <Route path="his-nurse">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
-				{/* <Route path="telemedicine" element={<Appointments />}></Route> */}
 				<Route path="patient-anesthesia-queue" element={<PatientAnestesiaQueue />}></Route>
 				<Route path="my-account" element={<MyAccount />}></Route>
-			</Route>
+			</Route> */}
 			<Route path="his-er">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
@@ -245,7 +232,31 @@ const router = createBrowserRouter(
 				<Route path="my-account" element={<MyAccount />}></Route>
 				{/* <Route path="inventory" element = {<Inventory />}></Route> */}
 			</Route>
-			
+			<Route path="his-doctor">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element={<Patients />}></Route>
+				{/* <Route path="telemedicine" element={<Appointments />}></Route> */}
+				<Route
+					path="patient-queue"
+					element={<DoctorPatientQueue />}
+				></Route>
+			</Route>
+			<Route path="his-billing">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route
+					path="patient-billing-queue"
+					element={<PatientBillingQueue />}
+				></Route>
+				<Route path="my-account" element={<MyAccount />}></Route>
+			</Route>
+			<Route path="his-housekeeping">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route
+					path="patient-housekeeping-queue"
+					element={<PatientHousekeepingQueue />}
+				></Route>
+				<Route path="my-account" element={<MyAccount />}></Route>
+			</Route>
 			<Route path="*" element={<Error404 />}></Route>
 		</Route>
 	)

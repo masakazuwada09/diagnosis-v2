@@ -11,7 +11,7 @@ const useDoctorQueue = () => {
 		() =>
 			Axios.get("/v1/clinic/doctor-pending-for-consultation")
 				.then((res) => {
-					console.log("res.data clinic/rhu-patient-queue", res.data);
+					console.log("res.data clinic/sph-patient-queue", res.data);
 					return res.data;
 				})
 				.catch((error) => {

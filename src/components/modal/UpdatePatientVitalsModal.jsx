@@ -415,7 +415,7 @@ const UpdatePatientVitalsModal = (props, ref) => {
 										Patient Vitals Form
 									</span>
 									<span className="text-sm font-light text-blue-900 ">
-										Update patient vitalss
+										Update patient vitals
 									</span>
 								</div>
 								<div className="pb-4 flex flex-col gap-y-4 relative">

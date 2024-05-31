@@ -21,6 +21,9 @@ import HISAnesthesiaLink from "../../userLinks/hmis/HISAnesthesiaLink";
 import HISNurseLink from "../../userLinks/hmis/HISNurseLink";
 import HISAnesthesiaMonitorLink from "../../userLinks/hmis/HISAnesthesiaMonitorLink";
 import HISErLink from "../../userLinks/hmis/HISErLink";
+import HISDoctorLinks from "../../userLinks/hmis/HISDoctorLinks";
+import HISBillingLink from "../../userLinks/hmis/HISBillingLink";
+import HISHousekeepingLink from "../../userLinks/hmis/HISHousekeepingLink";
 const AppLayout = (props) => {
 	useReValidateAuth();
 	const confirmLogoutRef = useRef(null);
@@ -51,22 +54,19 @@ const AppLayout = (props) => {
 	});
 	const renderLinks = () => {
 		switch (String(user?.type).toLowerCase()) {
-			case "rhu-nurse":
+			case "his-nurse":
 				return <RHUNurseLinks isActive={isActive} />;
 
-			case "rhu-doctor":
-				return <RHUDoctorLinks isActive={isActive} />;
-
-			case "rhu-lab":
+			case "his-laboratory":
 				return <RHULabLinks isActive={isActive} />;
 
-			case "rhu-xray":
+			case "his-imaging":
 				return <RHUImagingLinks isActive={isActive} />;
 
-			case "rhu-cashier":
+			case "his-cashier":
 				return <RHUCashierLinks isActive={isActive} />;
 
-			case "rhu-pharmacy":
+			case "his-pharmacy":
 				return <RHUPharmaLinks isActive={isActive} />;
 
 			case "rhu-admin":
@@ -75,11 +75,16 @@ const AppLayout = (props) => {
 				return <HISAnesthesiaMonitorLink isActive={isActive} />;
 			case "his-anesthesia":
 				return <HISAnesthesiaLink isActive={isActive} />;
-			case "his-nurse":
-				return <HISNurseLink isActive={isActive} />;
+			// case "his-nurse":
+			// 	return <HISNurseLink isActive={isActive} />;
 			case "his-er":
 				return <HISErLink isActive={isActive} />;
-
+			case "his-doctor":
+				return <HISDoctorLinks isActive={isActive} />;
+			case "his-billing":
+				return <HISBillingLink isActive={isActive} />;
+			case "his-housekeeping":
+				return <HISHousekeepingLink isActive={isActive} />;
 			default:
 				break;
 		}

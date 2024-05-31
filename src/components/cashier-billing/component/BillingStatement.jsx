@@ -11,16 +11,17 @@ import ProfessionalFeeSOA from "./billing/ProfessionalFeeSOA";
 import { useAuth } from "../../../hooks/useAuth";
 import useNoBugUseEffect from "../../../hooks/useNoBugUseEffect";
 
+
 /* eslint-disable react/prop-types */
 const BillingStatement = (props) => {
 	const { loading: btnLoading, appointment, patient, onSave } = props;
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(true);
 	const componentRef = React.useRef(null);
-	const billingStatus = patient?.billing_status || "mgh";
-	const handlePrint = useReactToPrint({
-		content: () => componentRef.current,
-	});
+	const billingStatus = patient?.billing_status || "pending";
+	// const handlePrint = useReactToPrint({
+	// 	content: () => componentRef.current,
+	// });
 	useNoBugUseEffect({
 		functions: () => {
 			setTimeout(() => {
@@ -53,19 +54,19 @@ const BillingStatement = (props) => {
 					<FlatIcon icon="rr-wallet" className="text-base" />
 					<span className="text-lg font-semibold m-2">
 						Status: {""}
-						<span className="text-yellow-700">Pending</span>
-						{/* {billingStatus === "pending" ? (
+						{/* <span className="text-yellow-700">Pending</span> */}
+						{billingStatus === "pending" ? (
 							<span className="text-yellow-700">Pending</span>
 						) : (
 							<span className="text-green-700">MGH</span>
-						)} */}
+						)}
 					</span>
 				</div>
 			</div>
 
 			<div className="border shadow p-2">
 				<div className="text-justify mt-12" ref={componentRef}>
-					<div className="text-base text-center font-semibold">
+					{/* <div className="text-base text-center font-semibold">
 						<span>SARANGANI PROVINCIAL HOSPITAL</span>
 					</div>
 					<div className="text-sm text-center font-light ">
@@ -88,8 +89,8 @@ const BillingStatement = (props) => {
 								title="Number of Days"
 							/>
 						</div>
-					</div>
-
+					</div> */}
+{/* 
 					<div className="grid grid-cols-2 gap-2 m-2">
 						<div className="m-2">
 							<InfoTextForPrint
@@ -179,7 +180,7 @@ const BillingStatement = (props) => {
 								// value={patient?.civil_status}
 							/>
 						</div>
-					</div>
+					</div> */}
 					<SummaryOfCharges
 						appointment={appointment}
 						patient={patient}
@@ -241,14 +242,14 @@ const BillingStatement = (props) => {
 				</div>
 
 				<div className="p-4 flex items-center justify-end">
-					{billingStatus === "mgh" && (
+					{/* {billingStatus === "mgh" && (
 						<ActionBtn
 							className="text-base gap-2 ml-2"
 							onClick={handlePrint}
 						>
 							<FlatIcon icon="rr-print" /> Print
 						</ActionBtn>
-					)}
+					)} */}
 					{/* Adding more billing-related information here if needed */}
 					<ActionBtn
 						type="success"

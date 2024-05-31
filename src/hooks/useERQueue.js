@@ -30,12 +30,12 @@ const useERQueue = () => {
 		// error,
 		mutate: mutatePendingForRelease,
 	} = useSWR(
-		"/v1/clinic/rhu-pending-for-medicine-release",
+		"/v1/clinic/his-pending-for-medicine-release",
 		() =>
-			Axios.get("/v1/clinic/rhu-pending-for-medicine-release")
+			Axios.get("/v1/clinic/his-pending-for-medicine-release")
 				.then((res) => {
 					console.log(
-						"res.data clinic/rhu-pending-for-medicine-release",
+						"res.data clinic/his-pending-for-medicine-release",
 						res.data
 					);
 					return res.data;

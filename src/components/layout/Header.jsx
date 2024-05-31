@@ -108,7 +108,7 @@ const Header = (props) => {
 								) : (
 									""
 								)}
-								{checkUserType("doctor") ? (
+								{/* {checkUserType("doctor") ? (
 									<>
 										<div
 											className="ml-4 flex items-center gap-1 mr-2 px-3 text-sm font-light text-white hover:bg-blue-900 hover:bg-opacity-20 cursor-pointer py-2 rounded-xl border border-white border-opacity-20"
@@ -132,7 +132,7 @@ const Header = (props) => {
 									</>
 								) : (
 									""
-								)}
+								)} */}
 							</>
 						) : (
 							<div className="ml-auto">

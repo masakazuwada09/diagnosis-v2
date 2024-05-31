@@ -17,7 +17,7 @@ const AppointmentStatus = ({
 		if (appointment?.status == "pending" && appointment?.vital_id != null) {
 			return <span className="text-orange-600">Pending for service</span>;
 		}
-		if (appointment?.status == "pending-for-bhw-release") {
+		if (appointment?.status == "pending-for-billing-release") {
 			return <span className="text-red-600">Pending for release</span>;
 		}
 		if (forResult) {

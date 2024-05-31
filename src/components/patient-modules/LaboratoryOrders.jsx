@@ -116,10 +116,10 @@ const LaboratoryOrders = (props) => {
 	const { user } = useAuth();
 
 	const isLaboratoryUser = () => {
-		return user?.type == "RHU-XRAY" || user?.type == "RHU-LAB";
+		return user?.type == "RHU-XRAY" || user?.type == "HIS-LABORATORY";
 	};
 	const isXrayUser = () => {
-		return user?.type === "RHU-XRAY";
+		return user?.type === "HIS-IMAGING";
 	};
 	const testHeader = isXrayUser() ? "Imaging Test" : "Laboratory Test";
 	const {
@@ -361,7 +361,7 @@ const LaboratoryOrders = (props) => {
 							: "Laboratory Order"
 					}
 				>
-					{user?.type == "RHU-DOCTOR" && allowCreate ? (
+					{user?.type == "HIS-DOCTOR" && allowCreate ? (
 						<ActionBtn
 							className="px-4 rounded-xl"
 							size="sm"
@@ -517,14 +517,14 @@ const LaboratoryOrders = (props) => {
 				ref={uploadLabResultRef}
 			/>
 			{/* chemistry modal */}
-			<UploadFBSModal
+			{/* <UploadFBSModal
 				patient={patient}
 				onSuccess={() => {
 					onUploadLabResultSuccess();
 					reloadData();
 				}}
 				ref={uploadFBSRef}
-			/>
+			/> */}
 			<UploadFBSModal
 				patient={patient}
 				onSuccess={() => {

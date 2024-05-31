@@ -60,6 +60,7 @@ const PatientServices = (props) => {
 	const [itemUsed, setItemUsed] = useState(false);
 	const [forConfirmation, setForConfirmation] = useState(false);
 	const [doctorList, setDoctorList] = useState([]);
+	const [roomList, setRoomList] = useState([]);
 	const [selectedItems, setSelectedItems] = useState([]);
 	const [satisfaction, setStatisfaction] = useState(null);
 
@@ -186,6 +187,7 @@ const PatientServices = (props) => {
 		let formdata = new FormData();
 		formdata.append("rhu_id", data?.rhu_id);
 		formdata.append("doctor_id", data?.doctor_id);
+		formdata.append("room_number", data?.room_number);
 		formdata.append("_method", "PATCH");
 
 		Axios.post(`v1/clinic/tb-assign-to-doctor/${appointment?.id}`, formdata)
@@ -385,53 +387,7 @@ const PatientServices = (props) => {
 							Send patient to Doctor
 						</h4>
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-							<Controller
-								name="rhu_id"
-								control={control}
-								rules={{
-									required: {
-										value: true,
-										message: "This field is required",
-									},
-								}}
-								render={({
-									field: {
-										onChange,
-										onBlur,
-										value,
-										name,
-										ref,
-									},
-									fieldState: {
-										invalid,
-										isTouched,
-										isDirty,
-										error,
-									},
-								}) => (
-									<ReactSelectInputField
-										isClearable={false}
-										label="Select RHU"
-										className="pointer-events-none"
-										isLoading={isSelectorLoading}
-										onChangeGetData={(data) => {}}
-										inputClassName=" "
-										ref={ref}
-										value={value}
-										onChange={onChange}
-										onData
-										readOnly
-										onBlur={onBlur} // notify when input is touched
-										error={error?.message}
-										placeholder={`Select Health Unit`}
-										options={HUList?.map((unit) => ({
-											label: unit?.name,
-											value: unit?.id,
-											rooms: unit?.rooms,
-										}))}
-									/>
-								)}
-							/>{" "}
+							
 							<Controller
 								name="doctor_id"
 								control={control}
@@ -468,7 +424,7 @@ const PatientServices = (props) => {
 										onData
 										onBlur={onBlur} // notify when input is touched
 										error={error?.message}
-										placeholder={`Select Health Unit`}
+										placeholder={`Select Doctor`}
 										options={doctorList?.map((doctor) => ({
 											label: `${doctorName(doctor)}`,
 											value: doctor?.id,
@@ -490,6 +446,101 @@ const PatientServices = (props) => {
 												</div>
 											),
 										}))}
+									/>
+								)}
+							/>
+							<Controller
+								name="room_number"
+								control={control}
+								rules={{
+									required: {
+										value: true,
+										message: "This field is required",
+									},
+								}}
+								render={({
+									field: {
+										onChange,
+										onBlur,
+										value,
+										name,
+										ref,
+									},
+									fieldState: {
+										invalid,
+										isTouched,
+										isDirty,
+										error,
+									},
+								}) => (
+									<ReactSelectInputField
+										isClearable={true}
+										label="Select Room"
+										isLoading={isSelectorLoading}
+										onChangeGetData={(data) => {}}
+										inputClassName=" "
+										ref={ref}
+										value={value}
+										onChange={onChange}
+										onData
+										onBlur={onBlur} // notify when input is touched
+										error={error?.message}
+										placeholder={`Select Room`}
+										// options={roomList?.map((doctor) => ({
+										// 	label: `${doctorName(doctor)}`,
+										// 	value: doctor?.id,
+										// }))}
+										options={[
+													// {
+													// 	label: "Provincial Hospital (PH)",
+													// 	value: "PH",
+													// },
+													{
+														label: "1",
+														value: "1",
+													},
+                                                    {
+														label: "2",
+														value: "2",
+													},
+                                                    {
+														label: "3",
+														value: "3",
+													},
+                                                    {
+														label: "4",
+														value: "4",
+													},
+                                                    {
+														label: "5",
+														value: "5",
+													},
+                                                    {
+														label: "6",
+														value: "6",
+													},
+                                                    {
+														label: "7",
+														value: "7",
+													},
+                                                    {
+														label: "8",
+														value: "8",
+													},
+                                                    {
+														label: "9",
+														value: "9",
+													},
+                                                    {
+														label: "10",
+														value: "10",
+													},
+                                                    
+													// {
+													// 	label: "Barangay Health Station (BHS)",
+													// 	value: "BHS",
+													// },
+												]}
 									/>
 								)}
 							/>

@@ -40,6 +40,8 @@ import UploadUpperAbdomenModal from './modals/imaging/ultrasound/UploadUpperAbdo
 import UploadVDLESModal from './modals/imaging/ultrasound/UploadVDLESModal';
 import UploadWabAppendixModal from './modals/imaging/ultrasound/UploadWabAppendixModal';
 import UploadWholeAbdomenModal from './modals/imaging/ultrasound/UploadWholeAbdomenModal';
+import { doctorName, doctorSpecialty, formatDateMMDDYYYY } from '../../libs/helpers';
+import { useAuth } from '../../hooks/useAuth';
 
 const Status = ({ status }) => {
 	const color = () => {
@@ -234,7 +236,7 @@ const ImagingOrder = (props) => {
 							: "Laboratory Order"
 					}
 				>
-					{user?.type == "RHU-DOCTOR" && allowCreate ? (
+					{user?.type == "HIS-DOCTOR" && allowCreate ? (
 						<ActionBtn
 							className="px-4 rounded-xl"
 							size="sm"
@@ -644,6 +646,7 @@ const ImagingOrder = (props) => {
 					reloadData();
 				}}
 			/>
+			
 		</div>
   )
 }

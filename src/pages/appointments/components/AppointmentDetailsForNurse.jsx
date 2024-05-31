@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from "uuid";
 import Axios from "../../../libs/axios";
 import AppointmentStatus from "../../../components/AppointmentStatus";
 import CashierApproval from "./CashierApproval";
+import BillingApproval from "../../hims/his-billing/component/BillingApproval";
 
 const uniq_id = uuidv4();
 /* eslint-disable react/prop-types */
@@ -55,6 +56,8 @@ const InfoText = ({
 const AppointmentDetailsForNurse = ({
 	appointment: propAppointment,
 	forCashier = false,
+	forBilling = false,
+	forHousekeeping = false,
 	setOrder,
 	hideServices = false,
 	mutateAll,
@@ -99,7 +102,7 @@ const AppointmentDetailsForNurse = ({
 		if (appointment?.status == "pending" && appointment?.vital_id != null) {
 			return <span className="text-orange-600">Pending for service</span>;
 		}
-		if (appointment?.status == "pending-for-bhw-release") {
+		if (appointment?.status == "pending-for-his-release") {
 			return <span className="text-red-600">Pending for release</span>;
 		}
 		return (
@@ -1080,7 +1083,7 @@ const AppointmentDetailsForNurse = ({
 									(appointment.status == "pending" &&
 										appointment?.vital_id != null) ||
 									appointment?.status ==
-										"pending-for-bhw-release"
+										"pending-for-cashier-release"
 								}
 								withCaret={true}
 								title="Services"
@@ -1104,6 +1107,23 @@ const AppointmentDetailsForNurse = ({
 										patient={appointment?.patient}
 									/>
 								)}
+								{/* {forBilling ? (
+									<BillingApproval
+										setAppointment={setOrder}
+										showTitle={false}
+										appointment={appointment}
+										patient={appointment?.patient}
+										mutateAll={mutateAll}
+									/>
+								) : (
+									<PatientServices
+										setAppointment={setOrder}
+										showTitle={false}
+										mutateAll={mutateAll}
+										appointment={appointment}
+										patient={appointment?.patient}
+									/>
+								)} */}
 							</CollapseDiv>
 						) : (
 							""

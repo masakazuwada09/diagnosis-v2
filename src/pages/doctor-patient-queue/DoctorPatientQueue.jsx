@@ -18,6 +18,7 @@ import DoctorInServiceItem from "./components/DoctorInServiceItem";
 import PatientProfileModal from "../../components/PatientProfileModal";
 import DoctorInQueuePriority from "./components/DoctorInQueuePriority";
 import PendingOrdersModal from "../../components/PendingOrdersModal";
+import useERQueue from "../../hooks/useERQueue";
 
 const DoctorPatientQueue = () => {
 	const { user } = useAuth();
@@ -29,7 +30,7 @@ const DoctorPatientQueue = () => {
 		mutatePendingForResultReading,
 		mutateNowServing,
 	} = useDoctorQueue();
-	const { pending, nowServing } = useQueue();
+	const { pending, nowServing } = useERQueue();
 	const referToSphModalRef = useRef(null);
 	const patientProfileRef = useRef(null);
 	const acceptPatientRef = useRef(null);
@@ -39,7 +40,7 @@ const DoctorPatientQueue = () => {
 		functions: () => {},
 	});
 	const isDoctor = () => {
-		return user?.type == "rhu-doctor" || user?.type == "RHU-DOCTOR";
+		return user?.type == "rhu-doctor" || user?.type == "RHU-DOCTOR"; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
 	};
 
 	const listPending = () => {

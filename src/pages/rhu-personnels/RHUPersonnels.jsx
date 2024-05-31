@@ -54,6 +54,8 @@ const RHUPersonnels = (props) => {
 			type: [
 				"RHU-NURSE",
 				"RHU-DOCTOR",
+				"HIS-DOCTOR",
+				
 				"RHU-LAB",
 				"RHU-XRAY",
 				"RHU-PHAR",

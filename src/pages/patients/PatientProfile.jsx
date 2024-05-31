@@ -25,6 +25,7 @@ import AddPatientForDeliveryModal from "../department/his-anesthesia/components/
 import PatientCSROrder from "../department/his-nurse/components/PatientCSROrder";
 import PatientPharmacyOrder from "../department/his-nurse/components/PatientPharmacyOrder";
 import AddEmergencyCareModal from "../hims/his-er/modal/AddEmergencyCareModal";
+import CreateEmergencyCareModal from "../hims/his-er/modal/CreateEmergencyCareModal";
 // import ReferToRHUModal from "./components/ReferToRHUModal";
 
 const PatientProfile = (props) => {
@@ -117,7 +118,7 @@ const PatientProfile = (props) => {
 						type="secondary"
 						className="ml-auto h-12 !rounded-[30px] font-medium gap-2 px-4"
 						onClick={() => {
-							ERCareChoiceRef.current.show();
+							ERCareChoiceRef.current.show({patient: patient});
 							//privacyRef.current.show({ patient: patient });
 						}}
 					>
@@ -159,140 +160,125 @@ const PatientProfile = (props) => {
 				)}
 			</div>
 			<div>
-				{checkUserType("ANESTHESIA")? (
 				<TabGroup
-					tabClassName={`py-3 bg-slate-100 border-b`}
-					contents={[
-						{
-							title: (
-								<MenuTitle src="/profile.png">
-									Profile
-								</MenuTitle>
-							),
+		tabClassName={`py-3 bg-slate-100 border-b`}
+		contents={[
+        {
+            title: (
+                <MenuTitle src="/profile.png">
+                    Profile
+                </MenuTitle>
+            ),
+            content: (
+                <PatientProfileDetails patient={patient} />
+            ),
+        },
+        {
+            title: (
+                <MenuTitle src="/patient.png">
+                    Appointments
+                </MenuTitle>
+            ),
+            content: <PatientAppointments patient={patient} />,
+        },
+        {
+            title: (
+                <MenuTitle src="/vitals/vitals.png">
+                    Vital signs
+                </MenuTitle>
+            ),
+            content: <PatientVitals patient={patient} />,
 
-							content: (
-								<PatientProfileDetails patient={patient} />
-							),
-						},
+        },
+		{
+            title: (
+                <MenuTitle src="/vitals/vitals.png">
+                    Vital Chart
+                </MenuTitle>
+            ),
+            content: <PatientVitalCharts patient={patient} />,
+			
+        },
+        ...(checkUserType("ER") ? [
+            {
+                title: (
+                    <MenuTitle src="/laboratory.png">
+                        Laboratory
+                    </MenuTitle>
+                ),
+                content: <LaboratoryResult patient={patient} />,
+            },
+            {
+                title: (
+                    <MenuTitle src="/ultrasound.png">
+                        Imaging
+                    </MenuTitle>
+                ),
+                content: <ImagingResult patient={patient} />,
+            }
+			,
+            {
+                title: (
+                    <MenuTitle src="/vitals/prescription.png">
+                        CSR
+                    </MenuTitle>
+                ),
+                content: <PatientCSROrder patient={patient}/>,
+            },
+            {
+                title: (
+                    <MenuTitle src="/vitals/prescription.png">
+                        Pharmacy
+                    </MenuTitle>
+                ),
+                content: <PatientPharmacyOrder patient={patient}/>,
+            }
+        ] : []),
+        ...(checkUserType("ANESTHESIA") ? [
+            {
+                title: (
+                    <MenuTitle src="/vitals/chart.png">
+                        Charts
+                    </MenuTitle>
+                ),
+                content: <PatientChartsAnesthesia patient={patient} />,
+            },
+			{
+                title: (
+                    <MenuTitle src="/laboratory.png">
+                        Laboratory
+                    </MenuTitle>
+                ),
+                content: <LaboratoryResult patient={patient} />,
+            },
+            {
+                title: (
+                    <MenuTitle src="/ultrasound.png">
+                        Imaging
+                    </MenuTitle>
+                ),
+                content: <ImagingResult patient={patient} />,
+            },
+            {
+                title: (
+                    <MenuTitle src="/vitals/prescription.png">
+                        CSR
+                    </MenuTitle>
+                ),
+                content: <PatientCSROrder patient={patient}/>,
+            },
+            {
+                title: (
+                    <MenuTitle src="/vitals/prescription.png">
+                        Pharmacy
+                    </MenuTitle>
+                ),
+                content: <PatientPharmacyOrder patient={patient}/>,
+            }
+        ] : []),
+    ]}
+/>
 
-						{
-							title: (
-								<MenuTitle src="/patient.png">
-									Appointments
-								</MenuTitle>
-							),
-							content: <PatientAppointments patient={patient} />,
-						},
-						{
-							title: (
-								<MenuTitle src="/vitals/chart.png">
-									Charts
-								</MenuTitle>
-							),
-
-							content: <PatientChartsAnesthesia patient={patient} />,
-						},
-						{
-							title: (
-								<MenuTitle src="/vitals/vitals.png">
-									Vital signs
-								</MenuTitle>
-							),
-
-							content: <PatientVitals patient={patient} />,
-						},
-
-						{
-							title: (
-								<MenuTitle src="/laboratory.png">
-									Laboratory
-								</MenuTitle>
-							),
-
-							content: <LaboratoryResult patient={patient} />,
-						},
-						{
-							title: (
-								<MenuTitle src="/ultrasound.png">
-									Imaging
-								</MenuTitle>
-							),
-
-							content: <ImagingResult patient={patient} />,
-						},
-						{
-							title: (
-								<MenuTitle src="/vitals/prescription.png">
-									CSR
-								</MenuTitle>
-							),
-							content: <PatientCSROrder patient={patient}/>,
-						},
-						{
-							title: (
-								<MenuTitle src="/vitals/prescription.png">
-									Pharmacy
-								</MenuTitle>
-							),
-							content: <PatientPharmacyOrder patient={patient}/>,
-						},
-					]}
-				/>
-				) : (
-					<TabGroup
-					tabClassName={`py-3 bg-slate-100 border-b`}
-					contents={[
-						{
-							title: (
-								<MenuTitle src="/profile.png">
-									Profile
-								</MenuTitle>
-							),
-
-							content: (
-								<PatientProfileDetails patient={patient} />
-							),
-						},
-
-						{
-							title: (
-								<MenuTitle src="/patient.png">
-									Appointments
-								</MenuTitle>
-							),
-							content: <PatientAppointments patient={patient} />,
-						},
-						{
-							title: (
-								<MenuTitle src="/vitals/vitals.png">
-									Vital signs
-								</MenuTitle>
-							),
-
-							content: <PatientVitals patient={patient} />,
-						},
-						{
-							title: (
-								<MenuTitle src="/vitals/vitals.png">
-									Vital Charts
-								</MenuTitle>
-							),
-
-							content: <PatientVitalCharts patient={patient} />,
-						},
-						// checkUserType("NURSE") && {
-						// 	title: (
-						// 		<MenuTitle src="/vitals/prescription.png">
-						// 			CSR & Pharmacy
-						// 		</MenuTitle>
-						// 	),
-						// 	content: <CsrPharmacyOrder patient={patient} />,
-						// }
-
-						
-					]}
-				/>
-				)}
 				
 			</div>
 			<CreateAppointmentsModal
@@ -333,7 +319,8 @@ const PatientProfile = (props) => {
 			}}
 				
 			/>
-			<AddEmergencyCareModal ref={ERCareChoiceRef}/> 
+			{/* <AddEmergencyCareModal ref={ERCareChoiceRef}/>  */}
+			<CreateEmergencyCareModal ref={ERCareChoiceRef}/> 
 
 			<PrivacyPolicyModal
 				ref={privacyRef}

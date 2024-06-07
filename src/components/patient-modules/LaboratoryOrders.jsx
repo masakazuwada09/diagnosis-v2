@@ -387,6 +387,9 @@ const LaboratoryOrders = (props) => {
 					) : (
 						""
 					)}
+
+
+					
 				</ContentTitle>
 			) : (
 				""

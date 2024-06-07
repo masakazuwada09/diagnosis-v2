@@ -46,6 +46,9 @@ import PatientMonitoring from "./pages/department/his-anesthesia/PatientMonitori
 import PatientERQueue from "./pages/hims/his-er/PatientERQueue.jsx";
 import PatientBillingQueue from "./pages/hims/his-billing/PatientBillingQueue.jsx";
 import PatientHousekeepingQueue from "./pages/hims/his-housekeeping/PatientHousekeepingQueue.jsx";
+import InfectiousERQueue from "./pages/hims/er-infectious/InfectiousERQueue.jsx";
+
+
 window.Pusher = Pusher;
  
 axios.interceptors.request.use(
@@ -232,6 +235,16 @@ const router = createBrowserRouter(
 				<Route path="my-account" element={<MyAccount />}></Route>
 				{/* <Route path="inventory" element = {<Inventory />}></Route> */}
 			</Route>
+
+			<Route path="er-infectious">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element={<Patients />}></Route>
+				<Route path="erinfectious-queue" element={<InfectiousERQueue />}></Route>
+				<Route path="my-account" element={<MyAccount />}></Route>
+				{/* <Route path="inventory" element = {<Inventory />}></Route> */}
+			</Route>
+
+
 			<Route path="his-doctor">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>

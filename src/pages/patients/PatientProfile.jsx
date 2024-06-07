@@ -160,7 +160,7 @@ const PatientProfile = (props) => {
 				)}
 			</div>
 			<div>
-				<TabGroup
+	<TabGroup
 		tabClassName={`py-3 bg-slate-100 border-b`}
 		contents={[
         {

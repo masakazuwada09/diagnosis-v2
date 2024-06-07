@@ -83,11 +83,15 @@ const CreateLabOrderModal = (props, ref) => {
 			appointment_id: "",
 		});
 	};
+
+
 	const getLaboratoryTests = (type) => {
 		Axios.get(`/v1/laboratory/tests/list?type=${type}`).then((res) => {
 			setTests(res.data.data);
 		});
 	};
+
+
 	const submit = (data) => {
 		let formData = new FormData();
 		// formData.append("_method", "PATCH");
@@ -106,6 +110,37 @@ const CreateLabOrderModal = (props, ref) => {
 		});
 	};
 	const noHide = () => {};
+
+
+	const sendToInfectious = (data) => {
+		setLoading(true);
+		let formdata = new FormData();
+		formdata.append("rhu_id", data?.rhu_id);
+		formdata.append("doctor_id", data?.doctor_id);
+		formdata.append("room_number", data?.room_number);
+		formdata.append("_method", "PATCH");
+
+		Axios.post(`v1/clinic/tb-assign-to-doctor/${appointment?.id}`, formdata)
+			.then((response) => {
+				let data = response.data;
+				// console.log(data);
+				setTimeout(() => {
+					setAppointment(null);
+				}, 100);
+				setTimeout(() => {
+					toast.success("Patient referral success!");
+					setLoading(false);
+				}, 200);
+			})
+			.catch((err) => {
+				setLoading(false);
+				console.log(err);
+			});
+	};
+
+
+
+
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
 			<Dialog as="div" className="" onClose={noHide}>

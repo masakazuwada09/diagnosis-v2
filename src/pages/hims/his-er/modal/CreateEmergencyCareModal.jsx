@@ -17,9 +17,10 @@ import { Dialog, Transition } from '@headlessui/react';
 import Axios from '../../../../libs/axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../../hooks/useAuth';
-const symtoms2_names = symptoms2?.map((data) => data?.name);
+const patient_symptoms = symptoms2?.map((data) => data?.name);
 const CreateEmergencyCareModal = (props, ref) => {
     const { onSuccess, patientSelfie, referToRHURef } = props;
+	const { appointment, setAppointment, mutateAll } = props;
 	const { user } = useAuth();
 	const {
 		register,
@@ -75,17 +76,163 @@ const CreateEmergencyCareModal = (props, ref) => {
 	};
 	const nohide = () => {};
 
+
+
+	//Symptoms 2
+
+	// const submit2 = (data) => {
+	// 	const {formData2} = new FormData();
+	// 	formData2.append(
+	// 		"chest_pain_discomfort_heaviness",
+	// 		data?.chest_pain_discomfort_heaviness
+	// 	);
+	// 	formData2.append("difficulty_breathing", data?.difficulty_breathing);
+	// 	formData2.append("seizure_convulsion", data?.seizure_convulsion);
+	// 	formData2.append(
+	// 		"unconscious_restless_lethargic",
+	// 		data?.unconscious_restless_lethargic
+	// 	);
+	// 	formData2.append(
+	// 		"not_oriented_to_time_person_place",
+	// 		data?.not_oriented_to_time_person_place
+	// 	);
+	// 	formData2.append(
+	// 		"bluish_discoloration_of_skin_lips",
+	// 		data?.bluish_discoloration_of_skin_lips
+	// 	);
+	// 	formData2.append(
+	// 		"act_of_self_harm_suicide",
+	// 		data?.act_of_self_harm_suicide
+	// 	);
+	// 	formData2.append(
+	// 		"acute_fracture_dislocation_injuries",
+	// 		data?.acute_fracture_dislocation_injuries
+	// 	);
+	// 	formData2.append("signs_of_abuse", data?.signs_of_abuse);
+	// 	formData2.append("severe_abdominal_pain", data?.severe_abdominal_pain);
+	// 	formData2.append("persistent_vomiting", data?.persistent_vomiting);
+	// 	formData2.append("persistent_diarrhea", data?.persistent_diarrhea);
+	// 	formData2.append(
+	// 		"unable_to_tolerate_fluids",
+	// 		data?.unable_to_tolerate_fluids
+	// 	);
+
+	// 	const config = {
+	// 		headers: {
+	// 			"content-type": "multipart/form-data",
+	// 		},
+	// 		// onUploadProgress: progressEvent => onProgress(progressEvent),
+	// 	};
+
+
+	// 	Axios.post(`/v1/clinic/appointments`, formData2, config)
+	// 		.then((res) => {
+	// 			// if (selected == "tuberculosis") {
+	// 			// 	Axios.post(
+	// 			// 		`/v1/clinic/tb-symptoms/${res.data.data?.id}`,
+	// 			// 		formData
+	// 			// 	);
+	// 			// }
+
+	// 			setTimeout(() => {
+	// 				setLoading(false);
+	// 				onSuccess && onSuccess();
+	// 				toast.success("New appointment successfully created!");
+	// 			}, 300);
+	// 			// setNewAppointment(false);
+	// 			hide();
+	// 		})
+	// 		.finally(() => {});
+
+	// }
+
+	
+
+	const sendToInfectious = (data) => {
+	setLoading(true);
+	const formData2 = new FormData();
+	console.log("SUBMIT DATA Infectiousss >>>>>>>>>>>>>>>>>>>>>>>>>", data);
+		
+		
+	formData2.append(
+		"chest_pain_discomfort_heaviness",
+		data?.chest_pain_discomfort_heaviness
+	);
+	formData2.append("difficulty_breathing", data?.difficulty_breathing);
+	formData2.append("seizure_convulsion", data?.seizure_convulsion);
+	formData2.append(
+		"unconscious_restless_lethargic",
+		data?.unconscious_restless_lethargic
+	);
+	formData2.append(
+		"not_oriented_to_time_person_place",
+		data?.not_oriented_to_time_person_place
+	);
+	formData2.append(
+		"bluish_discoloration_of_skin_lips",
+		data?.bluish_discoloration_of_skin_lips
+	);
+	formData2.append(
+		"act_of_self_harm_suicide",
+		data?.act_of_self_harm_suicide
+	);
+	formData2.append(
+		"acute_fracture_dislocation_injuries",
+		data?.acute_fracture_dislocation_injuries
+	);
+	formData2.append("signs_of_abuse", data?.signs_of_abuse);
+	formData2.append("severe_abdominal_pain", data?.severe_abdominal_pain);
+	formData2.append("persistent_vomiting", data?.persistent_vomiting);
+	formData2.append("persistent_diarrhea", data?.persistent_diarrhea);
+	formData2.append(
+		"unable_to_tolerate_fluids",
+		data?.unable_to_tolerate_fluids
+	);
+	// formData2.append("_method", "PATCH");
+
+		Axios.post(`/v1/clinic/appointments`, formData2)
+			.then((response) => {
+				let data = response.data;
+				// console.log(data);
+				setTimeout(() => {
+					setAppointment(null);
+				}, 100);
+				setTimeout(() => {
+					toast.success("Patient referral success!");
+					setLoading(false);
+					onSuccess && onSuccess();
+				}, 200);
+				hide();
+			})
+			.catch((err) => {
+				setLoading(false);
+				console.log(err);
+			});
+	};
+
+
+
+
+
 	const submit = (data) => {
 		console.log("SUBMIT DATAAA---------------------------->>>>>>", data);
 		// return;
 		setLoading(true);
 		const formData1 = new FormData();
 		const formData = new FormData();
+
+
 		formData1.append("for_sph", user?.health_unit_id);
 		formData1.append("notes", data?.notes);
 		formData1.append("patient_id", modalData?.patient?.id);
 		formData1.append("disease", data?.disease);
 		formData1.append("update_selfie", modalData?.update_selfie);
+		formData1.append("mode_of_consultation", data?.mode_of_consultation);
+		formData1.append("phic_no", data?.phic_no);
+		
+		
+	
+
 		formData1.append(
 			"cough_for_3_weeks_or_longer",
 			data?.cough_for_3_weeks_or_longer
@@ -109,40 +256,9 @@ const CreateEmergencyCareModal = (props, ref) => {
 			"not_feeling_well_in_general",
 			data?.not_feeling_well_in_general
 		);
-		formData1.append(
-			"chest_pain_discomfort_heaviness",
-			data?.chest_pain_discomfort_heaviness
-		);
-		formData1.append("difficulty_breathing", data?.difficulty_breathing);
-		formData1.append("seizure_convulsion", data?.seizure_convulsion);
-		formData1.append(
-			"unconscious_restless_lethargic",
-			data?.unconscious_restless_lethargic
-		);
-		formData1.append(
-			"not_oriented_to_time_person_place",
-			data?.not_oriented_to_time_person_place
-		);
-		formData1.append(
-			"bluish_discoloration_of_skin_lips",
-			data?.bluish_discoloration_of_skin_lips
-		);
-		formData1.append(
-			"act_of_self_harm_suicide",
-			data?.act_of_self_harm_suicide
-		);
-		formData1.append(
-			"acute_fracture_dislocation_injuries",
-			data?.acute_fracture_dislocation_injuries
-		);
-		formData1.append("signs_of_abuse", data?.signs_of_abuse);
-		formData1.append("severe_abdominal_pain", data?.severe_abdominal_pain);
-		formData1.append("persistent_vomiting", data?.persistent_vomiting);
-		formData1.append("persistent_diarrhea", data?.persistent_diarrhea);
-		formData1.append(
-			"unable_to_tolerate_fluids",
-			data?.unable_to_tolerate_fluids
-		);
+
+		
+
 		formData1.append("notes", data?.notes);
 		formData1.append("history", data?.history);
 		formData1.append("hypertension", data?.hypertension);
@@ -210,10 +326,11 @@ const CreateEmergencyCareModal = (props, ref) => {
 			"exposure_tabacco_vape_details",
 			data?.exposure_tabacco_vape_details
 		);
-		formData1.append("disease", data?.disease);
-		formData1.append("mode_of_consultation", data?.mode_of_consultation);
-		formData1.append("phic_no", data?.phic_no);
+		
 
+
+
+		
 		const config = {
 			headers: {
 				"content-type": "multipart/form-data",
@@ -252,6 +369,9 @@ const CreateEmergencyCareModal = (props, ref) => {
 			formData.append("tiredness", data?.tiredness);
 			formData.append("_method", "PATCH");
 		}
+
+
+
 		Axios.post(`/v1/clinic/appointments`, formData1, config)
 			.then((res) => {
 				if (selected == "tuberculosis") {
@@ -260,6 +380,7 @@ const CreateEmergencyCareModal = (props, ref) => {
 						formData
 					);
 				}
+
 				setTimeout(() => {
 					setLoading(false);
 					onSuccess && onSuccess();
@@ -270,12 +391,30 @@ const CreateEmergencyCareModal = (props, ref) => {
 			})
 			.finally(() => {});
 	};
+
+
+				// else if (
+					
+					
+				// ) {
+				// 	Axios.post(
+				// 		`/v1/clinic/refer-to-infectious/${res.data.data?.id}`,
+				// 		formData
+				// 	);
+				// }
+
+		
+
+
+				
+
 	const onSymptomsChecked = (name) => {
 		console.log("onSymptomsChecked");
 		setHasSymptoms(
-			getValues(symtoms2_names).filter((x) => x == true).length
+			getValues(patient_symptoms).filter((x) => x == true).length
 		);
 	};
+	
 
 	const [HUList, setHUList] = useState([]);
 	const getHUList = (type) => {
@@ -295,6 +434,10 @@ const CreateEmergencyCareModal = (props, ref) => {
 			});
 		}
 	};
+
+
+
+	
   return (
     <Transition appear show={modalOpen} as={Fragment}>
 			<Dialog as="div" className="" onClose={nohide}>
@@ -444,12 +587,12 @@ const CreateEmergencyCareModal = (props, ref) => {
 											</div>
 										</div>
 									</div>
-									{hasSymptoms > 0 ? (
+									{hasSymptoms > 3 ? (
 										<div className="lg:col-span-12">
 											<h4 className="border-y-2 text-base font-bold p-2 mb-4 lg:col-span-12">
 												REFER TO INFECTIOUS ER NURSE
 											</h4>
-											{/* <Controller
+											<Controller
 												name="health_unit_id"
 												control={control}
 												rules={{
@@ -505,7 +648,7 @@ const CreateEmergencyCareModal = (props, ref) => {
 														)}
 													/>
 												)}
-											/> */}
+											/>
 										</div>
 									) : (
 										<>
@@ -588,6 +731,8 @@ const CreateEmergencyCareModal = (props, ref) => {
 												{watch(
 													"mode_of_consultation"
 												) == "walk-in-phic-member" ? (
+
+													
 													<TextInputField
 														className="mb-3"
 														labelClassName=" !font-bold"
@@ -683,7 +828,7 @@ const CreateEmergencyCareModal = (props, ref) => {
 																			</span>
 																		</>
 																	}
-																	inputClassName=" "
+																	inputClassName=""
 																	ref={ref}
 																	value={
 																		value
@@ -782,45 +927,145 @@ const CreateEmergencyCareModal = (props, ref) => {
 															)}
 														/>
 													</div>
-												</div>
-												{selected == "tuberculosis" ? (
-													<div className="flex-col gap-3 pl-3">
-														<h5 className="font-bold text-base mb-2">
-															TB Symptoms
-															Checklist
-														</h5>
-														<div className="flex flex-col gap-y-1 pl-2">
-															{symptoms?.map(
-																(data) => {
-																	return (
-																		<div
-																			className="flex flex-col"
-																			key={`${keyByValue(
-																				data?.label
-																			)}`}
-																		>
-																			<label className="mb-0 flex items-center text-sm gap-2 text-gray-600 cursor-pointer hover:!text-blue-600">
-																				<input
-																					type="checkbox"
-																					{...register(
-																						data?.value
-																					)}
-																				/>
-																				<span>
-																					{
-																						data?.label
-																					}
-																				</span>
-																			</label>
-																		</div>
-																	);
-																}
+
+													
+													{/* <div className="w-full">
+														<Controller
+															name="symptoms"
+															control={control}
+															rules={{
+																required: {
+																	value: true,
+																	message:
+																		"This field is required",
+																},
+															}}
+															render={({
+																field: {
+																	onChange,
+																	onBlur,
+																	value,
+																	name,
+																	ref,
+																},
+																fieldState: {
+																	invalid,
+																	isTouched,
+																	isDirty,
+																	error,
+																},
+															}) => (
+																<ReactSelectInputField
+																	labelClassName="font-bold"
+																	isClearable={
+																		false
+																	}
+																	label={
+																		<>
+																			Symptoms
+																			<span className="text-danger ml-1">
+																				*
+																			</span>
+																		</>
+																	}
+																	inputClassName=" "
+																	ref={ref}
+																	value={
+																		value
+																	}
+																	onChange={(
+																		val
+																	) => {
+																		console.log(
+																			"onChangeonChange",
+																			val
+																		);
+																		setSelected(
+																			String(
+																				val
+																			).toLowerCase()
+																		);
+																		if (
+																			onChange
+																		) {
+																			onChange(
+																				val
+																			);
+																		}
+																	}}
+																	onBlur={
+																		onBlur
+																	} // notify when input is touched
+																	error={
+																		error?.message
+																	}
+																	placeholder="Select Symptoms"
+																	options={[
+																		{
+																			label: "Chest pain/discomfort/heaviness",
+																			value: "chest_pain_discomfort_heaviness",
+																		},
+																		{
+																			label: "Acute fracture/dislocation/injuries",
+																			value: "acute_fracture_dislocation_injuries",
+																		},
+																		{
+																			label: "Difficulty breathing",
+																			value: "difficulty_breathin",
+																		},
+																		{
+																			label: "Signs of abuse (i.e. multiple bruises/injuries)",
+																			value: "signs_of_abuse",
+																		},
+																		{
+																			label: "Seizure/convulsion",
+																			value: "seizure_convulsion",
+																		},
+																		{
+																			label: "Severe abdominal pain",
+																			value: "severe_abdominal_pain",
+																		},
+																		{
+																			label: "Unconscious/restless/lethargic",
+																			value: "unconscious_restless_lethargic",
+																		},
+																		{
+																			label: "Persistent vomiting",
+																			value: "persistent_vomiting",
+																		},
+																		{
+																			label: "Not oriented to time, person/place",
+																			value: "not_oriented_to_time_person_place",
+																		},
+
+																		{
+																			label: "Persistent diarrhea (>14 days)",
+																			value: "persistent_diarrhea",
+																		},
+																		{
+																			label: "Bluish discoloration of skin/lips",
+																			value: "bluish_discoloration_of_skin_lips",
+																		},
+																		{
+																			label: "Unable to tolerate fluids",
+																			value: "unable_to_tolerate_fluids",
+																		},
+																		{
+																			label: "Act of self-harm/suicide",
+																			value: "act_of_self_harm_suicide",
+																		},
+																		
+																	]}
+																/>
 															)}
-														</div>
-													</div>
-												) : (
-													""
-												)}
+														/>
+													</div> */}
+
+
+												</div>
+							
+
+
 											</div>
 											<div className="lg:col-span-12">
 												<div className="flex flex-col mb-3">
@@ -1861,7 +2106,7 @@ const CreateEmergencyCareModal = (props, ref) => {
 											size="xl"
 											loading={loading}
 											className=" !rounded-[30px] ml-4 gap-4 px-6"
-											onClick={openReferToRhu}
+											onClick={handleSubmit(sendToInfectious)}
 										>
 											<FlatIcon icon="rr-paper-plane" />
 											REFER TO INFECTIOUS

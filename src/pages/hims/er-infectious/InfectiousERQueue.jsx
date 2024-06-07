@@ -1,26 +1,43 @@
 import { useEffect, useRef, useState } from "react";
-import AppLayout from "../../components/container/AppLayout";
-import useNoBugUseEffect from "../../hooks/useNoBugUseEffect";
-import PageHeader from "../../components/layout/PageHeader";
-import FlatIcon from "../../components/FlatIcon";
-import DoctorInQueueRegular from "./components/DoctorInQueueRegular";
-import useQueue from "../../hooks/useQueue";
+import AppLayout from "../../../components/container/AppLayout";
+import useNoBugUseEffect from "../../../hooks/useNoBugUseEffect";
+import PageHeader from "../../../components/layout/PageHeader";
+import FlatIcon from "../../../components/FlatIcon";
+
+import DoctorInQueueRegular from "../../doctor-patient-queue/components/DoctorInQueueRegular";
+import useERQueue from "../../../hooks/useERQueue";
+import useDoctorQueue from "../../../hooks/useDoctorQueue";
+import DoctorInServiceItem from "../../doctor-patient-queue/components/DoctorInServiceItem";
+
+import InfectiousInQueueRegular from "./components/InfectiousInQueueRegular";
+import useERInfectious from "../../../hooks/useERInfectious";
+import useInfectiousQueue from "../../../hooks/useInfectiousQueue";
+import InfectiousInServiceItem from "./InfectiousInServiceItem";
+import InfectiousPatientModal from "./modal/InfectiousPatientModal";
+
+import useQueue from "../../../hooks/useQueue";
 import {
 	formatDate,
 	formatDateTime,
 	patientFullName,
-} from "../../libs/helpers";
-import ReferToSPHModal from "../../components/modal/ReferToSPHModal";
-import { useAuth } from "../../hooks/useAuth";
-import useDoctorQueue from "../../hooks/useDoctorQueue";
-import ConsultPatientModal from "./components/ConsultPatientModal";
-import DoctorInServiceItem from "./components/DoctorInServiceItem";
-import PatientProfileModal from "../../components/PatientProfileModal";
-import DoctorInQueuePriority from "./components/DoctorInQueuePriority";
-import PendingOrdersModal from "../../components/PendingOrdersModal";
-import useERQueue from "../../hooks/useERQueue";
+} from "../../../libs/helpers";
 
-const DoctorPatientQueue = () => {
+
+import ReferToSPHModal from "../../../components/modal/ReferToSPHModal";
+import { useAuth } from "../../../hooks/useAuth";
+
+import ConsultPatientModal from "../../doctor-patient-queue/components/ConsultPatientModal";
+import ConsultInfectiousModal from "./components/ConsultInfectiousModal";
+
+
+
+import DoctorInQueuePriority from "../../doctor-patient-queue/components/DoctorInQueuePriority";
+import PendingOrdersModal from "../../../components/PendingOrdersModal";
+
+
+
+
+const InfectiousERQueue = () => {
 	const { user } = useAuth();
 	const {
 		pending: doctorsPending,
@@ -29,8 +46,8 @@ const DoctorPatientQueue = () => {
 		mutatePending,
 		mutatePendingForResultReading,
 		mutateNowServing,
-	} = useDoctorQueue();
-	const { pending, nowServing } = useERQueue();
+	} = useInfectiousQueue();
+	const { pending, nowServing } = useERInfectious();
 	const referToSphModalRef = useRef(null);
 	const patientProfileRef = useRef(null);
 	const acceptPatientRef = useRef(null);
@@ -40,7 +57,7 @@ const DoctorPatientQueue = () => {
 		functions: () => {},
 	});
 	const isDoctor = () => {
-		return user?.type == "rhu-doctor" || user?.type == "RHU-DOCTOR"; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
+		return user?.type == "er-infectious" || user?.type == "ER-Infectious"; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
 	};
 
 	const listPending = () => {
@@ -65,7 +82,7 @@ const DoctorPatientQueue = () => {
 							In Queue
 						</h1>
 						<span className="noto-sans-thin text-slate-500 text-sm font-light">
-							Patients pending for doctor acceptance
+							Infectious Patients pending for  acceptance
 						</span>
 						<div className="flex flex-col gap-y-4 py-4">
 							{listPending()?.length == 0 &&
@@ -105,7 +122,7 @@ const DoctorPatientQueue = () => {
 							})}
 							{listPending()?.map((queue, index) => {
 								return (
-									<DoctorInQueueRegular
+									<InfectiousInQueueRegular
 										date={formatDate(
 											new Date(queue?.created_at)
 										)}
@@ -134,13 +151,13 @@ const DoctorPatientQueue = () => {
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 							{doctorsNowServing?.data?.map((data) => {
 								return (
-									<DoctorInServiceItem
+									<InfectiousInServiceItem
 										data={data}
 										labOrdersStr={JSON.stringify(
 											data?.lab_orders
 										)}
 										pendingOrdersRef={pendingOrdersRef}
-										key={`DoctorInServiceItem-${data?.id}`}
+										key={`InfectiousInServiceItem-${data?.id}`}
 										openProfileAction={() => {
 											patientProfileRef.current.show(
 												data
@@ -156,21 +173,31 @@ const DoctorPatientQueue = () => {
 							) : (
 								""
 							)}
+							
 						</div>
 					</div>
+					
 				</div>
 			</div>
+
+
 			<ReferToSPHModal ref={referToSphModalRef} mutateAll={mutateAll} />
-			<ConsultPatientModal ref={acceptPatientRef} mutateAll={mutateAll} />
+
 			
-			<PatientProfileModal
+			<ConsultInfectiousModal ref={acceptPatientRef} mutateAll={mutateAll} />
+			
+			<InfectiousPatientModal
 				pendingOrdersRef={pendingOrdersRef}
 				ref={patientProfileRef}
 				mutateAll={mutateAll}
 			/>
+
+
 			<PendingOrdersModal ref={pendingOrdersRef} />
+
+
 		</AppLayout>
 	);
 };
 
-export default DoctorPatientQueue;
+export default InfectiousERQueue;

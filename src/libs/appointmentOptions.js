@@ -22,7 +22,7 @@ export const symptoms2 = [
 	{
 		label: "Seizure/convulsion",
 		value: "Seizure/convulsion",
-		name: "deizure_convulsion",
+		name: "seizure_convulsion",
 	},
 	{
 		label: "Severe abdominal pain",
@@ -65,6 +65,10 @@ export const symptoms2 = [
 		name: "act_of_self_harm_suicide",
 	},
 ];
+
+
+
+
 export const symptoms = [
 	{
 		value: "cough_for_3_weeks_or_longer",

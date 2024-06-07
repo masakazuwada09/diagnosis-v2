@@ -3,16 +3,16 @@ import ActionBtn from "../../../components/buttons/ActionBtn";
 import { patientFullName } from "../../../libs/helpers";
 
 /* eslint-disable react/prop-types */
-const DoctorInServiceItem = ({
-	room = "1",
+const InfectiousInServiceItem = ({
+	room = "",
 	data,
 	openProfileAction,
 	labOrdersStr = "",
-	patientQueueName = "#1 - John Doe",
+	patientQueueName = "",
 	doctor = {
-		title: "Dr.",
-		name: "Tanya White",
-		specialty: "Cardiologists",
+		title: "",
+		name: "",
+		specialty: "",
 	},
 }) => {
 	const isForResultReading = () => {
@@ -80,7 +80,7 @@ const DoctorInServiceItem = ({
 			<span className="border-b  pb-4 mb-4 "></span>
 
 			<span className="font-light mb-1 text-center text-xs text-slate-500">
-				Patient Profiles
+				Patient Profile
 			</span>
 			<ActionBtn
 				// size="sm"
@@ -99,4 +99,4 @@ const DoctorInServiceItem = ({
 	);
 };
 
-export default DoctorInServiceItem;
+export default InfectiousInServiceItem;

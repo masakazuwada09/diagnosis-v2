@@ -208,6 +208,8 @@ const PatientServices = (props) => {
 			});
 	};
 
+
+	
 	const hasError = (name) => {
 		return errors[name]?.message;
 	};

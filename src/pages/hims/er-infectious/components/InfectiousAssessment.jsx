@@ -1,30 +1,32 @@
 import { useForm } from "react-hook-form";
-import CollapseDiv from "../../../components/CollapseDiv";
-import FlatIcon from "../../../components/FlatIcon";
-import PatientVitals from "../../../components/PatientVitals";
+import CollapseDiv from "../../../../components/CollapseDiv";
+import FlatIcon from "../../../../components/FlatIcon";
+import PatientVitals from "../../../../components/PatientVitals";
 import {
 	generalHistories,
 	medicalSurgicalHistories,
-	symptoms,
-	viral_infectious,
-	bacterial_infectious,
-	fungal_infectious,
-	parasitic_infectious
 
-} from "../../../libs/appointmentOptions";
-import { formatDateMMDDYYYYHHIIA, keyByValue } from "../../../libs/helpers";
-import useNoBugUseEffect from "../../../hooks/useNoBugUseEffect";
-import TextInputField from "../../../components/inputs/TextInputField";
-import PatientServices from "../../../components/modal/PatientServices";
+
+    symptoms,
+
+    viral_infectious,
+    bacterial_infectious,
+    fungal_infectious,
+    parasitic_infectious,
+
+	
+} from "../../../../libs/appointmentOptions";
+import {
+	doctorName,
+	doctorSpecialty,
+	formatDateMMDDYYYYHHIIA,
+	keyByValue,
+} from "../../../../libs/helpers";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+import TextInputField from "../../../../components/inputs/TextInputField";
 import { useEffect, useState } from "react";
+import AppointmentStatus from "../../../../components/AppointmentStatus";
 
-import { v4 as uuidv4 } from "uuid";
-import Axios from "../../../libs/axios";
-import AppointmentStatus from "../../../components/AppointmentStatus";
-import CashierApproval from "./CashierApproval";
-import BillingApproval from "../../hims/his-billing/component/BillingApproval";
-
-const uniq_id = uuidv4();
 /* eslint-disable react/prop-types */
 const InfoText = ({
 	className = "",
@@ -52,20 +54,18 @@ const InfoText = ({
 				<span
 					className={`capitalize gap-1 text-slate-900 flex text-base flex-wrap ${valueClassName} `}
 				>
-					{value}
+					{value} &nbsp;
 				</span>
 			</div>
 		</div>
 	);
 };
-const AppointmentDetailsForNurse = ({
-	appointment: propAppointment,
-	forCashier = false,
-	forBilling = false,
-	forHousekeeping = false,
-	setOrder,
-	hideServices = false,
-	mutateAll,
+const InfectiousAssessment = ({
+	showService = true,
+	appointment,
+	serviceComponent,
+	forResult = false,
+	customStatus = null,
 }) => {
 	const {
 		register,
@@ -77,119 +77,49 @@ const AppointmentDetailsForNurse = ({
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
-	const [appointment, setAppointment] = useState(propAppointment);
-	const [key, setKey] = useState(uniq_id);
 	useNoBugUseEffect({
 		functions: () => {
 			setTimeout(() => {
 				if (appointment?.social_history) {
 					Object.keys(appointment?.social_history).map((key) => {
-						console.log(
-							"appointment?.social_history[key]",
-							key,
-							appointment?.social_history[key]
-						);
 						setValue(key, appointment?.social_history[key]);
 					});
 				}
-			}, 1500);
+				// if (appointment?.general_history) {
+				// 	Object.keys(appointment?.general_history).map((key) => {
+				// 		setValue(key, appointment?.general_history[key]);
+				// 	});
+				// }
+
+				// if (appointment?.surgical_history) {
+				// 	Object.keys(appointment?.surgical_history).map((key) => {
+				// 		setValue(key, appointment?.surgical_history[key]);
+				// 	});
+				// }
+				// if (appointment?.environmental_history) {
+				// 	Object.keys(appointment?.environmental_history).map(
+				// 		(key) => {
+				// 			setValue(
+				// 				key,
+				// 				appointment?.environmental_history[key]
+				// 			);
+				// 		}
+				// 	);
+				// }
+			}, 1000);
 		},
-		params: [appointment?.id, key],
+		params: [appointment?.id],
 	});
-	const appointmentStatus = () => {
-		if (appointment?.status == "pending" && appointment?.vital_id == null) {
-			return (
-				<span className="text-orange-500">
-					Pending for patient vitals {appointment?.vital_id}
-				</span>
-			);
-		}
-		if (appointment?.status == "pending" && appointment?.vital_id != null) {
-			return <span className="text-orange-600">Pending for service</span>;
-		}
-		if (appointment?.status == "pending-for-his-release") {
-			return <span className="text-red-600">Pending for release</span>;
-		}
-		return (
-			<span className="text-red-600 uppercase">
-				{String(appointment?.status).replaceAll("-", " ")}
-			</span>
-		);
-	};
-	const refreshData = () => {
-		Axios.get(`v1/clinic/get-appointment/${appointment?.id}`).then(
-			(res) => {
-				setAppointment(res.data.data);
-				setKey(uuidv4());
-			}
-		);
-	};
+
 	return (
 		<div className="flex flex-col">
-			<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
-				<span>Appointment Information</span>
-				<span className="ml-auto">
-					Status:{" "}
-					<b className="uppercase font-normal">
-						<AppointmentStatus appointment={appointment} />
-					</b>
-				</span>
-			</h4>
-			{appointment?.id ? (
-				<>
-					<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100 pt-5 pb-4">
-						<div className="grid grid-cols-1 lg:grid-cols-12 gap-3 px-4">
-							<InfoText
-								className="lg:col-span-6"
-								label="Initial Diagnosis:"
-								value={appointment?.post_notes}
-							/>
-							<InfoText
-								className="lg:col-span-6"
-								label="Date:"
-								value={formatDateMMDDYYYYHHIIA(
-									new Date(appointment?.created_at)
-								)}
-							/>
-							<InfoText
-								className="lg:col-span-6"
-								label="Chief complaint:"
-								value={appointment?.pre_notes}
-							/>
-							<InfoText
-								className="lg:col-span-6"
-								label="Reason for appointment:"
-								value={appointment?.reason}
-							/>
-							<InfoText
-								className="lg:col-span-6"
-								label="Mode of consultation:"
-								valueClassName=" !uppercase"
-								value={appointment?.mode_of_consultation}
-							/>
-							<InfoText
-								className="lg:col-span-6"
-								label="PHIC ID:"
-								value={appointment?.phic_no}
-							/>
-							<InfoText
-								className="lg:col-span-12"
-								label="Brief Clinical History and Pertinent Physical Examination:"
-								value={appointment?.history}
-							/>
-							<InfoText
-								className="lg:col-span-12"
-								label="Laboratory Findings (Including ECG, X-ray, and other diagnostic procedures):"
-								value={appointment?.lab_findings}
-							/>
-						</div>
-						<CollapseDiv
+			<CollapseDiv
 							defaultOpen={false}
 							withCaret={true}
-							title="More details"
+							title="Initial Assessment"
 							headerClassName="bg-blue-50"
 							bodyClassName="p-0"
-						>
+							>
 							<div className="grid grid-cols-1 lg:grid-cols-12 gap-3 p-	">
 								<h4 className="border-y-2 flex items-center text-sm font-medium p-2 mb-0 lg:col-span-12">
 									<span>General History</span>
@@ -218,6 +148,7 @@ const AppointmentDetailsForNurse = ({
 																			  ] !=
 																			  "false"
 																			: false
+																			
 																	}
 																	readOnly
 																	{...register(
@@ -319,11 +250,14 @@ const AppointmentDetailsForNurse = ({
 																	label={`${data?.specify}:`}
 																	placeholder="Please specify"
 																	defaultValue={
-																		appointment?.general_history &&
-																		appointment
-																			?.general_history[
-																			`${data?.name}_details`
-																		]
+																		appointment?.general_history
+																			? appointment
+																					?.general_history[
+																					data
+																						?.name
+																			  ] !=
+																			  "false"
+																			: false
 																	}
 																	{...register(
 																		`${data?.name}_details`
@@ -340,26 +274,26 @@ const AppointmentDetailsForNurse = ({
 								</div>
 								<div className="lg:col-span-12">
 									<h4 className="border-y-2 text-sm font-medium p-2 mb-3">
-										Medical and Surgical History
+										Symptoms Assessment
 									</h4>
 									<div className="table table-bordered">
 										<table className="bordered">
 											<thead>
 												<tr>
-													<th className="w-1/3">
-														Click if patient has an
-														experience
+													<th className="w-1/6">
+														Click if patient has symptoms
 													</th>
 													<th>
 														Details (i.e.
-														medications taken, yeat
-														diagnosed, year of
-														surgery or injury, etc.)
+															Infectious diseases are caused by harmful 
+															organisms that get into your body from the outside,
+															 like viruses and bacteria.)
 													</th>
 												</tr>
 											</thead>
 											<tbody>
-												{medicalSurgicalHistories?.map(
+												
+												{symptoms ?.map(
 													(data) => {
 														return (
 															<tr
@@ -378,12 +312,13 @@ const AppointmentDetailsForNurse = ({
 																					data
 																						?.name
 																				] !=
-																					"false" &&
+																					"true" &&
 																				appointment
 																					?.surgical_history[
 																					data
 																						?.name
-																				] !==
+																				]
+																				 !==
 																					null
 																			}
 																			readOnly
@@ -400,6 +335,7 @@ const AppointmentDetailsForNurse = ({
 																	</label>
 																</td>
 																<td className="p-1">
+																	
 																	<TextInputField
 																		inputClassName="bg-white"
 																		placeholder={`${data?.label} details...`}
@@ -410,8 +346,8 @@ const AppointmentDetailsForNurse = ({
 																				data
 																					?.name
 																			]
-																				? false
-																				: true
+																				? true
+																				: false
 																		}
 																		{...register(
 																			`${data?.name}_details`,
@@ -426,6 +362,15 @@ const AppointmentDetailsForNurse = ({
 											</tbody>
 										</table>
 									</div>
+
+
+
+
+                                    
+
+
+
+
 								</div>
 								<div className="lg:col-span-12">
 									<h4 className="border-y-2 text-base font-bold p-2 mb-4">
@@ -1012,6 +957,192 @@ const AppointmentDetailsForNurse = ({
 										</table>
 									</div>
 								</div>
+
+
+
+
+
+
+
+
+
+								<div className="lg:col-span-12">
+									<h4 className="border-y-2 text-base font-bold p-2 mb-4">
+										Vaccine History
+									</h4>
+
+									
+
+									<div className="table table-bordered mb-4">
+										<table>
+											<tbody>
+												<tr>
+													<th
+														colSpan={3}
+														className="!text-blue-600"
+													>
+														Covid 19
+													</th>
+												</tr>
+
+												<tr>
+													<td>
+														First Dose
+													</td>
+													<td>
+														<div className="flex items-center gap-8">
+															<label className="cursor-pointer mb-0 flex items-center text-sm gap-2 text-gray-600 cursor-pointer hover:!text-blue-600">
+																<input
+																	type="radio"
+																	className="pointer-events-none"
+																	value="no"
+																	{...register(
+																		"first_dose",
+																		{}
+																	)}
+																/>
+																<span>No</span>
+															</label>
+															<label className="cursor-pointer mb-0 flex items-center text-sm gap-2 text-gray-600 cursor-pointer hover:!text-blue-600">
+																<input
+																	type="radio"
+																	className="pointer-events-none"
+																	value="yes"
+																	{...register(
+																		"first_dose",
+																		{}
+																	)}
+																/>
+																<span>Yes</span>
+															</label>
+
+															<TextInputField
+																disabled={
+																	watch(
+																		"first_dose"
+																	) !=
+																	"yes"
+																}
+																inputClassName="bg-white"
+																placeholder="Vaccine Type"
+																{...register(
+																	"first_dose_details",
+																	{}
+																)}
+															/>
+															
+															<TextInputField
+																disabled={
+																	watch(
+																		"first_dose"
+																	) !=
+																	"yes"
+																}
+																inputClassName="bg-white"
+																placeholder="Vaccination ID"
+																{...register(
+																	"first_dose_id",
+																	{}
+																)}
+															/>
+															
+															<TextInputField
+																disabled={
+																	watch(
+																		"first_dose"
+																	) != "yes"
+																}
+																labelClassName="!mb-0 whitespace-nowrap"
+																className="flex flex-row items-center gap-2"
+																type="date"
+																label="Vaccinated at:"
+																inputClassName="bg-white"
+															/>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														Second Dose
+													</td>
+													<td>
+														<div className="flex items-center gap-8">
+															<label className="cursor-pointer mb-0 flex items-center text-sm gap-2 text-gray-600 cursor-pointer hover:!text-blue-600">
+																<input
+																	type="radio"
+																	className="pointer-events-none"
+																	value="no"
+																	{...register(
+																		"second_dose",
+																		{}
+																	)}
+																/>
+																<span>No</span>
+															</label>
+															<label className="cursor-pointer mb-0 flex items-center text-sm gap-2 text-gray-600 cursor-pointer hover:!text-blue-600">
+																<input
+																	type="radio"
+																	className="pointer-events-none"
+																	value="yes"
+																	{...register(
+																		"second_dose",
+																		{}
+																	)}
+																/>
+																<span>Yes</span>
+															</label>
+
+															<TextInputField
+																disabled={
+																	watch(
+																		"second_dose"
+																	) !=
+																	"yes"
+																}
+																inputClassName="bg-white"
+																placeholder="Vaccine Type"
+																{...register(
+																	"second_dose_details",
+																	{}
+																)}
+															/>
+
+															<TextInputField
+																disabled={
+																	watch(
+																		"second_dose"
+																	) !=
+																	"yes"
+																}
+																inputClassName="bg-white"
+																placeholder="Vaccination ID"
+																{...register(
+																	"second_dose_id",
+																	{}
+																)}
+															/>
+															
+															<TextInputField
+																disabled={
+																	watch(
+																		"second_dose"
+																	) != "yes"
+																}
+																labelClassName="!mb-0 whitespace-nowrap"
+																className="flex flex-row items-center gap-2"
+																type="date"
+																label="Vaccinated at:"
+																inputClassName="bg-white"
+															/>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+
+								</div>
+
 							</div>
 						</CollapseDiv>
 
@@ -1025,10 +1156,7 @@ const AppointmentDetailsForNurse = ({
 
 
 
-
-
-
-						<CollapseDiv
+                        <CollapseDiv
 							defaultOpen={false}
 							withCaret={true}
 							title="Virus Infection"
@@ -1463,145 +1591,8 @@ const AppointmentDetailsForNurse = ({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-						<CollapseDiv
-							defaultOpen={
-								appointment.status == "pending" &&
-								appointment?.vital_id == null
-							}
-							withCaret={true}
-							title="Patient Vitals"
-							headerClassName="bg-blue-50"
-							bodyClassName="p-0"
-						>
-							<PatientVitals
-								showTitle={false}
-								appointment={appointment}
-								patient={appointment?.patient}
-								mutateAll={mutateAll}
-								onSuccess={() => {
-									refreshData();
-								}}
-							/>
-						</CollapseDiv>
-						{appointment?.post_notes == "Tuberculosis" &&
-						appointment.tb_symptoms != null ? (
-							<CollapseDiv
-								defaultOpen={
-									appointment?.post_notes == "Tuberculosis" &&
-									appointment.tb_symptoms != null
-								}
-								withCaret={true}
-								title="Patient TB Symtoms"
-								headerClassName="bg-blue-50"
-								bodyClassName="p-0"
-							>
-								{appointment?.tb_symptoms != null ? (
-									<div className="flex flex-col gap-1 mt-0 pb-2 !shadow-yellow-600 rounded-sm bg-white">
-										<ul className="w-1/2">
-											{symptoms?.map((symp) => {
-												return (
-													<li
-														className="!text-xs flex justify-between"
-														key={`${keyByValue(
-															symp.label
-														)}`}
-													>
-														<span>
-															{symp.label} -{" "}
-														</span>
-														<b className="text-center">
-															{appointment
-																?.tb_symptoms[
-																symp.value
-															]
-																? "YES"
-																: "no "}
-														</b>
-													</li>
-												);
-											})}
-										</ul>
-									</div>
-								) : (
-									""
-								)}
-							</CollapseDiv>
-						) : (
-							""
-						)}
-
-						{!hideServices ? (
-							<CollapseDiv
-								defaultOpen={
-									(appointment.status == "pending" &&
-										appointment?.vital_id != null) ||
-									appointment?.status ==
-										"pending-for-cashier-release"
-								}
-								withCaret={true}
-								title="Services"
-								headerClassName="bg-blue-50"
-								bodyClassName="p-0"
-							>
-								{forCashier ? (
-									<CashierApproval
-										setAppointment={setOrder}
-										showTitle={false}
-										appointment={appointment}
-										patient={appointment?.patient}
-										mutateAll={mutateAll}
-									/>
-								) : (
-									<PatientServices
-										setAppointment={setOrder}
-										showTitle={false}
-										mutateAll={mutateAll}
-										appointment={appointment}
-										patient={appointment?.patient}
-									/>
-								)}
-								{/* {forBilling ? (
-									<BillingApproval
-										setAppointment={setOrder}
-										showTitle={false}
-										appointment={appointment}
-										patient={appointment?.patient}
-										mutateAll={mutateAll}
-									/>
-								) : (
-									<PatientServices
-										setAppointment={setOrder}
-										showTitle={false}
-										mutateAll={mutateAll}
-										appointment={appointment}
-										patient={appointment?.patient}
-									/>
-								)} */}
-							</CollapseDiv>
-						) : (
-							""
-						)}
-					</div>
-				</>
-			) : (
-				""
-			)}
 		</div>
 	);
 };
 
-export default AppointmentDetailsForNurse;
+export default InfectiousAssessment;

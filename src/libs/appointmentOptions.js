@@ -1,4 +1,4 @@
-export const symptoms2 = [
+export const symptoms = [
 	{
 		label: "Chest pain/discomfort/heaviness",
 		value: "Chest pain/discomfort/heaviness",
@@ -64,36 +64,243 @@ export const symptoms2 = [
 		value: "Act of self-harm/suicide",
 		name: "act_of_self_harm_suicide",
 	},
-];
 
-
-
-
-export const symptoms = [
 	{
-		value: "cough_for_3_weeks_or_longer",
+		name: "Cough",
+		label: "Cough",
+		value: "Cough",
+	},
+	
+	{
+		name: "cough_for_3_weeks_or_longer",
 		label: "Cough for three weeks or longer",
+		value: "Cough for three weeks or longer",
 	},
 	{
-		value: "coughing_up_blood_or_mucus",
+		name: "coughing_up_blood_or_mucus",
 		label: "Coughing up blood or mucus",
+		value: "Coughing up blood or mucus",
 	},
-	{ value: "chest_pain", label: "Chest pain" },
+	{ name: "chest_pain", label: "Chest pain", value: "Chest pain" },
 	{
-		value: "pain_with_breathing_or_coughing",
+		name: "pain_with_breathing_or_coughing",
 		label: "Pain with breathing or coughing",
+		value: "Pain with breathing or coughing",
 	},
-	{ value: "fever", label: "Fever" },
-	{ value: "chills", label: "Chills" },
-	{ value: "night_sweats", label: "Night sweats" },
-	{ value: "weight_loss", label: "Weight loss" },
-	{ value: "not_wanting_to_eat", label: "Not wanting to eat" },
-	{ value: "tiredness", label: "Tiredness" },
+	{ name: "fever", label: "Fever", value: "Fever" },
+	{ name: "chills", label: "Chills", value: "Chills" },
+	{ name: "night_sweats", label: "Night sweats", value: "Night sweats" },
+	{ name: "weight_loss", label: "Weight loss", value: "Weight loss" },
+	{ name: "not_wanting_to_eat", label: "Not wanting to eat", value: "Not wanting to eat" },
+	{ name: "tiredness", label: "Tiredness", value: "Tiredness" },
 	{
-		value: "not_feeling_well_in_general",
+		name: "not_feeling_well_in_general",
 		label: "Not feeling well in general",
+		value: "Not feeling well in general",
 	},
 ];
+
+
+
+	//Common Cold Days 1 to 3
+
+	export const viral_infectious = [
+	{
+		name: "Common_Colds",
+		label: "Common Colds",
+		value: "Common Colds",
+	},
+	{
+		name: "Flu",
+		label: "Flu",
+		value: "Flu"
+	},
+	{ 	name: "Covid19", 
+		label: "Covid19", 
+		value: "Covid19" 
+	},
+	{
+		name: "GastroEnteritis",
+		label: "GastroEnteritis",
+		value: "GastroEnteritis"
+	},
+	{	 name: "Hepatitis", 
+		label: "Hepatitis", 
+		value: "Hepatitis" 
+	},
+	{	 name: "RSV", 
+		label: "RSV", 
+		value: "RSV" 
+	},
+	{	 name: "Others", 
+		label: "Others", 
+		value: "Others" 
+	},
+	
+];
+
+	//Common Cold Days 4 to 7
+
+	export const bacterial_infectious = [
+	{
+		name: "Strep_Throat",
+		label: "Strep Throat",
+		value: "Strep Throat",
+	},
+	{
+		name: "Salmonella",
+		label: "Salmonella",
+		value: "Salmonella",
+	},
+	{ 	name: "Tuberculosis", 
+		label: "Tuberculosis", 
+		value: "Tuberculosis" 
+	},
+	{
+		name: "Pertussis",
+		label: "Pertussis",
+		value: "Pertussis",
+	},
+	{	 name: "Chlamydia", 
+		label: "Chlamydia", 
+		value: "Chlamydia" 
+	},
+	{	 name: "Gonorrhea", 
+		label: "Gonorrhea", 
+		value: "Gonorrhea" 
+	},
+	{	 name: "Urinary_Tract_Infection", 
+		label: "Urinary Tract Infection", 
+		value: "Urinary Tract Infection" 
+	},
+	{	 name: "E_Coli", 
+		label: "E Coli", 
+		value: "E Coli" 
+	},
+	{	 name: "Others", 
+		label: "Others", 
+		value: "Others" 
+	},
+	
+];
+
+	//Common Cold Days 8 to 10
+
+	export const fungal_infectious = [
+		{
+			name: "Ringworm",
+			label: "Ringworm",
+			value: "Ringworm",
+		},
+		{
+			name: "Fungal_Nail",
+			label: "Fungal Nail",
+			value: "Fungal Nail",
+		},
+		{
+			name: "Vaginal_Candidiasis",
+			label: "Vaginal Candidiasis",
+			value: "Vaginal Candidiasis",
+		},
+		{
+			name: "Thrush",
+			label: "Thrush",
+			value: "Thrush",
+		},
+		{
+			name: "Others",
+			label: "Others",
+			value: "Others",
+		},
+		
+	];
+
+
+
+	export const parasitic_infectious = [
+		{
+			name: "Giardiasis",
+			label: "Giardiasis",
+			value: "Giardiasis",
+		},
+		{
+			name: "Toxoplasmosis",
+			label: "Toxoplasmosis",
+			value: "Toxoplasmosis",
+		},
+		{
+			name: "Hookworms",
+			label: "Hookworms",
+			value: "Hookworms",
+		},
+		{
+			name: "Pinworms",
+			label: "Pinworms",
+			value: "Pinworms",
+		},
+		{
+			name: "Others",
+			label: "Others",
+			value: "Others",
+		},
+
+	];
+
+
+	export const covid19 = [
+		{
+			name: "High_fever",
+			label: "High fever",
+			value: "High fever",
+		},
+		{
+			name: "Difficulty_breathing",
+			label: "Difficulty breathing",
+			value: "Difficulty breathing",
+		},
+		{
+			name: "Difficulty_on_Urinate",
+			label: "Difficulty on Urinate",
+			value: "Difficulty on Urinate",
+		},
+		{
+			name: "Pain_in_your_chest_or_stomach",
+			label: "Pain in your chest or stomach",
+			value: "Pain in your chest or stomach",
+		},
+		{
+			name: "Persistent_dizziness",
+			label: "Persistent dizziness",
+			value: "Persistent dizziness",
+		},
+		{
+			name: "Confusion",
+			label: "Confusion",
+			value: "Confusion",
+		},
+		{
+			name: "Severe_muscle_pain_or_weakness",
+			label: "Severe muscle pain or weakness",
+			value: "Severe muscle pain or weakness",
+		},
+		{
+			name: "Seizures",
+			label: "Seizures",
+			value: "Seizures",
+		},
+		{
+			name: "Fluctuating_fever_or_cough",
+			label: "Fluctuating fever or cough",
+			value: "Fluctuating fever or cough",
+		},
+		
+		
+	];
+
+
+
+
+
 
 export const generalHistories = [
 	{

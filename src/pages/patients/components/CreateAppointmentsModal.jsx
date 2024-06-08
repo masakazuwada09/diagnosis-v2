@@ -22,8 +22,8 @@ import {
 	generalHistories,
 	medicalSurgicalHistories,
 	sanitaryOptions,
-	symptoms,
-	symptoms2,
+	symptoms
+
 } from "../../../libs/appointmentOptions";
 import {
 	dataURItoBlob,
@@ -34,7 +34,7 @@ import PatientInfo from "./PatientInfo";
 import FlatIcon from "../../../components/FlatIcon";
 import { useAuth } from "../../../hooks/useAuth";
 import TextAreaField from "../../../components/inputs/TextAreaField";
-const symtoms2_names = symptoms2?.map((data) => data?.name);
+const symtoms2_names = symptoms?.map((data) => data?.name);
 const CreateAppointmentsModal = (props, ref) => {
 	const { onSuccess, patientSelfie, referToRHURef } = props;
 	const { user } = useAuth();
@@ -385,7 +385,7 @@ const CreateAppointmentsModal = (props, ref) => {
 												Patient Symptoms
 											</h4>
 											<div className="lg:col-span-6 flex flex-col gap-y-">
-												{symptoms2?.map(
+												{symptoms?.map(
 													(data, index) => {
 														if (index % 2 == 0)
 															return (
@@ -423,7 +423,7 @@ const CreateAppointmentsModal = (props, ref) => {
 												)}
 											</div>
 											<div className="lg:col-span-6 flex flex-col gap-y-">
-												{symptoms2?.map(
+												{symptoms?.map(
 													(data, index) => {
 														if (index % 2 != 0)
 															return (

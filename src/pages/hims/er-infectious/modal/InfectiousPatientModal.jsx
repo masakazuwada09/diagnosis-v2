@@ -32,6 +32,8 @@ import InfectiousDetails from "../components/InfectiousDetails";
 import PatientInfo from "../../../../pages/patients/components/PatientInfo";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 import PatientVitals from "../../../../components/PatientVitals";
+import InfectiousAssessment from "../components/InfectiousAssessment";
+
 
 const AppointmentData = ({ mutateAll, appointment = null }) => {
 	const {
@@ -173,6 +175,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 						</>
 					}
 				/>
+
 			</div>
 		</div>
 	);
@@ -264,7 +267,7 @@ const InfectiousPatientModal = (props, ref) => {
 								className={`w-full transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all ${
 									full
 										? " lg:max-w-[99vw]"
-										: " lg:max-w-[80vw]"
+										: " lg:max-w-[60vw]"
 								} `}
 							>
 								<Dialog.Title
@@ -453,6 +456,15 @@ const InfectiousPatientModal = (props, ref) => {
 
 													{
 														title: (
+															<MenuTitle src="/vitals/notes.png">
+																Assessment
+															</MenuTitle>
+														),
+														content: <InfectiousAssessment patient={patient} />,
+													},
+
+													{
+														title: (
 															<MenuTitle src="/patient.png">
 																Past
 																Appointments
@@ -584,6 +596,7 @@ const InfectiousPatientModal = (props, ref) => {
 															/>
 														),
 													},
+													
 													// {
 													// 	title: (
 													// 		<MenuTitle src="/landing-page.png">
@@ -606,14 +619,7 @@ const InfectiousPatientModal = (props, ref) => {
 													// 	// 	</div>
 													// 	// ),
 													// },
-													// {
-													// 	title: (
-													// 		<MenuTitle src="/vitals/notes.png">
-													// 			Notes
-													// 		</MenuTitle>
-													// 	),
-													// 	// content: <CisNotes patient={patient} />,
-													// },
+													
 													// {
 													// 	title: (
 													// 		<MenuTitle src="/vitals/treatment.png">

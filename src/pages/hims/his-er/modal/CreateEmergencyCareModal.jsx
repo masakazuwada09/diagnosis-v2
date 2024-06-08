@@ -8,7 +8,7 @@ import ActionBtn from '../../../../components/buttons/ActionBtn';
 import FlatIcon from '../../../../components/FlatIcon';
 import TextInputField from '../../../../components/inputs/TextInputField';
 import { dataURItoBlob, getPhilHealth, keyByValue } from '../../../../libs/helpers';
-import { accessWasteOptions, environmentalHistories, generalHistories, medicalSurgicalHistories, sanitaryOptions, symptoms, symptoms2 } from '../../../../libs/appointmentOptions';
+import { accessWasteOptions, environmentalHistories, generalHistories, medicalSurgicalHistories, sanitaryOptions, symptoms } from '../../../../libs/appointmentOptions';
 import TextAreaField from '../../../../components/inputs/TextAreaField';
 import ReactSelectInputField from '../../../../components/inputs/ReactSelectInputField';
 import { Controller, useForm } from 'react-hook-form';
@@ -17,7 +17,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import Axios from '../../../../libs/axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../../hooks/useAuth';
-const patient_symptoms = symptoms2?.map((data) => data?.name);
+const patient_symptoms = symptoms?.map((data) => data?.name);
 const CreateEmergencyCareModal = (props, ref) => {
     const { onSuccess, patientSelfie, referToRHURef } = props;
 	const { appointment, setAppointment, mutateAll } = props;
@@ -510,7 +510,7 @@ const CreateEmergencyCareModal = (props, ref) => {
 												Patient Symptoms
 											</h4>
 											<div className="lg:col-span-6 flex flex-col gap-y-">
-												{symptoms2?.map(
+												{symptoms?.map(
 													(data, index) => {
 														if (index % 2 == 0)
 															return (
@@ -548,7 +548,7 @@ const CreateEmergencyCareModal = (props, ref) => {
 												)}
 											</div>
 											<div className="lg:col-span-6 flex flex-col gap-y-">
-												{symptoms2?.map(
+												{symptoms?.map(
 													(data, index) => {
 														if (index % 2 != 0)
 															return (

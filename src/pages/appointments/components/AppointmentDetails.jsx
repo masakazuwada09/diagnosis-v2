@@ -1059,6 +1059,7 @@ const AppointmentDetails = ({
 								appointment={appointment}
 								patient={appointment?.patient}
 							/>
+							
 						</CollapseDiv>
 						{showService &&
 						(appointment?.vital_id ||

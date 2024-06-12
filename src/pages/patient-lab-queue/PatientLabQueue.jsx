@@ -115,7 +115,7 @@ const PatientLabQueue = () => {
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x">
 					<div className="lg:col-span-4">
 						<h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider -mb-1">
-							Patient Queue
+							Patient Queues
 						</h1>
 						<span className="noto-sans-thin text-slate-500 text-sm font-light">
 							Patients pending for laboratory services

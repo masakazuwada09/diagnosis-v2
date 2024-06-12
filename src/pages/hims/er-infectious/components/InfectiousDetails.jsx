@@ -107,17 +107,6 @@ const InfectiousDetails = ({
 			<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
 				<span>Infectious Details</span>
 				<span className="ml-auto">
-					Infection Type:{" "}
-					<b className="uppercase font-normal">
-						VIRUS
-						{/* <AppointmentStatus
-							customStatus={customStatus}
-							forResult={forResult}
-							appointment={appointment}
-						/> */}
-					</b>
-				</span>
-				<span className="ml-auto">
 					Status:{" "}
 					<b className="uppercase font-normal">
 						<AppointmentStatus

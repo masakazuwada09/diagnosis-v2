@@ -1,13 +1,8 @@
-import React from "react";
-
-import {
-	doctorName,
-	doctorSpecialty,
-	patientFullName,
-} from "../../../libs/helpers";
+import React from 'react'
+import { doctorName, doctorSpecialty, patientFullName } from '../../../libs/helpers';
 
 /* eslint-disable react/prop-types */
-const InServiceItem = ({
+const InServiceSurgery = ({
 	data,
 	labOrdersStr = "",
 	room = "1",
@@ -18,9 +13,9 @@ const InServiceItem = ({
 		specialty: "Cardiologists",
 	},
 }) => {
-	console.log("data", data);
-	return (
-		<div className="flex flex-col bg-green-50 border border-blue-100 p-4 rounded-xl relative">
+    console.log("data", data);
+  return (
+    <div className="flex flex-col bg-green-50 border border-blue-100 p-4 rounded-xl relative">
 			{data?.status == "in-service-result-reading" ? (
 				<span className="bg-red-50 text-red-500 mb-4 text-center italic rounded-xl py-1 px-3 text-xs">
 					Pending
@@ -60,7 +55,7 @@ const InServiceItem = ({
 			<span className="border-b  pb-4 mb-4 "></span>
 
 			<span className="font-light mb-1     text-center text-xs text-slate-500">
-				Doctor Assigned
+				Surgeon Assigned
 			</span>
 			<h4 className="text-lg text-center  font-bold text-indigo-900 -mb-1">
 				{doctorName(data?.referredToDoctor)}
@@ -69,7 +64,7 @@ const InServiceItem = ({
 				{doctorSpecialty(data?.referredToDoctor)}
 			</span>
 		</div>
-	);
-};
+  )
+}
 
-export default InServiceItem;
+export default InServiceSurgery

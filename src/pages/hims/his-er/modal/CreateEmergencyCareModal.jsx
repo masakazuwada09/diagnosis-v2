@@ -616,7 +616,7 @@ const CreateEmergencyCareModal = (props, ref) => {
 														isDirty,
 														error,
 													},
-												}) => (
+													}) => (
 													<ReactSelectInputField
 														isClearable={false}
 														label="SELECT RHU"

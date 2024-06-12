@@ -25,6 +25,8 @@ import HISDoctorLinks from "../../userLinks/hmis/HISDoctorLinks";
 import HISBillingLink from "../../userLinks/hmis/HISBillingLink";
 import HISHousekeepingLink from "../../userLinks/hmis/HISHousekeepingLink";
 import ERInfectiousLink from "../../userLinks/hmis/ERInfectiousLink";
+import HISSurgeonLink from "../../userLinks/hmis/HISSurgeonLink";
+
 
 const AppLayout = (props) => {
 	useReValidateAuth();
@@ -89,6 +91,9 @@ const AppLayout = (props) => {
 				return <HISHousekeepingLink isActive={isActive} />;
 			case "er-infectious":
 				return <ERInfectiousLink isActive={isActive} />;
+			case "his-surgeon":
+				return <HISSurgeonLink isActive={isActive} />;
+				
 			default:
 				break;
 		}

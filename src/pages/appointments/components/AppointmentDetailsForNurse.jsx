@@ -124,6 +124,13 @@ const AppointmentDetailsForNurse = ({
 			}
 		);
 	};
+
+
+
+
+
+
+
 	return (
 		<div className="flex flex-col">
 			<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
@@ -135,6 +142,8 @@ const AppointmentDetailsForNurse = ({
 					</b>
 				</span>
 			</h4>
+
+
 			{appointment?.id ? (
 				<>
 					<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100 pt-5 pb-4">
@@ -183,13 +192,16 @@ const AppointmentDetailsForNurse = ({
 								value={appointment?.lab_findings}
 							/>
 						</div>
+
+
+
 						<CollapseDiv
 							defaultOpen={false}
 							withCaret={true}
 							title="More details"
 							headerClassName="bg-blue-50"
 							bodyClassName="p-0"
-						>
+							>
 							<div className="grid grid-cols-1 lg:grid-cols-12 gap-3 p-	">
 								<h4 className="border-y-2 flex items-center text-sm font-medium p-2 mb-0 lg:col-span-12">
 									<span>General History</span>
@@ -1035,6 +1047,8 @@ const AppointmentDetailsForNurse = ({
 							headerClassName="bg-blue-50"
 							bodyClassName="p-0"
 							>
+
+								
 							<div className="grid grid-cols-1 lg:grid-cols-12 gap-3 p-	">
 								
 								
@@ -1055,6 +1069,8 @@ const AppointmentDetailsForNurse = ({
 													</th>
 												</tr>
 											</thead>
+
+
 											<tbody>
 												
 												{viral_infectious ?.map(

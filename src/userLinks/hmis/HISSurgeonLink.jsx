@@ -3,7 +3,7 @@ import useDoctorQueue from '../../hooks/useDoctorQueue';
 import useReferralQueue from '../../hooks/useReferralQueue';
 import MenuLink from '../../components/buttons/MenuLink';
 
-const HISDoctorLinks = ({ isActive }) => {
+const HISSurgeonLink = ({ isActive }) => {
     const { pending } = useDoctorQueue();
 	// const { pending: referralsPending, pendingPrescription } =
 	// 	useReferralQueue();
@@ -31,18 +31,12 @@ const HISDoctorLinks = ({ isActive }) => {
 				icon="rr-wifi"
 				text="TeleMedicine"
 			/> */}
-			<MenuLink
-				to="/patient-queue"
-				active={isActive("/patient-queue")}
-				icon="rr-clipboard-list-check"
-				text="Patient Queue"
-				counter={pending?.data?.length}
-			/>
+			
 			<MenuLink
 				to="/surgical-queue"
 				active={isActive("/surgical-queue")}
 				icon="rr-clipboard-list-check"
-				text="Surgical Queue"
+				text="Patient Queue"
 				counter={pending?.data?.length}
 			/>
 			{/* <MenuLink
@@ -66,4 +60,4 @@ const HISDoctorLinks = ({ isActive }) => {
   )
 }
 
-export default HISDoctorLinks
+export default HISSurgeonLink

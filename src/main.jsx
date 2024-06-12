@@ -47,6 +47,7 @@ import PatientERQueue from "./pages/hims/his-er/PatientERQueue.jsx";
 import PatientBillingQueue from "./pages/hims/his-billing/PatientBillingQueue.jsx";
 import PatientHousekeepingQueue from "./pages/hims/his-housekeeping/PatientHousekeepingQueue.jsx";
 import InfectiousERQueue from "./pages/hims/er-infectious/InfectiousERQueue.jsx";
+import SurgeryQueue from "./pages/department/his-surgical/SurgeryQueue.jsx";
 
 
 window.Pusher = Pusher;
@@ -253,7 +254,21 @@ const router = createBrowserRouter(
 					path="patient-queue"
 					element={<DoctorPatientQueue />}
 				></Route>
-			</Route>
+				
+				</Route>
+				
+				<Route path="his-surgeon">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element={<Patients />}></Route>
+				{/* <Route path="telemedicine" element={<Appointments />}></Route> */}
+				
+				<Route
+					path="surgical-queue"
+					element={<SurgeryQueue />}
+				></Route>
+				</Route>
+
+			
 			<Route path="his-billing">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route

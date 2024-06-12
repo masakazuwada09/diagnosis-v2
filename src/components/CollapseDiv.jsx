@@ -1,5 +1,6 @@
 import { Disclosure, Transition } from "@headlessui/react";
 import FlatIcon from "./FlatIcon";
+import ActionBtn from "./buttons/ActionBtn";
 
 const CollapseDiv = ({
 	title = "Title",
@@ -7,47 +8,64 @@ const CollapseDiv = ({
 	headerClassName = "",
 	bodyClassName = "",
 	defaultOpen = false,
+	
+	
 }) => {
 	return (
 		<Disclosure
 			as={"div"}
-			className="rounded-xl border  border-background duration-200"
+			className=" border-b  border-gray-300 duration-200"
 			defaultOpen={defaultOpen}
 		>
 			{({ open }) => (
 				<>
+
+				
 					<Disclosure.Button
 						as="div"
-						className={`bg-background p-3 text-base font-bold flex items-center cursor-pointer rounded-t-xl ${
-							!open && "rounded-b-xl"
+						className={`bg-background p-3 gap-2 text-base font-bold flex items-center cursor-pointer  ${
+							!open && "bg-black"
 						} ${headerClassName}`}
+
+						
 					>
+						
 						{title}
-						<div className="flex items-center justify-center ml-auto">
-							<FlatIcon
-								icon="rr-chevron-up"
-								className={`${
-									open ? "rotate-180" : ""
-								} duration-200`}
-							/>
+						<div className="flex items-center justify-center ml-auto text-gray-400 text-xs">
+							
+						<FlatIcon
+										
+										icon="fi fi-rr-menu-dots-vertical"
+										className={`text-xl text-gray-500 duration-100  ${
+											open ? "scale-0 duration-400" : ""
+										} duration-200`}
+									/>
+									
 						</div>
+						
 					</Disclosure.Button>
 
 					<Transition
 						show={open}
-						enter="transition duration-100 ease-out"
-						enterFrom="transform scale-95 opacity-0"
+						enter="transition duration-300 ease-out"
+						enterFrom="transform scale-100 opacity-0"
 						enterTo="transform scale-100 opacity-100"
-						leave="transition duration-75 ease-out"
+						leave="transition duration-200 ease-out"
 						leaveFrom="transform scale-100 opacity-100"
-						leaveTo="transform scale-95 opacity-0"
+						leaveTo="transform scale-100 opacity-0"
 					>
 						<Disclosure.Panel
 							as="div"
-							className={`p-3 ${bodyClassName}`}
+							className={`p-3 ${bodyClassName} ` }
 						>
+							
 							{children}
+							
 						</Disclosure.Panel>
+
+
+				
+
 					</Transition>
 				</>
 			)}

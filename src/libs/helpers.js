@@ -323,6 +323,7 @@ const doctorSpecialty = (doctor) => {
 	return doctor?.specialty?.name || "General Practitioner";
 };
 
+
 // const csrSupplies = (inventoryCsr) => {
 
 // }

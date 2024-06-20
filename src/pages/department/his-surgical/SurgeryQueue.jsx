@@ -1,271 +1,424 @@
-import React, { useRef, useState } from 'react'
-import ReferToSPHModal from '../../../components/modal/ReferToSPHModal';
-import InServiceER from '../../hims/his-er/InServiceER';
-import InServiceSurgery from './InServiceSurgery';
-import AppointmentDetailsForSurgery from './AppointmentDetailsForSurgery';
-import PatientInfo from '../../patients/components/PatientInfo';
-import ActionBtn from '../../../components/buttons/ActionBtn';
-import { Fade } from 'react-reveal';
-import { patientFullName } from '../../../libs/helpers';
-import InQueueRegular from '../../patient-queue/components/InQueueRegular';
-import InQueueForRelease from '../../patient-queue/components/InQueueForRelease';
-import AppLayout from '../../../components/container/AppLayout';
+
+import { useRef, useState } from 'react'
+import useAnesthesiaQueue from '../../../hooks/useAnesthesiaQueue';
 import useNoBugUseEffect from '../../../hooks/useNoBugUseEffect';
-import useDoctorQueue from '../../../hooks/useDoctorQueue';
+import FlatIcon from '../../../components/FlatIcon';
+import AppLayout from '../../../components/container/AppLayout';
+import InQueueAnesthesia from '../his-anesthesia/components/InQueueAnesthesia';
+import {  doctorName, doctorSpecialty, formatDate, patientFullName } from '../../../libs/helpers';
+import ActionBtn from '../../../components/buttons/ActionBtn';
+import UpdatePatientOperation from '../his-anesthesia/components/modal/UpdatePatientOperation';
 import { useAuth } from '../../../hooks/useAuth';
+import useDoctorQueue from '../../../hooks/useDoctorQueue';
 import useERQueue from '../../../hooks/useERQueue';
+import DoctorInQueueRegular from '../../doctor-patient-queue/components/DoctorInQueueRegular';
+import ConsultPatientModal from '../../doctor-patient-queue/components/ConsultPatientModal';
+import InQueueSurgery from './components/InQueueSurgery';
+import useSurgeryQueue from '../../../hooks/useSurgeryQueue';
 
-const Status = ({ appointment }) => {
-	const renderStatus = () => {
-		if (appointment?.has_for_reading?.length > 0) {
-			return (
-				<span className="text-orange-500">
-					Pending for Result Reading
-				</span>
-			);
-		}
-		if (appointment?.status == "pending" && appointment?.vital_id == null) {
-			return (
-				<span className="text-orange-500">
-					Pending for patient vitals {appointment?.vital_id}
-				</span>
-			);
-		}
-		if (appointment?.status == "pending" && appointment?.vital_id != null) {
-			return <span className="text-orange-600">Pending for service</span>;
-		}
-		if (
-			appointment?.status == "pending-doctor-confirmation" &&
-			appointment?.vital_id != null &&
-			appointment?.referred_to != null
-		) {
-			return (
-				<span className="text-orange-600">
-					Pending for doctor&apos;s confirmation
-				</span>
-			);
-		}
-		if (
-			appointment?.status == "pending-for-pharmacy-release" &&
-			appointment?.prescribed_by == null
-		) {
-			return (
-				<span className="text-orange-600">For Doctor Prescription</span>
-			);
-		}
-		if (
-			appointment?.status == "pending-for-pharmacy-release" &&
-			appointment?.prescribed_by != null
-		) {
-			return (
-				<span className="text-orange-600">For Medicine release</span>
-			);
-		}
-		if (appointment?.status == "in-service-consultation") {
-			return (
-				<span className="text-orange-600">
-					CONSULTATION WITH DOCTOR
-				</span>
-			);
-		}
-		return (
-			<span className="text-red-600 uppercase">
-				{String(appointment?.status).replaceAll("-", " ")}
-			</span>
-		);
-	};
-	return renderStatus();
-};
-
-const SurgeryQueue = () => {
-	
+const SurgeryQueue = (props) => {
+	const {  surgeryRoom, mutateSurgeryRoom, resu, mutateResu, done, mutateDone } = useSurgeryQueue();
+    const [order, setOrder] = useState(null);
+	const {patient} = props;
 	const { user } = useAuth();
-
 	const {
 		pending: doctorsPending,
 		nowServing: doctorsNowServing,
+		pendingForResultReading,
 		mutatePending,
 		mutatePendingForResultReading,
 		mutateNowServing,
 	} = useDoctorQueue();
-	const {
-		pending,
-		pendingForRelease,
-		mutatePendingForRelease,
-		mutatePendingPatient,
-		mutateNowServingPatient,
-	} = useERQueue();
-	const referToSphModalRef = useRef(null);
-	const [appointment, setAppointment] = useState(null);
+	const { pending, nowServing } = useERQueue();
+	const acceptPatientRef = useRef(null);
+	
+	
 	useNoBugUseEffect({
-		functions: () => {},
-	});
+        functions: () => {},
+    });
 
 	const isDoctor = () => {
-		return user?.type == "his-doctor" || user?.type == "HIS-DOCTOR";
+		return user?.type == "rhu-doctor" || user?.type == "RHU-DOCTOR"; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
 	};
-
-	const sortPendingList = (list) => {
-		// Sort by priority: pending vitals first, then by id descending
-		return (list || []).sort((a, b) => {
-			if (a.status === "pending" && a.vital_id === null) return -1;
-			if (b.status === "pending" && b.vital_id === null) return 1;
-			return b.id - a.id;
-		});
-	};
-
-	const listPending = () => {
-		const pendingList = isDoctor() ? doctorsPending?.data : pending?.data;
-		return sortPendingList(pendingList);
-	};
-
-	const sortedPendingForRelease = () => {
-		return sortPendingList(pendingForRelease?.data);
-	};
-
 	const mutateAll = () => {
 		mutatePending();
 		mutatePendingForResultReading();
 		mutateNowServing();
-		mutatePendingForRelease();
-		//mutatePendingPatient();
-		//mutateNowServingPatient();
 	};
+	const listPending = () => {
+		return (isDoctor() ? doctorsPending?.data : pending?.data) || [];
+	};
+	// const listPendingWaiting = () => {
+    //     return waitingRoom?.data || [];
+    // };
+	const listPendingSurgery = () => {
+        return surgeryRoom?.data || [];
+    };
+	const listPendingRESU = () => {
+        return resu?.data || [];
+    };
+	const listPendingDone = () => {
+        return done?.data || [];
+    };
+  return (
+	<AppLayout>
+            <div className="p-4 h-full overflow-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x">
+					
+                    <div className="lg:col-span-3">
+                        <h1 className="text-xl font-bold font-opensans text-red-700 tracking-wider mb-2 ml-2">
+                            <FlatIcon icon="rr-procedures" className="text-xl" /> Surgery Room
+                        </h1>
+                        <div className="flex flex-col gap-y-4 relative ml-2">
+                            {listPendingSurgery()?.length === 0 ? (
+                                <span className="text-center py-20 font-bold text-slate-400">
+                                    No patients in Surgery Room.
+                                </span>
+                            ) : (
+                                listPendingSurgery()?.map((queue, index) => {
+                                    return (
+                                        queue?.operation_status === "Surgery Room" && (
+                                            <InQueueSurgery
+                                                key={queue.id}
+                                                queue={queue}
+                                                currentSection="surgeryRoom"
+                                                number={queue.id}
+                                                patientName={patientFullName(queue?.relationships?.patient)}
+												patient={queue?.relationships?.patient}
+												data={queue}
+													>
+                                                <div className="w-full flex flex-col ">
+												<div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Status:
+													</span>
+													<span className="font-bold text-lg text-slate-700 italic">
+														{queue?.operation_status}
+													</span>
+												</div>
+                                                <div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Date:
+													</span>
+													<span className="font-light italic">
+														{formatDate(
+															new Date(
+																queue?.operation_date
+															)
+														)}
+													</span>
+												</div>
+                                                <div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Time:
+													</span>
+													<span className="font-light italic">
+														{queue?.operation_time}
+													</span>
+												</div>
+												<div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Procedure
+													</span>
+													<span className="text-sm font-bold text-red-700">
+														{" "}
+														{queue?.procedure}
+													</span>
+												</div>
+												
+												<div className="flex items-start gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Surgeon:{" "}
+													</span>
+													<span className="flex flex-col font-bold">
+														<span className="mb-2">
+															{/* {doctorName(
+																queue
+																	?.relationships
+																	?.doctor
+															)} */}
+															{queue?.surgeon}
+														</span>
+														<span className="font-light text-sm">
+															{doctorSpecialty(
+																queue
+																	?.relationships
+																	?.doctor
+															)}
+														</span>
+													</span>
+												</div>
+                                                <div className="flex items-start gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Anesthesiologist:{" "}
+													</span>
+													<span className="flex flex-col font-bold">
+														<span className="mb-2">
+															{/* {doctorName(
+																queue
+																	?.relationships
+																	?.doctor
+															)} */}
+															{queue?.anesthesiologist}
+														</span>
+														<span className="font-light text-sm">
+															{doctorSpecialty(
+																queue
+																	?.relationships
+																	?.doctor
+															)}
+														</span>
+													</span>
+												</div>
+												
+												
+												</div>
+                                            </InQueueSurgery>
+                                        )
+                                    );
+                                })
+                            )}
+                        </div>
+						
+                    </div>
+                    <div className="lg:col-span-3">
+                        <h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider mb-2 ml-2">
+                            <FlatIcon icon="rr-procedures" className="text-xl" /> RESU
+                        </h1>
+                        <div className="flex flex-col gap-y-4 relative ml-2">
+                            {listPendingRESU()?.length === 0 ? (
+                                <span className="text-center py-20 font-bold text-slate-400">
+                                    No patients in RESU.
+                                </span>
+                            ) : (
+                                listPendingRESU()?.map((queue, index) => {
+                                    return (
+                                        queue?.operation_status === "RESU" && (
+                                            <InQueueSurgery
+                                                key={queue.id}
+                                                queue={queue}
+                                                currentSection="resu"
+                                                number={queue.id}
+												patient={queue?.relationships?.patient}
+                                                patientName={patientFullName(queue?.relationships?.patient)}
+												data={queue}
+                                            >
+                                                <div className="w-full flex flex-col ">
+												<div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Status:
+													</span>
+													<span className="font-bold text-lg text-blue-800 italic">
+														{queue?.operation_status}
+													</span>
+												</div>
+                                                <div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Date:
+													</span>
+													<span className="font-light italic">
+														{formatDate(
+															new Date(
+																queue?.operation_date
+															)
+														)}
+													</span>
+												</div>
+                                                <div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Time:
+													</span>
+													<span className="font-light italic">
+														{queue?.operation_time}
+													</span>
+												</div>
+												<div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Procedure
+													</span>
+													<span className="text-sm font-bold text-red-700">
+														{" "}
+														{queue?.procedure}
+													</span>
+												</div>
+												
+												<div className="flex items-start gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Surgeon:{" "}
+													</span>
+													<span className="flex flex-col font-bold">
+														<span className="mb-2">
+															{/* {doctorName(
+																queue
+																	?.relationships
+																	?.doctor
+															)} */}
+															{queue?.surgeon}
+														</span>
+														<span className="font-light text-sm">
+															{doctorSpecialty(
+																queue
+																	?.relationships
+																	?.doctor
+															)}
+														</span>
+													</span>
+												</div>
+                                                <div className="flex items-start gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Anesthesiologist:{" "}
+													</span>
+													<span className="flex flex-col font-bold">
+														<span className="mb-2">
+															{/* {doctorName(
+																queue
+																	?.relationships
+																	?.doctor
+															)} */}
+															{queue?.anesthesiologist}
+														</span>
+														<span className="font-light text-sm">
+															{doctorSpecialty(
+																queue
+																	?.relationships
+																	?.doctor
+															)}
+														</span>
+													</span>
+												</div>
+												
+												
+											</div>
+                                            </InQueueSurgery>
+                                        )
+                                    );
+                                })
+                            )}
+                        </div>
+                    </div>
+                    <div className="lg:col-span-3">
+                        <h1 className="text-xl font-bold font-opensans text-success-dark tracking-wider mb-2 ml-2">
+                            <FlatIcon icon="rr-procedures" className="text-xl" /> Done (Back to Room)
+                        </h1>
+                        <div className="flex flex-col gap-y-4 relative ml-2">
+                            {listPendingDone()?.length === 0 ? (
+                                <span className="text-center py-20 font-bold text-slate-400">
+                                    No patients in Back to Room.
+                                </span>
+                            ) : (
+                                listPendingDone()?.map((queue, index) => {
+                                    return (
+                                        queue?.operation_status === "DONE" && (
+                                            <InQueueSurgery
+                                                key={queue.id}
+                                                queue={queue}
+                                                currentSection="done"
+                                                number={queue.id}
+												patient={queue?.relationships?.patient}
+                                                patientName={patientFullName(queue?.relationships?.patient)}
+												data={queue}
+												
+									
+                                            >
+                                                <div className="w-full flex flex-col ">
+												<div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Status:
+													</span>
+													<span className="font-bold text-lg text-green-800 italic">
+														{queue?.operation_status}
+													</span>
+												</div>
+                                                <div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Date:
+													</span>
+													<span className="font-light italic">
+														{formatDate(
+															new Date(
+																queue?.operation_date
+															)
+														)}
+													</span>
+												</div>
+                                                <div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Time:
+													</span>
+													<span className="font-light italic">
+														{queue?.operation_time}
+													</span>
+												</div>
+												<div className="flex items-center gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Procedure
+													</span>
+													<span className="text-sm font-bold text-red-700">
+														{" "}
+														{queue?.procedure}
+													</span>
+												</div>
+												
+												<div className="flex items-start gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Surgeon:{" "}
+													</span>
+													<span className="flex flex-col font-bold">
+														<span className="mb-2">
+															{/* {doctorName(
+																queue
+																	?.relationships
+																	?.doctor
+															)} */}
+															{queue?.surgeon}
+														</span>
+														<span className="font-light text-sm">
+															{doctorSpecialty(
+																queue
+																	?.relationships
+																	?.doctor
+															)}
+														</span>
+													</span>
+												</div>
+                                                <div className="flex items-start gap-16 mb-2">
+													<span className="text-sm w-[58px]">
+														Anesthesiologist:{" "}
+													</span>
+													<span className="flex flex-col font-bold">
+														<span className="mb-2">
+															{/* {doctorName(
+																queue
+																	?.relationships
+																	?.doctor
+															)} */}
+															{queue?.anesthesiologist}
+														</span>
+														<span className="font-light text-sm">
+															{doctorSpecialty(
+																queue
+																	?.relationships
+																	?.doctor
+															)}
+														</span>
+													</span>
+												</div>
+												
+												
+											</div>
+                                            </InQueueSurgery>
+                                        )
+                                    );
+                                })
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<ConsultPatientModal ref={acceptPatientRef} mutateAll={mutateAll} />
+			
+        </AppLayout>
+  )
+}
 
-	return (
-		<AppLayout>
-			<div className="p-4 h-full overflow-auto">
-				<div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x">
-					<div className="lg:col-span-4">
-						<h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider -mb-1">
-							Patient Queue
-						</h1>
-						<span className="noto-sans-thin text-slate-500 text-sm font-light">
-							Patients pending for service
-						</span>
-						<div className="flex flex-col gap-y-4 py-4">
-
-
-
-							{listPending()?.map((queue, index) => (
-								<InQueueRegular
-									referAction={() => {
-										referToSphModalRef.current.show(queue);
-									}}
-									onClick={() => {
-										if (queue.status != "pending-doctor-consultation") {
-											setAppointment(queue);
-										} else {
-											setAppointment(null);
-										}
-									}}
-									selected={queue?.id == appointment?.id}
-									key={`iq2-${queue.id}`}
-									number={`${queue.id}`}
-									patientName={patientFullName(queue?.patient)}
-								>
-									<div className="w-full flex flex-col pl-16">
-										<div className="flex items-center text-slate-700 gap-2 mb-2">
-											<span className="text-sm">Status:</span>
-											<span className="font-bold text-sm">
-												<Status appointment={queue} />
-											</span>
-										</div>
-									</div>
-								</InQueueRegular>
-							))}
-
-
-
-							{sortedPendingForRelease()?.map((queue, index) => (
-								<InQueueForRelease
-									selected={queue?.id == appointment?.id}
-									onClick={() => {
-										setAppointment(queue);
-									}}
-									key={`iqr-${queue.id}`}
-									number={`${queue.id}`}
-									patientName={patientFullName(queue?.patient)}
-								>
-									<div className="w-full flex flex-col pl-16">
-										<div className="flex items-center text-slate-700 gap-2 mb-2">
-											<span className="text-sm">Status:</span>
-											<span className="font-bold text-sm text-red-600">
-												{"PENDING FOR RELEASE"}
-											</span>
-										</div>
-									</div>
-								</InQueueForRelease>
-							))}
-
-
-							
-						</div>
-					</div>
-					<div className="lg:col-span-8 pl-4">
-						<div className="flex items-center">
-							<h1 className="text-xl font-bold font-opensans text-success-dark tracking-wider -mb-1">
-								In Service...
-							</h1>
-						</div>
-						<span className="mb-3 noto-sans-thin text-slate-500 text-sm font-light">
-							&nbsp;
-						</span>
-						<div>
-							{appointment?.patient ? (
-								<Fade key={`order-${appointment?.id}`}>
-									<div>
-										<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
-											<span>Patient Information</span>
-											<ActionBtn
-												className="ml-auto"
-												type="danger"
-												onClick={() => {
-													setAppointment(null);
-												}}
-											>
-												Close
-											</ActionBtn>
-										</h4>
-										<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-4">
-											<PatientInfo patient={appointment?.patient} />
-										</div>
-										<div className="pb-4">
-											<AppointmentDetailsForSurgery
-												appointment={appointment}
-												mutateAll={mutateAll}
-												setOrder={(data) => {
-													if (data == null) {
-														// mutateAll();
-													}
-													setAppointment(data);
-												}}
-											/>
-										</div>
-									</div>
-								</Fade>
-							) : (
-								""
-							)}
-						</div>
-						{appointment?.id ? (
-							""
-						) : (
-							<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-								{doctorsNowServing?.data?.map((data) => (
-									<InServiceSurgery
-										key={`PQInServiceItem-${data?.id}`}
-										data={data}
-									/>
-								))}
-							</div>
-						)}
-					</div>
-				</div>
-			</div>
-			<ReferToSPHModal ref={referToSphModalRef} />
-		</AppLayout>
-	);
-};
-
-export default SurgeryQueue;
+export default SurgeryQueue

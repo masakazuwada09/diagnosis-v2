@@ -72,6 +72,14 @@ const AppointmentStatus = ({
 				<span className="text-orange-600">For Medicine release</span>
 			);
 		}
+		if (
+			appointment?.status == "pending-for-post-anesthesia-care" &&
+			appointment?.prescribed_by != null
+		) {
+			return (
+				<span className="text-orange-600">For Post Anesthesia Care</span>
+			);
+		}
 		if (appointment?.status == "in-service-consultation") {
 			return (
 				<span className="text-orange-600">

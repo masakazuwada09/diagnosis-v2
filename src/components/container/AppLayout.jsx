@@ -26,6 +26,7 @@ import HISBillingLink from "../../userLinks/hmis/HISBillingLink";
 import HISHousekeepingLink from "../../userLinks/hmis/HISHousekeepingLink";
 import ERInfectiousLink from "../../userLinks/hmis/ERInfectiousLink";
 import HISSurgeonLink from "../../userLinks/hmis/HISSurgeonLink";
+import HISPacuLink from "../../userLinks/hmis/HISPacuLink";
 
 
 const AppLayout = (props) => {
@@ -93,6 +94,8 @@ const AppLayout = (props) => {
 				return <ERInfectiousLink isActive={isActive} />;
 			case "his-surgeon":
 				return <HISSurgeonLink isActive={isActive} />;
+			case "pacu-nurse":
+					return <HISPacuLink isActive={isActive} />;
 				
 			default:
 				break;

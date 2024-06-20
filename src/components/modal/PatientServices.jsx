@@ -30,6 +30,7 @@ import { mutate } from "swr";
 const uniq_id = uuidv4();
 const PatientServices = (props) => {
 	const { appointment, setAppointment, mutateAll } = props;
+	const [showData, setShowData] = useState(null);
 	const { user } = useAuth();
 	const {
 		register,
@@ -87,9 +88,11 @@ const PatientServices = (props) => {
 				"rhu_id"
 			)}`
 		).then((res) => {
+
 			setDoctorList(res.data.data);
 		});
 	};
+
 	const getItems = () => {
 		Axios.get(`v1/item-inventory?location_id=${user?.health_unit_id}`).then(
 			(res) => {
@@ -97,6 +100,8 @@ const PatientServices = (props) => {
 			}
 		);
 	};
+
+
 	const addNewSelectedItem = () => {
 		setSelectedItems((prevItems) => [
 			...prevItems,
@@ -188,6 +193,8 @@ const PatientServices = (props) => {
 		formdata.append("rhu_id", data?.rhu_id);
 		formdata.append("doctor_id", data?.doctor_id);
 		formdata.append("room_number", data?.room_number);
+		formdata.append("surgery_date", data?.surgery_date);
+		formdata.append("surgery_time", data?.surgery_time);
 		formdata.append("_method", "PATCH");
 
 		Axios.post(`v1/clinic/tb-assign-to-doctor/${appointment?.id}`, formdata)
@@ -198,7 +205,7 @@ const PatientServices = (props) => {
 					setAppointment(null);
 				}, 100);
 				setTimeout(() => {
-					toast.success("Patient referral success!");
+					toast.success("Patient update success!");
 					setLoading(false);
 				}, 200);
 			})
@@ -305,6 +312,24 @@ const PatientServices = (props) => {
 			}, 300);
 		});
 	};
+
+
+
+	const show = (data) => {
+		setShowData(data);
+		console.log("procedure ID---------------->>>", showData?.id);
+		// console.log("/v1/anesthesia/operation-procedure/list");
+		setModalOpen(true);
+		getOperationProcedure(data);
+		
+	};
+
+
+
+
+
+
+
 	return (
 		<div className="flex flex-col items-start">
 			{appointment?.status == "pending-for-rhu-release" ? (
@@ -386,9 +411,13 @@ const PatientServices = (props) => {
 				<div className="flex flex-col w-full gap-4 pb-2">
 					<div className="p-0 flex flex-col gap-y-4 relative w-full">
 						<h4 className="text-md text-indigo-800 border-b border-b-indigo-600 pb-1 font-bold mb-0">
-							Send patient to Doctor
+							Send patient to Surgery
 						</h4>
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+
+
+				
 							
 							<Controller
 								name="doctor_id"
@@ -416,7 +445,7 @@ const PatientServices = (props) => {
 								}) => (
 									<ReactSelectInputField
 										isClearable={true}
-										label="Select Doctor"
+										label="Select Surgeon"
 										isLoading={isSelectorLoading}
 										onChangeGetData={(data) => {}}
 										inputClassName=" "
@@ -426,7 +455,7 @@ const PatientServices = (props) => {
 										onData
 										onBlur={onBlur} // notify when input is touched
 										error={error?.message}
-										placeholder={`Select Doctor`}
+										placeholder={`Select Surgeon`}
 										options={doctorList?.map((doctor) => ({
 											label: `${doctorName(doctor)}`,
 											value: doctor?.id,
@@ -451,6 +480,9 @@ const PatientServices = (props) => {
 									/>
 								)}
 							/>
+
+
+
 							<Controller
 								name="room_number"
 								control={control}
@@ -546,7 +578,97 @@ const PatientServices = (props) => {
 									/>
 								)}
 							/>
+
+
+
+
+							<Controller
+								name="surgery_date"
+								control={control}
+								rules={{
+									required: {
+										value: true,
+										message: "This field is required",
+									},
+								}}
+								render={({
+									field: {
+										onChange,
+										onBlur,
+										value,
+										name,
+										ref,
+									},
+									fieldState: {
+										invalid,
+										isTouched,
+										isDirty,
+										error,
+									},
+								}) => (
+									<TextInputField
+											isLoading={isSelectorLoading}
+											onChangeGetData={(data) => {}}
+											inputClassName=" "
+											ref={ref}
+											value={value}
+											onChange={onChange}
+											onData
+											onBlur={onBlur} // notify when input is touched
+											error={error?.message}
+											label="Select Date"
+											type="date"
+											className="focus:outline-none focus:border-blue-500"
+											/>
+								)}
+							/>
+
+
+							<Controller
+								name="surgery_time"
+								control={control}
+								rules={{
+									required: {
+										value: true,
+										message: "This field is required",
+									},
+								}}
+								render={({
+									field: {
+										onChange,
+										onBlur,
+										value,
+										name,
+										ref,
+									},
+									fieldState: {
+										invalid,
+										isTouched,
+										isDirty,
+										error,
+									},
+								}) => (
+										<TextInputField
+											isLoading={isSelectorLoading}
+											onChangeGetData={(data) => {}}
+											inputClassName=" "
+											ref={ref}
+											value={value}
+											onChange={onChange}
+											onData
+											onBlur={onBlur} // notify when input is touched
+											error={error?.message}
+											label="Time:"
+											type="time"
+											className="focus:outline-none focus:border-blue-500"
+											/>
+											
+								)}
+							/>
+
+							
 						</div>
+
 
 						<ActionBtn
 							className="px-4 !rounded-2xl w-full"
@@ -559,8 +681,11 @@ const PatientServices = (props) => {
 								icon="rr-check"
 								className="mr-2 text-xl"
 							/>
-							Send patient to doctor
+							Send patient to Surgery
 						</ActionBtn>
+
+
+
 					</div>
 				</div>
 			)}

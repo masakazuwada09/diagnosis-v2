@@ -1,6 +1,7 @@
 
 import { useRef, useState } from 'react'
 import useAnesthesiaQueue from '../../../hooks/useAnesthesiaQueue';
+import useSurgeryQueue from '../../../hooks/useSurgeryQueue';
 import useNoBugUseEffect from '../../../hooks/useNoBugUseEffect';
 import FlatIcon from '../../../components/FlatIcon';
 import AppLayout from '../../../components/container/AppLayout';
@@ -54,7 +55,7 @@ const PatientAnestesiaQueue = (props) => {
                                                 patientName={patientFullName(queue?.relationships?.patient)}
 												patient={queue?.relationships?.patient}
 												data={queue}
-											>
+													>
                                                 <div className="w-full flex flex-col ">
 												<div className="flex items-center gap-16 mb-2">
 													<span className="text-sm w-[58px]">
@@ -140,7 +141,7 @@ const PatientAnestesiaQueue = (props) => {
 												</div>
 												
 												
-											</div>
+												</div>
                                             </InQueueAnesthesia>
                                         )
                                     );

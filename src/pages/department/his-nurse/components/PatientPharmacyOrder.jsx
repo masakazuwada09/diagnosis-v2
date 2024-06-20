@@ -73,7 +73,7 @@ const PatientPharmacyOrder = (props) => {
 		}}
 	>
 		<FlatIcon
-			icon="rr-plus"
+			icon="fi fi-rr-plus-small"
 			className="mt-1 text-xl"
 		/>
 	</ActionBtn> 

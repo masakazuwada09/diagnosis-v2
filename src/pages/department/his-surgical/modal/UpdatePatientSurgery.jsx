@@ -2,19 +2,19 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable react-refresh/only-export-components */
 import React, { Fragment, forwardRef, useEffect, useImperativeHandle, useState } from 'react'
-import ActionBtn from '../../../../../components/buttons/ActionBtn';
+import ActionBtn from '../../../../components/buttons/ActionBtn';
 import { Controller, useForm } from 'react-hook-form';
-import useNoBugUseEffect from '../../../../../hooks/useNoBugUseEffect';
-import Axios from '../../../../../libs/axios';
+import useNoBugUseEffect from '../../../../hooks/useNoBugUseEffect';
+import Axios from '../../../../libs/axios';
 import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react';
-import ReactSelectInputField from '../../../../../components/inputs/ReactSelectInputField';
-import ReactQuillField from '../../../../../components/inputs/ReactQuillField';
-import TextInputField from '../../../../../components/inputs/TextInputField';
-import { patientFullName } from '../../../../../libs/helpers';
+import ReactSelectInputField from '../../../../components/inputs/ReactSelectInputField';
+import ReactQuillField from '../../../../components/inputs/ReactQuillField';
+import TextInputField from '../../../../components/inputs/TextInputField';
+import { patientFullName } from '../../../../libs/helpers';
 import axios from 'axios';
 
-const UpdatePatientOperation = (props, ref) => {
+const UpdatePatientSurgery = (props, ref) => {
 	const { patient, onSuccess } = props;
 	console.log('patient------------------------>', patient)
 	const {
@@ -71,7 +71,7 @@ const UpdatePatientOperation = (props, ref) => {
             if (onSuccess) onSuccess();
             setTimeout(() => {
                 setLoading(false);
-                toast.success("Operation Procedure updated successfully!");
+                toast.success("Surgery Procedure updated successfully!");
                 if (data?.operation_status === "For Discharge") {
                     mutateOperatingRoom(); 
                     mutateResu(); 
@@ -116,22 +116,22 @@ const UpdatePatientOperation = (props, ref) => {
 
 	 const getStatusOptions = (currentStatus) => {
         const options = [
-            { label: "For Operation", value: "For Operation" },
-            { label: "Operating Room", value: "Operating Room" },
+            { label: "Surgery Room", value: "Surgery Room" },
             { label: "RESU", value: "RESU" },
             { label: "DONE", value: "DONE" },
             { label: "For Discharge", value: "For Discharge" },
+			{ label: "ICU", value: "ICU" },
+			{ label: "PACU", value: "PACU" },
         ];
 
         switch (currentStatus) {
-            case "For Operation":
-                return options.filter(opt => opt.value === "Operating Room");
-            case "Operating Room":
+            case "Surgery Room":
                 return options.filter(opt => ["RESU", "DONE"].includes(opt.value));
             case "RESU":
-                return options.filter(opt => opt.value === "DONE");
+                return options.filter(opt => ["Surgery Room", "DONE"].includes(opt.value));
             case "DONE":
-                return options.filter(opt => opt.value === "For Discharge");
+                // return options.filter(opt => opt.value === "For Discharge");
+				return options.filter(opt => ["For Discharge", "ICU", "PACU"].includes(opt.value));
             default:
                 return [];
         }
@@ -291,7 +291,7 @@ const UpdatePatientOperation = (props, ref) => {
     }}
     render={({ field }) => (
         <ReactSelectInputField
-            isClearable={false}
+            isClearable={true}
             label={
                 <>
                     Status
@@ -396,4 +396,4 @@ const UpdatePatientOperation = (props, ref) => {
   )
 }
 
-export default forwardRef(UpdatePatientOperation)
+export default forwardRef(UpdatePatientSurgery)

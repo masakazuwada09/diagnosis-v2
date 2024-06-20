@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
 
 import { useRef } from "react";
-import UpdatePatientOperation from "./modal/UpdatePatientOperation";
+import UpdatePatientOperation from "../../his-anesthesia/components/modal/UpdatePatientOperation";
+import UpdatePatientSurgery from "../modal/UpdatePatientSurgery";
 import ActionBtn from "../../../../components/buttons/ActionBtn";
 import FlatIcon from "../../../../components/FlatIcon";
 import { useAuth } from "../../../../hooks/useAuth";
 
 
-const InQueueAnesthesia = ({
+
+const InQueueSurgery = ({
     children,
     number,
     patientName,
@@ -28,7 +30,7 @@ const InQueueAnesthesia = ({
                     {patientName}
                 </span>
                 <div className="ml-auto">
-        {checkUserType("ANESTHESIA") ? (
+        {checkUserType("SURGEON") ? (
 				<ActionBtn className="!rounded-full"
 				onClick={() => {
 							// Access patient ID and show the update procedure modal
@@ -48,7 +50,7 @@ const InQueueAnesthesia = ({
             <div className="border-t mt-1">
                 {children}
             </div>
-            <UpdatePatientOperation
+            <UpdatePatientSurgery
                 patient={patient}
                   ref={updateProcedureRef}
             />
@@ -56,4 +58,4 @@ const InQueueAnesthesia = ({
     );
 };
 
-export default InQueueAnesthesia;
+export default InQueueSurgery;

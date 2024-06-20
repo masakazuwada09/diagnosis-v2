@@ -48,6 +48,11 @@ import PatientBillingQueue from "./pages/hims/his-billing/PatientBillingQueue.js
 import PatientHousekeepingQueue from "./pages/hims/his-housekeeping/PatientHousekeepingQueue.jsx";
 import InfectiousERQueue from "./pages/hims/er-infectious/InfectiousERQueue.jsx";
 import SurgeryQueue from "./pages/department/his-surgical/SurgeryQueue.jsx";
+import InServiceSurgery from "./pages/department/his-surgical/InServiceSurgery.jsx";
+import AppointmentDetailsForSurgery from "./pages/department/his-surgical/AppointmentDetailsForSurgery.jsx";
+import PACUQueue from "./pages/hims/his-pacu/PACUQueue.jsx";
+
+
 
 
 window.Pusher = Pusher;
@@ -219,6 +224,14 @@ const router = createBrowserRouter(
 				<Route path="patient-anesthesia-queue" element = {<PatientAnestesiaQueue />}></Route>
 				<Route path="inventory" element = {<Inventory />}></Route>
 			</Route>
+
+			<Route path="pacu-nurse">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element = {<Patients />}></Route>
+				<Route path="pacu-queue" element = {<PACUQueue />}></Route>
+				<Route path="inventory" element = {<Inventory />}></Route>
+			</Route>
+
 			<Route path="his-monitoring">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patient-monitoring" element = {<PatientMonitoring />}></Route>

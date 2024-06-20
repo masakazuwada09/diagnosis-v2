@@ -6,8 +6,8 @@ import { marital_status_lists } from "../../../libs/patientFormOptions";
 const TRow = ({ title, value }) => {
 	return (
 		<tr>
-			<td className="text-sm pb-2">
-				<span className="text-slate-500 text-xs">{title}</span>
+			<td className="text-sm pb-2 ">
+				<span className="text-slate-700 text-md font-bold font-mono ">{title}</span>
 			</td>
 			<td className="text-sm pb-2 px-2">
 				{typeof value == "object"
@@ -19,13 +19,14 @@ const TRow = ({ title, value }) => {
 };
 const PatientProfileContent = ({ patient }) => {
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+		<div className="grid grid-cols-1 lg:grid-cols-1 gap-2 w-full text-slate-500 bg-gray-50 shadow-lg">
 			<CollapseDiv
 				defaultOpen={true}
 				title="I. PERSONAL DETAILS"
 				bodyClassName="p-0"
+			
 			>
-				<div className="square-table w-full">
+				<div className="square-table w-full ">
 					<table className="">
 						<tbody className="">
 							<TRow title="Lastname:" value={patient?.lastname} />

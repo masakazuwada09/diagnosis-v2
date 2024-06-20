@@ -158,6 +158,38 @@ const PatientProfile = (props) => {
 				) : (
 					""
 				)}
+				{checkUserType("SURGEON") ? (
+					<ActionBtn
+						type="secondary"
+						className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
+						onClick={() => {
+							procedureChoiceRef.current.show();
+						}}
+					>
+						<FlatIcon icon="bs-add-folder" />
+						Create Operation
+					</ActionBtn>
+
+				) : (
+					""
+					
+				)}
+				{checkUserType("PACU-NURSE") ? (
+					<ActionBtn
+						type="secondary"
+						className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
+						onClick={() => {
+							procedureChoiceRef.current.show();
+						}}
+					>
+						<FlatIcon icon="bs-add-folder" />
+						Create Operation
+					</ActionBtn>
+
+				) : (
+					""
+					
+				)}
 			</div>
 			<div>
 	<TabGroup
@@ -173,6 +205,7 @@ const PatientProfile = (props) => {
                 <PatientProfileDetails patient={patient} />
             ),
         },
+		
         {
             title: (
                 <MenuTitle src="/patient.png">

@@ -314,6 +314,7 @@ const patientFullName = (patient) => {
 	let l = patient?.lastname || "";
 	return `${f} ${m} ${l}`;
 };
+
 const doctorName = (doctor) => {
 	let title = doctor?.title?.length > 0 ? doctor?.title : "";
 	let name = doctor?.name;

@@ -131,7 +131,8 @@ const Patients = () => {
 					</div>
 					<div className=" lg:col-span-8 xl:col-span-9">
 						{patient ? (
-							<Fade key={`patient-profile-${patient?.id}`}>
+							<Fade 
+								key={`patient-profile-${patient?.id}`}>
 								<PatientProfile patient={patient} />
 							</Fade>
 						) : (

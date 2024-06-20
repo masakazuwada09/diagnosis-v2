@@ -66,7 +66,7 @@ console.log("dataaaaaaa----------------->>>", patient?.id)
                     console.log('patient CSR Modal Patient:', patient);
                 }}
             >
-                <FlatIcon icon="rr-plus" className="mt-1 text-xl" />
+                <FlatIcon icon="fi fi-rr-plus-small" className="mt-1 text-xl" />
             </ActionBtn>
             <div className="flex flex-col items-start">
                 <Table

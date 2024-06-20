@@ -96,7 +96,7 @@ const AddPatientOperation = (props, ref) => {
 
 		Axios.post(`v1/anesthesia/operation-procedure/store`, formData).then((res) => {
 			setTimeout(() => {
-				toast.success("Operation Procedure created successfully!");
+				toast.success("Surgery created successfully!");
 				if (onSuccess) onSuccess();
 			}, 200);
 			reset();
@@ -683,8 +683,8 @@ const AddPatientOperation = (props, ref) => {
 												placeholder="Select Status"
 												options={[
 													{
-														label: "For Operation",
-														value: "For Operation",
+														label: "Surgery Room",
+														value: "Surgery Room",
 													},
 													// {
 													// 	label: "RESU",

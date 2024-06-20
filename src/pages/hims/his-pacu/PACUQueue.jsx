@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react'
 import ReferToSPHModal from '../../../components/modal/ReferToSPHModal';
-import InServiceER from './InServiceER';
-import AppointmentDetailsForNurse from '../../appointments/components/AppointmentDetailsForNurse';
+import InServiceER from '../../hims/his-er/InServiceER';
+import InServiceSurgery from '../../department/his-surgical/InServiceSurgery';
+import AppointmentDetailsForPACU from './components/AppointmentDetailsForPACU';
 import PatientInfo from '../../patients/components/PatientInfo';
 import ActionBtn from '../../../components/buttons/ActionBtn';
 import { Fade } from 'react-reveal';
@@ -67,13 +68,6 @@ const Status = ({ appointment }) => {
 				</span>
 			);
 		}
-		if (appointment?.status == "in-service-surgery") {
-			return (
-				<span className="text-orange-600">
-					For Surgery
-				</span>
-			);
-		}
 		return (
 			<span className="text-red-600 uppercase">
 				{String(appointment?.status).replaceAll("-", " ")}
@@ -83,8 +77,12 @@ const Status = ({ appointment }) => {
 	return renderStatus();
 };
 
-const PatientERQueue = () => {
+const PACUQueue = () => {
+	
 	const { user } = useAuth();
+    const { checkUserType } = useAuth();
+	const [patient, setPatient] = useState(null);
+
 	const {
 		pending: doctorsPending,
 		nowServing: doctorsNowServing,
@@ -148,6 +146,9 @@ const PatientERQueue = () => {
 							Patients pending for service
 						</span>
 						<div className="flex flex-col gap-y-4 py-4">
+
+
+
 							{listPending()?.map((queue, index) => (
 								<InQueueRegular
 									referAction={() => {
@@ -156,12 +157,7 @@ const PatientERQueue = () => {
 									onClick={() => {
 										if (queue.status != "pending-doctor-consultation") {
 											setAppointment(queue);
-											
-										} if (queue.status != "pending-surgery") {
-											setAppointment(queue);
-										}
-										
-										else {
+										} else {
 											setAppointment(null);
 										}
 									}}
@@ -180,6 +176,9 @@ const PatientERQueue = () => {
 									</div>
 								</InQueueRegular>
 							))}
+
+
+
 							{sortedPendingForRelease()?.map((queue, index) => (
 								<InQueueForRelease
 									selected={queue?.id == appointment?.id}
@@ -200,6 +199,8 @@ const PatientERQueue = () => {
 									</div>
 								</InQueueForRelease>
 							))}
+
+
 							
 						</div>
 					</div>
@@ -229,10 +230,15 @@ const PatientERQueue = () => {
 											</ActionBtn>
 										</h4>
 										<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-4">
-											<PatientInfo patient={appointment?.patient} />
+											<PatientInfo 
+											patient={appointment?.patient} 
+										
+											
+											/>
 										</div>
 										<div className="pb-4">
-											<AppointmentDetailsForNurse
+											<AppointmentDetailsForPACU
+                                                patient={appointment?.patient}
 												appointment={appointment}
 												mutateAll={mutateAll}
 												setOrder={(data) => {
@@ -254,7 +260,8 @@ const PatientERQueue = () => {
 						) : (
 							<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 								{doctorsNowServing?.data?.map((data) => (
-									<InServiceER
+                                    
+									<InServiceSurgery
 										key={`PQInServiceItem-${data?.id}`}
 										data={data}
 									/>
@@ -269,4 +276,4 @@ const PatientERQueue = () => {
 	);
 };
 
-export default PatientERQueue;
+export default PACUQueue;

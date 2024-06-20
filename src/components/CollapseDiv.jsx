@@ -23,8 +23,8 @@ const CollapseDiv = ({
 				
 					<Disclosure.Button
 						as="div"
-						className={`bg-background p-3 gap-2 text-base font-bold flex items-center cursor-pointer  ${
-							!open && "bg-black"
+						className={`bg-background p-3 gap-2 text-sm font-bold flex items-center cursor-pointer bg-gray-200  ${
+							!open && "bg-gray-200"
 						} ${headerClassName}`}
 
 						
@@ -35,9 +35,9 @@ const CollapseDiv = ({
 							
 						<FlatIcon
 										
-										icon="fi fi-rr-menu-dots-vertical"
+										icon="fi fi-rr-angle-small-down"
 										className={`text-xl text-gray-500 duration-100  ${
-											open ? "scale-0 duration-400" : ""
+											open ? "rotate-180 duration-400 " : ""
 										} duration-200`}
 									/>
 									

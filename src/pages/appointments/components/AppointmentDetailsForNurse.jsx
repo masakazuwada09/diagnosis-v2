@@ -1512,6 +1512,8 @@ const AppointmentDetailsForNurse = ({
 									refreshData();
 								}}
 							/>
+
+							
 						</CollapseDiv>
 						{appointment?.post_notes == "Tuberculosis" &&
 						appointment.tb_symptoms != null ? (

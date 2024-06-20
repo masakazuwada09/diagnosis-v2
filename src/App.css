@@ -193,3 +193,23 @@ html {
 .react-select__option--is-selected {
 	@apply !text-white font-bold !bg-primary;
 }
+
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+	background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+	background: #e2e2e2;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+	background: #b9b9b9;
+  }

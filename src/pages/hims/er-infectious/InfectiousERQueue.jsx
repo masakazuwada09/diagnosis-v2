@@ -4,10 +4,10 @@ import useNoBugUseEffect from "../../../hooks/useNoBugUseEffect";
 import PageHeader from "../../../components/layout/PageHeader";
 import FlatIcon from "../../../components/FlatIcon";
 
-import DoctorInQueueRegular from "../../doctor-patient-queue/components/DoctorInQueueRegular";
+import DoctorInQueueRegular from "../../department/his-md/components/DoctorInQueueRegular";
 import useERQueue from "../../../hooks/useERQueue";
 import useDoctorQueue from "../../../hooks/useDoctorQueue";
-import DoctorInServiceItem from "../../doctor-patient-queue/components/DoctorInServiceItem";
+import DoctorInServiceItem from "../../department/his-md/components/DoctorInServiceItem";
 
 import InfectiousInQueueRegular from "./components/InfectiousInQueueRegular";
 import useERInfectious from "../../../hooks/useERInfectious";
@@ -26,12 +26,12 @@ import {
 import ReferToSPHModal from "../../../components/modal/ReferToSPHModal";
 import { useAuth } from "../../../hooks/useAuth";
 
-import ConsultPatientModal from "../../doctor-patient-queue/components/ConsultPatientModal";
+import ConsultPatientModal from "../../department/his-md/components/ConsultPatientModal";
 import ConsultInfectiousModal from "./components/ConsultInfectiousModal";
 
 
 
-import DoctorInQueuePriority from "../../doctor-patient-queue/components/DoctorInQueuePriority";
+import DoctorInQueuePriority from "../../department/his-md/components/DoctorInQueuePriority";
 import PendingOrdersModal from "../../../components/PendingOrdersModal";
 
 

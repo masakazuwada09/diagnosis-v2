@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react'
+import React, { useState, useImperativeHandle } from 'react'
 import { v4 as uuidv4 } from "uuid";
 import Axios from '../../../../libs/axios';
 import useNoBugUseEffect from '../../../../hooks/useNoBugUseEffect';
@@ -11,6 +11,13 @@ import CollapseDiv from '../../../../components/CollapseDiv';
 import { symptoms } from '../../../../libs/appointmentOptions';
 import { formatDateMMDDYYYYHHIIA, keyByValue } from '../../../../libs/helpers';
 import AppointmentStatus from '../../../../components/AppointmentStatus';
+import TabGroup from '../../../../components/TabGroup';
+import MenuTitle from '../../../../components/buttons/MenuTitle';
+import PatientProfileDetails from '../../../../components/PatientProfileDetails';
+
+import ClaimForm1 from './ClaimForm1';
+import ClaimForm2 from './ClaimForm2';
+import ClaimForm3 from './ClaimForm3';
 const uniq_id = uuidv4();
 const InfoText = ({
 	className = "",
@@ -44,8 +51,11 @@ const InfoText = ({
 		</div>
 	);
 };
-const AppointmentDetailsForBilling = ({
+const AppointmentDetailsForBilling = (
+	
+	{
     appointment: propAppointment,
+	ref,
 	forBilling = false,
 	setOrder,
 	hideServices = false,
@@ -62,6 +72,8 @@ const AppointmentDetailsForBilling = ({
 		formState: { errors },
 	} = useForm();
 	const [appointment, setAppointment] = useState(propAppointment);
+	const [patient, setPatient] = useState(null);
+	const [showData, setShowData] = useState(null);
 	const [key, setKey] = useState(uniq_id);
 	useNoBugUseEffect({
 		functions: () => {
@@ -80,6 +92,24 @@ const AppointmentDetailsForBilling = ({
 		},
 		params: [appointment?.id, key],
 	});
+
+
+	useImperativeHandle(ref, () => ({
+		show: show,
+		hide: hide,
+	}));
+
+	const show = (data) => {
+		setFull(false);
+		setShowData(data);
+		setPatient(data?.patient);
+		setModalOpen(true);
+	};
+	const hide = () => {
+		setModalOpen(false);
+	};
+
+
 	const appointmentStatus = () => {
 		if (appointment?.status == "pending" && appointment?.vital_id == null) {
 			return (
@@ -174,6 +204,125 @@ const AppointmentDetailsForBilling = ({
 							headerClassName="bg-blue-50"
 							bodyClassName="p-0"
 						>
+							<div>
+											<TabGroup
+												tabClassName={`py-3 bg-slate-100 border-b`}
+												contentClassName={
+													"max-h-[unset]"
+												}
+												contents={[
+													// {
+													// 	title: (
+													// 		<MenuTitle src="/profile.png">
+													// 			Appointment Data
+													// 		</MenuTitle>
+													// 	),
+
+													// 	content: (
+													// 		<AppointmentData
+													// 			appointment={
+													// 				showData
+													// 			}
+													// 			mutateAll={() => {
+													// 				mutateAll();
+													// 				hide();
+													// 			}}
+													// 			patient={
+													// 				patient
+													// 			}
+													// 		/>
+													// 	),
+													// },
+													{
+														title: (
+															<MenuTitle src="/profile.png">
+																Claim Form 1
+															</MenuTitle>
+														),
+
+														content: (
+															<ClaimForm1
+																appointment={showData}
+																patient={
+																	patient
+
+																}
+															/>
+														),
+													},
+													{
+														title: (
+															<MenuTitle src="/profile.png">
+																Claim Form 2
+															</MenuTitle>
+														),
+
+														content: (
+															<ClaimForm2
+																appointment={showData}
+																patient={
+																	patient
+
+																}
+															/>
+														),
+													},
+													{
+														title: (
+															<MenuTitle src="/profile.png">
+																Claim Form 3
+															</MenuTitle>
+														),
+
+														content: (
+															<ClaimForm3
+																appointment={showData}
+																patient={
+																	patient
+
+																}
+															/>
+														),
+													},
+													{
+														title: (
+															<MenuTitle src="/profile.png">
+																Claim Form 4
+															</MenuTitle>
+														),
+
+														content: (
+															<ClaimForm1
+																appointment={showData}
+																patient={
+																	patient
+
+																}
+															/>
+														),
+													},
+													{
+														title: (
+															<MenuTitle src="/profile.png">
+																PMRF
+															</MenuTitle>
+														),
+
+														content: (
+															<ClaimForm1
+																appointment={showData}
+																patient={
+																	patient
+
+																}
+															/>
+														),
+													},
+
+													
+												]}
+											/>
+										</div>
 						</CollapseDiv>
 						{appointment?.post_notes == "Tuberculosis" &&
 						appointment.tb_symptoms != null ? (

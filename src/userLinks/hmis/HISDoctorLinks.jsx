@@ -1,10 +1,10 @@
 import React from 'react'
-import useDoctorQueue from '../../hooks/useDoctorQueue';
+import useMDQueue from '../../hooks/useMDQueue';
 import useReferralQueue from '../../hooks/useReferralQueue';
 import MenuLink from '../../components/buttons/MenuLink';
 
 const HISDoctorLinks = ({ isActive }) => {
-    const { pending } = useDoctorQueue();
+    const { pending } = useMDQueue();
 	// const { pending: referralsPending, pendingPrescription } =
 	// 	useReferralQueue();
   return (
@@ -38,13 +38,7 @@ const HISDoctorLinks = ({ isActive }) => {
 				text="Patient Queue"
 				counter={pending?.data?.length}
 			/>
-			<MenuLink
-				to="/surgical-queue"
-				active={isActive("/surgical-queue")}
-				icon="rr-clipboard-list-check"
-				text="Surgical Queue"
-				counter={pending?.data?.length}
-			/>
+			
 			{/* <MenuLink
 				to="/patient-referrals"
 				active={isActive("/patient-referrals")}

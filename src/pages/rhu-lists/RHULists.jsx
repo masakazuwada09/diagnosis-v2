@@ -83,11 +83,12 @@ const RHULists = (props) => {
 							rhuListFormRef.current.show();
 						}}
 					>
-						<FlatIcon icon="rr-layer-plus" className="mr-2" />
+					<FlatIcon icon="rr-layer-plus" className="mr-2" />
 						<span className="text-xs font-medium">
 							Add Health Unit
 						</span>
 					</ActionBtn>
+					
 					<div className="ml-5 lg:w-[256px]">
 						<TextInput
 							iconLeft={"rr-search"}

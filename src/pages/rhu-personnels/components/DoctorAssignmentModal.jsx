@@ -181,6 +181,7 @@ const DoctorAssignmentModal = (props, ref) => {
 												: showData?.type}
 										</span>
 									</div>
+									
 									<Controller
 										name="health_unit_id"
 										control={control}
@@ -230,6 +231,8 @@ const DoctorAssignmentModal = (props, ref) => {
 											/>
 										)}
 									/>
+
+
 									{String(showData?.type || "")
 										.toLowerCase()
 										.includes("doctor") ? (

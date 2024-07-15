@@ -230,7 +230,7 @@ const CreateLabOrderModal = (props, ref) => {
 												error,
 											},
 										}) => (
-											<ReactSelectInputField
+										<ReactSelectInputField
 												isClearable={false}
 												label={
 													<>

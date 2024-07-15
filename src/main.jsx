@@ -29,13 +29,13 @@ import DoctorSpecialties from "./pages/doctor-specialties/DoctorSpecialties.jsx"
 import RHUPersonnels from "./pages/rhu-personnels/RHUPersonnels.jsx";
 import RHURooms from "./pages/rhu-rooms/RHURooms.jsx";
 import LaboratoryTests from "./pages/laboratory-tests/LaboratoryTests.jsx";
-import DoctorPatientQueue from "./pages/doctor-patient-queue/DoctorPatientQueue.jsx";
+import DoctorPatientQueue from "./pages/department/his-md/components/DoctorPatientQueue.jsx";
 import PatientLabQueue from "./pages/patient-lab-queue/PatientLabQueue.jsx";
 import Error404 from "./Error404.jsx";
 import PatientPharmacyQueue from "./pages/patient-pharmacy-queue/PatientPharmacyQueue.jsx";
 import Consignments from "./pages/consignments/Consignments.jsx";
 import Inventories from "./pages/inventories/Inventories.jsx";
-import DoctorPatientReferrals from "./pages/doctor-patient-referrals/DoctorPatientReferrals.jsx";
+import DoctorPatientReferrals from "./pages/department/his-md/components/DoctorPatientReferrals.jsx";
 import PatientCashierQueue from "./pages/patient-queue/PatientCashierQueue.jsx";
 import Echo from 'laravel-echo';
  
@@ -51,6 +51,7 @@ import SurgeryQueue from "./pages/department/his-surgical/SurgeryQueue.jsx";
 import InServiceSurgery from "./pages/department/his-surgical/InServiceSurgery.jsx";
 import AppointmentDetailsForSurgery from "./pages/department/his-surgical/AppointmentDetailsForSurgery.jsx";
 import PACUQueue from "./pages/hims/his-pacu/PACUQueue.jsx";
+import OPDQueue from "./pages/hims/his-opd/components/OPDQueue.jsx";
 
 
 
@@ -161,6 +162,7 @@ const router = createBrowserRouter(
 				<Route path="my-account" element={<MyAccount />}></Route>
 				{/* <Route path="inventory" element = {<Inventory />}></Route> */}
 			</Route>
+
 			<Route path="his-laboratory">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
@@ -170,6 +172,7 @@ const router = createBrowserRouter(
 				></Route>
 				<Route path="my-account" element={<MyAccount />}></Route>
 			</Route>
+
 			<Route path="his-imaging">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
@@ -179,6 +182,7 @@ const router = createBrowserRouter(
 				></Route>
 				<Route path="my-account" element={<MyAccount />}></Route>
 			</Route>
+
 			<Route path="his-cashier">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route
@@ -231,17 +235,26 @@ const router = createBrowserRouter(
 				<Route path="pacu-queue" element = {<PACUQueue />}></Route>
 				<Route path="inventory" element = {<Inventory />}></Route>
 			</Route>
+			
+			<Route path="opd-nurse">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element = {<Patients />}></Route>
+				<Route path="opd-queue" element = {<OPDQueue />}></Route>
+			</Route>
 
 			<Route path="his-monitoring">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patient-monitoring" element = {<PatientMonitoring />}></Route>
 			</Route>
+
+			
 			{/* <Route path="his-nurse">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
 				<Route path="patient-anesthesia-queue" element={<PatientAnestesiaQueue />}></Route>
 				<Route path="my-account" element={<MyAccount />}></Route>
 			</Route> */}
+
 			<Route path="his-er">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
@@ -259,14 +272,15 @@ const router = createBrowserRouter(
 			</Route>
 
 
-			<Route path="his-doctor">
+			<Route path="his-md">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
 				{/* <Route path="telemedicine" element={<Appointments />}></Route> */}
 				<Route
 					path="patient-queue"
 					element={<DoctorPatientQueue />}
-				></Route>
+				>
+			</Route>
 				
 				</Route>
 				
@@ -288,8 +302,10 @@ const router = createBrowserRouter(
 					path="patient-billing-queue"
 					element={<PatientBillingQueue />}
 				></Route>
-				<Route path="my-account" element={<MyAccount />}></Route>
+				<Route path="my-acco 	unt" element={<MyAccount />}></Route>
 			</Route>
+
+
 			<Route path="his-housekeeping">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route

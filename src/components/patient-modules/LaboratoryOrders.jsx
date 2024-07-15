@@ -361,7 +361,7 @@ const LaboratoryOrders = (props) => {
 							: "Laboratory Order"
 					}
 				>
-					{user?.type == "HIS-DOCTOR" && allowCreate ? (
+					{user?.type == "HIS-MD" && allowCreate ? (
 						<ActionBtn
 							className="px-4 rounded-xl"
 							size="sm"
@@ -387,13 +387,14 @@ const LaboratoryOrders = (props) => {
 					) : (
 						""
 					)}
-
-
-					
 				</ContentTitle>
+
 			) : (
+
 				""
 			)}
+
+			
 			<Table
 				className={`pb-2`}
 				loading={loading}
@@ -425,7 +426,7 @@ const LaboratoryOrders = (props) => {
 						key: "notes",
 					},
 					{
-						header: "Doctor",
+						header: "Medical Doctor",
 						className: "text-left",
 						tdClassName: "text-left",
 						key: "doctor",

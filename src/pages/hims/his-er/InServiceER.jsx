@@ -1,5 +1,5 @@
 import React from 'react'
-import { doctorName, doctorSpecialty, patientFullName } from '../../../libs/helpers';
+import { doctorName, doctorSpecialty, patientFullName, patientRoomNumber, roomCategory } from '../../../libs/helpers';
 
 /* eslint-disable react/prop-types */
 const InServiceER = ({
@@ -10,7 +10,7 @@ const InServiceER = ({
 	doctor = {
 		title: "Dr.",
 		name: "Tanya White",
-		specialty: "Cardiologists",
+		specialty: "",
 	},
 }) => {
     console.log("data", data);
@@ -18,8 +18,8 @@ const InServiceER = ({
     <div className="flex flex-col bg-green-50 border border-blue-100 p-4 rounded-xl relative">
 			{data?.status == "in-service-result-reading" ? (
 				<span className="bg-red-50 text-red-500 mb-4 text-center italic rounded-xl py-1 px-3 text-xs">
-					Pending
-					<span className="text-red-500 font-medium ">
+					Pending 
+						<span className="text-red-500 font-medium ">
 						For
 						{labOrdersStr.includes(`"type":"imaging"`) &&
 						labOrdersStr.includes(`"type":"laboratory-test"`)
@@ -28,8 +28,8 @@ const InServiceER = ({
 							? " IMAGING "
 							: " LABORATORY "}
 						result reading
-					</span>
 				</span>
+			</span>
 			) : (
 				""
 			)}
@@ -38,8 +38,9 @@ const InServiceER = ({
 					<span className="font-light text-sm text-slate-600 mb-1">
 						Room No
 					</span>
-					<h2 className=" text-3xl font-bold text-success -mb-1">
-						{data?.referredToDoctor?.room?.name}
+					<h2 className=" text-3xl font-bold  text-success -mb-1">
+					{patientRoomNumber(data?.room)}
+					{/* {data?.referredToDoctor?.room?.name} */}
 					</h2>
 				</div>{" "}
 				<div className="flex flex-col justify-center items-center">
@@ -55,13 +56,13 @@ const InServiceER = ({
 			<span className="border-b  pb-4 mb-4 "></span>
 
 			<span className="font-light mb-1     text-center text-xs text-slate-500">
-				Doctor Assigned
+				Medical Doctor Assigned
 			</span>
 			<h4 className="text-lg text-center  font-bold text-indigo-900 -mb-1">
-				{doctorName(data?.referredToDoctor)}
+				{doctorName(data?.doctor)}
 			</h4>
 			<span className=" text-center font-light text-sm text-slate-600">
-				{doctorSpecialty(data?.referredToDoctor)}
+			{doctorSpecialty(data?.doctor)}
 			</span>
 		</div>
   )

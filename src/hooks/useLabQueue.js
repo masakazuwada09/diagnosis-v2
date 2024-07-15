@@ -1,6 +1,8 @@
 import useSWR from "swr";
 import Axios from "../libs/axios";
 
+
+//Patient Queue
 const useLabQueue = () => {
 	const {
 		data: pending,

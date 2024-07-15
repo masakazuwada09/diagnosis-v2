@@ -730,7 +730,7 @@ const CreateEmergencyCareModal = (props, ref) => {
 												/>
 												{watch(
 													"mode_of_consultation"
-												) == "walk-in-phic-member" ? (
+													) == "walk-in-phic-member" ? (
 
 													
 													<TextInputField
@@ -764,9 +764,11 @@ const CreateEmergencyCareModal = (props, ref) => {
 															}
 														)}
 													/>
-												) : (
+													) : (
 													""
 												)}
+
+
 												<div className="flex flex-col mb-3">
 													<label className="text-sm font-bold mb-1">
 														Chief complaint

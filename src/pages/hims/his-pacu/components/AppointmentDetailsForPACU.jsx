@@ -142,6 +142,7 @@ const AppointmentDetailsForPACU = (props) => {
 	const referToSphModalRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
 	const [selectedTab, setSelectedTab] = useState("");
+	
 	useNoBugUseEffect({
 		functions: () => {},
 	});
@@ -338,36 +339,36 @@ const AppointmentDetailsForPACU = (props) => {
                                                    
 								
 
-													{
-														title: (
-															<MenuTitle src="/patient.png">
-																Past
-																Appointments
-															</MenuTitle>
-														),
-														content: (
-															<PatientPrescriptions
-																patient={
-																	patient
-																}
-															/>
-														),
-													},
-													{
-														title: (
-															<MenuTitle src="/vitals/vitals.png">
-																Vital Signs
-															</MenuTitle>
-														),
+													// {
+													// 	title: (
+													// 		<MenuTitle src="/patient.png">
+													// 			Past
+													// 			Appointments
+													// 		</MenuTitle>
+													// 	),
+													// 	content: (
+													// 		<PatientPrescriptions
+													// 			patient={
+													// 				patient
+													// 			}
+													// 		/>
+													// 	),
+													// },
+													// {
+													// 	title: (
+													// 		<MenuTitle src="/vitals/vitals.png">
+													// 			Vital Signs
+													// 		</MenuTitle>
+													// 	),
 
-														content: (
-															<PatientVitals
-																patient={
-																	patient
-																}
-															/>
-														),
-													},
+													// 	content: (
+													// 		<PatientVitals
+													// 			patient={
+													// 				patient
+													// 			}
+													// 		/>
+													// 	),
+													// },
 													// {
 													// 	title: (
 													// 		<MenuTitle src="/healthcare.png">
@@ -382,43 +383,43 @@ const AppointmentDetailsForPACU = (props) => {
 													// 	),
 													// },
 
-													{
-														title: (
-															<MenuTitle src="/vitals/laboratory.png">
-																Laboratory Order
-																{JSON.stringify(
-																	showData?.lab_orders ||
-																		{}
-																).includes(
-																	`"type":"laboratory-test"`
-																) ? (
-																	<>
-																		<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
-																		<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-"></span>
-																		<span className="absolute top-0 rounded-xl left-0 h-full w-full border border-red-500 animate-pulse"></span>
-																	</>
-																) : (
-																	""
-																)}
-															</MenuTitle>
-														),
-														content: (
-															<LaboratoryOrders
-																patient={
-																	patient
-																}
-																laboratory_test_type={
-																	2
-																}
-																appointment={
-																	showData
-																}
-																allowCreate={
-																	true
-																}
-															/>
-														),
-													},
+													// {
+													// 	title: (
+													// 		<MenuTitle src="/vitals/laboratory.png">
+													// 			Laboratory Order
+													// 			{JSON.stringify(
+													// 				showData?.lab_orders ||
+													// 					{}
+													// 			).includes(
+													// 				`"type":"laboratory-test"`
+													// 			) ? (
+													// 				<>
+													// 					<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
+													// 					<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-"></span>
+													// 					<span className="absolute top-0 rounded-xl left-0 h-full w-full border border-red-500 animate-pulse"></span>
+													// 				</>
+													// 			) : (
+													// 				""
+													// 			)}
+													// 		</MenuTitle>
+													// 	),
+													// 	content: (
+													// 		<LaboratoryOrders
+													// 			patient={
+													// 				patient
+													// 			}
+													// 			laboratory_test_type={
+													// 				2
+													// 			}
+													// 			appointment={
+													// 				showData
+													// 			}
+													// 			allowCreate={
+													// 				true
+													// 			}
+													// 		/>
+													// 	),
+													// },
 													// {
 													// 	title: (
 													// 		<MenuTitle src="/vitals/laboratory.png">

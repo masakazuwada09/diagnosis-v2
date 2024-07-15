@@ -1,24 +1,28 @@
 import { useEffect, useRef, useState } from "react";
-import AppLayout from "../../components/container/AppLayout";
-import useNoBugUseEffect from "../../hooks/useNoBugUseEffect";
-import PageHeader from "../../components/layout/PageHeader";
-import FlatIcon from "../../components/FlatIcon";
-import DoctorInQueueRegular from "./components/DoctorInQueueRegular";
-import useQueue from "../../hooks/useQueue";
+import AppLayout from "../../../../components/container/AppLayout";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+import PageHeader from "../../../../components/layout/PageHeader";
+import FlatIcon from "../../../../components/FlatIcon";
+import DoctorInQueueRegular from "./DoctorInQueueRegular";
+import useQueue from "../../../../hooks/useQueue";
 import {
 	formatDate,
 	formatDateTime,
+	patientRoomNumber,
 	patientFullName,
-} from "../../libs/helpers";
-import ReferToSPHModal from "../../components/modal/ReferToSPHModal";
-import { useAuth } from "../../hooks/useAuth";
-import useDoctorQueue from "../../hooks/useDoctorQueue";
-import ConsultPatientModal from "./components/ConsultPatientModal";
-import DoctorInServiceItem from "./components/DoctorInServiceItem";
-import PatientProfileModal from "../../components/PatientProfileModal";
-import DoctorInQueuePriority from "./components/DoctorInQueuePriority";
-import PendingOrdersModal from "../../components/PendingOrdersModal";
-import useERQueue from "../../hooks/useERQueue";
+} from "../../../../libs/helpers";
+import ReferToSPHModal from "../../../../components/modal/ReferToSPHModal";
+import { useAuth } from "../../../../hooks/useAuth";
+import useDoctorQueue from "../../../../hooks/useDoctorQueue";
+import ConsultPatientModal from "./ConsultPatientModal";
+import DoctorInServiceItem from "./DoctorInServiceItem";
+import PatientProfileModal from "../../../../components/PatientProfileModal";
+import DoctorInQueuePriority from "./DoctorInQueuePriority";
+import PendingOrdersModal from "../../../../components/PendingOrdersModal";
+import useERQueue from "../../../../hooks/useERQueue";
+import useMDQueue from "../../../../hooks/useMDQueue";
+import useOPDQueue from "../../../../hooks/useOPDQueue";
+
 
 const DoctorPatientQueue = () => {
 	const { user } = useAuth();
@@ -29,8 +33,13 @@ const DoctorPatientQueue = () => {
 		mutatePending,
 		mutatePendingForResultReading,
 		mutateNowServing,
-	} = useDoctorQueue();
-	const { pending, nowServing } = useERQueue();
+
+	} = useMDQueue();
+
+	//In Queue
+	const { pending, nowServing } = useOPDQueue();
+
+
 	const referToSphModalRef = useRef(null);
 	const patientProfileRef = useRef(null);
 	const acceptPatientRef = useRef(null);
@@ -40,7 +49,7 @@ const DoctorPatientQueue = () => {
 		functions: () => {},
 	});
 	const isDoctor = () => {
-		return user?.type == "rhu-doctor" || user?.type == "RHU-DOCTOR"; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
+		return user?.type == "his-md" || user?.type == "HIS-DOCTOR"; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
 	};
 
 	const listPending = () => {
@@ -99,10 +108,15 @@ const DoctorPatientQueue = () => {
 											patientName={patientFullName(
 												queue?.patient
 											)}
+											roomNumber={patientRoomNumber(
+												queue?.room?.name
+											)}
+											
 										/>
 									);
 								}
 							})}
+							
 							{listPending()?.map((queue, index) => {
 								return (
 									<DoctorInQueueRegular
@@ -119,6 +133,9 @@ const DoctorPatientQueue = () => {
 										patientName={patientFullName(
 											queue?.patient
 										)}
+										roomNumber={patientRoomNumber(
+											queue?.room
+										)}
 									/>
 								);
 							})}
@@ -132,6 +149,7 @@ const DoctorPatientQueue = () => {
 							&nbsp;
 						</span>
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
 							{doctorsNowServing?.data?.map((data) => {
 								return (
 									<DoctorInServiceItem
@@ -167,6 +185,7 @@ const DoctorPatientQueue = () => {
 				pendingOrdersRef={pendingOrdersRef}
 				ref={patientProfileRef}
 				mutateAll={mutateAll}
+				
 			/>
 			<PendingOrdersModal ref={pendingOrdersRef} />
 		</AppLayout>

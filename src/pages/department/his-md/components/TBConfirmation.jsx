@@ -1,5 +1,5 @@
-import ActionBtn from "../../../components/buttons/ActionBtn";
-import { symptoms } from "../../../libs/appointmentOptions";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
+import { symptoms } from "../../../../libs/appointmentOptions";
 
 /* eslint-disable react/prop-types */
 const TBConfirmation = ({

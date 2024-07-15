@@ -7,6 +7,7 @@ import useNoBugUseEffect from '../../../../hooks/useNoBugUseEffect';
 import { useAuth } from '../../../../hooks/useAuth';
 import { toast } from 'react-toastify';
 import Housekeeping from './Housekeeping';
+import ActionBtn from '../../../../components/buttons/ActionBtn';
 
 const uniq_id = uuidv4();
 const HousekeepingApproval = (props) => {
@@ -80,8 +81,8 @@ const HousekeepingApproval = (props) => {
 						patient={appointment?.patient}
 					/> 
 				</div>
-				{/* 
-				<ActionBtn
+				
+				{/* <ActionBtn
 					className="px-4 !rounded-2xl w-full"
 					type="success"
 					size="lg"
@@ -90,7 +91,7 @@ const HousekeepingApproval = (props) => {
 				>
 					<FlatIcon icon="rr-check" className="mr-2 text-xl" />
 					Send patient to nurse
-				</ActionBtn> */}
+				</ActionBtn>  */}
 			</div>
 		</div>
   )

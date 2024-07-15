@@ -12,12 +12,12 @@ import { Dialog, Transition } from "@headlessui/react";
 
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import ActionBtn from "../../../components/buttons/ActionBtn";
-import Axios from "../../../libs/axios";
-import { patientFullName } from "../../../libs/helpers";
-import PatientInfo from "../../patients/components/PatientInfo";
-import AppointmentDetails from "../../appointments/components/AppointmentDetails";
-import FlatIcon from "../../../components/FlatIcon";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
+import Axios from "../../../../libs/axios";
+import { patientFullName } from "../../../../libs/helpers";
+import PatientInfo from "../../../patients/components/PatientInfo";
+import AppointmentDetails from "../../../appointments/components/AppointmentDetails";
+import FlatIcon from "../../../../components/FlatIcon";
 
 const ConsultPatientModal = (props, ref) => {
 	const { mutateAll } = props;
@@ -34,6 +34,7 @@ const ConsultPatientModal = (props, ref) => {
 
 	const [showData, setShowData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
+	const [appointment, setAppointment] = useState(null);
 
 	useImperativeHandle(ref, () => ({
 		show: show,
@@ -95,7 +96,7 @@ const ConsultPatientModal = (props, ref) => {
 								>
 									
 								</Dialog.Title> */}
-
+						
 								<div>
 									<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
 										<span>Patient Information</span>
@@ -103,6 +104,7 @@ const ConsultPatientModal = (props, ref) => {
 									<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-4">
 										<PatientInfo
 											patient={showData?.patient}
+											appointment={appointment}
 										>
 											<div className="ml-auto pt-6">
 												<ActionBtn

@@ -26,6 +26,8 @@ import PatientCSROrder from "../department/his-nurse/components/PatientCSROrder"
 import PatientPharmacyOrder from "../department/his-nurse/components/PatientPharmacyOrder";
 import AddEmergencyCareModal from "../hims/his-er/modal/AddEmergencyCareModal";
 import CreateEmergencyCareModal from "../hims/his-er/modal/CreateEmergencyCareModal";
+import CreateTriageModal from "../hims/his-opd/modal/CreateTriageModal";
+
 // import ReferToRHUModal from "./components/ReferToRHUModal";
 
 const PatientProfile = (props) => {
@@ -36,6 +38,7 @@ const PatientProfile = (props) => {
 	const referToRHURef = useRef(null);
 	const appointmentChoiceRef = useRef(null);
 	const ERCareChoiceRef = useRef(null);
+	const CreateTriageRef = useRef(null);
 	const bookTeleMedicineRef = useRef(null);
 	const operationProcedureRef = useRef(null);
 	const operationDeliveryRef = useRef(null);
@@ -98,7 +101,7 @@ const PatientProfile = (props) => {
 						</div>
 					</div>
 				</div>
-				{checkUserType("NURSE")? (
+				{/* {checkUserType("NURSE")? (
 					<ActionBtn
 						type="secondary"
 						className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
@@ -112,13 +115,28 @@ const PatientProfile = (props) => {
 					</ActionBtn>
 				) : (
 					""
-				)}
+				)} */}
 				{checkUserType("ER") ? (
 					<ActionBtn
 						type="secondary"
 						className="ml-auto h-12 !rounded-[30px] font-medium gap-2 px-4"
 						onClick={() => {
 							ERCareChoiceRef.current.show({patient: patient});
+							//privacyRef.current.show({ patient: patient });
+						}}
+					>
+						<FlatIcon icon="bs-add" />
+						EMERGENCY APPOINTMENT
+					</ActionBtn>
+				) : (
+					""
+				)}
+				{checkUserType("OPD-NURSE") ? (
+					<ActionBtn
+						type="secondary"
+						className="ml-auto h-12 !rounded-[30px] font-medium gap-2 px-4"
+						onClick={() => {
+							CreateTriageRef.current.show({patient: patient});
 							//privacyRef.current.show({ patient: patient });
 						}}
 					>
@@ -353,7 +371,8 @@ const PatientProfile = (props) => {
 				
 			/>
 			{/* <AddEmergencyCareModal ref={ERCareChoiceRef}/>  */}
-			<CreateEmergencyCareModal ref={ERCareChoiceRef}/> 
+			<CreateEmergencyCareModal ref={ERCareChoiceRef}/>
+			<CreateTriageModal ref={CreateTriageRef}/> 
 
 			<PrivacyPolicyModal
 				ref={privacyRef}

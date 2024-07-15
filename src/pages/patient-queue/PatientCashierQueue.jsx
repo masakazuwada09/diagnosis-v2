@@ -14,8 +14,9 @@ import useCashierQueue from "../../hooks/useCashierQueue";
 import ContentTitle from "../../components/buttons/ContentTitle";
 import InfoText from "../../components/InfoText";
 import { caseCodes } from "../../libs/caseCodes";
-import CaseDetails from "../doctor-patient-queue/components/CaseDetails";
+import CaseDetails from "../department/his-md/components/CaseDetails";
 import { procedureRates } from "../../libs/procedureRates";
+import CashierDetails from "../hims/his-cashier/components/CashierDetails";
 
 const PatientCashierQueue = () => {
 	const { user } = useAuth();
@@ -102,10 +103,11 @@ const PatientCashierQueue = () => {
 										<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-4">
 											<PatientInfo
 												patient={appointment?.patient}
+												appointment={appointment}
 											/>
 										</div>
 										<div className="pb-4">
-											<AppointmentDetailsForNurse
+											<CashierDetails
 												forCashier={true}
 												mutateAll={mutateAll}
 												hideServices={false}

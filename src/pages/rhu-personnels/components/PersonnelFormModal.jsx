@@ -92,6 +92,7 @@ const PersonnelFormModal = (props, ref) => {
 				setValue("email", showData?.email);
 				setValue("street", showData?.street);
 				setValue("region", showData?.region);
+				
 				setTimeout(() => {
 					let selectedRegion = regionsOptions.find(
 						(x) => x?.value == showData?.region
@@ -153,6 +154,8 @@ const PersonnelFormModal = (props, ref) => {
 						setValue("barangay", showData?.barangay);
 					}, 200);
 				}, 200);
+
+
 				setValue("purok", showData?.purok);
 				setValue("type", showData?.type);
 				setValue("specialty_id", showData?.specialty_id);
@@ -161,7 +164,7 @@ const PersonnelFormModal = (props, ref) => {
 				setValue("gender", showData?.gender);
 				setValue("contact_number", showData?.contact_number);
 				setValue("status", showData?.status);
-				setValue("status", showData?.status);
+				
 			}
 		}, 300);
 		if (showData?.id) {
@@ -174,6 +177,8 @@ const PersonnelFormModal = (props, ref) => {
 			});
 		}
 	};
+
+
 	const hide = () => {
 		setModalOpen(false);
 	};
@@ -231,6 +236,10 @@ const PersonnelFormModal = (props, ref) => {
 			hide();
 		});
 	};
+
+
+
+
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
 			<Dialog as="div" className="" onClose={hide}>
@@ -441,6 +450,8 @@ const PersonnelFormModal = (props, ref) => {
 									) : (
 										""
 									)}
+
+
 									<TextInputField
 										label="Username"
 										error={errors?.username?.message}
@@ -453,6 +464,8 @@ const PersonnelFormModal = (props, ref) => {
 											},
 										})}
 									/>
+
+
 									<TextInputField
 										label="Email"
 										type="email"

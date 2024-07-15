@@ -1,5 +1,5 @@
-import FlatIcon from "../../../components/FlatIcon";
-import ActionBtn from "../../../components/buttons/ActionBtn";
+import FlatIcon from "../../../../components/FlatIcon";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
 
 const DoctorInQueueRegular = ({
 	acceptAction,
@@ -7,11 +7,12 @@ const DoctorInQueueRegular = ({
 	className = "",
 	number,
 	patientName,
+	roomNumber,
 	date,
 }) => {
 	return (
 		<div
-			className={`p-3 gap-3 relative rounded-[20px] border border-blue-300 bg-blue-100 flex items-center justify-start ${className}`}
+			className={`p-3 gap-5 relative rounded-[20px] border border-blue-300 bg-blue-100 flex items-center justify-start ${className}`}
 			onClick={onClick}
 		>
 			<span className="flex items-center justify-center bg-blue-50 border border-blue-700 text-blue-800 tracking-tight rounded-full font-bold w-12 aspect-square">
@@ -24,13 +25,25 @@ const DoctorInQueueRegular = ({
 						<FlatIcon icon="rr-calendar" />
 						{date}
 					</div>
+					
 				) : (
 					""
 				)}
+
 				<span className="tracking-tight font-bold text-lg select-none">
 					{patientName}
+					
 				</span>
+				<div className="flex items-center gap-2 text-sm -ml-3 -mt-0">
+						<FlatIcon icon="fi fi-rr-bed" />
+						{roomNumber}
+					</div>
+				
+				
 			</div>
+			
+			
+			
 			{/* <span className="font-light text-xs text-slate-600 ml-auto">
 				Regular
 				<FlatIcon icon="rr-bars-sort" className="text-blue-600 ml-2" />
@@ -47,6 +60,9 @@ const DoctorInQueueRegular = ({
 				""
 			)}
 		</div>
+
+		
+		
 	);
 };
 

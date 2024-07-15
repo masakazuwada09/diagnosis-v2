@@ -1,25 +1,25 @@
 import { useEffect, useRef, useState } from "react";
-import AppLayout from "../../components/container/AppLayout";
-import useNoBugUseEffect from "../../hooks/useNoBugUseEffect";
-import { patientFullName } from "../../libs/helpers";
-import { useAuth } from "../../hooks/useAuth";
-import DoctorInQueueRegular from "../doctor-patient-queue/components/DoctorInQueueRegular";
-import ReferToSPHModal from "../../components/modal/ReferToSPHModal";
-import ConsultPatientModal from "../doctor-patient-queue/components/ConsultPatientModal";
-import PatientProfileModal from "../../components/PatientProfileModal";
-import useReferralQueue from "../../hooks/useReferralQueue";
+import AppLayout from "../../../../components/container/AppLayout";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+import { patientFullName } from "../../../../libs/helpers";
+import { useAuth } from "../../../../hooks/useAuth";
+import DoctorInQueueRegular from "./DoctorInQueueRegular";
+import ReferToSPHModal from "../../../../components/modal/ReferToSPHModal";
+import ConsultPatientModal from "./ConsultPatientModal";
+import PatientProfileModal from "../../../../components/PatientProfileModal";
+import useReferralQueue from "../../../../hooks/useReferralQueue";
 import { useForm } from "react-hook-form";
-import Axios from "../../libs/axios";
-import ActionBtn from "../../components/buttons/ActionBtn";
+import Axios from "../../../../libs/axios";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
 import { toast } from "react-toastify";
-import CreatePrescriptionModal from "../../components/patient-modules/modals/CreatePrescriptionModal";
-import SelectItemModal from "../../components/modal/SelectItemModal";
-import AppointmentDetails from "../appointments/components/AppointmentDetails";
-import PatientInfo from "../patients/components/PatientInfo";
-import TBConfirmation from "./components/TBConfirmation";
-import DoctorInQueuePriority from "../doctor-patient-queue/components/DoctorInQueuePriority";
-import DoctorInQueuePrescription from "../doctor-patient-queue/components/DoctorInQueuePrescription";
-import AddPrescription from "./components/AddPrescription";
+import CreatePrescriptionModal from "../../../../components/patient-modules/modals/CreatePrescriptionModal";
+import SelectItemModal from "../../../../components/modal/SelectItemModal";
+import AppointmentDetails from "../../../appointments/components/AppointmentDetails";
+import PatientInfo from "../../../patients/components/PatientInfo";
+import TBConfirmation from "./TBConfirmation";
+import DoctorInQueuePriority from "./DoctorInQueuePriority";
+import DoctorInQueuePrescription from "./DoctorInQueuePrescription";
+import AddPrescription from "./AddPrescription";
 
 const AppointmentData = ({ mutateAll, appointment = null }) => {
 	const {

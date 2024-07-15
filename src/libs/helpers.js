@@ -321,8 +321,32 @@ const doctorName = (doctor) => {
 	return `${title} ${name}`;
 };
 const doctorSpecialty = (doctor) => {
-	return doctor?.specialty?.name || "General Practitioner";
+	return doctor?.specialty?.name || "Medical Doctor";
 };
+
+const roomCategory = (room) => {
+	let title = room?.title?.length > 0 ? room?.title : "";
+	let name = room?.name;
+	return `${title} ${name}`;
+};
+const patientRoomNumber= (room) => {
+	let title = room?.title?.length > 0 ? room?.title : "";
+	let name = room?.name;
+	return `${title} ${name}`;
+};
+
+// const roomInfo = (room, type) => {
+//     let title = room?.title?.length > 0 ? room.title : "";
+//     let name = room?.name;
+    
+//     if (type === 'category') {
+//         return `${title} ${name}`;
+//     } else if (type === 'number') {
+//         return `${title} ${name}`;
+//     } else {
+//         throw new Error('Invalid type');
+//     }
+// };
 
 
 // const csrSupplies = (inventoryCsr) => {
@@ -353,8 +377,10 @@ const patientAddress = (patient) => {
 const getPhilHealth = (patient) => {
 	return patient?.philhealth
 		? patient?.philhealth
-		: patient?.phil_health_member || "";
-};
+		: patient?.phil_health_member || ""
+		? patient?.phic_no
+		:  "";
+}
 
 const getAbsoluteDiff = (val1, val2) => {
 	return Math.abs(val1) - Math.abs(val2);
@@ -602,6 +628,9 @@ export {
 	calculateBMI,
 	formatDateYYYYMMDD,
 	calculateBPMeasurement,
+	roomCategory,
+	// roomInfo,
+	patientRoomNumber,
 	doctorName,
 	doctorSpecialty,
 	keyByValue,

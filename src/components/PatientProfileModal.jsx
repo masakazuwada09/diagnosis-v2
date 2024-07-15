@@ -26,12 +26,14 @@ import FlatIcon from "./FlatIcon";
 import Img from "./Img";
 import PatientPrescriptions from "./PatientPrescriptions";
 import LaboratoryOrders from "./patient-modules/LaboratoryOrders";
-import AddPrescription from "../pages/doctor-patient-referrals/components/AddPrescription";
-import TBConfirmation from "../pages/doctor-patient-referrals/components/TBConfirmation";
+import AddPrescription from "../pages/department/his-md/components/AddPrescription";
+import TBConfirmation from "../pages/department/his-md/components/TBConfirmation";
 import AppointmentDetails from "../pages/appointments/components/AppointmentDetails";
 import PatientInfo from "../pages/patients/components/PatientInfo";
 import useNoBugUseEffect from "../hooks/useNoBugUseEffect";
 import PatientVitalCharts from "./PatientVitalCharts";
+import PatientCSROrder from "../pages/department/his-nurse/components/PatientCSROrder";
+import PatientPharmacyOrder from "../pages/department/his-nurse/components/PatientPharmacyOrder";
 
 const AppointmentData = ({ mutateAll, appointment = null }) => {
 	const {
@@ -49,7 +51,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 	const [loading, setLoading] = useState(false);
 	const [diagnosis, setDiagnosis] = useState(null);
 	const [procedure, setProcedure] = useState(null);
-
+	
 	useNoBugUseEffect({
 		functions: () => {
 			getItems();
@@ -69,6 +71,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 			}, 1500);
 		});
 	};
+
 	const submitNegative = (data) => {
 		setLoading(true);
 		Axios.post(`/v1/clinic/tb-negative/${appointment?.id}`, {
@@ -81,7 +84,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 			}, 1500);
 		});
 	};
-
+	
 	const getItems = () => {
 		let health_unit_id =
 			appointment?.bhs_id > 0 ? appointment?.bhs_id : appointment?.rhu_id;
@@ -128,7 +131,9 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 	};
 	return (
 		<div>
+			
 			<div className="pb-4">
+
 				<AppointmentDetails
 					appointment={appointment}
 					showService
@@ -177,6 +182,8 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 		</div>
 	);
 };
+
+
 
 const PatientProfileModal = (props, ref) => {
 	const { mutateAll, pendingOrdersRef } = props;
@@ -234,6 +241,7 @@ const PatientProfileModal = (props, ref) => {
 			}
 		});
 	};
+	
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
 			<Dialog as="div" className="" onClose={noHide}>
@@ -301,7 +309,10 @@ const PatientProfileModal = (props, ref) => {
 								<div className="flex flex-col gap-y-4 relative min-h-[calc(100dvh-152px)]">
 									<div className="flex flex-col">
 										<div className="flex flex-col lg:flex-row gap-4 items-center px-4 pt-4 border-b justify- md:justify-start bg-slate-50 p-4 h-full">
-											<PatientInfo patient={patient} />
+											<PatientInfo 
+											patient={patient} 
+											
+											/>
 											<div className="flex items-center justify-end  w-1/2 flex-wrap gap-3 ml-auto">
 												{showData?.status ==
 												"in-service-consultation" ? (
@@ -584,6 +595,22 @@ const PatientProfileModal = (props, ref) => {
 															/>
 														),
 													},
+													{
+														title: (
+															<MenuTitle src="/vitals/prescription.png">
+																CSR
+															</MenuTitle>
+														),
+														content: <PatientCSROrder patient={patient}/>,
+													},
+													{
+														title: (
+															<MenuTitle src="/vitals/prescription.png">
+																Pharmacy
+															</MenuTitle>
+														),
+														content: <PatientPharmacyOrder patient={patient}/>,
+													}
 													// {
 													// 	title: (
 													// 		<MenuTitle src="/landing-page.png">

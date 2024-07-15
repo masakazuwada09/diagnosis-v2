@@ -1,7 +1,9 @@
+import React, { useRef, useState } from 'react'
 import { formatDate } from "../libs/helpers";
 import PatientProfileContent from "../pages/patients/components/PatientProfileContent";
 import InfoText from "./InfoText";
 import ContentTitle from "./buttons/ContentTitle";
+
 
 /* eslint-disable react/prop-types */
 const PatientProfileDetails = ({ patient }) => {

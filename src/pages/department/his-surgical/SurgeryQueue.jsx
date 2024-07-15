@@ -11,8 +11,8 @@ import UpdatePatientOperation from '../his-anesthesia/components/modal/UpdatePat
 import { useAuth } from '../../../hooks/useAuth';
 import useDoctorQueue from '../../../hooks/useDoctorQueue';
 import useERQueue from '../../../hooks/useERQueue';
-import DoctorInQueueRegular from '../../doctor-patient-queue/components/DoctorInQueueRegular';
-import ConsultPatientModal from '../../doctor-patient-queue/components/ConsultPatientModal';
+import DoctorInQueueRegular from '../his-md/components/DoctorInQueueRegular';
+import ConsultPatientModal from '../his-md/components/ConsultPatientModal';
 import InQueueSurgery from './components/InQueueSurgery';
 import useSurgeryQueue from '../../../hooks/useSurgeryQueue';
 

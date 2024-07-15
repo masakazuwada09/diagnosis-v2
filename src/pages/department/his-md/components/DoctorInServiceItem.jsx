@@ -1,6 +1,6 @@
-import FlatIcon from "../../../components/FlatIcon";
-import ActionBtn from "../../../components/buttons/ActionBtn";
-import { patientFullName } from "../../../libs/helpers";
+import FlatIcon from "../../../../components/FlatIcon";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
+import { patientFullName, patientRoomNumber } from "../../../../libs/helpers";
 
 /* eslint-disable react/prop-types */
 const DoctorInServiceItem = ({
@@ -58,7 +58,8 @@ const DoctorInServiceItem = ({
 								: "text-success"
 						} -mb-1`}
 					>
-						{data?.referredToDoctor?.room?.name}
+						
+						{` ${patientRoomNumber(data?.room?.name)}`}
 					</h2>
 				</div>{" "}
 				<div className="flex flex-col justify-center items-center">

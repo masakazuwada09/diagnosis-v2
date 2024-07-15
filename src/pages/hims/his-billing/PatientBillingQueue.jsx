@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import useBillingQueue from '../../../hooks/useBillingQueue';
 import useNoBugUseEffect from '../../../hooks/useNoBugUseEffect';
 import { doctorName, patientFullName } from '../../../libs/helpers';
-import CaseDetails from '../../doctor-patient-queue/components/CaseDetails';
+import CaseDetails from '../../department/his-md/components/CaseDetails';
 import InfoText from '../../../components/InfoText';
 import ContentTitle from '../../../components/buttons/ContentTitle';
 import { caseCodes } from '../../../libs/caseCodes';
@@ -22,10 +22,11 @@ import AppointmentDetailsForBilling from './component/AppointmentDetailsForBilli
 
 const PatientBillingQueue = (props) => {
 	const {patient} = props;
-  const { user } = useAuth();
+  	const { user } = useAuth();
 	const { pending, mutatePending } = useBillingQueue();
-	// const referToSphModalRef = useRef(null);
+	const referToSphModalRef = useRef(null);
 	const [appointment, setAppointment] = useState(null);
+	
 
 	useNoBugUseEffect({
 		functions: () => {},
@@ -106,6 +107,7 @@ const PatientBillingQueue = (props) => {
 										<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-4">
 											<PatientInfo
 												patient={appointment?.patient}
+												appointment={appointment}
 											/>
 										</div>
 										<div className="pb-4">

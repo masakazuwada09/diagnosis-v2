@@ -14,6 +14,8 @@ import RoomFormModal from "./components/RoomFormModal";
 import ActivateRoomModal from "./components/ActivateRoomModal";
 import DeActivateRoomModal from "./components/DeActivateRoomModal";
 import HealthUnitRoomsModal from "../rhu-lists/components/HealthUnitRoomsModal";
+import RHUListFormModal from "../rhu-lists/components/RHUListFormModal";
+import RoomCategoryFormModal from "./components/RoomCategoryFormModal";
 import Axios from "../../libs/axios";
 import useNoBugUseEffect from "../../hooks/useNoBugUseEffect";
 const uniq_id = uuidv4();
@@ -22,6 +24,7 @@ const RHURooms = (props) => {
 	const { user } = useAuth();
 	const roomFormRef = useRef(null);
 	const deactivateRoomFormRef = useRef(null);
+	const roomListFormRef = useRef(null);
 	const activateRoomFormRef = useRef(null);
 	const [healthUnits, setHealthUnits] = useState([null]);
 	const {
@@ -71,12 +74,31 @@ const RHURooms = (props) => {
 				icon="rr-users"
 			/> */}
 			<div className="p-0 h-full ">
-				<div className="sticky top-0 z-10 shadow py-4 px-5 flex items-center w-full bg-slate-100">
+				<div className=" sticky top-0 z-10 shadow py-4 px-5 flex items-center w-full bg-slate-100">
 					<PageTitle
 						icon={"rr-bed"}
 						title={"Rooms"}
 						subtitle={"Add, edit, deactivate and view rooms."}
 					/>
+
+
+					
+
+					<ActionBtn
+						type="none"
+						className="col-span-2 ml-auto h-11"
+						onClick={() => {
+							roomListFormRef.current.show();
+						}}
+					>
+					<FlatIcon icon="rr-layer-plus" className="mr-2" />
+						<span className="text-xs font-medium">
+							Add Category
+						</span>
+					</ActionBtn>
+
+					
+
 					<ActionBtn
 						type="success"
 						className="ml-auto h-11"
@@ -124,7 +146,7 @@ const RHURooms = (props) => {
 								},
 							},
 							{
-								header: "Assigned to",
+								header: "Category",
 								className: "text-left w-1/4",
 								tdClassName: "text-left w-1/4",
 								sortable: true,
@@ -222,6 +244,14 @@ const RHURooms = (props) => {
 					/>
 				</div>
 			</div>
+
+			<RoomCategoryFormModal
+				onSuccess={() => {
+					reloadData();
+				}}
+				ref={roomListFormRef}
+			/>
+
 			<RoomFormModal
 				ref={roomFormRef}
 				onSuccess={() => {

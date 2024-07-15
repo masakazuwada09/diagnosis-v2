@@ -1,9 +1,10 @@
-import FlatIcon from "../../../components/FlatIcon";
-import ActionBtn from "../../../components/buttons/ActionBtn";
+import FlatIcon from "../../../../components/FlatIcon";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
 
 const DoctorInQueuePriority = ({
 	labOrdersStr = "",
 	acceptAction,
+	roomNumber,
 	number,
 	date,
 	patientName,
@@ -43,7 +44,12 @@ const DoctorInQueuePriority = ({
 				<span className="tracking-tight font-bold text-lg">
 					{patientName}
 				</span>
+				<div className="flex items-center gap-2 text-sm -ml-3 -mt-0">
+						<FlatIcon icon="fi fi-rr-bed" />
+						{roomNumber}
+					</div>
 			</div>
+			
 			{/* <span className="font-light text-xs text-slate-600 ml-auto">
 				Regular
 				<FlatIcon icon="rr-bars-sort" className="text-blue-600 ml-2" />

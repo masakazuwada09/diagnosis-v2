@@ -1,5 +1,5 @@
-import FlatIcon from "../../../components/FlatIcon";
-import ActionBtn from "../../../components/buttons/ActionBtn";
+import FlatIcon from "../../../../components/FlatIcon";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
 
 const DoctorInQueuePrescription = ({
 	acceptAction,

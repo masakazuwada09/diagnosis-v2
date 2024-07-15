@@ -4,6 +4,7 @@ import ActionBtn from "../../../components/buttons/ActionBtn";
 
 const InQueueRegular = ({
 	children,
+	roomNumber,
 	onClick,
 	referAction,
 	number,
@@ -26,9 +27,17 @@ const InQueueRegular = ({
 				<span className="tracking-tight font-bold text-lg">
 					{patientName}
 				</span>
+
+				
+					
 			</div>
 			{children}
-		</div>
+				<div className="flex items-center gap-2 text-sm -mt-0 ">
+						<FlatIcon icon="fi fi-rr-bed" />
+						{roomNumber}
+					</div>
+			</div>
+
 	);
 };
 

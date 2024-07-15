@@ -1473,7 +1473,7 @@ const PACUAssessment = (appointment, props, setOrder, ref) => {
 						</CollapseDiv>
 
 
-						<CollapseDiv
+							<CollapseDiv
 								defaultOpen={
 									(appointment.status == "pending" &&
 										appointment?.vital_id != null) ||
@@ -1493,7 +1493,7 @@ const PACUAssessment = (appointment, props, setOrder, ref) => {
 										appointment={appointment}
 										patient={appointment?.patient}
 									/>
-				
+
 							</CollapseDiv>
 
 

@@ -1,16 +1,15 @@
 /* eslint-disable react/prop-types */
-
 import { v4 as uuidv4 } from "uuid";
-import ReactSelectInputField from "../../../components/inputs/ReactSelectInputField";
-import ActionBtn from "../../../components/buttons/ActionBtn";
-import FlatIcon from "../../../components/FlatIcon";
-import TextInputField from "../../../components/inputs/TextInputField";
-import ReactQuillField from "../../../components/inputs/ReactQuillField";
-import { procedureRates } from "../../../libs/procedureRates";
-import { caseCodes } from "../../../libs/caseCodes";
-import { formatCurrency } from "../../../libs/helpers";
-import { useState } from "react";
-import CaseDetails from "../../doctor-patient-queue/components/CaseDetails";
+import ReactSelectInputField from "../../../../components/inputs/ReactSelectInputField";
+import ActionBtn from "../../../..//components/buttons/ActionBtn";
+import FlatIcon from "../../../..//components/FlatIcon";
+import TextInputField from "../../../..//components/inputs/TextInputField";
+import ReactQuillField from "../../../..//components/inputs/ReactQuillField";
+import { procedureRates } from "../../../..//libs/procedureRates";
+import { caseCodes } from "../../../..//libs/caseCodes";
+import { formatCurrency } from "../../../..//libs/helpers";
+import { react, useState } from "react";
+import CaseDetails from "./CaseDetails";
 
 const uniq_id = uuidv4();
 const AddPrescription = ({
@@ -25,6 +24,7 @@ const AddPrescription = ({
 }) => {
 	const [selectedProcedure, setSelectedProcedure] = useState(null);
 	const [selectedDiagnosis, setSelectedDiagnosis] = useState(null);
+
 	const addNewSelectedItem = () => {
 		setSelectedItems((prevItems) => [
 			...prevItems,
@@ -35,6 +35,7 @@ const AddPrescription = ({
 			},
 		]);
 	};
+
 	const removeSelectedItem = (id) => {
 		setSelectedItems((prevItems) =>
 			prevItems.filter((item) => item.id != id)

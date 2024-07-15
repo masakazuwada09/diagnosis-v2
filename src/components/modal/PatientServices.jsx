@@ -82,6 +82,7 @@ const PatientServices = (props) => {
 		},
 		params: [user?.health_unit_id],
 	});
+
 	const getDoctors = () => {
 		Axios.get(
 			`v1/clinic/doctors-by-location?health_unit_id=${getValues(
@@ -411,7 +412,7 @@ const PatientServices = (props) => {
 				<div className="flex flex-col w-full gap-4 pb-2">
 					<div className="p-0 flex flex-col gap-y-4 relative w-full">
 						<h4 className="text-md text-indigo-800 border-b border-b-indigo-600 pb-1 font-bold mb-0">
-							Send patient to Surgery
+							Send patient to MD
 						</h4>
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 

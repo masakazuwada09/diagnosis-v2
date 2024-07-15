@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { React, useState } from 'react'
 import { v4 as uuidv4 } from "uuid";
 import FlatIcon from '../../../../components/FlatIcon';
 import { useForm } from 'react-hook-form';
@@ -45,6 +45,8 @@ const InfoText = ({
 		</div>
 	);
 };
+
+
 const AppointmentDetailsForHousekeeping = ({
     appointment: propAppointment,
 	forHousekeeping = false,
@@ -81,6 +83,10 @@ const AppointmentDetailsForHousekeeping = ({
 		},
 		params: [appointment?.id, key],
 	});
+
+
+
+
 	const appointmentStatus = () => {
 		if (appointment?.status == "pending" && appointment?.vital_id == null) {
 			return (
@@ -109,6 +115,8 @@ const AppointmentDetailsForHousekeeping = ({
 			}
 		);
 	};
+
+
   return (
     <div className="flex flex-col">
 			<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
@@ -152,11 +160,7 @@ const AppointmentDetailsForHousekeeping = ({
 								valueClassName=" !uppercase"
 								value={appointment?.mode_of_consultation}
 							/>
-							<InfoText
-								className="lg:col-span-6"
-								label="PHIC ID:"
-								value={appointment?.phic_no}
-							/>
+							
 							<InfoText
 								className="lg:col-span-12"
 								label="Brief Clinical History and Pertinent Physical Examination:"
@@ -168,6 +172,7 @@ const AppointmentDetailsForHousekeeping = ({
 								value={appointment?.lab_findings}
 							/>
 						</div>
+						
 						<CollapseDiv
 							defaultOpen={false}
 							withCaret={true}

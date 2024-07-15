@@ -3,7 +3,7 @@ import { useAuth } from '../../../hooks/useAuth';
 import useHousekeepingQueue from '../../../hooks/useHousekeepingQueue';
 import useNoBugUseEffect from '../../../hooks/useNoBugUseEffect';
 import { procedureRates } from '../../../libs/procedureRates';
-import CaseDetails from '../../doctor-patient-queue/components/CaseDetails';
+import CaseDetails from '../../department/his-md/components/CaseDetails';
 import { doctorName, patientFullName } from '../../../libs/helpers';
 import InfoText from '../../../components/InfoText';
 import ContentTitle from '../../../components/buttons/ContentTitle';
@@ -68,6 +68,16 @@ const PatientHousekeepingQueue = () => {
 												</span>
 											</div>
 										</div>
+										<div className="w-full flex flex-col pl-16">
+											<div className="flex items-center text-slate-700 gap-2 mb-2">
+												<span className="text-sm">
+													Room:
+												</span>
+												<span className="font-bold text-sm text-red-600">
+													
+												</span>
+											</div>
+										</div>
 									</InQueueForRelease>
 								);
 							})}
@@ -101,6 +111,7 @@ const PatientHousekeepingQueue = () => {
 										<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-4">
 											<PatientInfo
 												patient={appointment?.patient}
+												appointment={appointment}
 											/>
 										</div>
 										<div className="pb-4">

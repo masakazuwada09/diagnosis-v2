@@ -25,7 +25,7 @@ import Axios from "../../libs/axios";
 import { toast } from "react-toastify";
 import TextInfo from "../../components/TextInfo";
 import InfoText from "../../components/InfoText";
-import CaseDetails from "../doctor-patient-queue/components/CaseDetails";
+import CaseDetails from "../department/his-md/components/CaseDetails";
 import { caseCodes } from "../../libs/caseCodes";
 import { procedureRates } from "../../libs/procedureRates";
 

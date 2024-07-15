@@ -27,6 +27,8 @@ import HISHousekeepingLink from "../../userLinks/hmis/HISHousekeepingLink";
 import ERInfectiousLink from "../../userLinks/hmis/ERInfectiousLink";
 import HISSurgeonLink from "../../userLinks/hmis/HISSurgeonLink";
 import HISPacuLink from "../../userLinks/hmis/HISPacuLink";
+import HISOpdLink from "../../userLinks/hmis/HISOpdLink";
+import HISCashierLink from "../../userLinks/hmis/HISCashierLink";
 
 
 const AppLayout = (props) => {
@@ -69,7 +71,7 @@ const AppLayout = (props) => {
 				return <RHUImagingLinks isActive={isActive} />;
 
 			case "his-cashier":
-				return <RHUCashierLinks isActive={isActive} />;
+				return <HISCashierLink isActive={isActive} />;
 
 			case "his-pharmacy":
 				return <RHUPharmaLinks isActive={isActive} />;
@@ -84,7 +86,7 @@ const AppLayout = (props) => {
 			// 	return <HISNurseLink isActive={isActive} />;
 			case "his-er":
 				return <HISErLink isActive={isActive} />;
-			case "his-doctor":
+			case "his-md":
 				return <HISDoctorLinks isActive={isActive} />;
 			case "his-billing":
 				return <HISBillingLink isActive={isActive} />;
@@ -96,6 +98,8 @@ const AppLayout = (props) => {
 				return <HISSurgeonLink isActive={isActive} />;
 			case "pacu-nurse":
 					return <HISPacuLink isActive={isActive} />;
+			case "opd-nurse":
+			return <HISOpdLink isActive={isActive} />;
 				
 			default:
 				break;

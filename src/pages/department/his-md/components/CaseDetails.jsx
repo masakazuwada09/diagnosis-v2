@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { formatCurrency } from "../../../libs/helpers";
-import useNoBugUseEffect from "../../../hooks/useNoBugUseEffect";
+import { formatCurrency } from "../../../../libs/helpers";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 
 /* eslint-disable react/prop-types */
 const CaseDetails = (props) => {

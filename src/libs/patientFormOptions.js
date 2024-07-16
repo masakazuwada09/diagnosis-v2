@@ -669,6 +669,17 @@ export const phic_member_types = [
 		label: "Indirect Contributor",
 	},
 ];
+
+export const phic_no = [
+	{
+		value: "18-187446718-1",
+		label: "18-187446718-1",
+	},
+	{
+		value: "indirect",
+		label: "Indirect Contributor",
+	},
+];
 export const direct_contributor_types = [
 	{
 		value: "1",

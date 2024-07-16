@@ -4,7 +4,7 @@ import { patientFullName, patientRoomNumber } from "../../../../libs/helpers";
 import InfoTextForPrint from "../../../../components/InfoTextForPrint";
 
 /* eslint-disable react/prop-types */
-const DoctorInServiceItem = ({
+const HouseKeepingInService = ({
 	room = "1",
 	data,
 	openProfileAction,
@@ -109,4 +109,4 @@ const DoctorInServiceItem = ({
 	);
 };
 
-export default DoctorInServiceItem;
+export default HouseKeepingInService;

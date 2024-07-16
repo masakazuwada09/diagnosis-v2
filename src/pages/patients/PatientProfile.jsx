@@ -47,169 +47,149 @@ const PatientProfile = (props) => {
 
 	return (
 		<div className="flex flex-col">
-			<div className="flex flex-col lg:flex-row gap-4 items-center px-4 pt-4 border-b justify- md:justify-start bg-slate-50 p-4 h-full">
-				<div className="group relative h-[108px] w-[108px] min-h-[108px] min-w-[108px] rounded-full aspect-square bg-background">
-					<Img
-						type="user"
-						name={`${patient?.lastname}-${patient?.firstname}-${patient?.middle}`}
-						src={patient?.avatar || ""}
-						className="min-h-[108px] min-w-[108px] aspect-square object-cover rounded-full"
-						alt=""
-						id="user-image-sample"
-						key={`key-${patient?.id}-${patient?.avatar}`}
-					/>
-				</div>
-				<div className="flex flex-col pl-4">
-					<h6
-						className={`text-left text-2xl mb-1 font-semibold flex items-center ${
-							String(patient?.gender).toLowerCase() == "male"
-								? "text-blue-800"
-								: "text-pink-800"
-						} mb-0`}
-					>
-						{patientFullName(patient)}
-					</h6>
-					<div className="flex gap-6 mb-2">
-						<div className="flex items-center gap-2 text-base">
-							<FlatIcon
-								icon="rr-calendar-clock"
-								className="text-base"
-							/>
-							<span>
-								{calculateAge(patient?.birthday)} yrs. old
-							</span>
-						</div>
-						<div className="flex items-center gap-2 text-base">
-							<FlatIcon
-								icon="rr-calendar"
-								className="text-base"
-							/>
-							<span>{formatDate(patient?.birthday)}</span>
-						</div>
-					</div>
-					<div className="flex gap-4 mb-2">
-						<div className="flex items-center gap-2 text-base">
-							<FlatIcon
-								icon="rr-venus-mars"
-								className="text-base"
-							/>
-							{String(patient?.gender).toLowerCase() == "male" ? (
-								<span className="text-blue-700">Male</span>
-							) : (
-								<span className="text-pink-700">Female</span>
-							)}
-						</div>
-					</div>
-				</div>
-				{/* {checkUserType("NURSE")? (
-					<ActionBtn
-						type="secondary"
-						className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
-						onClick={() => {
-							appointmentChoiceRef.current.show();
-							//privacyRef.current.show({ patient: patient });
-						}}
-					>
-						<FlatIcon icon="bs-add-folder" />
-						Create Appointment
-					</ActionBtn>
-				) : (
-					""
-				)} */}
-				{checkUserType("ER") ? (
-					<ActionBtn
-						type="secondary"
-						className="ml-auto h-12 !rounded-[30px] font-medium gap-2 px-4"
-						onClick={() => {
-							ERCareChoiceRef.current.show({patient: patient});
-							//privacyRef.current.show({ patient: patient });
-						}}
-					>
-						<FlatIcon icon="bs-add" />
-						EMERGENCY APPOINTMENT
-					</ActionBtn>
-				) : (
-					""
-				)}
-				{checkUserType("OPD-NURSE") ? (
-					<ActionBtn
-						type="secondary"
-						className="ml-auto h-12 !rounded-[30px] font-medium gap-2 px-4"
-						onClick={() => {
-							CreateTriageRef.current.show({patient: patient});
-							//privacyRef.current.show({ patient: patient });
-						}}
-					>
-						<FlatIcon icon="bs-add" />
-						EMERGENCY APPOINTMENT
-					</ActionBtn>
-				) : (
-					""
-				)}
-				{checkUserType("ANESTHESIA") ? (
-					<ActionBtn
-						type="secondary"
-						className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
-						onClick={() => {
-							procedureChoiceRef.current.show();
-						}}
-					>
-						<FlatIcon icon="bs-add-folder" />
-						Create Operation
-					</ActionBtn>
-					// <ActionBtn
-					// 	type="secondary"
-					// 	className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
-					// 	onClick={() => {
-					// 		operationProcedureRef.current.show(
-					// 			patient,
-					// 			appointment,
-					// 		);
-					// 		//privacyRef.current.show({ patient: patient });
-					// 	console.log("patient id::", patient);
-					// 	}}
-					// >
-					// 	<FlatIcon icon="rr-add" />
-					// 	Create Operation Procedure
-					// </ActionBtn>
 
-				) : (
-					""
-				)}
-				{checkUserType("SURGEON") ? (
-					<ActionBtn
-						type="secondary"
-						className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
-						onClick={() => {
-							procedureChoiceRef.current.show();
-						}}
-					>
-						<FlatIcon icon="bs-add-folder" />
-						Create Operation
-					</ActionBtn>
 
-				) : (
-					""
-					
-				)}
-				{checkUserType("PACU-NURSE") ? (
-					<ActionBtn
-						type="secondary"
-						className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
-						onClick={() => {
-							procedureChoiceRef.current.show();
-						}}
-					>
-						<FlatIcon icon="bs-add-folder" />
-						Create Operation
-					</ActionBtn>
 
-				) : (
-					""
-					
-				)}
-			</div>
-			<div>
+<div className="flex flex-col lg:flex-row gap-4 items-center px-5 pt-4 pb-4 border-b justify-between  bg-slate-50 ">
+  <div className="group relative h-[108px] w-[108px] min-h-[108px] min-w-[108px] rounded-full aspect-square bg-background">
+    <Img
+      type="user"
+      name={`${patient?.lastname}-${patient?.firstname}-${patient?.middle}`}
+      src={patient?.avatar || ""}
+      className="min-h-[108px] min-w-[108px] aspect-square object-cover rounded-full "
+      alt=""
+      id="user-image-sample"
+      key={`key-${patient?.id}-${patient?.avatar}`}
+    />
+  </div>
+
+  <div className="flex flex-col col-span-1 ">
+    <h6
+      className={`text-left text-2xl mb-1 font-semibold flex items-center ${
+        String(patient?.gender).toLowerCase() == "male"
+          ? "text-blue-800"
+          : "text-pink-800"
+      } mb-0`}
+    >
+      {patientFullName(patient)}
+    </h6>
+    <div className="flex gap-6 mb-2">
+      <div className="flex items-center gap-2 text-base">
+        <FlatIcon icon="rr-calendar-clock" className="text-base" />
+        <span>{calculateAge(patient?.birthday)} yrs. old</span>
+      </div>
+      <div className="flex items-center gap-2 text-base">
+        <FlatIcon icon="rr-calendar" className="text-base" />
+        <span>{formatDate(patient?.birthday)}</span>
+      </div>
+    </div>
+    <div className="flex gap-4 mb-2">
+      <div className="flex items-center gap-2 text-base">
+        <FlatIcon icon="rr-venus-mars" className="text-base" />
+        {String(patient?.gender).toLowerCase() == "male" ? (
+          <span className="text-blue-700">Male</span>
+        ) : (
+          <span className="text-pink-700">Female </span>
+        )}
+      </div>
+    </div>
+  </div>
+
+  <div className="">
+   
+    <div className="flex gap-6 mb-2 flex-1 w-80">
+      <div className="capitalize flex flex-wrap font-bold text-sm text-gray-900 ">
+        
+      </div>
+    </div>
+  </div>
+
+  <div className="flex  items-center  ">
+    <div className="flex flex-col items-center ">
+		
+	<div className="">
+      <img
+        src="/vitals/philhealthlogo.png"
+        className="w-8 h-8 object-contain "
+      />
+    </div>
+
+	<div className="capitalize font-bold text-sm text-gray-900 ">
+        <div>
+          PHILHEALTH IDENTIFICATION NUMBER (PIN)
+          
+        </div>
+		
+	</div>
+	<span >{appointment?.phic_no}18-187446718-1</span>
+      <div className="flex items-center gap-2 text-base">
+        {checkUserType("ER") && (
+          <ActionBtn
+            type="secondary"
+            className="ml-auto h-12 !rounded-[30px] font-medium gap-2 px-4"
+            onClick={() => {
+              ERCareChoiceRef.current.show({ patient: patient });
+            }}
+          >
+            <FlatIcon icon="bs-add" />
+            EMERGENCY APPOINTMENT
+          </ActionBtn>
+        )}
+        {checkUserType("OPD-NURSE") && (
+          <ActionBtn
+            type="secondary"
+            className="ml-auto h-12 !rounded-[30px] font-medium gap-2 px-4"
+            onClick={() => {
+              CreateTriageRef.current.show({ patient: patient });
+            }}
+          >
+            <FlatIcon icon="bs-add" />
+            EMERGENCY APPOINTMENT
+          </ActionBtn>
+        )}
+        {checkUserType("ANESTHESIA") && (
+          <ActionBtn
+            type="secondary"
+            className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
+            onClick={() => {
+              procedureChoiceRef.current.show();
+            }}
+          >
+            <FlatIcon icon="bs-add-folder" />
+            Create Operation
+          </ActionBtn>
+        )}
+        {checkUserType("SURGEON") && (
+          <ActionBtn
+            type="secondary"
+            className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
+            onClick={() => {
+              procedureChoiceRef.current.show();
+            }}
+          >
+            <FlatIcon icon="bs-add-folder" />
+            Create Operation
+          </ActionBtn>
+        )}
+        {checkUserType("PACU-NURSE") && (
+          <ActionBtn
+            type="secondary"
+            className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"
+            onClick={() => {
+              procedureChoiceRef.current.show();
+            }}
+          >
+            <FlatIcon icon="bs-add-folder" />
+            Create Operation
+          </ActionBtn>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+			
+		
+	<div>
 	<TabGroup
 		tabClassName={`py-3 bg-slate-100 border-b`}
 		contents={[

@@ -143,9 +143,10 @@ const PatientLabQueue = () => {
 									No patients in queue.
 								</span>
 							) : (
-								listPending()?.map((queue, index) => {
+								listPending()?.map((queue, data, index) => {
 									return (
 										<InQueueRegular
+											data={data}
 											selected={
 												queue?.patient?.id ===
 												order?.relationships?.patient
@@ -210,6 +211,15 @@ const PatientLabQueue = () => {
 													<span className="font-light italic">
 														{" "}
 														{queue?.notes}
+													</span>
+												</div>
+												<div className="flex items-center gap-2 mb-2">
+													<span className="text-sm w-[58px]">
+														Room:
+													</span>
+													<span className="font-light italic">
+														{" "}
+														{data?.room_number}
 													</span>
 												</div>
 												{queue?.relationships

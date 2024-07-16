@@ -6,7 +6,7 @@ import AppointmentDetailsForNurse from '../../../appointments/components/Appoint
 import PatientInfo from '../../../patients/components/PatientInfo';
 import ActionBtn from '../../../../components/buttons/ActionBtn';
 import { Fade } from 'react-reveal';
-import { patientFullName, patientRoomNumber } from '../../../../libs/helpers';
+import { patientFullName, formatDateTime, patientRoomNumber } from '../../../../libs/helpers';
 import InQueueRegular from './InQueueRegular';
 import InQueueForRelease from '../../../patient-queue/components/InQueueForRelease';
 import AppLayout from '../../../../components/container/AppLayout';
@@ -164,6 +164,9 @@ const OPDQueue = ({
 						<div className="flex flex-col gap-y-4 py-4">
 							{listPending()?.map((queue, index) => (
 								<InQueueRegular
+									date={formatDateTime(
+									new Date(queue?.created_at)
+									)}
 									referAction={() => {
 										referToSphModalRef.current.show(queue);
 									}}
@@ -197,6 +200,9 @@ const OPDQueue = ({
 							))}
 							{sortedPendingForRelease()?.map((queue, index) => (
 								<InQueueForRelease
+									date={formatDateTime(
+									new Date(queue?.created_at)
+									)}
 									selected={queue?.id == appointment?.id}
 									onClick={() => {
 										setAppointment(queue);
@@ -286,7 +292,6 @@ const OPDQueue = ({
 									<InServiceER
 										key={`PQInServiceItem-${data?.id}`}
 										data={data}
-										
 									/>
 
 								))}

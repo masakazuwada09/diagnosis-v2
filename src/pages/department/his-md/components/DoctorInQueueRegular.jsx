@@ -6,6 +6,7 @@ const DoctorInQueueRegular = ({
 	onClick,
 	className = "",
 	number,
+	data,
 	patientName,
 	roomNumber,
 	date,
@@ -14,7 +15,7 @@ const DoctorInQueueRegular = ({
 		<div
 			className={`p-3 gap-5 relative rounded-[20px] border border-blue-300 bg-blue-100 flex items-center justify-start ${className}`}
 			onClick={onClick}
-		>
+			>
 			<span className="flex items-center justify-center bg-blue-50 border border-blue-700 text-blue-800 tracking-tight rounded-full font-bold w-12 aspect-square">
 				#{number}
 			</span>
@@ -25,7 +26,6 @@ const DoctorInQueueRegular = ({
 						<FlatIcon icon="rr-calendar" />
 						{date}
 					</div>
-					
 				) : (
 					""
 				)}
@@ -35,8 +35,9 @@ const DoctorInQueueRegular = ({
 					
 				</span>
 				<div className="flex items-center gap-2 text-sm -ml-3 -mt-0">
+					
 						<FlatIcon icon="fi fi-rr-bed" />
-						{roomNumber}
+						{data?.room_number}
 					</div>
 				
 				

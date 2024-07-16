@@ -24,6 +24,8 @@ import useMDQueue from "../../../../hooks/useMDQueue";
 import useOPDQueue from "../../../../hooks/useOPDQueue";
 
 
+
+//In-Service
 const DoctorPatientQueue = () => {
 	const { user } = useAuth();
 	const {
@@ -33,17 +35,15 @@ const DoctorPatientQueue = () => {
 		mutatePending,
 		mutatePendingForResultReading,
 		mutateNowServing,
-
 	} = useMDQueue();
 
-	//In Queue
-	const { pending, nowServing } = useOPDQueue();
-
-
+//In Queue
 	const referToSphModalRef = useRef(null);
 	const patientProfileRef = useRef(null);
 	const acceptPatientRef = useRef(null);
 	const pendingOrdersRef = useRef(null);
+	const { pending, nowServing } = useOPDQueue();
+
 
 	useNoBugUseEffect({
 		functions: () => {},
@@ -109,7 +109,7 @@ const DoctorPatientQueue = () => {
 												queue?.patient
 											)}
 											roomNumber={patientRoomNumber(
-												queue?.room?.name
+												queue?.room_number
 											)}
 											
 										/>
@@ -117,9 +117,10 @@ const DoctorPatientQueue = () => {
 								}
 							})}
 							
-							{listPending()?.map((queue, index) => {
+							{listPending()?.map((queue, data, index) => {
 								return (
 									<DoctorInQueueRegular
+										data={data}
 										date={formatDate(
 											new Date(queue?.created_at)
 										)}
@@ -128,15 +129,14 @@ const DoctorPatientQueue = () => {
 												queue
 											);
 										}}
-										key={`iqr-${queue.id}`}
+										key={`iqr-prio-${queue.id}`}
 										number={`${queue.id}`}
 										patientName={patientFullName(
 											queue?.patient
 										)}
-										roomNumber={patientRoomNumber(
-											queue?.room
-										)}
+
 									/>
+									
 								);
 							})}
 						</div>
@@ -150,7 +150,7 @@ const DoctorPatientQueue = () => {
 						</span>
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-							{doctorsNowServing?.data?.map((data) => {
+							{doctorsNowServing?.data?.map((data, queue) => {
 								return (
 									<DoctorInServiceItem
 										data={data}

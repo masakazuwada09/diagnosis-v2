@@ -108,11 +108,11 @@ const OPDServices = (props, ref) => {
 		switch (category) {
 		  case "SUITE":
 			return [
-			  { label: "Suite 1", value: "SUITE1" },
-			  { label: "Suite 2", value: "SUITE2" },
-			  { label: "Suite 3", value: "SUITE3" },
-			  { label: "Suite 4", value: "SUITE4" },
-			  { label: "Suite 5", value: "SUITE5" },
+			  { label: "Suite 1", value: "SUITE 1" },
+			  { label: "Suite 2", value: "SUITE 2" },
+			  { label: "Suite 3", value: "SUITE 3" },
+			  { label: "Suite 4", value: "SUITE 4" },
+			  { label: "Suite 5", value: "SUITE 5" },
 			];
 		  case "PRIVATE":
 			return [
@@ -407,6 +407,7 @@ const OPDServices = (props, ref) => {
 					setLoading(false);
 				}, 200);
 			})
+			
 			.catch((err) => {
 				setLoading(false);
 				console.log(err);

@@ -116,6 +116,7 @@ const PatientHousekeepingQueue = () => {
 										</div>
 										<div className="pb-4">
 											<AppointmentDetailsForHousekeeping
+											
 												forHousekeeping={true}
 												mutateAll={mutateAll}
 												hideServices={false}

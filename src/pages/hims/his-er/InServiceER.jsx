@@ -39,7 +39,8 @@ const InServiceER = ({
 						Room No
 					</span>
 					<h2 className=" text-3xl font-bold  text-success -mb-1">
-					{patientRoomNumber(data?.room)}
+					{/* {patientRoomNumber(room?.room)} */}
+					{data?.room_number}
 					{/* {data?.referredToDoctor?.room?.name} */}
 					</h2>
 				</div>{" "}
@@ -59,7 +60,7 @@ const InServiceER = ({
 				Medical Doctor Assigned
 			</span>
 			<h4 className="text-lg text-center  font-bold text-indigo-900 -mb-1">
-				{doctorName(data?.doctor)}
+			{data?.doctor_id}
 			</h4>
 			<span className=" text-center font-light text-sm text-slate-600">
 			{doctorSpecialty(data?.doctor)}

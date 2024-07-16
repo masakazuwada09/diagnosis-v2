@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/prop-types */
 import CollapseDiv from "../../../components/CollapseDiv";
-import { marital_status_lists } from "../../../libs/patientFormOptions";
+import { marital_status_lists, phic_no } from "../../../libs/patientFormOptions";
 
 const TRow = ({ title, value }) => {
 	return (
@@ -19,7 +19,7 @@ const TRow = ({ title, value }) => {
 };
 const PatientProfileContent = ({ patient }) => {
 	return (
-		<div className="grid grid-cols-1 lg:grid-cols-1 gap-2 w-full text-slate-500 bg-gray-50 shadow-lg">
+		<div className="grid grid-cols-1 lg:grid-cols-2 gap-2 w-full text-slate-500 bg-gray-50 shadow-lg">
 			<CollapseDiv
 				defaultOpen={true}
 				title="I. PERSONAL DETAILS"
@@ -169,7 +169,11 @@ const PatientProfileContent = ({ patient }) => {
 						<tbody className="">
 							<TRow
 								title="Philhealth No.:"
-								value={patient?.philhealth}
+								value={patient?.phic_no 
+									
+										}
+								
+								// {patient?.philhealth}
 							/>
 							<TRow title="TIN:" value={patient?.tin} />
 						</tbody>

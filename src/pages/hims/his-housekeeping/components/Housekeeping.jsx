@@ -5,12 +5,27 @@ import FlatIcon from '../../../../components/FlatIcon';
 import ActionBtn from '../../../../components/buttons/ActionBtn';
 import InfoTextForPrint from '../../../../components/InfoTextForPrint';
 import { dateToday, formatDate } from '../../../../libs/helpers';
+import useMDQueue from '../../../../hooks/useMDQueue';
+import useHousekeepingQueue from '../../../../hooks/useHousekeepingQueue';
+import DoctorInServiceItem from '../../../department/his-md/components/DoctorInServiceItem';
+import HouseKeepingInService from './HousekeepingInService';
 
-const Housekeeping = (props) => {
+const Housekeeping = (props, data) => {
     const { loading: btnLoading, appointment, patient, onSave } = props;
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(true);
 	const componentRef = React.useRef(null);
+
+	const {
+		pending: doctorsPending,
+		nowServing: doctorsNowServing,
+		pendingForResultReading,
+		mutatePending,
+		mutatePendingForResultReading,
+		mutateNowServing,
+	} = useMDQueue();
+
+
 	useNoBugUseEffect({
 		functions: () => {
 			setTimeout(() => {
@@ -58,10 +73,29 @@ const Housekeeping = (props) => {
 							
 			<div className="border shadow p-2">
 				<div className="text-justify mt-12" ref={componentRef}>
-				
+					
+				{doctorsNowServing?.data?.map((data, queue) => {
+								return (
+									<HouseKeepingInService
+										data={data}
+										labOrdersStr={JSON.stringify(
+											data?.lab_orders
+										)}
+										
+										key={`HouseKeepingInService-${data?.id}`}
+										openProfileAction={() => {
+											patientProfileRef.current.show(
+												data
+											);
+										}}
+									/>
+								);
+							})}
+
 					<div className="grid grid-cols-2">
 
 					<div className="m-2">
+						
 							<InfoTextForPrint
 								contentClassName="text-sm"
 								title="Date"
@@ -89,8 +123,11 @@ const Housekeeping = (props) => {
 							<InfoTextForPrint
 								contentClassName="text-sm"
 								title="Room"
-								// value={patient?.civil_status}
+								value={patient?.referred_to}
+								
 							/>
+							
+							{data?.room_number}
 
 							<InfoTextForPrint
 								contentClassName="text-sm"

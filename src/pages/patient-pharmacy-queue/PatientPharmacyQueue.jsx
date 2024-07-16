@@ -91,6 +91,7 @@ const PatientPharmacyQueue = () => {
 	const [order, setOrder] = useState(null);
 	const [stat, setStat] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [appointment, setAppointment] = useState(null);
 	const referToSphModalRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
 
@@ -337,6 +338,11 @@ const PatientPharmacyQueue = () => {
 										<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-4">
 											<PatientInfo
 												patient={order?.patient}
+												mutateAll={mutateAll}
+												 
+												appointment={appointment}
+											
+											
 											/>
 										</div>
 										<AppointmentDetails

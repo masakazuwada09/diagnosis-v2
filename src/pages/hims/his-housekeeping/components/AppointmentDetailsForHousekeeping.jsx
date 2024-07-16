@@ -245,6 +245,7 @@ const AppointmentDetailsForHousekeeping = ({
 								
 								{forHousekeeping ? (
 									<HousekeepingApproval
+										
 										setAppointment={setOrder}
 										showTitle={false}
 										appointment={appointment}
@@ -253,6 +254,7 @@ const AppointmentDetailsForHousekeeping = ({
 									/>
 								) : (
 									<PatientServices
+										
 										setAppointment={setOrder}
 										showTitle={false}
 										mutateAll={mutateAll}

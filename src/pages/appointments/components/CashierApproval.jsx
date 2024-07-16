@@ -56,7 +56,7 @@ const CashierApproval = (props) => {
 					setAppointment(null);
 				}, 100);
 				setTimeout(() => {
-					toast.success("Patient sent to nurse!");
+					toast.success("Patient sent to OPD Nurse!");
 					setLoading(false);
 				}, 200);
 			})

@@ -72,7 +72,7 @@ const Housekeeping = (props, data) => {
 			</div>
 							
 			<div className="border shadow p-2">
-				<div className="text-justify mt-12" ref={componentRef}>
+				<div className="text-justify mt-1" ref={componentRef}>
 					
 				{doctorsNowServing?.data?.map((data, queue) => {
 								return (
@@ -83,107 +83,25 @@ const Housekeeping = (props, data) => {
 										)}
 										
 										key={`HouseKeepingInService-${data?.id}`}
-										openProfileAction={() => {
-											patientProfileRef.current.show(
-												data
-											);
-										}}
+										// openProfileAction={() => {
+										// 	patientProfileRef.current.show(
+										// 		data
+										// 	);
+										// }}
 									/>
 								);
 							})}
 
-					<div className="grid grid-cols-2">
-
-					<div className="m-2">
-						
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Date"
-								value={dateToday()}
-							/>
-
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Hospital No."
-								// value={patient?.civil_status}
-							/>
-
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Account No."
-								// value={patient?.civil_status}
-							/>
-
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Ward"
-								// value={patient?.civil_status}
-							/>
-
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Room"
-								value={patient?.referred_to}
-								
-							/>
-							
-							{data?.room_number}
-
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Bed"
-								value={patient?.civil_status}
-							/>
-							
-						
-						</div>
-
-						<div className="mt-8 ml-4">
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="CERTIFIED CORRECT BY"
-								value={user?.name}
-							/>
-						</div>
-						<div className="mt-8 mr-4">
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="OR Number"
-								value={""}
-							/>
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Amount"
-								// value={patient?.civil_status}
-							/>
-						
-						</div>
-					</div>
-
-					<div className="grid grid-cols-2">
-						<div className="mt-4 ml-4">
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Contact No."
-								// value={patient?.civil_status}
-							/>
-							<p className="text-xs">PLEASE PAY AT THE CASHIER</p>
-						</div>
-						<div className="mt-8 mr-4">
-							<p className="text-xs">
-								Signature Over Printed Name of Member or
-								Representative
-							</p>
-						</div>
-					</div> 
+					
+					
 				</div>
 
 				<div className="p-4 flex items-center justify-end">
 					
 					{/* Adding more billing-related information here if needed */}
 					<ActionBtn
-						type="success"
-						className="ml-2"
+						
+						className="ml-2 bg-yellow-500"
 						loading={btnLoading}
 						onClick={handleSave}
 					>

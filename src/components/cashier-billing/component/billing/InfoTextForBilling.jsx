@@ -1,6 +1,6 @@
-import FlatIcon from "./FlatIcon";
+import FlatIcon from "../../../FlatIcon";
 
-const InfoTextForPrint = ({
+const InfoTextForBilling = ({
 	className = "",
 	labelClassName = "",
 	contentClassName = "",
@@ -17,7 +17,7 @@ const InfoTextForPrint = ({
 			<label
 				className={`w-full pt-3 text-placeholder flex text-xs font-light border-opacity-50 capitalize text-slate-800 lg:col-span-3 ${labelClassName}`}
 			>
-				{icon ? <FlatIcon icon={icon} className="mr-1" /> : ""} {title}:
+				{icon ? <FlatIcon icon={icon} className="mr-1" /> : ""} {title}
 			</label>
 
 			<div
@@ -38,4 +38,4 @@ const InfoTextForPrint = ({
 	);
 };
 
-export default InfoTextForPrint;
+export default InfoTextForBilling;

@@ -52,12 +52,7 @@ const DoctorInServiceItem = ({
 					<span className="font-light text-sm text-slate-600 mb-1">
 						Room No
 					</span>
-					<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Room"
-								value={data?.room_number}
-								
-							/>
+					
 					<h2
 						className={`text-3xl font-bold ${
 							isForResultReading()

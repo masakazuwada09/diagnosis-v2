@@ -24,7 +24,7 @@ import HISErLink from "../../userLinks/hmis/HISErLink";
 import HISDoctorLinks from "../../userLinks/hmis/HISDoctorLinks";
 import HISBillingLink from "../../userLinks/hmis/HISBillingLink";
 import HISHousekeepingLink from "../../userLinks/hmis/HISHousekeepingLink";
-import ERInfectiousLink from "../../userLinks/hmis/ERInfectiousLink";
+import OPDInfectiousLink from "../../userLinks/hmis/OPDInfectiousLink";
 import HISSurgeonLink from "../../userLinks/hmis/HISSurgeonLink";
 import HISPacuLink from "../../userLinks/hmis/HISPacuLink";
 import HISOpdLink from "../../userLinks/hmis/HISOpdLink";
@@ -92,8 +92,8 @@ const AppLayout = (props) => {
 				return <HISBillingLink isActive={isActive} />;
 			case "his-housekeeping":
 				return <HISHousekeepingLink isActive={isActive} />;
-			case "er-infectious":
-				return <ERInfectiousLink isActive={isActive} />;
+			case "opd-infectious":
+				return <OPDInfectiousLink isActive={isActive} />;
 			case "his-surgeon":
 				return <HISSurgeonLink isActive={isActive} />;
 			case "pacu-nurse":

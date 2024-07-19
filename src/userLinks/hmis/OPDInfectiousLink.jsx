@@ -3,7 +3,7 @@ import MenuLink from '../../components/buttons/MenuLink'
 // import useERQueue from '../../hooks/useERQueue';
 import useERInfectious from '../../hooks/useERInfectious';
 
-const ERInfectiousLink = ({isActive}) => {
+const OPDInfectiousLink = ({isActive}) => {
     const { pending, pendingForRelease } = useERInfectious();
   return (
     <>
@@ -23,8 +23,8 @@ const ERInfectiousLink = ({isActive}) => {
 				text="Patients"
 			/>
 			<MenuLink
-				to="/erinfectious-queue"
-				active={isActive("/erinfectious-queue")}
+				to="/opdinfectious-queue"
+				active={isActive("/opdinfectious-queue")}
 				icon="rr-clipboard-list-check"
 				text="Infectious Patient Queue"
 				counter={
@@ -42,4 +42,4 @@ const ERInfectiousLink = ({isActive}) => {
   )
 }
 
-export default ERInfectiousLink
+export default OPDInfectiousLink

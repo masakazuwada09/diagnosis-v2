@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useAuth } from '../../../../hooks/useAuth';
 import useNoBugUseEffect from '../../../../hooks/useNoBugUseEffect';
 import FlatIcon from '../../../../components/FlatIcon';
@@ -9,22 +9,28 @@ import useMDQueue from '../../../../hooks/useMDQueue';
 import useHousekeepingQueue from '../../../../hooks/useHousekeepingQueue';
 import DoctorInServiceItem from '../../../department/his-md/components/DoctorInServiceItem';
 import HouseKeepingInService from './HousekeepingInService';
+import useBillingQueue from '../../../../hooks/useBillingQueue';
+import PatientProfileModal from '../../../../components/PatientProfileModal';
+import PendingOrdersModal from '../../../../components/PendingOrdersModal';
 
 const Housekeeping = (props, data) => {
-    const { loading: btnLoading, appointment, patient, onSave } = props;
+    const { loading: btnLoading, appointment, patient, onSave, } = props;
 	const { user } = useAuth();
 	const [loading, setLoading] = useState(true);
 	const componentRef = React.useRef(null);
+	const patientProfileRef = useRef(null);
+	const pendingOrdersRef = useRef(null);
 
 	const {
 		pending: doctorsPending,
-		nowServing: doctorsNowServing,
+		nowServing: housekeepingNowServing,
 		pendingForResultReading,
 		mutatePending,
 		mutatePendingForResultReading,
 		mutateNowServing,
-	} = useMDQueue();
+	} = useHousekeepingQueue();
 
+	
 
 	useNoBugUseEffect({
 		functions: () => {
@@ -34,6 +40,7 @@ const Housekeeping = (props, data) => {
 		},
 		params: [appointment],
 	});
+	
 	const handleSave = () => {
 		if (onSave) {
 			onSave();
@@ -44,6 +51,11 @@ const Housekeeping = (props, data) => {
     // }
 		// Logic for saving the invoice
 		// You can implement your save logic here
+	};
+	const mutateAll = () => {
+		mutatePending();
+		mutatePendingForResultReading();
+		mutateNowServing();
 	};
   return (
      <div className="relative">
@@ -61,7 +73,7 @@ const Housekeeping = (props, data) => {
 					<FlatIcon icon="rr-wallet" className="text-base" />
 					<span className="text-md font-semibold m-2 ">
 						Status: {""}
-						<span className="text-yellow-500">For Room Inspection</span>
+						<span className="text-green-500">For Room Inspection</span>
 						{/* {billingStatus === "pending" ? (
 							<span className="text-yellow-700">Pending</span>
 						) : (
@@ -72,22 +84,15 @@ const Housekeeping = (props, data) => {
 			</div>
 							
 			<div className="border shadow p-2">
-				<div className="text-justify mt-1" ref={componentRef}>
+				<div className="text-justify mt-1" >
 					
-				{doctorsNowServing?.data?.map((data, queue) => {
+				{housekeepingNowServing?.data?.map((data, queue) => {
 								return (
 									<HouseKeepingInService
+										selected={data?.id == appointment?.id}
 										data={data}
-										labOrdersStr={JSON.stringify(
-											data?.lab_orders
-										)}
-										
 										key={`HouseKeepingInService-${data?.id}`}
-										// openProfileAction={() => {
-										// 	patientProfileRef.current.show(
-										// 		data
-										// 	);
-										// }}
+										
 									/>
 								);
 							})}
@@ -101,7 +106,7 @@ const Housekeeping = (props, data) => {
 					{/* Adding more billing-related information here if needed */}
 					<ActionBtn
 						
-						className="ml-2 bg-yellow-500"
+						className="ml-2 bg-green-500"
 						loading={btnLoading}
 						onClick={handleSave}
 					>
@@ -113,7 +118,19 @@ const Housekeeping = (props, data) => {
                   </ActionBtn>  */}
 				</div>
 			</div>
+
+			<PatientProfileModal
+				pendingOrdersRef={pendingOrdersRef}
+				ref={patientProfileRef}
+				mutateAll={mutateAll}
+				
+			/>
+
+			<PendingOrdersModal ref={pendingOrdersRef} />
+
 		</div>
+
+		
   )
 }
 

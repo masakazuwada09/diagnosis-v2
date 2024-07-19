@@ -71,8 +71,12 @@ const PatientInfo = ({
 			handleSubmit,
 			formState: { errors },
 		} = useForm();
+
+
+		
 		const [appointment, setAppointment] = useState(propAppointment);
 		const [key, setKey] = useState(uniq_id);
+
 		useNoBugUseEffect({
 			functions: () => {
 				setTimeout(() => {
@@ -91,6 +95,7 @@ const PatientInfo = ({
 			params: [appointment?.id, key],
 		});
 
+
 		const refreshData = () => {
 			Axios.get(`v1/clinic/get-appointment/${appointment?.id}`).then(
 				(res) => {
@@ -102,13 +107,13 @@ const PatientInfo = ({
 
 
 	return (
-		<>
+		<div className='flex flex- w-full'>
 
 			<div className="group relative h-[108px] w-[108px] min-h-[108px] min-w-[108px] rounded-full aspect-square bg-background">
 				
 				<Img
 					type="user"
-					name={`${patient?.lastname}-${patient?.firstname}-${patient?.middle}`}
+					name={`${patient?.firstname}-${patient?.lastname}`}
 					src={patientSelfie ? patientSelfie : patient?.avatar || ""}
 					className="min-h-[108px] min-w-[108px] aspect-square object-cover rounded-xl"
 					alt=""
@@ -116,9 +121,9 @@ const PatientInfo = ({
 					key={`key-${patient?.id}-${patient?.avatar}`}
 				/>
 			</div>
-			<div className=" pl-2 !text-sm">
+			<div className="pl-3 !text-sm w-full">
 				<h6
-					className={` text-2xl mb-1 font-semibold flex items-center ${
+					className={` text-xl font-semibold flex pt-4 items-center ${
 						String(patient?.gender).toLowerCase() == "male"
 							? "text-blue-800"
 							: "text-pink-800"
@@ -126,7 +131,7 @@ const PatientInfo = ({
 				>
 					{patientFullName(patient)}
 				</h6>
-				<div className="flex flex-col lg:flex-row gap-6 mb-2">
+				<div className="flex  lg:flex-row gap-6 ">
 					<div className="flex items-center gap-2 text-base">
 						<FlatIcon
 							icon="rr-calendar-clock"
@@ -148,36 +153,53 @@ const PatientInfo = ({
 					</div>
 				</div>
 
-				<div className="flex items-center mb-2 gap-2 text-base">
+				<div className="flex gap-2 text-base">
 					<FlatIcon icon="rr-map-marker" className="text-base" />
-					<span className="capitalize gap-1 flex flex-wrap">
+					<span className="capitalize  flex w-full">
 						{patientAddress(patient)}
 						
 					</span>
-					
+
+
+	<div className="flex flex-col items-center w-80">
+      <div className="capitalize  font-bold text-sm text-gray-900 ">
+        
+      </div>
+    </div>
+ 
+	<div className="flex gap-1 ">
+      <div className="capitalize  font-bold text-sm text-gray-900 ">
+        
+      </div>
+    </div>
+
+<div className="flex flex-col items-center w-full">
+
+<div className="">
+	<img
+		src="/vitals/philhealthlogo.png"
+		className="w-8 h-8 object-contain"
+		/>
+</div>
+				
+
+	<div className="capitalize font-bold text-sm text-gray-900 ">
+        <div>
+          PHILHEALTH IDENTIFICATION NUMBER (PIN)
+          
+        </div>
+		
+	</div>
+	<span >{patient?.philhealth}</span>
+	
+
+	
+	</div>
+	
+				
 				</div>
 				
-				{appointment?.id ? (
 
-	<div className="flex items-center text-base ">
-
-					<img
-						src="/vitals/philhealthlogo.png"
-						className="w-8 h-8 object-contain"
-					/>
-
-	<span className="capitalize flex flex-wrap">
-	
-	PHIC-NO: {appointment?.phic_no}
-		
-	</span>
-		
-		</div>
-		
-
-) : (
-""
-)}
 				
 
 			</div>
@@ -186,7 +208,7 @@ const PatientInfo = ({
 
 			
 			
-			</>
+			</div>
 		
 			);
 			};

@@ -97,14 +97,14 @@ const PatientProfile = (props) => {
 
   <div className="">
    
-    <div className="flex gap-6 mb-2 flex-1 w-80">
+    <div className="flex  w-80">
       <div className="capitalize flex flex-wrap font-bold text-sm text-gray-900 ">
         
       </div>
     </div>
   </div>
 
-  <div className="flex  items-center  ">
+  <div className="flex  items-center">
     <div className="flex flex-col items-center ">
 		
 	<div className="">
@@ -121,7 +121,9 @@ const PatientProfile = (props) => {
         </div>
 		
 	</div>
-	<span >{appointment?.phic_no}18-187446718-1</span>
+	<span >{patient?.philhealth}</span>
+
+  
       <div className="flex items-center gap-2 text-base">
         {checkUserType("ER") && (
           <ActionBtn
@@ -135,6 +137,7 @@ const PatientProfile = (props) => {
             EMERGENCY APPOINTMENT
           </ActionBtn>
         )}
+
         {checkUserType("OPD-NURSE") && (
           <ActionBtn
             type="secondary"
@@ -147,6 +150,7 @@ const PatientProfile = (props) => {
             EMERGENCY APPOINTMENT
           </ActionBtn>
         )}
+        
         {checkUserType("ANESTHESIA") && (
           <ActionBtn
             type="secondary"

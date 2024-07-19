@@ -121,7 +121,7 @@ const DoctorPatientQueue = () => {
 								return (
 									<DoctorInQueueRegular
 										data={data}
-										date={formatDate(
+										date={formatDateTime(
 											new Date(queue?.created_at)
 										)}
 										acceptAction={() => {

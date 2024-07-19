@@ -115,7 +115,6 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 
 
 
-const ClaimForm1 = () => {
 	const ClaimForm1 = ({patient}) => {
 		return (
 		  <div className="bg-gray-600 p-11 min-h-[14in]  overflow-auto phic-forms">
@@ -1594,7 +1593,7 @@ const ClaimForm1 = () => {
 			  </div>
 		)
 	  }
-	}
+	
 
 export default ClaimForm1
 /* eslint-disable react/prop-types */

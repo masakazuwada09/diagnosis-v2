@@ -179,25 +179,25 @@ const AppointmentDetails = ({
 							/>
 							<InfoText
 								className="lg:col-span-6"
-								label="Chief complaint:"
-								value={appointment?.pre_notes}
+								label="Doctor:"
+								value={appointment?.referred_to}
 							/>
-							<InfoText
+							{/* <InfoText
 								className="lg:col-span-6"
 								label="Reason for appointment:"
 								value={appointment?.reason}
-							/>
-							<InfoText
+							/> */}
+							{/* <InfoText
 								className="lg:col-span-6"
 								label="Mode of consultation:"
 								valueClassName=" !uppercase"
 								value={appointment?.mode_of_consultation}
-							/>
-							<InfoText
+							/> */}
+							{/* <InfoText
 								className="lg:col-span-6"
 								label="PHIC ID:"
 								value={appointment?.phic_no}
-							/>
+							/> */}
 							<InfoText
 								className="lg:col-span-12"
 								label="Brief Clinical History and Pertinent Physical Examination:"

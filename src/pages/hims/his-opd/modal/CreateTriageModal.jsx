@@ -18,6 +18,7 @@ import Axios from '../../../../libs/axios';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../../hooks/useAuth';
 const patient_symptoms = symptoms?.map((data) => data?.name);
+
 const CreateTriageModal = (props, ref) => {
     const { onSuccess, patientSelfie, referToRHURef } = props;
 	const { appointment, setAppointment, mutateAll } = props;
@@ -486,6 +487,7 @@ const CreateTriageModal = (props, ref) => {
 								</Dialog.Title>
 								<div className="px-6 pt-5 pb-7 grid grid-cols-1 lg:grid-cols-12 gap-5 relative">
 									<div className="lg:col-span-12 grid grid-cols-1 lg:grid-cols-12">
+
 										{modalData?.patient ? (
 											<div className="lg:col-span-12 flex flex-col pb-4">
 												<h4 className="border-y-2 text-base font-bold p-2 mb-4">
@@ -728,7 +730,7 @@ const CreateTriageModal = (props, ref) => {
 														/>
 													)}
 												/>
-												{watch(
+												{/* {watch(
 													"mode_of_consultation"
 												) == "walk-in-phic-member" ? (
 
@@ -766,7 +768,7 @@ const CreateTriageModal = (props, ref) => {
 													/>
 												) : (
 													""
-												)}
+												)} */}
 												<div className="flex flex-col mb-3">
 													<label className="text-sm font-bold mb-1">
 														Chief complaint
@@ -1158,6 +1160,7 @@ const CreateTriageModal = (props, ref) => {
 															}
 														)}
 													</div>
+													
 													<div className="flex flex-col lg:col-span-5">
 														{generalHistories?.map(
 															(data, index) => {

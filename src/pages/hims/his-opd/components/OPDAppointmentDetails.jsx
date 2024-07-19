@@ -128,11 +128,6 @@ const OPDAppointmentDetails = ({
 	};
 
 
-
-
-
-
-
 	return (
 		<div className="flex flex-col">
 			<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
@@ -144,8 +139,6 @@ const OPDAppointmentDetails = ({
 					</b>
 				</span>
 			</h4>
-
-
 			{appointment?.id ? (
 				<>
 					<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100 pt-5 pb-4">
@@ -171,7 +164,7 @@ const OPDAppointmentDetails = ({
 								className="lg:col-span-6"
 								label="Doctor:"
 								valueClassName=" !uppercase"
-								value={appointment?.mode_of_consultation}
+								value={appointment?.referred_to}
 							/>
 							{/* <InfoText
 								className="lg:col-span-6"

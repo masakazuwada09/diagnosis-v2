@@ -372,6 +372,7 @@ export const generalHistories = [
 		name: "others",
 	},
 ];
+
 export const medicalSurgicalHistories = [
 	{
 		label: "Asthma",

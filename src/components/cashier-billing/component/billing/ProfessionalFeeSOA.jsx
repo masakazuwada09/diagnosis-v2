@@ -13,12 +13,12 @@ const ProfessionalFeeSOA = (props) => {
 	return (
 		<>
 			<div className="border shadow p-2">
-				<h5 className="text-sm font-semibold text-center mb-4 ">
-					Professional Fee
+				<h5 className="text-sm font-semibold text-center bg-blue-700 font-mono text-white">
+					PROFESSIONAL FEE
 				</h5>
 
-				<div className="border rounded-md mt-2">
-					<div className="border bg-gray-100 rounded-sm grid grid-cols-7 divide-x text-sm font-semibold text-center">
+				<div className="border ">
+					<div className="border bg-blue-200 rounded-sm grid grid-cols-7 divide-x text-sm font-semibold text-center font-mono items-center">
 						<div className="col-span-2">PARTICULARS</div>
 						<div className="col-span-1">ACTUAL CHARGES</div>
 						<div className="col-span-1">
@@ -27,7 +27,7 @@ const ProfessionalFeeSOA = (props) => {
 						<div className="col-span-1">PHIC</div>
 						<div className="col-span-1">BALANCE</div>
 					</div>
-					<div className="grid grid-cols-6 divide-x text-xs font-light text-center mt-2">
+					<div className="grid grid-cols-6 divide-x text-xs font-light text-center mt-2 font-mono">
 						<div className="col-span-2 text-left ml-2">
 							{doctorName(appointment?.doctor)}
 						</div>
@@ -40,7 +40,7 @@ const ProfessionalFeeSOA = (props) => {
 						<div className="col-span-1">500.00</div>
 					</div>
 
-					<div className="grid grid-cols-6 border-t divide-x text-sm font-semibold text-center mt-2">
+					<div className="grid grid-cols-6 border-t divide-x text-sm font-semibold text-center mt-2 font-mono">
 						<div className="col-span-2 text-right mr-1">Total:</div>
 						<div className="col-span-1">
 							{/* add a code for Debit database */}

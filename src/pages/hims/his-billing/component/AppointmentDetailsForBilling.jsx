@@ -18,6 +18,7 @@ import PatientProfileDetails from '../../../../components/PatientProfileDetails'
 import ClaimForm1 from './ClaimForm1';
 import ClaimForm2 from './ClaimForm2';
 import ClaimForm3 from './ClaimForm3';
+import PMRF from './PMRF';
 const uniq_id = uuidv4();
 const InfoText = ({
 	className = "",
@@ -309,7 +310,7 @@ const AppointmentDetailsForBilling = (
 														),
 
 														content: (
-															<ClaimForm1
+															<PMRF
 																appointment={showData}
 																patient={
 																	patient

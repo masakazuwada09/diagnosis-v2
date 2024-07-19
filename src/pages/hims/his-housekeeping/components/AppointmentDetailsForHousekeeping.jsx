@@ -51,7 +51,7 @@ const AppointmentDetailsForHousekeeping = ({
     appointment: propAppointment,
 	forHousekeeping = false,
 	setOrder,
-	hideServices = false,
+	// hideServices = false,
 	mutateAll,
 }) => {
     const {
@@ -66,6 +66,8 @@ const AppointmentDetailsForHousekeeping = ({
 	} = useForm();
 	const [appointment, setAppointment] = useState(propAppointment);
 	const [key, setKey] = useState(uniq_id);
+
+	
 	useNoBugUseEffect({
 		functions: () => {
 			setTimeout(() => {
@@ -107,6 +109,7 @@ const AppointmentDetailsForHousekeeping = ({
 			</span>
 		);
 	};
+
 	const refreshData = () => {
 		Axios.get(`v1/clinic/get-appointment/${appointment?.id}`).then(
 			(res) => {
@@ -161,91 +164,34 @@ const AppointmentDetailsForHousekeeping = ({
 								value={appointment?.mode_of_consultation}
 							/>
 							
-							<InfoText
+							{/* <InfoText
 								className="lg:col-span-12"
 								label="Brief Clinical History and Pertinent Physical Examination:"
 								value={appointment?.history}
-							/>
-							<InfoText
-								className="lg:col-span-12"
-								label="Laboratory Findings (Including ECG, X-ray, and other diagnostic procedures):"
-								value={appointment?.lab_findings}
-							/>
+							/> */}
+							
 						</div>
 						
-						<CollapseDiv
-							defaultOpen={false}
-							withCaret={true}
-							title="Claims Details"
-							headerClassName="bg-blue-50"
-							bodyClassName="p-0"
-						>
-							
-						</CollapseDiv>
-						{appointment?.post_notes == "Tuberculosis" &&
-						appointment.tb_symptoms != null ? (
-							<CollapseDiv
-								defaultOpen={
-									appointment?.post_notes == "Tuberculosis" &&
-									appointment.tb_symptoms != null
-								}
-								withCaret={true}
-								title="Patient TB Symtoms"
-								headerClassName="bg-blue-50"
-								bodyClassName="p-0"
-							>
-								{appointment?.tb_symptoms != null ? (
-									<div className="flex flex-col gap-1 mt-0 pb-2 !shadow-yellow-600 rounded-sm bg-white">
-										<ul className="w-1/2">
-											{symptoms?.map((symp) => {
-												return (
-													<li
-														className="!text-xs flex justify-between"
-														key={`${keyByValue(
-															symp.label
-														)}`}
-													>
-														<span>
-															{symp.label} -{" "}
-														</span>
-														<b className="text-center">
-															{appointment
-																?.tb_symptoms[
-																symp.value
-															]
-																? "YES"
-																: "no "}
-														</b>
-													</li>
-												);
-											})}
-										</ul>
-									</div>
-								) : (
-									""
-								)}
-							</CollapseDiv>
-						) : (
-							""
-						)}
+					
 
-						{!hideServices ? (
+						
 							<CollapseDiv
 								defaultOpen={
 									(appointment.status == "pending" &&
 										appointment?.vital_id != null) ||
 									appointment?.status ==
-										"pending-for-billing-release"
+										"pending"
 								}
 								withCaret={true}
 								title="Services"
 								headerClassName="bg-blue-50"
 								bodyClassName="p-0"
+								
 							>
 								
 								{forHousekeeping ? (
-									<HousekeepingApproval
-										
+									
+								<HousekeepingApproval
 										setAppointment={setOrder}
 										showTitle={false}
 										appointment={appointment}
@@ -253,20 +199,12 @@ const AppointmentDetailsForHousekeeping = ({
 										mutateAll={mutateAll}
 									/>
 								) : (
-									<PatientServices
-										
-										setAppointment={setOrder}
-										showTitle={false}
-										mutateAll={mutateAll}
-										appointment={appointment}
-										patient={appointment?.patient}
-									/>
+									""
                                    
 								)}
+
 							</CollapseDiv>
-						) : (
-							""
-						)}
+						
 					</div>
 				</>
 			) : (

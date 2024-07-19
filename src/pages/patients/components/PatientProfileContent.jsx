@@ -169,11 +169,9 @@ const PatientProfileContent = ({ patient }) => {
 						<tbody className="">
 							<TRow
 								title="Philhealth No.:"
-								value={patient?.phic_no 
-									
-										}
+								value={patient?.philhealth}
 								
-								// {patient?.philhealth}
+								
 							/>
 							<TRow title="TIN:" value={patient?.tin} />
 						</tbody>

@@ -25,9 +25,35 @@ const useHousekeepingQueue = () => {
 		}
 	);
 
+
+	const {
+		data: nowServing,
+		// error,
+		mutate: mutateNowServing,
+	} = useSWR(
+		"/v1/clinic/pending-housekeeping",
+		() =>
+			Axios.get("/v1/clinic/pending-housekeeping")
+				.then((res) => {
+					return res.data;
+				})
+				.catch((error) => {
+					if (error.response.status !== 409) throw error;
+
+					// mutate("/v1/clinic/doctor-pending-for-consultation");
+				}),
+		{
+			revalidateIfStale: true,
+			revalidateOnFocus: true,
+		}
+	);
+
   return {
 		pending,
+		nowServing,
 		mutatePending,
+		mutateNowServing,
+		
 	};
 }
 

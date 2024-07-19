@@ -64,6 +64,7 @@ const RHUPersonnels = (props) => {
 		},
 	});
 
+	
 	useNoBugUseEffect({
 		functions: () => {
 			getRhuList();
@@ -71,6 +72,8 @@ const RHUPersonnels = (props) => {
 		},
 		params: [1],
 	});
+
+
 	const getRhuList = () => {
 		Axios.get(`v1/health-unit/list?type=RHU`).then((res) => {
 			setRhuList(res.data.data);
@@ -81,6 +84,7 @@ const RHUPersonnels = (props) => {
 			setSpecialties(res.data.data);
 		});
 	};
+
 
 	return (
 		<AppLayout>

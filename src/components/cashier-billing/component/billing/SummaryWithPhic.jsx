@@ -29,26 +29,40 @@ const SummaryWithPhic = (props) => {
 	);
 	return (
 		<>
-			<div className="border shadow p-2">
-				<h5 className="text-sm font-semibold text-center mb-4 ">
-					Summary of Charges - PHIC
+			<div className=" p-2">
+				<h5 className="text-sm font-md font-mono text-center  bg-blue-700 text-white">
+					SUMMARY OF CHANGES - PHIC
 				</h5>
 
-				<div className="flex text-base font-semibold m-2">
+				
+				<div className="grid grid-cols-4 items-center">
+				<div className="flex text-base font-semibold m-2 font-mono col-span-2">
 					<p>
 						ICD-10 Code: {diagnosis?.CASE_CODE} -{" "}
 						{diagnosis?.CASE_RATE_CODE}
 					</p>
 				</div>
+					<div className="text-xs items-center w-full flex-col">
+						Firstcase description: 
 
-				<div className="grid grid-cols-2">
-					<div className="text-xs">
-						Firstcase description: {diagnosis?.CASE_DESCRIPTION}
+						<p className="font-bold">
+							{diagnosis?.CASE_DESCRIPTION}
+						</p>
+						
 					</div>
-					<div className="text-xs">Secondcase description: N/A</div>
+					<div className="text-xs items-center w-full flex-col">
+						
+						Secondcase description: 
+						<p className="font-bold">
+							{diagnosis?.CASE_DESCRIPTION}
+						</p>
+						
+						</div>
 				</div>
-				<div className="border rounded-md mt-2">
-					<div className="border bg-gray-100 rounded-sm grid grid-cols-7 divide-x text-sm font-semibold text-center">
+
+				
+				<div className=" rounded-md mt-2">
+					<div className="border bg-blue-200 rounded-sm grid grid-cols-7 divide-x text-sm font-mono font-semibold text-center items-center">
 						<div className="col-span-2">PARTICULARS</div>
 						<div className="col-span-1">ACTUAL CHARGES</div>
 						<div className="col-span-1">
@@ -58,8 +72,8 @@ const SummaryWithPhic = (props) => {
 						<div className="col-span-1">SECOND CASE</div>
 						<div className="col-span-1">BALANCE</div>
 					</div>
-					<div className="grid grid-cols-7 divide-x text-xs font-light text-center mt-2">
-						<div className="col-span-2 text-left ml-2">
+					<div className="grid grid-cols-7 divide-x text-xs font-light text-center mt-2 font-mono">
+						<div className="col-span-2 text-left ml-2 ">
 							Hospital Charges
 						</div>
 						<div className="col-span-1">
@@ -77,7 +91,7 @@ const SummaryWithPhic = (props) => {
 							{formatCurrency(diagnosis?.HOSPITAL_SHARE)}
 						</div>
 					</div>
-					<div className="grid grid-cols-7 divide-x text-xs font-light text-center mt-2">
+					<div className="grid grid-cols-7 divide-x text-xs font-light text-center mt-2 font-mono">
 						<div className="col-span-2 text-left ml-2">
 							Professional Fees
 						</div>
@@ -101,7 +115,7 @@ const SummaryWithPhic = (props) => {
 						</div>
 					</div>
 
-					<div className="grid grid-cols-7 border-t divide-x text-sm font-semibold text-center mt-2">
+					<div className="grid grid-cols-7 border-t divide-x text-sm font-semibold text-center mt-2 font-mono">
 						<div className="col-span-2 text-right mr-1">Total:</div>
 						<div className="col-span-1">
 							{/* add a code for Debit database */}

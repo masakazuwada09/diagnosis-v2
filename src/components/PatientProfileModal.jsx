@@ -348,7 +348,7 @@ const PatientProfileModal = (props, ref) => {
 																<span className="font-bold -mb-1">
 																	Send Order
 																</span>
-																<span className="text-[10px] font-light max-w-[256px]">
+																<span className="text-[10px] font-light">
 																	Patient
 																	queue to
 																	laboratory/imaging
@@ -360,7 +360,7 @@ const PatientProfileModal = (props, ref) => {
 													""
 												)}
 
-												{/* 
+												
 												<ActionBtn
 															loading={
 																loadingDone
@@ -377,19 +377,17 @@ const PatientProfileModal = (props, ref) => {
 																icon="rr-right"
 															/>
 															<div className="flex flex-col text-left">
-																<span className="font-bold text-xs -mb-1">
+																<span className="font-bold -mb-1">
 																	Send to
-																	Pharmacy
+																	OR
 																</span>
-																<span className="text-[12px] font-light">
-																	for
-																	prescription
-																	release
+																<span className="text-[10px] font-light">
+																	Patient Queue to Operation Screening
 																</span>
 															</div>
 														</ActionBtn>
 
-														<ActionBtn
+														{/* <ActionBtn
 															loading={
 																loadingDone
 															}
@@ -414,7 +412,7 @@ const PatientProfileModal = (props, ref) => {
 																	free to go
 																</span>
 															</div>
-														</ActionBtn> */}
+				a										</ActionBtn> */}
 											</div>
 										</div>
 										<div>

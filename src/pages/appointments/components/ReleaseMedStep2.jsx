@@ -31,16 +31,19 @@ const ReleaseMedStep2 = ({
 				<div className="flex items-center justify-center gap-4">
 					<div
 						className={`flex flex-col text-sm gap-4 items-center justify-center grayscale hover:bg-yellow-200 rounded-full px-5 text-center py-5 hover:grayscale-0 duration-200 ${
-							result == "very satisfied"
+							result == "unsatisfied"
 								? "!grayscale-0 bg-yellow-200 opacity-100"
 								: "opacity-70"
 						}`}
 						onClick={() => {
-							updateData("very satisfied");
+							updateData("unsatisfied");
 						}}
 					>
-						<img className="h-11 w-11" src="/happy.png" />
+						<button type="button" class="size-10 inline-flex justify-center items-center text-4xl rounded-full hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-yellow-200">
+     					😔
+    					</button>
 					</div>
+
 					<div
 						className={`flex flex-col text-sm gap-4 items-center justify-center grayscale hover:bg-yellow-200 rounded-full px-5 text-center py-5 hover:grayscale-0 duration-200 ${
 							result == "neutral"
@@ -51,19 +54,25 @@ const ReleaseMedStep2 = ({
 							updateData("neutral");
 						}}
 					>
-						<img className="h-11 w-11" src="/neutral.png" />
+						<button type="button" class="size-10 inline-flex justify-center items-center text-4xl rounded-full hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-yellow-200">
+      					😐️
+    					</button>
+
 					</div>
 					<div
 						className={`flex flex-col text-sm gap-4 items-center justify-center grayscale hover:bg-yellow-200 rounded-full px-5 text-center py-5 hover:grayscale-0 duration-200 ${
-							result == "unsatisfied"
+							result == "very satisfied"
 								? "!grayscale-0 bg-yellow-200 opacity-100"
 								: "opacity-70"
 						}`}
 						onClick={() => {
-							updateData("unsatisfied");
+							updateData("very satisfied");
 						}}
 					>
-						<img className="h-11 w-11" src="/sad.png" />
+						<button type="button" class="size-10 inline-flex justify-center items-center text-4xl selection:rounded-full hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hover:bg-yellow-200">
+      					🤩
+   						</button>
+
 					</div>
 				</div>
 				<div>

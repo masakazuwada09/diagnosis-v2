@@ -290,6 +290,7 @@ const OPDQueue = ({
 
 								{doctorsNowServing?.data?.map((data) => (
 									<InServiceER
+										
 										key={`PQInServiceItem-${data?.id}`}
 										data={data}
 									/>

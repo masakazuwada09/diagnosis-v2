@@ -22,7 +22,7 @@ const DoctorInQueueRegular = ({
 
 			<div>
 				{date ? (
-					<div className="flex items-center gap-2 text-sm -ml-3 -mt-3">
+					<div className="flex items-center gap-2 text-sm -ml-3 -mt-3 font-bold">
 						<FlatIcon icon="rr-calendar" />
 						{date}
 					</div>

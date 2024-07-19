@@ -42,16 +42,17 @@ const PatientHousekeepingQueue = () => {
 							Patient Queue
 						</h1>
 						<span className="noto-sans-thin text-slate-500 text-sm font-light">
-							Patients pending for billing approval
+							Patients pending for Housekeeping approval
 						</span>
 						<div className="flex flex-col gap-y-4 py-4">
 							{pending?.data?.map((queue, index) => {
 								return (
 									<InQueueForRelease
-										selected={queue?.id == appointment?.id}
+										
 										onClick={() => {
 											setAppointment(queue);
 										}}
+										
 										key={`iqr-${queue.id}`}
 										number={`${queue.id}`}
 										patientName={patientFullName(
@@ -110,73 +111,78 @@ const PatientHousekeepingQueue = () => {
 										</h4>
 										<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-4">
 											<PatientInfo
+												mutateAll={mutateAll}
 												patient={appointment?.patient}
 												appointment={appointment}
 											/>
 										</div>
 										<div className="pb-4">
+
 											<AppointmentDetailsForHousekeeping
-											
 												forHousekeeping={true}
-												mutateAll={mutateAll}
-												hideServices={false}
 												appointment={appointment}
+												mutateAll={mutateAll}
+												
+												
 												setOrder={(data) => {
 													if (data == null) {
 														// mutateAll();
 													}
-													setAppointment(data);
+												setAppointment(data);
 												}}
-												serviceComponent={() => {
-													return (
-														<>
-															<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-5">
-																<div className="flex flex-col">
-																	<ContentTitle title="Diagnosis"></ContentTitle>
-																	<InfoText
-																		className="w-full"
-																		title="Diagnosed By"
-																		value={doctorName(
-																			appointment?.prescribedByDoctor
-																		)}
-																	/>
-																	<CaseDetails
-																		code={
-																			appointment?.diagnosis_code
-																		}
-																		title="Diagnosis Details"
-																		cases={
-																			caseCodes ||
-																			[]
-																		}
-																	/>
-																</div>
-																<div className="flex flex-col">
-																	<ContentTitle title="Procedure Rendered"></ContentTitle>
+												
+												
+												
+												// serviceComponent={() => {
+												// 	return (
+												// 		<>
+												// 			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-5">
+												// 				<div className="flex flex-col">
+												// 					<ContentTitle title="Diagnosis"></ContentTitle>
+												// 					<InfoText
+												// 						className="w-full"
+												// 						title="Diagnosed By"
+												// 						value={doctorName(
+												// 							appointment?.prescribedByDoctor
+												// 						)}
+												// 					/>
+												// 					<CaseDetails
+												// 						code={
+												// 							appointment?.diagnosis_code
+												// 						}
+												// 						title="Diagnosis Details"
+												// 						cases={
+												// 							caseCodes ||
+												// 							[]
+												// 						}
+												// 					/>
+												// 				</div>
+												// 				<div className="flex flex-col">
+												// 					<ContentTitle title="Procedure Rendered"></ContentTitle>
 
-																	<InfoText
-																		className="w-full"
-																		title="Doctor"
-																		value={doctorName(
-																			appointment?.prescribedByDoctor
-																		)}
-																	/>
+												// 					<InfoText
+												// 						className="w-full"
+												// 						title="Doctor"
+												// 						value={doctorName(
+												// 							appointment?.prescribedByDoctor
+												// 						)}
+												// 					/>
 
-																	<CaseDetails
-																		code={
-																			appointment?.procedure_code
-																		}
-																		title="Procedure Details"
-																		cases={
-																			procedureRates ||
-																			[]
-																		}
-																	/>
-																</div>
-															</div>
-														</>
-													);
-												}}
+												// 					<CaseDetails
+												// 						code={
+												// 							appointment?.procedure_code
+												// 						}
+												// 						title="Procedure Details"
+												// 						cases={
+												// 							procedureRates ||
+												// 							[]
+												// 						}
+												// 					/>
+												// 				</div>
+												// 			</div>
+												// 		</>
+												// 	);
+												// }}
 											/>
 										</div>
 									</div>

@@ -263,10 +263,10 @@ const router = createBrowserRouter(
 				{/* <Route path="inventory" element = {<Inventory />}></Route> */}
 			</Route>
 
-			<Route path="er-infectious">
+			<Route path="opd-infectious">
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element={<Patients />}></Route>
-				<Route path="erinfectious-queue" element={<InfectiousERQueue />}></Route>
+				<Route path="opdinfectious-queue" element={<InfectiousERQueue />}></Route>
 				<Route path="my-account" element={<MyAccount />}></Route>
 				{/* <Route path="inventory" element = {<Inventory />}></Route> */}
 			</Route>

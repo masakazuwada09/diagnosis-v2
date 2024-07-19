@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useReactToPrint } from 'react-to-print';
 import { toast } from 'react-toastify';
-import Axios from '../../../../../libs/axios';
-import ActionBtn from '../../../../../components/buttons/ActionBtn';
-import FlatIcon from '../../../../../components/FlatIcon';
-import { dateMMDDYYYY, formatCurrency, formatDateMMDDYYYY, formatDateYYYYMMDD, getBirthDayYYYYMMDD, getStringArray, patientFullName } from '../../../../../libs/helpers';
-import useNoBugUseEffect from '../../../../../hooks/useNoBugUseEffect';
+import Axios from '../../../../libs/axios';
+import ActionBtn from '../../../../components/buttons/ActionBtn';
+import FlatIcon from '../../../../components/FlatIcon';
+import { dateMMDDYYYY, formatCurrency, formatDateMMDDYYYY, formatDateYYYYMMDD, getBirthDayYYYYMMDD, getStringArray, patientFullName } from '../../../../libs/helpers';
+import useNoBugUseEffect from '../../../../hooks/useNoBugUseEffect';
 import { useForm } from 'react-hook-form';
 /* eslint-disable react/prop-types */
 const BoxInput = ({
@@ -158,6 +158,8 @@ const CheckBox = ({
 		</label>
 	);
 };
+
+
 const PMRF = ({ patient, refresh, printPage }) => {
     const { register, setValue, watch, getValues, handleSubmit } = useForm({
 		defaultValues: {
@@ -249,6 +251,8 @@ const PMRF = ({ patient, refresh, printPage }) => {
 			}
 		}
 	};
+
+	
 
 	useNoBugUseEffect({
 		functions: () => {

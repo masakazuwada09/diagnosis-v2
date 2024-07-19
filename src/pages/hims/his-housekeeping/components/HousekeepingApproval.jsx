@@ -10,8 +10,15 @@ import Housekeeping from './Housekeeping';
 import ActionBtn from '../../../../components/buttons/ActionBtn';
 
 const uniq_id = uuidv4();
-const HousekeepingApproval = (props) => {
-    const { appointment, setAppointment, mutateAll } = props;
+
+const HousekeepingApproval = ({
+	appointment: propAppointment,
+	setOrder,
+	mutateAll,
+
+}) => {
+	const [appointment, setAppointment] = useState(propAppointment);
+   
 	const { user } = useAuth();
 	const {
 		register,
@@ -54,7 +61,7 @@ const HousekeepingApproval = (props) => {
 					setAppointment(null);
 				}, 100);
 				setTimeout(() => {
-					toast.success("Patient sent to cashier!");
+					toast.success("Patient sent to Cashier!");
 					setLoading(false);
 				}, 200);
 			})
@@ -72,16 +79,22 @@ const HousekeepingApproval = (props) => {
 			<div className="flex flex-col w-full gap-4 pb-2">
 				<div className="p-0 flex flex-col gap-y-4 relative w-full">
 					<h4 className="text-md text-indigo-800 border-b border-b-indigo-600 pb-1 font-bold mb-0">
-						Send patient to cashier
+						Send patient to Cashier
 					</h4> 
+					
+				</div>
+
+			
+									
 					<Housekeeping
+					
+						setAppointment={setOrder}
 						loading={loading}
 						onSave={housekeepingApproval}
 						appointment={appointment}
 						patient={appointment?.patient}
 					/> 
-				</div>
-				
+								
 				{/* <ActionBtn
 					className="px-4 !rounded-2xl w-full"
 					type="success"

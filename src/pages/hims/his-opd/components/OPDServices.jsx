@@ -288,7 +288,7 @@ const OPDServices = (props, ref) => {
 				"rhu_id"
 			)}`
 		).then((res) => {
-
+			
 			setDoctorList(res.data.data);
 		});
 	};
@@ -391,7 +391,7 @@ const OPDServices = (props, ref) => {
 		setLoading(true);
 		let formdata = new FormData();
 		formdata.append("rhu_id", data?.rhu_id);
-		formdata.append("doctor_id", data?.doctor_id);
+		formdata.append("referred_to", data?.referred_to);
 		formdata.append("room_number", data?.room_number);
 		formdata.append("_method", "PATCH");
 
@@ -622,7 +622,7 @@ const OPDServices = (props, ref) => {
 				
 							
 							<Controller
-								name="doctor_id"
+								name="referred_to"
 								control={control}
 								rules={{
 									required: {

@@ -60,7 +60,11 @@ const InServiceER = ({
 				Medical Doctor Assigned
 			</span>
 			<h4 className="text-lg text-center  font-bold text-indigo-900 -mb-1">
-			{data?.doctor_id}
+				
+			{data?.referred_to}
+			{doctorName(data?.doctor)}
+			
+
 			</h4>
 			<span className=" text-center font-light text-sm text-slate-600">
 			{doctorSpecialty(data?.doctor)}

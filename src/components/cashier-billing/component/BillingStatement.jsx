@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import FlatIcon from "../../FlatIcon";
 import InfoTextForPrint from "../../InfoTextForPrint";
-import { dateToday, formatDate, dateOnlyToday, dateMMDDYYYY, patientFullName, patientAddress  } from "../../../libs/helpers";
+import { dateToday, formatDate, dateOnlyToday, dateMMDDYYYY, patientFullName, patientAddress, formatCurrency  } from "../../../libs/helpers";
 import ActionBtn from "../../buttons/ActionBtn";
 import SummaryOfCharges from "./billing/SummaryOfCharges";
 import SummaryWithPhic from "./billing/SummaryWithPhic";
@@ -14,49 +14,11 @@ import InfoTextForBilling from "./billing/InfoTextForBilling";
 import { useForm } from 'react-hook-form';
 import QRCode from "qrcode.react";
 import PatientInfo from "../../../pages/patients/components/PatientInfo";
+import AmountDue from "./billing/components/AmountDue";
+import CreditCardDetails from "./billing/components/CreditCardDetails";
+import Img from "../../Img";
 
 
-
-
-const CheckBox = ({
-	label,
-    icon,
-	checked = "",
-	className = "",
-	inputClassName = "",
-	...rest
-}) => {
-	const [inputChecked, setInputChecked] = useState("");
-	useEffect(() => {
-		let t = setTimeout(() => {
-			if (checked == "checked") {
-				setInputChecked(checked);
-			}
-		}, 100);
-		return () => {
-			clearTimeout(t);
-		};
-	}, [checked]);
-
-	return (
-		<label
-			className={`flex items-center text-xs gap-1 font-normal ${className}`}
-		>
-			<input
-				checked={inputChecked}
-				type="checkbox"
-				className={inputClassName}
-				onChange={() => {
-					setInputChecked((inputChecked) =>
-						inputChecked == "checked" ? "" : "checked"
-					);
-				}}
-				{...rest}
-			/>
-			{label}
-		</label>
-	);
-};
 
 /* eslint-disable react/prop-types */
 const BillingStatement = (props) => {
@@ -121,6 +83,10 @@ const BillingStatement = (props) => {
     const componentRef = React.useRef(null);
     const billingStatus = patient?.billing_status || "pending";
 
+	let diagnosis = caseCodes?.find(
+		(x) => x.CASE_CODE == appointment?.diagnosis_code
+	);
+
 	const mutateAll = () => {
 		mutatePending();
 		mutatePendingForResultReading();
@@ -178,182 +144,40 @@ const BillingStatement = (props) => {
 
             
 
-            <div className="p-2">
-                <div className="relative overflow-hidden rounded-lg bg-cover bg-no-repeat px-12 py-12" ref={componentRef}>
+            <div className="p-1">
+                <div className="relative overflow-hidden rounded-lg bg-cover bg-no-repeat px-5 py-5" ref={componentRef}>
 
                                     
                     
                         
-        <header class="mb-8">
-            <div class="flex justify-start items-center border-b pb-4 gap-5">
+        <header class="mb-2">
+            <div class="flex justify-between items-center border-b border-b-slate-500  gap-1">
             <img
 										src="/caduceus.png"
 										className=" object-contain bottom-0 left-0 right-0 top-0 h-12 w-12 overflow-hidden bg-fixed "
 									/>
+
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-800">Hospital Name</h1>
+                    <h1 class="text-md font-bold text-gray-800">{patient?.RHU_name}Hospital Name</h1>
                     <p class="text-sm text-gray-600">123 Medical Street, City, Country</p>
                     <p class="text-sm text-gray-600">Phone: (123) 456-7890</p>
                 </div>
+
+				<Img
+				src={patient?.avatar || ""}
+				type="user"
+				name={patientFullName(patient)}
+				className="h-14 w-14 rounded-full object-contain bg-slate-400"
+			/>
                 
-                <div className="border rounded-sm w-full border-gray-400">
-					
-                    <div className="">
-					<div className="border bg-gray-100 rounded-sm grid grid-cols-1 divide-x  font-semibold text-start font-mono ">
-						<div className="col-span-1 text-xs items-center">
-                            
-                            IF PAYING BY MASTERCARD,DISCOVER,VISA OR AMERICAN EXPRESS, FILL OUT BELOW
-
-                        </div>
-						
-					</div>
-                    
-                    
-                    
-					<div className="flex flex-row gap-2 px-5 text-xs font-light mt-2 font-mono justify-center">
-
-                    <div className="flex flex-row  ">
-										<div className="flex flex-row gap-2 ">
-                                        
-											<CheckBox
-												key={`payment_visa-${watch(
-													"civil_status"
-												)}`}
-												label=""
-												value="Visa"
-												onChange={(e) => {
-													setValue(
-														"civil_status",
-														e.target.value
-													);
-												}}
-												checked={
-													String(
-														watch("civil_status")
-													)
-														.toLowerCase()
-														?.includes("visa")
-														? "checked"
-														: ""
-												}
-                                                
-											/>
-                                            <FlatIcon icon="fi fi-brands-visa" className="text-2xl mr-4" />
-                                        
-                   
-											<CheckBox
-												key={`payment_amex-${watch(
-													"civil_status"
-												)}`}
-												label=""
-												value="Amex"
-												onChange={(e) => {
-													setValue(
-														"civil_status",
-														e.target.value
-													);
-												}}
-												checked={
-													String(
-														watch("civil_status")
-													)
-														.toLowerCase()
-														?.includes("amex")
-														? "checked"
-														: ""
-												}
-											/>
-                                            <FlatIcon icon="fi fi-brands-american-express" className="text-2xl mr-4" />
-
-
-                                            
-											    <CheckBox
-												key={`payment_applepay-${watch(
-													"civil_status"
-												)}`}
-												label=""
-												value="ApplePay"
-												onChange={(e) => {
-													setValue(
-														"civil_status",
-														e.target.value
-													);
-												}}
-												checked={
-													String(
-														watch("civil_status")
-													)
-														.toLowerCase()
-														?.includes("applepay")
-														? "checked"
-														: ""
-												}
-											    />
-                                            <FlatIcon icon="fi fi-brands-apple-pay" className="text-2xl mr-4" />
-
-											<CheckBox
-												key={`payment_gcash-${watch(
-													"civil_status"
-												)}`}
-												label="Gcash"
-												value="gcash"
-												onChange={(e) => {
-													setValue(
-														"civil_status",
-														e.target.value
-													);
-												}}
-												checked={
-													String(
-														watch("civil_status")
-													)
-														.toLowerCase()
-														?.includes("gcash")
-														? "checked"
-														: ""
-												}
-											/>
-											
-										</div>
-									</div>
-
-                   
-						
-                        
-					</div>
-
-                    <div className="grid grid-cols-2 text-sm font-light font-mono border-t">
-
-						<div className="flex flex-row w-full border-r border-dashed">
-                        
-                        <InfoTextForPrint
-                            contentClassName="text-sm"
-                            title="Card no."
-                            value=""/>
-						</div>
-
-						<div className="flex flex-row w-full border-r border-dashed">
-                        <InfoTextForPrint
-                            contentClassName="text-sm "
-                            title="Security Code."
-                            value=""/>
-                        </div>
-
-                        
-						
-                        
-					</div>
-
-                    
-				</div>
-               </div>
+                <CreditCardDetails/>
 
             </div>
         </header>
 
         
 
-                <div className="flex flex-row justify-between mt-1 gap-5">
+                <div className="flex flex-row justify-between gap-5">
                     <div className="border rounded-sm w-[350px] border-gray-400">
 					    <div className=" bg-blue-600 text-white rounded-sm grid grid-cols-6 text-sm font-semibold text-center font-mono">
 						        <div className="col-span-3">
@@ -366,10 +190,9 @@ const BillingStatement = (props) => {
                                 
 					    </div>
                 
-					    <div className="grid grid-cols-2 text-sm font-light font-mono ">
+					    <div className="grid grid-cols-2 text-sm font-light font-mono shadow">
 							
 					
-
 
 						<div className="">
 		
@@ -383,50 +206,52 @@ const BillingStatement = (props) => {
                         </div>
                         
                         </div>
-						<div className="px-2 flex flex-col w-full ">
-						<h5 className="text-xs font-bold w-full text-gray-800 ">
+						<div className="px-3 py-2 flex flex-col w-full ">
+							
+						
                     
 						<InfoTextForPrint
-							contentClassName="text-sm w-full items-center"
+							contentClassName="text-sm w-full items-center border rounded-sm w-[350px] border-gray-400"
 							title="PATIENT NAME"
 							value={patientFullName(patient)}
 							
 						/>
-						</h5>
-						<h5 className="text-xs font-bold w-full text-gray-800">
-					
+						
 						<InfoTextForPrint
-							contentClassName="text-sm"
+							contentClassName="text-sm w-full items-center border rounded-sm w-[350px] border-gray-400"
 							className=""
 							title="ADDRESS"
 							value={patientAddress(patient)}
 						/>
 					
 						<InfoTextForPrint
-							contentClassName="text-sm"
+							contentClassName="text-sm w-full items-center border rounded-sm w-[350px] border-gray-400"
 							title="PHILHEALTH NUMBER"
 							value={patient?.philhealth}
 						/>
-						</h5>
+						
 						
                         
                         </div>
 
-
+						
                        
 					</div>
+
+
                     <div className="items-center">
-                    <QRCode
-						value={`user-${showData?.receivedBy?.username}`}
-						level="H"
-						size={50}
+
+					<AmountDue
+						appointment={appointment}
+                        patient={patient}
 					/>
+		
                     </div>
                     
                 </div>
 
 
-                <div className="flex flex-row justify-between mt-2">
+                {/* <div className="flex flex-row justify-between mt-2">
                     <h5 className="text-xs font-bold justify-center w-[370px] text-blue-800">
                         Please check box if address is incorrect or insurance infromation has changed, and indicate change(s) on reverse side or call 573-883-7718
 				    </h5>
@@ -436,14 +261,14 @@ const BillingStatement = (props) => {
                 <h5 className="text-md font-italic justify-start">
 					BILLING STATEMENT
 				</h5>
-                </div>
+                </div> */}
             
           
 
 
                
 
-                <div className="flex flex-row justify-between mt-5 items-center">
+                <div className="flex flex-row justify-between mt-2 items-center">
                     
                     
 
@@ -497,6 +322,11 @@ const BillingStatement = (props) => {
                                 Representative
                             </p>
                         </div>
+						<QRCode
+						value={`user-${showData?.receivedBy?.username}`}
+						level="H"
+						size={50}
+					/>
                     </div>
                 </div>
 

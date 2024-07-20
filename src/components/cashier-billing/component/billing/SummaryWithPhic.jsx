@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { procedureRates } from "../../../../libs/procedureRates";
 import { caseCodes } from "../../../../libs/caseCodes";
 import { formatCurrency } from "../../../../libs/helpers";
+import InfoTextForSummary from "./InfoTextForSummary";
 /* eslint-disable react/prop-types */
 const uniq_id = uuidv4();
 const SummaryWithPhic = (props) => {
@@ -30,8 +31,8 @@ const SummaryWithPhic = (props) => {
 	return (
 		<>
 			<div className="border border-gray-400">
-				<h5 className="text-sm font-md font-mono text-center  bg--700 text-white">
-					SUMMARY OF CHANGES - PHIC
+				<h5 className="text-sm font-md font-mono text-center  bg-slate-700 text-white">
+					SUMMARY OF CHARGES - PHIC
 				</h5>
 
 				
@@ -77,18 +78,39 @@ const SummaryWithPhic = (props) => {
 							Hospital Charges
 						</div>
 						<div className="col-span-1">
+						<div className="col-span-1">
 							{/* add a code for Debit database */}
-							{formatCurrency(diagnosis?.HOSPITAL_SHARE)}
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={formatCurrency(diagnosis?.HOSPITAL_SHARE)}
+                            />
 						</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">
-							{formatCurrency(diagnosis?.HOSPITAL_SHARE)}
-						</div>
-						<div className="col-span-1">
-							{/* {patient?.hc_second_case_rate} */}
 						</div>
 						<div className="col-span-1">
-							{formatCurrency(diagnosis?.HOSPITAL_SHARE)}
+							{/* add a code for Debit database */}
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={formatCurrency(diagnosis?.HOSPITAL_SHARE)}
+                            />
+							
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={patient?.hc_second_case_rate}
+                            />
+							
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={formatCurrency(diagnosis?.HOSPITAL_SHARE)}
+                            />
 						</div>
 					</div>
 					<div className="grid grid-cols-7 divide-x text-xs font-light text-center mt-2 font-mono">
@@ -97,21 +119,32 @@ const SummaryWithPhic = (props) => {
 						</div>
 						<div className="col-span-1">
 							{/* add a code for Debit database */}
-							{formatCurrency(
-								diagnosis?.PROFESSIONAL_FEE_PF_SHARE
-							)}
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={formatCurrency(
+									diagnosis?.PROFESSIONAL_FEE_PF_SHARE
+								)}
+                            />
 						</div>
-						<div className="col-span-1">0.00</div>
+						<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
 						<div className="col-span-1">
-							{formatCurrency(
-								diagnosis?.PROFESSIONAL_FEE_PF_SHARE
-							)}
+						<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={formatCurrency(
+									diagnosis?.PROFESSIONAL_FEE_PF_SHARE
+								)}
+                            />
 						</div>
 						<div className="col-span-1"></div>
 						<div className="col-span-1">
-							{formatCurrency(
-								diagnosis?.PROFESSIONAL_FEE_PF_SHARE
-							)}
+						<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={formatCurrency(
+									diagnosis?.PROFESSIONAL_FEE_PF_SHARE
+								)}
+                            />
 						</div>
 					</div>
 

@@ -1,6 +1,6 @@
 import FlatIcon from "../../../FlatIcon";
 
-const InfoTextForBilling = ({
+const InfoTextForSummary = ({
 	className = "",
 	labelClassName = "",
 	contentClassName = "",
@@ -16,9 +16,11 @@ const InfoTextForBilling = ({
 		>
 			<div
 				contentEditable
-				className={`text-darker  rounded-xl w-full text-sm font-semibold capitalize flex justify-center   ${contentClassName}`}
+				className={`text-darker  rounded-xl w-full text-xs font-semibold capitalize flex justify-center   ${contentClassName}`}
 			>
-				{value || " "}
+				{value || "0.00 "
+                
+                }
 				{/* {value || (
 					<>
 						<span className="text-gray-200 font-normal text-xs italic">
@@ -32,4 +34,4 @@ const InfoTextForBilling = ({
 	);
 };
 
-export default InfoTextForBilling;
+export default InfoTextForSummary;

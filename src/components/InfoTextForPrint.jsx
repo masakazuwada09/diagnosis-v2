@@ -11,7 +11,7 @@ const InfoTextForPrint = ({
 }) => {
 	return (
 		<div
-			className={`flex flex-col sm:flex-row items-center capitalize font-mono  border-b  border-b-slate-300  ${className}`}
+			className={`flex flex-col sm:flex-row items-center capitalize font-mono ${className}`}
 			{...rest}
 		>
 			<label
@@ -27,7 +27,7 @@ const InfoTextForPrint = ({
 				
 				{value || (
 					<>
-						<span className="text-gray-200 font-normal text-xs italic">
+						<span className="text-slate-800 font-normal text-xs italic">
 							blank
 						</span>{" "}
 						&nbsp;

@@ -1,6 +1,8 @@
 import useDataTable from "../../../../hooks/useDataTable";
 import Table from "../../../table/Table";
 import { v4 as uuidv4 } from "uuid";
+import InfoTextForSummary from "./InfoTextForSummary";
+
 /* eslint-disable react/prop-types */
 const uniq_id = uuidv4();
 const SummaryOfCharges = (props) => {
@@ -12,13 +14,13 @@ const SummaryOfCharges = (props) => {
 
 	return (
 		<>
-			<div className="border border-gray-400">
+			<div className="border ">
 			
 				<h5 className="text-sm bg-gray-700 font-md font-mono text-center text-white ">
-					SUMMARY OF CHANGES
+					SUMMARY OF CHARGES
 				</h5>
 				<div className="">
-					<div className="border bg-gray-100  grid grid-cols-6 divide-x text-sm font-semibold text-center font-mono">
+					<div className="border  bg-gray-100  grid grid-cols-6 divide-x text-sm font-semibold text-center font-mono">
 						<div className="col-span-2">PARTICULARS</div>
 						<div className="col-span-1">DEBIT</div>
 						<div className="col-span-1">DISCOUNT</div>
@@ -29,19 +31,51 @@ const SummaryOfCharges = (props) => {
 						<div className="col-span-2 text-left ml-2">
 							Drugs and Medicines (GF)
 						</div>
-						<div className="col-span-1">50.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">50.00</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
 					</div>
 					<div className="grid grid-cols-6 divide-x text-xs font-light text-center mt-2 font-mono">
 						<div className="col-span-2 text-left ml-2">
 							NonDrugs / Supplies
 						</div>
-						<div className="col-span-1">50.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">50.00</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
 					</div>
 					<div className="grid grid-cols-6 divide-x text-xs font-light text-center mt-2 font-mono">
 						<div className="col-span-2 text-left ml-2">
@@ -49,11 +83,25 @@ const SummaryOfCharges = (props) => {
 						</div>
 						<div className="col-span-1">
 							{/* add a code for Debit database */}
-							500.00
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
 						</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">500.00</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
 					</div>
 					<div className="grid grid-cols-6 divide-x text-xs font-light text-center  mt-2 font-mono">
 						<div className="col-span-2 text-left ml-2">
@@ -61,11 +109,25 @@ const SummaryOfCharges = (props) => {
 						</div>
 						<div className="col-span-1">
 							{/* add a code for Debit database */}
-							500.00
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
 						</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">500.00</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
 					</div>
 					<div className="grid grid-cols-6 divide-x text-xs font-light text-center mt-2 font-mono">
 						<div className="col-span-2 text-left ml-2">
@@ -87,29 +149,74 @@ const SummaryOfCharges = (props) => {
 							Miscellaneous
 						</div>
 						<div className="col-span-1">
-							{/* add a code for Debit database */}
-							0.00
+							{/* Code For Debit Database */}
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
 						</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.00</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
 					</div>
 					<div className="grid grid-cols-6 divide-x text-xs font-light text-center mt-2 font-mono">
 						<div className="col-span-2 text-left ml-2">PHIC</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.o0</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+
 					</div>
 					<div className="grid grid-cols-6 border-t divide-x text-sm font-semibold text-center mt-2 font-mono">
 						<div className="col-span-2 text-right mr-1">Total:</div>
 						<div className="col-span-1">
 							{/* add a code for Debit database */}
-							1,100.00
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
 						</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">0.00</div>
-						<div className="col-span-1">1,100.00</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
+						<div className="col-span-1">
+							<InfoTextForSummary
+                                contentClassName="text-sm"
+                            />
+						</div>
 					</div>
 				</div>
 			</div>

@@ -23,6 +23,7 @@ import Axios from "../../../../libs/axios";
 import AppointmentStatus from "../../../../components/AppointmentStatus";
 import CashierApproval from "../../../appointments/components/CashierApproval";
 import BillingApproval from "../../../hims/his-billing/component/BillingApproval";
+import SummaryOfCharges from "../../../../components/cashier-billing/component/billing/SummaryOfCharges";
 
 const uniq_id = uuidv4();
 /* eslint-disable react/prop-types */
@@ -60,6 +61,7 @@ const InfoText = ({
 };
 const CashierDetails = ({
 	appointment: propAppointment,
+	loading: patient,
 	forCashier = false,
 	forBilling = false,
 	forHousekeeping = false,
@@ -240,6 +242,65 @@ const CashierDetails = ({
 							""
 						)}
 
+
+
+						{!hideServices ? (
+							<CollapseDiv
+								defaultOpen={
+									(appointment.status == "pending" &&
+										appointment?.vital_id != null) ||
+									appointment?.status ==
+										"pending-for-cashier-release"
+								}
+								withCaret={true}
+								title="Summary of Charges"
+								headerClassName="bg-blue-50"
+								bodyClassName="p-0"
+							>
+								{forCashier ? (
+
+									<SummaryOfCharges
+									appointment={appointment}
+									patient={patient}
+									className="m-2 font-bold"
+									/>
+									
+								) : (
+									<PatientServices
+										setAppointment={setOrder}
+										showTitle={false}
+										mutateAll={mutateAll}
+										appointment={appointment}
+										patient={appointment?.patient}
+									/>
+								)}
+								{/* {forBilling ? (
+									<BillingApproval
+										setAppointment={setOrder}
+										showTitle={false}
+										appointment={appointment}
+										patient={appointment?.patient}
+										mutateAll={mutateAll}
+									/>
+								) : (
+									<PatientServices
+										setAppointment={setOrder}
+										showTitle={false}
+										mutateAll={mutateAll}
+										appointment={appointment}
+										patient={appointment?.patient}
+									/>
+								)} */}
+							</CollapseDiv>
+						) : (
+							""
+						)}
+
+
+
+
+
+
 						{!hideServices ? (
 							<CollapseDiv
 								defaultOpen={
@@ -291,6 +352,9 @@ const CashierDetails = ({
 						) : (
 							""
 						)}
+
+
+					
 					</div>
 				</>
 			) : (

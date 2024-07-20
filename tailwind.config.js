@@ -5,8 +5,16 @@ export default {
 		"./src/**/*.{js,ts,jsx,tsx}",
 		"./node_modules/tw-elements-react/dist/js/**/*.js",
 	],
+	
 	theme: {
+		// fontSize: {
+		// 	sm: ['14px', '20px'],
+		// 	base: ['16px', '24px'],
+		// 	lg: ['20px', '28px'],
+		// 	xl: ['24px', '32px'],
+		//   },
 		extend: {
+			
 			colors: {
 				dark: {
 					DEFAULT: "#353535",
@@ -47,6 +55,7 @@ export default {
 					DEFAULT: "#292B39",
 					dark: "#292B39",
 				},
+				
 			},
 		},
 	},

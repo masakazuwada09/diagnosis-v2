@@ -11,18 +11,12 @@ const InfoTextForBilling = ({
 }) => {
 	return (
 		<div
-			className={`flex flex-col sm:flex-row items-center capitalize font-mono  border-b  border-b-slate-300  ${className}`}
+			className={`flex flex-col  capitalize font-mono  border-b  border-b-slate-300 w-full   ${className}`}
 			{...rest}
 		>
-			<label
-				className={`w-full pt-3 text-placeholder flex text-xs font-light border-opacity-50 capitalize text-slate-800 lg:col-span-3 ${labelClassName}`}
-			>
-				{icon ? <FlatIcon icon={icon} className="mr-1" /> : ""} {title}
-			</label>
-
 			<div
 				contentEditable
-				className={`text-darker  rounded-xl w-full px-1 text-sm font-semibold capitalize lg:col-span-8 ${contentClassName}`}
+				className={`text-darker  rounded-xl w-full px-1 text-sm font-semibold capitalize flex justify-center   ${contentClassName}`}
 			>
 				{value || " "}
 				{/* {value || (

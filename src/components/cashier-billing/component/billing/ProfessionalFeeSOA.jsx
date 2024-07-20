@@ -12,13 +12,13 @@ const ProfessionalFeeSOA = (props) => {
 	});
 	return (
 		<>
-			<div className="border shadow p-2">
-				<h5 className="text-sm font-semibold text-center bg-blue-700 font-mono text-white">
+			<div className="border border-gray-400 ">
+				<h5 className="text-sm font-md text-center bg-gray-700 font-mono text-white">
 					PROFESSIONAL FEE
 				</h5>
 
 				<div className="border ">
-					<div className="border bg-blue-200 rounded-sm grid grid-cols-7 divide-x text-sm font-semibold text-center font-mono items-center">
+					<div className="border bg-gray-200 rounded-sm grid grid-cols-7 divide-x text-sm font-semibold text-center font-mono items-center">
 						<div className="col-span-2">PARTICULARS</div>
 						<div className="col-span-1">ACTUAL CHARGES</div>
 						<div className="col-span-1">

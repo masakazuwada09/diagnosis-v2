@@ -29,31 +29,31 @@ const SummaryWithPhic = (props) => {
 	);
 	return (
 		<>
-			<div className=" p-2">
-				<h5 className="text-sm font-md font-mono text-center  bg-blue-700 text-white">
+			<div className="border border-gray-400">
+				<h5 className="text-sm font-md font-mono text-center  bg--700 text-white">
 					SUMMARY OF CHANGES - PHIC
 				</h5>
 
 				
 				<div className="grid grid-cols-4 items-center">
-				<div className="flex text-base font-semibold m-2 font-mono col-span-2">
+				<div className="flex text-base font-semibold m-2 font-mono col-span-2 text-red-600">
 					<p>
 						ICD-10 Code: {diagnosis?.CASE_CODE} -{" "}
 						{diagnosis?.CASE_RATE_CODE}
 					</p>
 				</div>
-					<div className="text-xs items-center w-full flex-col">
+					<div className="text-xs items-center w-full flex-col font-bold">
 						Firstcase description: 
 
-						<p className="font-bold">
+						<p className="font-bold text-red-600">
 							{diagnosis?.CASE_DESCRIPTION}
 						</p>
 						
 					</div>
-					<div className="text-xs items-center w-full flex-col">
+					<div className="text-xs items-center w-full flex-col font-bold">
 						
 						Secondcase description: 
-						<p className="font-bold">
+						<p className="font-bold text-red-600">
 							{diagnosis?.CASE_DESCRIPTION}
 						</p>
 						
@@ -62,7 +62,7 @@ const SummaryWithPhic = (props) => {
 
 				
 				<div className=" rounded-md mt-2">
-					<div className="border bg-blue-200 rounded-sm grid grid-cols-7 divide-x text-sm font-mono font-semibold text-center items-center">
+					<div className="border bg-gray-200 rounded-sm grid grid-cols-7 divide-x text-sm font-mono font-semibold text-center items-center">
 						<div className="col-span-2">PARTICULARS</div>
 						<div className="col-span-1">ACTUAL CHARGES</div>
 						<div className="col-span-1">

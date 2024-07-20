@@ -12,13 +12,13 @@ const SummaryOfCharges = (props) => {
 
 	return (
 		<>
-			<div className="">
+			<div className="border border-gray-400">
 			
-				<h5 className="text-sm bg-blue-700 font-md font-mono text-center text-white">
+				<h5 className="text-sm bg-gray-700 font-md font-mono text-center text-white ">
 					SUMMARY OF CHANGES
 				</h5>
 				<div className="">
-					<div className="border bg-blue-100  grid grid-cols-6 divide-x text-sm font-semibold text-center font-mono">
+					<div className="border bg-gray-100  grid grid-cols-6 divide-x text-sm font-semibold text-center font-mono">
 						<div className="col-span-2">PARTICULARS</div>
 						<div className="col-span-1">DEBIT</div>
 						<div className="col-span-1">DISCOUNT</div>

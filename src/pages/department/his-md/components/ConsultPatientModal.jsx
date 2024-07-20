@@ -107,7 +107,7 @@ const ConsultPatientModal = (props, ref) => {
 											appointment={appointment}
 										>
 											<div className="ml-auto pt-6">
-												<ActionBtn
+												{/* <ActionBtn
 													type="success"
 													// loading={loading}
 													size="lg"
@@ -129,7 +129,7 @@ const ConsultPatientModal = (props, ref) => {
 															service list
 														</span>
 													</div>
-												</ActionBtn>
+												</ActionBtn> */}
 											</div>
 										</PatientInfo>
 									</div>

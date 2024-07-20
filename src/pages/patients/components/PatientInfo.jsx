@@ -107,10 +107,10 @@ const PatientInfo = ({
 
 
 	return (
-		<div className='flex flex- w-full'>
+		<div className='flex flex-row w-full'>
+			
 
-			<div className="group relative h-[108px] w-[108px] min-h-[108px] min-w-[108px] rounded-full aspect-square bg-background">
-				
+			<div className="  rounded-full aspect-square bg-background">
 				<Img
 					type="user"
 					name={`${patient?.firstname}-${patient?.lastname}`}
@@ -121,6 +121,8 @@ const PatientInfo = ({
 					key={`key-${patient?.id}-${patient?.avatar}`}
 				/>
 			</div>
+
+
 			<div className="pl-3 !text-sm w-full">
 				<h6
 					className={` text-xl font-semibold flex pt-4 items-center ${
@@ -131,7 +133,7 @@ const PatientInfo = ({
 				>
 					{patientFullName(patient)}
 				</h6>
-				<div className="flex  lg:flex-row gap-6 ">
+				<div className="flex gap-6 ">
 					<div className="flex items-center gap-2 text-base">
 						<FlatIcon
 							icon="rr-calendar-clock"
@@ -157,60 +159,23 @@ const PatientInfo = ({
 					<FlatIcon icon="rr-map-marker" className="text-base" />
 					<span className="capitalize  flex w-full">
 						{patientAddress(patient)}
-						
 					</span>
 
-
-	<div className="flex flex-col items-center w-80">
-      <div className="capitalize  font-bold text-sm text-gray-900 ">
-        
-      </div>
-    </div>
- 
-	<div className="flex gap-1 ">
-      <div className="capitalize  font-bold text-sm text-gray-900 ">
-        
-      </div>
-    </div>
-
-<div className="flex flex-col items-center w-full">
-
-<div className="">
-	<img
-		src="/vitals/philhealthlogo.png"
-		className="w-8 h-8 object-contain"
-		/>
-</div>
-				
-
-	<div className="capitalize font-bold text-sm text-gray-900 ">
-        <div>
-          PHILHEALTH IDENTIFICATION NUMBER (PIN)
-          
-        </div>
-		
-	</div>
-	<span >{patient?.philhealth}</span>
-	
-
-	
-	</div>
-	
-				
+					
 				</div>
-				
+
 
 				
-
 			</div>
-			
+								
 			{children}
+			</div>
 
 			
 			
-			</div>
-		
-			);
-			};
+			
+			
+	)
+};
 
 export default PatientInfo;

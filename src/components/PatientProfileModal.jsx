@@ -210,6 +210,7 @@ const PatientProfileModal = (props, ref) => {
 		setModalOpen(false);
 	};
 	const noHide = () => {};
+	
 	const markAsDone = () => {
 		setLoadingDone(true);
 		Axios.post(`/v1/doctor/mark-as-done/${showData?.id}`, {

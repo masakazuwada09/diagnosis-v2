@@ -49,13 +49,13 @@ const HISDoctorLinks = ({ isActive }) => {
 					parseInt(pendingPrescription?.data?.length)
 				}
 			/> */}
-			{/* <MenuLink
+			<MenuLink
 				to="/teleconsult"
 				active={isActive("/patient-queue")}
 				icon="rr-clipboard-list-check"
 				text="Tele-consult"
 				// counter={pending?.data?.length}
-			/> */}
+			/>
 		</>
   )
 }

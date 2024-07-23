@@ -251,13 +251,40 @@ const timeHHII = () => {
 	let date = new Date();
 	return `${String(date?.getHours()).padStart(2, "0")}:${date?.getMinutes()}`;
 };
-
 const dateMMDDYYYY = () => {
 	let d = new Date();
 	return `${String(d.getDate()).padStart(2, "0")}-${String(
 		d.getMonth() + 1
 	).padStart(2, "0")}-${d.getFullYear()}`;
 };
+
+const dateMM = (date) => {
+  return (date.getMonth() + 1).toString().padStart(2, "0"); // Month starts from 0, hence +1
+};
+
+const dateDD = (date) => {
+	return (date.getDate()).toString().padStart(2, "0"); 
+};
+
+const dateYYYY = (date) => {
+	return (date.getFullYear()).toString().padStart(2, "0"); 
+};
+
+const timeHH = (date) => {
+	return (date.getHours() ).toString().padStart(2, "0"); 
+  
+};
+
+const timeII = (date) => {
+	return (date.getMinutes()).toString().padStart(2, "0"); 
+};
+
+const timeDay = (date) => {
+    const hours = date.getHours();
+    return hours < 12 ? true : false; // Return true for AM, false for PM
+  };
+
+
 const dateMMDDYYYYHHIIA = (d = new Date()) => {
 	return `${String(d.getDate()).padStart(2, "0")}-${String(
 		d.getMonth() + 1
@@ -606,6 +633,10 @@ export {
 	dateToday,
 	getDateCurrentTimeHHII,
 	dateYYYYMMDD,
+	timeDay,
+	dateMM,
+	dateDD,
+	dateYYYY,
 	dateMMDDYYYY,
 	dateMMDDYYYYHHIIA,
 	months_short,
@@ -616,6 +647,8 @@ export {
 	getWeekDay,
 	getAbsoluteDiff,
 	timeHHII,
+	timeHH,
+	timeII,
 	isEvenNumber,
 	tConvert,
 	getErrors,

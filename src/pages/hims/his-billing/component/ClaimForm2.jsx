@@ -1,4 +1,9 @@
 import React from 'react'
+import { useForm } from 'react-hook-form';
+import { useReactToPrint } from 'react-to-print';
+import ActionBtn from '../../../../components/buttons/ActionBtn';
+import FlatIcon from '../../../../components/FlatIcon';
+
 /* eslint-disable react/prop-types */
 const FormHeading = ({ title }) => {
 	return (
@@ -109,12 +114,27 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 		</div>
 	);
 };
-const ClaimForm2 = ({patient}) => {
+const ClaimForm2 = (props) => {
+	const { register, setValue, watch, getValues, handleSubmit } = useForm({
+	});
+	const { loading: btnLoading, appointment, patient, onSave} = props;
+	const componentRef = React.useRef(null);
+
+	const handlePrint = useReactToPrint({
+		content: () => componentRef.current,
+	});
   return (
     <div className="bg-gray-600 p-11 min-h-[14in]  overflow-auto phic-forms">
+					<ActionBtn
+							className="text-base gap-2 ml-2 mb-2"
+							onClick={handlePrint}
+							type="success"
+						>
+							<FlatIcon icon="rr-print" /> Print
+						</ActionBtn>
 			<div
 				className="bg-white p-[0.5in] flex flex-col w-[9.5in] gap-y-6 mx-auto flex-wrap"
-				id="phic-form-printable"
+				id="phic-form-printable" ref={componentRef}
 			>
 				<div className="bg-white flex flex-col w-[8.5in] min-h-[13in]   border-2">
 					<div className="flex items-center relative justify-center border-b-2 px-2 pt-2 pb-1">

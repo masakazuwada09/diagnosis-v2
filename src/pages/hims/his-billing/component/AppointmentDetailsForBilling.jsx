@@ -18,6 +18,8 @@ import PatientProfileDetails from '../../../../components/PatientProfileDetails'
 import ClaimForm1 from './ClaimForm1';
 import ClaimForm2 from './ClaimForm2';
 import ClaimForm3 from './ClaimForm3';
+import ClaimForm4 from './ClaimForm4';
+
 import PMRF from './PMRF';
 const uniq_id = uuidv4();
 const InfoText = ({
@@ -73,6 +75,7 @@ const AppointmentDetailsForBilling = (
 		formState: { errors },
 	} = useForm();
 	const [appointment, setAppointment] = useState(propAppointment);
+	const [loading, setLoading] = useState(false);
 	const [patient, setPatient] = useState(null);
 	const [showData, setShowData] = useState(null);
 	const [key, setKey] = useState(uniq_id);
@@ -94,6 +97,36 @@ const AppointmentDetailsForBilling = (
 		params: [appointment?.id, key],
 	});
 
+
+	const cashierApproval = (data) => {
+		setLoading(true);
+		let formdata = new FormData();
+		formdata.append("rhu_id", data?.rhu_id);
+		formdata.append("_method", "PATCH");
+
+		Axios.post(
+			`v1/clinic/send-from-cashier-to-nurse-for-release/${appointment?.id}`,
+			formdata
+		)
+			.then((response) => {
+				let data = response.data;
+				// console.log(data);
+				if (mutateAll) {
+					mutateAll();
+				}
+				setTimeout(() => {
+					setAppointment(null);
+				}, 100);
+				setTimeout(() => {
+					toast.success("Patient sent to OPD Nurse!");
+					setLoading(false);
+				}, 200);
+			})
+			.catch((err) => {
+				setLoading(false);
+				console.log(err);
+			});
+	};
 
 	useImperativeHandle(ref, () => ({
 		show: show,
@@ -185,7 +218,6 @@ const AppointmentDetailsForBilling = (
 							<InfoText
 								className="lg:col-span-6"
 								label="PHIC ID:"
-								value={appointment?.phic_no}
 							/>
 							<InfoText
 								className="lg:col-span-12"
@@ -237,24 +269,23 @@ const AppointmentDetailsForBilling = (
 													{
 														title: (
 															<MenuTitle src="/profile.png">
-																Claim Form 1
+																CSF
 															</MenuTitle>
 														),
 
 														content: (
 															<ClaimForm1
-																appointment={showData}
-																patient={
-																	patient
-
-																}
+															loading={loading}
+															onSave={cashierApproval}
+															patient={appointment?.patient}
+															appointment={appointment}
 															/>
 														),
 													},
 													{
 														title: (
 															<MenuTitle src="/profile.png">
-																Claim Form 2
+																CF-2
 															</MenuTitle>
 														),
 
@@ -271,7 +302,7 @@ const AppointmentDetailsForBilling = (
 													{
 														title: (
 															<MenuTitle src="/profile.png">
-																Claim Form 3
+																CF-3
 															</MenuTitle>
 														),
 
@@ -288,12 +319,12 @@ const AppointmentDetailsForBilling = (
 													{
 														title: (
 															<MenuTitle src="/profile.png">
-																Claim Form 4
+																CF-4
 															</MenuTitle>
 														),
 
 														content: (
-															<ClaimForm1
+															<ClaimForm4
 																appointment={showData}
 																patient={
 																	patient

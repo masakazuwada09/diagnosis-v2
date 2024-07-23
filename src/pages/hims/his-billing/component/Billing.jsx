@@ -8,6 +8,7 @@ import SummaryWithPhic from "../../../../components/cashier-billing/component/bi
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 import { useAuth } from "../../../../hooks/useAuth";
 import { dateToday } from "../../../../libs/helpers";
+import { useReactToPrint } from "react-to-print";
 
 /* eslint-disable react/prop-types */
 const Billing = (props) => {
@@ -38,6 +39,10 @@ const Billing = (props) => {
 		// Logic for saving the invoice
 		// You can implement your save logic here
 	};
+
+	const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
   return (
     <div className="relative">
@@ -243,14 +248,16 @@ const Billing = (props) => {
 				</div>
 
 				<div className="p-4 flex items-center justify-end">
-					{/* {billingStatus === "mgh" && (
+					{billingStatus === "mgh" && (
+						""
+					)}
+
 						<ActionBtn
 							className="text-base gap-2 ml-2"
 							onClick={handlePrint}
 						>
 							<FlatIcon icon="rr-print" /> Print
 						</ActionBtn>
-					)} */}
 					{/* Adding more billing-related information here if needed */}
 					<ActionBtn
 						type="success"

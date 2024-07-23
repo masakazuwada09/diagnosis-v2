@@ -379,6 +379,7 @@ const PMRF = ({ patient, refresh, printPage }) => {
 		onAfterPrint: () => console.log("after printing..."),
 		removeAfterPrint: true,
 	});
+	
   return (
     <div className="bg-gray-600 p-11 min-h-[14in]  overflow-auto phic-forms">
         
@@ -392,6 +393,7 @@ const PMRF = ({ patient, refresh, printPage }) => {
 				<FlatIcon icon="rr-print" className="text-white mr-1" /> Save
 				and Print
 			</ActionBtn>
+
 			<div
 				className="bg-white p-[0.5in]  flex flex-col w-[9.5in] gap-y-6 mx-auto flex-wrap"
 				id="phic-form-printable"

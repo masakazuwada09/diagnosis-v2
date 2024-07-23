@@ -281,6 +281,19 @@ const router = createBrowserRouter(
 					element={<DoctorPatientQueue />}
 				>
 			</Route>
+
+			
+			<Route path="vegapunk">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element={<Patients />}></Route>
+				{/* <Route path="telemedicine" element={<Appointments />}></Route> */}
+				<Route
+					path="patient-queue"
+					element={<DoctorPatientQueue />}
+				>
+				</Route>
+				
+				</Route>
 				
 				</Route>
 				

@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { calculateAge } from '../../../../../libs/helpers';
+import { calculateAge } from '../../../../libs/helpers';
+import ActionBtn from '../../../../components/buttons/ActionBtn';
+import { useReactToPrint } from 'react-to-print';
+import { useForm } from 'react-hook-form';
+import FlatIcon from '../../../../components/FlatIcon';
 /* eslint-disable react/prop-types */
 const BoxInput = () => {
 	return (
@@ -107,13 +111,38 @@ const CheckBox = ({
 		</label>
 	);
 };
-const ClaimForm4 = ({patient}) => {
+
+
+
+
+const ClaimForm4 = (props) => {
+	const { register, setValue, watch, getValues, handleSubmit } = useForm({
+	});
+	const { loading: btnLoading, appointment, patient, onSave} = props;
+	const componentRef = React.useRef(null);
+
+	const handlePrint = useReactToPrint({
+		content: () => componentRef.current,
+	});
+
+
   return (
     <div className="bg-gray-600 p-11 h-screen  phic-forms">
+
+						<ActionBtn
+							className="text-base gap-2 ml-2 mb-2"
+							onClick={handlePrint}
+							type="success"
+						>
+							<FlatIcon icon="rr-print" /> Print
+						</ActionBtn>
+						
 			<div
 				className="bg-white p-[0.5in]  flex flex-col w-[9.5in] gap-y-6 mx-auto"
-				id="phic-form-printable"
+				id="phic-form-printable" ref={componentRef}
 			>
+						
+
 				<div className="bg-white flex flex-col w-[8.5in] min-h-[13in] ">
 					<div className="flex items-center">
 						<img

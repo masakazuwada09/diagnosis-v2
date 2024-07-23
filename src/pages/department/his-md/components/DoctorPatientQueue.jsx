@@ -179,7 +179,12 @@ const DoctorPatientQueue = () => {
 				</div>
 			</div>
 			<ReferToSPHModal ref={referToSphModalRef} mutateAll={mutateAll} />
-			<ConsultPatientModal ref={acceptPatientRef} mutateAll={mutateAll} />
+
+			<ConsultPatientModal 
+				ref={acceptPatientRef} 
+				mutateAll={mutateAll}
+				
+				/>
 			
 			<PatientProfileModal
 				pendingOrdersRef={pendingOrdersRef}

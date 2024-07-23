@@ -86,8 +86,6 @@ const AppLayout = (props) => {
 			// 	return <HISNurseLink isActive={isActive} />;
 			case "his-er":
 				return <HISErLink isActive={isActive} />;
-			case "his-md":
-				return <HISDoctorLinks isActive={isActive} />;
 			case "his-billing":
 				return <HISBillingLink isActive={isActive} />;
 			case "his-housekeeping":
@@ -100,11 +98,26 @@ const AppLayout = (props) => {
 					return <HISPacuLink isActive={isActive} />;
 			case "opd-nurse":
 			return <HISOpdLink isActive={isActive} />;
+			
+			//doctors
+			case "his-md":
+				return <HISDoctorLinks isActive={isActive} />;
+			case "vegapunk":
+				return <HISDoctorLinks isActive={isActive} />;
 				
 			default:
 				break;
 		}
 	};
+
+	const renderLink = () => {
+		switch (String(user?.username).toLowerCase()) {
+			case "vegapunk-33":
+				return <HISDoctorLinks isActive={isActive} />;
+		}
+	};
+
+
 	return (
 		<div className="w-full flex">
 			{/* <span

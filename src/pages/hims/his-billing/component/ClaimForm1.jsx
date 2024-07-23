@@ -1,4 +1,12 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { useReactToPrint } from "react-to-print";
+import FlatIcon from "../../../../components/FlatIcon";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
+import { useAuth } from "../../../../hooks/useAuth";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+import { useForm } from 'react-hook-form';
+import { formatDateMMDDYYYYHHIIA, formatDateMMDDYYYY, dateMMDDYYYY, dateMM, dateDD, dateYYYY, timeHHII, timeHH, timeII, timeDay } from "../../../../libs/helpers";
+
 
 
 
@@ -44,6 +52,7 @@ const BoxInputGroup = ({
 			{label && (
 				<label
 					className={` absolute !text-[10px] -bottom-4 ${labelClassName}`}
+					
 				>
 					{label}
 				</label>
@@ -57,11 +66,12 @@ const UnderscoreGroup = ({ children, label }) => {
 		<div className="flex flex-col items-center justify-center relative">
 			{children}
 			{label && (
-				<label className="text-[8px] absolute -bottom-2">{label}</label>
+				<label className="text-[8px] fixed mt-7">{label}</label>
 			)}
 		</div>
 	);
 };
+
 const Underscore = ({ count = 1 }) => {
 	let arr = Array.from({ length: count });
 	return (
@@ -77,6 +87,14 @@ const Underscore = ({ count = 1 }) => {
 		</div>
 	);
 };
+
+const Underscoredate = ({ count, value, }) => (
+	<span className="underscore">
+	  {value ? value.padStart(count, "_") : "_".repeat(count)}
+	</span>
+  );
+
+
 const CheckBox = ({ label, className = "", inputClassName = "" }) => {
 	return (
 		<label
@@ -112,15 +130,65 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 	);
 };
 
+/* eslint-disable react/prop-types */
+const ClaimForm1 = (props) => {
+    const { register, setValue, watch, getValues, handleSubmit } = useForm({
+	});
+    const { loading: btnLoading, appointment, patient, onSave} = props;
+    const { user } = useAuth();
+    const [loading, setLoading] = useState(true);
+    const [showData, setShowData] = useState(null);
+    const componentRef = React.useRef(null);
+    const billingStatus = patient?.billing_status || "pending";
 
+	let diagnosis = caseCodes?.find(
+		(x) => x.CASE_CODE == appointment?.diagnosis_code
+	);
 
+	const mutateAll = () => {
+		mutatePending();
+		mutatePendingForResultReading();
+		mutateNowServing();
+		mutatePendingForRelease();
+		//mutatePendingPatient();
+		//mutateNowServingPatient();
+	};
 
-	const ClaimForm1 = ({patient}) => {
-		return (
-		  <div className="bg-gray-600 p-11 min-h-[14in]  overflow-auto phic-forms">
+    useNoBugUseEffect({
+        functions: () => {
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000);
+        },
+        params: [appointment],
+    });
+
+    const handleSave = () => {
+        if (onSave) {
+            onSave();
+        }
+        // Logic for saving the invoice
+        // You can implement your save logic here
+    };
+
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
+
+    return (
+        <div className="bg-gray-600 p-11 min-h-[14in]  overflow-auto phic-forms">
+
+						<ActionBtn
+							className="text-base gap-2 ml-2 mb-2"
+							onClick={handlePrint}
+							type="success"
+						>
+							<FlatIcon icon="rr-print" /> Print
+						</ActionBtn>
+					
 				  <div
 					  className="bg-white p-[0.5in] w-[9.5in] gap-y-6 mx-auto"
-					  id="phic-form-printable"
+					  id="phic-form-printable" ref={componentRef}
 				  >
 					  <div className="bg-white flex flex-col w-[8.5in] min-h-[13in]   border-2">
 						  <div className="flex items-center relative justify-center border-b-2 px-2 pt-2 pb-1">
@@ -248,8 +316,10 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 									  </h5>
 	  
 									  <div className="flex items-center gap-1 ml-2">
-										  <BoxInputGroup labelClassName="italic">
-											  <BoxInput />
+										  <BoxInputGroup value={patient?.philhealth} labelClassName="italic">
+										  	
+											  <BoxInput 
+											  />
 											  <BoxInput />
 										  </BoxInputGroup>
 										  <b>-</b>
@@ -490,19 +560,25 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 													  a. Date Admitted
 												  </span>
 												  <UnderscoreGroup label="month">
-													  <Underscore count={2} />
+													  <Underscoredate count={2} value={dateMM(
+												new Date(appointment?.created_at)
+													)}/>
 												  </UnderscoreGroup>
 												  <b className="text-lg font-bold">
 													  -
 												  </b>
 												  <UnderscoreGroup label="day">
-													  <Underscore count={2} />
+													  <Underscoredate count={2} value={dateDD(
+												new Date(appointment?.created_at)
+													)}/>
 												  </UnderscoreGroup>
 												  <b className="text-lg font-bold">
 													  -
 												  </b>
-												  <UnderscoreGroup label="day">
-													  <Underscore count={4} />
+												  <UnderscoreGroup label="Year">
+													  <Underscoredate count={4} value={dateYYYY(
+												new Date(appointment?.created_at)
+													)}/>
 												  </UnderscoreGroup>
 											  </div>
 											  <div className="flex items-center gap-1 pb-1">
@@ -510,19 +586,34 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 													  b. Time Admitted
 												  </span>
 												  <UnderscoreGroup label="hour">
-													  <Underscore count={2} />
+													  <Underscoredate count={2} value={timeHH(
+												new Date(appointment?.created_at)
+													)}/>
 												  </UnderscoreGroup>
 												  <b className="text-lg font-bold">
 													  :
 												  </b>
 												  <UnderscoreGroup label="min">
-													  <Underscore count={2} />
+													  <Underscoredate count={2} value={timeII(
+												new Date(appointment?.created_at)
+													)}/>
 												  </UnderscoreGroup>
 											  </div>
 											  <div className="flex items-center gap-4">
-												  <CheckBox label="AM" />
-												  <CheckBox label="PM" />
+											  {appointment?.created_at && (
+        										<>
+												  <CheckBox
+            label="AM"
+            value={timeDay(new Date(appointment?.created_at))}
+          />
+          <CheckBox
+            label="PM"
+            value={!timeDay(new Date(appointment?.created_at))}
+          />
+													</>
+												)}
 											  </div>
+											  
 										  </div>
 										  <div className="flex items-center gap-4">
 											  <div className="flex items-center gap-1">
@@ -541,7 +632,7 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 												  <b className="text-lg font-bold">
 													  -
 												  </b>
-												  <UnderscoreGroup label="day">
+												  <UnderscoreGroup label="Year">
 													  <Underscore count={4} />
 												  </UnderscoreGroup>
 											  </div>
@@ -566,7 +657,9 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 										  </div>
 									  </div>
 								  </li>
-	  
+								  
+
+								  {appointment?.id ? (
 								  <li className="flex flex-col gap-2">
 									  <h5 className=" font-bold whitespace-pre">
 										  4.Patient Disposition: (select only 1)
@@ -579,6 +672,7 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 											  <CheckBox label="e. Expired" />
 											  <div className="flex items-center gap-1">
 												  <UnderscoreGroup label="month">
+												  
 													  <Underscore count={2} />
 												  </UnderscoreGroup>
 												  <b className="text-lg font-bold">
@@ -590,7 +684,7 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 												  <b className="text-lg font-bold">
 													  -
 												  </b>
-												  <UnderscoreGroup label="day">
+												  <UnderscoreGroup label="Year">
 													  <Underscore count={4} />
 												  </UnderscoreGroup>
 											  </div>
@@ -659,6 +753,10 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 										  </div>
 									  </div>
 								  </li>
+
+								) : (
+							""
+						)}
 	  
 								  <li className="flex items-center gap-6">
 									  <h5 className=" font-bold whitespace-pre">
@@ -1495,7 +1593,7 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 											  <Underscore count={2} />
 										  </UnderscoreGroup>
 										  <b className="text-lg font-bold">-</b>
-										  <UnderscoreGroup label="day">
+										  <UnderscoreGroup label="Year">
 											  <Underscore count={4} />
 										  </UnderscoreGroup>
 									  </div>
@@ -1582,20 +1680,23 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 										  <Underscore count={2} />
 									  </UnderscoreGroup>
 									  <b className="text-lg font-bold">-</b>
-									  <UnderscoreGroup label="day">
+									  <UnderscoreGroup label="Year">
 										  <Underscore count={4} />
 									  </UnderscoreGroup>
 								  </div>
 							  </div>
+							  
+						
+
 						  </FormBody>
+
+						  
 					  </div>
+					  
 				  </div>
+				 
 			  </div>
-		)
-	  }
-	
+    );
+};
 
-export default ClaimForm1
-/* eslint-disable react/prop-types */
-
-
+export default ClaimForm1;

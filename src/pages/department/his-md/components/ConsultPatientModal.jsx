@@ -35,6 +35,7 @@ const ConsultPatientModal = (props, ref) => {
 	const [showData, setShowData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	const [appointment, setAppointment] = useState(null);
+	const { patient } = props;
 
 	useImperativeHandle(ref, () => ({
 		show: show,
@@ -107,6 +108,21 @@ const ConsultPatientModal = (props, ref) => {
 											appointment={appointment}
 										>
 											<div className="ml-auto pt-6">
+											<div className="">
+												<img
+													src="/vitals/philhealthlogo.png"
+													className="w-8 h-8 object-contain "
+												/>
+												</div>
+
+												<div className="capitalize font-bold text-sm text-gray-900 ">
+													<div>
+													PHILHEALTH IDENTIFICATION NUMBER (PIN)
+													
+													</div>
+													
+												</div>
+												<span >{patient?.philhealth}</span>
 												{/* <ActionBtn
 													type="success"
 													// loading={loading}

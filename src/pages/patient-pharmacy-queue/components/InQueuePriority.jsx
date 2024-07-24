@@ -33,7 +33,7 @@ const InQueuePriority = ({
 					/>
 				</span>
 			</div>
-			{/* {doctorName(data?.referredToDoctor)} */}
+			
 			{children}
 		</div>
 	);

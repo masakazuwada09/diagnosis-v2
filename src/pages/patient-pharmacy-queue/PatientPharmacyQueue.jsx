@@ -155,6 +155,8 @@ const PatientPharmacyQueue = () => {
 							{/* <span className="font-medium text-md text-blue-500 -mb-2 ">
 								Regular
 							</span> */}
+
+
 							{listPending()?.length == 0 &&
 							pendingMedsRelease?.data?.length == 0 ? (
 								<span className="text-center py-20 font-bold text-slate-400">
@@ -231,7 +233,11 @@ const PatientPharmacyQueue = () => {
 												</div>
 											</InQueueRegular>
 										);
-									})}{" "}
+									})}
+									{" "}
+									
+									
+									
 									{pendingMedsRelease?.data?.map(
 										(queue, data, index) => {
 											return (
@@ -264,7 +270,7 @@ const PatientPharmacyQueue = () => {
 																<span className="-mb-1">
 
 																{doctorName(
-													data?.referredToDoctor
+													queue?.referredToDoctor
 												)}
 																</span>
 																<span className="font-light text-sm">

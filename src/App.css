@@ -11,6 +11,12 @@ html {
 .leaflet-container {
 	height: 100%;
 }
+.slanted {
+	clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 0% 100%);
+  }
+  .slanted-reverse {
+	clip-path: polygon(7% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
 .noto-sans-thin {
 	font-family: "Noto Sans", sans-serif;
 	font-optical-sizing: auto;

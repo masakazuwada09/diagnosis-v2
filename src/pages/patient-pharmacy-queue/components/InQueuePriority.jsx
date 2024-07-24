@@ -1,7 +1,9 @@
 /* eslint-disable react/prop-types */
 import FlatIcon from "../../../components/FlatIcon";
+import { doctorName } from "../../../libs/helpers";
 
 const InQueuePriority = ({
+	data,
 	number = "1",
 	patientName = "",
 	onClick,
@@ -31,7 +33,7 @@ const InQueuePriority = ({
 					/>
 				</span>
 			</div>
-
+			{/* {doctorName(data?.referredToDoctor)} */}
 			{children}
 		</div>
 	);

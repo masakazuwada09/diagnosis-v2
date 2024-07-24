@@ -18,7 +18,7 @@ const InServiceItem = ({
 		specialty: "Cardiologists",
 	},
 }) => {
-	console.log("data", data);
+	console.log("data aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", data);
 	return (
 		<div className="flex flex-col bg-green-50 border border-blue-100 p-4 rounded-xl relative">
 			{data?.status == "in-service-result-reading" ? (

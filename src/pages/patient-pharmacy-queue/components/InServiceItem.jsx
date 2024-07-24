@@ -8,6 +8,7 @@ const InServiceItem = ({
 		specialty: "Cardiologists",
 	},
 }) => {
+	
 	return (
 		<div className="flex flex-col bg-green-50 border border-blue-100 p-4 rounded-xl">
 			<div className="grid grid-cols-1 lg:grid-cols-2 divide-x">
@@ -35,12 +36,10 @@ const InServiceItem = ({
 				Doctor Assigned
 			</span>
 			<h4 className="text-lg text-center  font-bold text-indigo-900 -mb-1">
-				{`${doctor?.title} ${doctor?.name}`}
+				{doctorName(data?.referredToDoctor)}
 			</h4>
 			<span className=" text-center font-light text-sm text-slate-600">
-				{doctor?.specialty?.length
-					? doctor?.specialty
-					: "General Practitioner"}
+				{doctorSpecialty(data?.referredToDoctor)}
 			</span>
 		</div>
 	);

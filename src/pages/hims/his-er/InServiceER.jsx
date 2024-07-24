@@ -13,7 +13,7 @@ const InServiceER = ({
 		specialty: "",
 	},
 }) => {
-    console.log("data", data);
+    console.log("dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", data);
   return (
     <div className="flex flex-col bg-green-50 border border-blue-100 p-4 rounded-xl relative">
 			{data?.status == "in-service-result-reading" ? (
@@ -57,17 +57,13 @@ const InServiceER = ({
 			<span className="border-b  pb-4 mb-4 "></span>
 
 			<span className="font-light mb-1     text-center text-xs text-slate-500">
-				Medical Doctor Assigned
+				Doctor Assigned
 			</span>
 			<h4 className="text-lg text-center  font-bold text-indigo-900 -mb-1">
-				
-			{data?.referred_to}
-			{doctorName(data?.doctor)}
-			
-
+				{doctorName(data?.referredToDoctor)}
 			</h4>
 			<span className=" text-center font-light text-sm text-slate-600">
-			{doctorSpecialty(data?.doctor)}
+				{doctorSpecialty(data?.referredToDoctor)}
 			</span>
 		</div>
   )

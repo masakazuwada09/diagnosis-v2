@@ -13,7 +13,7 @@ import {
 	parasitic_infectious
 
 } from "../../../../libs/appointmentOptions";
-import { formatDateMMDDYYYYHHIIA, keyByValue } from "../../../../libs/helpers";
+import { formatDateMMDDYYYYHHIIA, keyByValue, doctorName } from "../../../../libs/helpers";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 import TextInputField from "../../../../components/inputs/TextInputField";
 import PatientServices from "../../../../components/modal/PatientServices";
@@ -68,6 +68,7 @@ const OPDAppointmentDetails = ({
 	setOrder,
 	hideServices = false,
 	mutateAll,
+	data,
 }) => {
 	const {
 		register,
@@ -164,7 +165,7 @@ const OPDAppointmentDetails = ({
 								className="lg:col-span-6"
 								label="Doctor:"
 								valueClassName=" !uppercase"
-								value={appointment?.referred_to}
+								value={doctorName(data?.referredToDoctor)}
 							/>
 							{/* <InfoText
 								className="lg:col-span-6"

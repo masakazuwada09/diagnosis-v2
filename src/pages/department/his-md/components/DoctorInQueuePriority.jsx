@@ -2,6 +2,8 @@ import FlatIcon from "../../../../components/FlatIcon";
 import ActionBtn from "../../../../components/buttons/ActionBtn";
 
 const DoctorInQueuePriority = ({
+	queue,
+	data,
 	labOrdersStr = "",
 	acceptAction,
 	roomNumber,
@@ -45,8 +47,8 @@ const DoctorInQueuePriority = ({
 					{patientName}
 				</span>
 				<div className="flex items-center gap-2 text-sm -ml-3 -mt-0">
-						<FlatIcon icon="fi fi-rr-bed" />
-						{roomNumber}
+						{/* <FlatIcon icon="fi fi-rr-bed" /> */}
+						{data?.room_number}
 					</div>
 			</div>
 			

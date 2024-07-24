@@ -35,12 +35,10 @@ const InServiceItem = ({
 				Doctor Assigned
 			</span>
 			<h4 className="text-lg text-center  font-bold text-indigo-900 -mb-1">
-				{`${doctor?.title} ${doctor?.name}`}
+				{doctorName(data?.referredToDoctor)}
 			</h4>
 			<span className=" text-center font-light text-sm text-slate-600">
-				{doctor?.specialty?.length
-					? doctor?.specialty
-					: "General Practitioner"}
+				{doctorSpecialty(data?.referredToDoctor)}
 			</span>
 		</div>
 	);

@@ -18,6 +18,8 @@ import { patientFullName } from "../../../../libs/helpers";
 import PatientInfo from "../../../patients/components/PatientInfo";
 import AppointmentDetails from "../../../appointments/components/AppointmentDetails";
 import FlatIcon from "../../../../components/FlatIcon";
+import useDoctorQueue from "../../../../hooks/useDoctorQueue";
+
 
 const ConsultPatientModal = (props, ref) => {
 	const { mutateAll } = props;
@@ -31,6 +33,20 @@ const ConsultPatientModal = (props, ref) => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+
+	const {
+		pending: doctorsPending,
+		nowServing: doctorsNowServing,
+		mutatePending,
+		mutatePendingForResultReading,
+		mutateNowServing,
+	} = useDoctorQueue();
+
+	const isDoctor = () => {
+		return user?.type == "his-md" || user?.type == "HIS-MD";
+	};
+
+
 
 	const [showData, setShowData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
@@ -149,10 +165,22 @@ const ConsultPatientModal = (props, ref) => {
 											</div>
 										</PatientInfo>
 									</div>
-									<AppointmentDetails
-										forResult={true}
-										appointment={showData}
-									/>
+									{appointment?.id ? (
+										""
+										) : (
+							<div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
+
+							{doctorsNowServing?.data?.slice(0, 1).map((data) => (
+							<AppointmentDetails
+								forResult={true}
+								appointment={showData}
+								data={data}
+							/>
+							))}
+								
+							</div>
+						)}
+									
 								</div>
 
 								<div className="px-4 pt-3 pb-5 flex items-center justify-center bg-slate-">

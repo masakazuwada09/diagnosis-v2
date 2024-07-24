@@ -105,6 +105,8 @@ const OPDQueue = ({
 		mutatePendingForResultReading,
 		mutateNowServing,
 	} = useDoctorQueue();
+
+
 	const {
 		pending,
 		pendingForRelease,
@@ -262,19 +264,32 @@ const OPDQueue = ({
 											/>
 										</div>
 										<div className="pb-4">
-
-
-											<OPDAppointmentDetails
-												appointment={appointment}
-												mutateAll={mutateAll}
 												
-												setOrder={(data) => {
-													if (data == null) {
-														// mutateAll();
-													}
-													setAppointment(data);
-												}}
-											/>
+											
+											
+
+								{appointment?.id ? (
+							<div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
+
+							{doctorsNowServing?.data?.slice(0, 1).map((data) => (
+								<OPDAppointmentDetails
+								data={data}
+								appointment={appointment}
+								mutateAll={mutateAll}
+								setOrder={(data) => {
+									if (data == null) {
+										// mutateAll();
+									}
+									setAppointment(data);
+								}}
+							/>
+
+							))}
+							
+						</div>
+						) : (
+							""
+						)}
 											
 										</div>
 									</div>
@@ -283,6 +298,8 @@ const OPDQueue = ({
 								""
 							)}
 						</div>
+
+						
 						{appointment?.id ? (
 							""
 						) : (
@@ -290,7 +307,6 @@ const OPDQueue = ({
 
 								{doctorsNowServing?.data?.map((data) => (
 									<InServiceER
-										
 										key={`PQInServiceItem-${data?.id}`}
 										data={data}
 									/>

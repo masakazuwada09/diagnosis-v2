@@ -52,6 +52,7 @@ const InfoText = ({
 	);
 };
 const AppointmentDetails = ({
+	data,
 	showService = true,
 	appointment,
 	serviceComponent,
@@ -121,7 +122,7 @@ const AppointmentDetails = ({
 				<>
 					<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100 pt-5 pb-4">
 						<div className="grid grid-cols-1 lg:grid-cols-12 gap-3 px-4">
-							{appointment?.doctor?.name ? (
+							{/* {appointment?.doctor?.name ? (
 								<InfoText
 									className="lg:col-span-6"
 									label="Doctor:"
@@ -164,7 +165,7 @@ const AppointmentDetails = ({
 								/>
 							) : (
 								""
-							)}
+							)} */}
 							<InfoText
 								className="lg:col-span-6"
 								label="Initial Diagnosis:"
@@ -178,10 +179,23 @@ const AppointmentDetails = ({
 								)}
 							/>
 							<InfoText
-								className="lg:col-span-6"
-								label="Doctor:"
-								value={appointment?.referred_to}
-							/>
+									className="lg:col-span-6"
+									label="Doctor:"
+									value={
+										<div className="flex flex-col">
+											<span>
+												{doctorName(
+													appointment?.referredToDoctor
+												)}
+											</span>
+											<span className="text-xs font-light">
+												{doctorSpecialty(
+													appointment?.referredToDoctor
+												)}
+											</span>
+										</div>
+									}
+								/>
 							{/* <InfoText
 								className="lg:col-span-6"
 								label="Reason for appointment:"

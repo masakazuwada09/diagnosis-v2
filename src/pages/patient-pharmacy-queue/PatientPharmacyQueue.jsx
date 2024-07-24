@@ -88,6 +88,7 @@ const PatientPharmacyQueue = () => {
 		pendingMedsRelease,
 		mutatePendingMedsRelease,
 	} = usePharmaQueue();
+	
 	const [order, setOrder] = useState(null);
 	const [stat, setStat] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -187,9 +188,7 @@ const PatientPharmacyQueue = () => {
 														</span>
 														<span className="flex flex-col font-bold">
 															<span className="-mb-1">
-																{doctorName(
-																	queue?.doctor
-																)}
+															{doctorName(data?.referredToDoctor)}
 															</span>
 															<span className="font-light text-sm">
 																{doctorSpecialty(
@@ -234,7 +233,7 @@ const PatientPharmacyQueue = () => {
 										);
 									})}{" "}
 									{pendingMedsRelease?.data?.map(
-										(queue, index) => {
+										(queue, data, index) => {
 											return (
 												<InQueuePriority
 													selected={
@@ -263,13 +262,14 @@ const PatientPharmacyQueue = () => {
 															</span>
 															<span className="flex flex-col font-bold">
 																<span className="-mb-1">
-																	{doctorName(
-																		queue?.doctor
-																	)}
+
+																{doctorName(
+													data?.referredToDoctor
+												)}
 																</span>
 																<span className="font-light text-sm">
 																	{doctorSpecialty(
-																		queue?.doctor
+																		data?.doctor
 																	)}
 																</span>
 															</span>

@@ -22,6 +22,7 @@ import PendingOrdersModal from "../../../../components/PendingOrdersModal";
 import useERQueue from "../../../../hooks/useERQueue";
 import useMDQueue from "../../../../hooks/useMDQueue";
 import useOPDQueue from "../../../../hooks/useOPDQueue";
+import { data } from "autoprefixer";
 
 
 
@@ -85,15 +86,15 @@ const DoctorPatientQueue = () => {
 							) : (
 								""
 							)}
-							{pendingForResultReading?.data?.map((queue) => {
+							{pendingForResultReading?.data?.map((queue, data) => {
 								if (
 									queue.status != "in-service-result-reading"
 								) {
-									console.log("queuequeuequeue", queue);
+									console.log("queuequeuequeuequeuequeuequeuequeuequeuequeuequeuequeuequeue", queue);
 									return (
 										<DoctorInQueuePriority
 											labOrdersStr={JSON.stringify(
-												queue?.lab_orders
+												data?.lab_orders
 											)}
 											date={formatDate(
 												new Date(queue?.created_at)
@@ -108,9 +109,11 @@ const DoctorPatientQueue = () => {
 											patientName={patientFullName(
 												queue?.patient
 											)}
-											roomNumber={patientRoomNumber(
-												queue?.room_number
-											)}
+											// roomNumber={patientRoomNumber(
+											// 	data?.room_number
+											// )}
+											data={data}
+											
 											
 										/>
 									);
@@ -167,6 +170,7 @@ const DoctorPatientQueue = () => {
 									/>
 								);
 							})}
+
 							{doctorsNowServing?.data?.length == 0 ? (
 								<span className="py-20 text-center lg:col-span-2 text-slate-500 text-lg font-bold">
 									No data available.
@@ -174,15 +178,18 @@ const DoctorPatientQueue = () => {
 							) : (
 								""
 							)}
+
 						</div>
 					</div>
 				</div>
 			</div>
+			
 			<ReferToSPHModal ref={referToSphModalRef} mutateAll={mutateAll} />
 
 			<ConsultPatientModal 
 				ref={acceptPatientRef} 
 				mutateAll={mutateAll}
+				
 				
 				/>
 			

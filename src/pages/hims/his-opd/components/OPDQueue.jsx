@@ -268,7 +268,7 @@ const OPDQueue = ({
 											
 											
 
-								{appointment?.id ? (
+						{appointment?.id ? (
 							<div className="grid grid-cols-1 lg:grid-cols-1 gap-4">
 
 							{doctorsNowServing?.data?.slice(0, 1).map((data) => (
@@ -287,6 +287,7 @@ const OPDQueue = ({
 							))}
 							
 						</div>
+						
 						) : (
 							""
 						)}

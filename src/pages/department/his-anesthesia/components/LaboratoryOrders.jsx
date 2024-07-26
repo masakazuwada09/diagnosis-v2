@@ -86,8 +86,6 @@ import UploadCrossMatchingModal from "./modals/laboratory/UploadCrossMatchingMod
 import UploadMiscellaneousFormModal from "./modals/laboratory/UploadMiscellaneousFormModal";
 import TextInputField from "../inputs/TextInputField";
 import { useForm } from "react-hook-form";
-import PrintLabResultModal from "./modals/PrintLabResultModal";
-import PrintAllLabResultModal from "./modals/PrintAllLabResultModal";
 
 const Status = ({ status }) => {
 	const color = () => {
@@ -175,8 +173,8 @@ const LaboratoryOrders = (props) => {
 	});
 	const createLabOrderRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
-	const printLabResultRef = useRef(null);
-	const printAllLabResultRef = useRef(null);
+	const viewLabResultRef = useRef(null);
+
 	//chemistry ref
 	const uploadFBSRef = useRef(null);
 	const uploadRBSRef = useRef(null);
@@ -356,7 +354,7 @@ const LaboratoryOrders = (props) => {
         return (
             <span
                 className="text-blue-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
-                onClick={() => printLabResultRef.current.show({...data, appointment})}
+                onClick={() => viewLabResultRef.current.show({...data, appointment})}
             >
                 <FlatIcon icon="rs-document" />
                 View Result
@@ -385,12 +383,11 @@ const LaboratoryOrders = (props) => {
 									/> */}
 				<span
                 className="text-blue-700 flex items-center justify-end cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1 just"
-                onClick={() => printAllLabResultRef.current.show({...data, appointment})}
+                onClick={() => viewLabResultRef.current.show({...data, appointment})}
             >
                 <FlatIcon icon="rs-document" />
                 View All Results
             </span>
-			
 			</div>
 			
 
@@ -1101,23 +1098,14 @@ const LaboratoryOrders = (props) => {
 			/>
 
 		
-			<PrintLabResultModal
+			<ViewLabResultModal
 				patient={patient}
 				onSuccess={() => {
 					onUploadLabResultSuccess();
 					reloadData();
 				}}
-				ref={printLabResultRef}
+				ref={viewLabResultRef}
 			/>
-			<PrintAllLabResultModal
-				patient={patient}
-				onSuccess={() => {
-					onUploadLabResultSuccess();
-					reloadData();
-				}}
-				ref={printAllLabResultRef}
-			/>
-			
 			<DeleteOrderModal
 				ref={deleteLabOrderRef}
 				onSuccess={() => {

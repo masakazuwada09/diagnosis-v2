@@ -567,17 +567,17 @@ const calculateBMI = (height /* in CM */, weight) => {
 	};
 };
 const calculateBPMeasurement = (systolic, diastolic) => {
-	if (systolic <= 90 && diastolic <= 60) {
+	if (systolic < 13.0) {
 		return {
 			result: "LOW",
 			color: "hypertension-2",
 		};
 	}
 	if (
-		systolic >= 90 &&
-		systolic <= 120 &&
-		diastolic >= 60 &&
-		diastolic <= 80
+		systolic == 13.0 
+		// systolic <= 120 &&
+		// diastolic >= 60 &&
+		// diastolic <= 80
 	) {
 		return {
 			result: "NORMAL",
@@ -613,12 +613,70 @@ const calculateBPMeasurement = (systolic, diastolic) => {
 		color: "",
 	};
 };
+
+
+const calculateHemoglobin = (Low, Normal, High) => {
+	// if (systolic <= 90 && diastolic <= 60) {
+	// 	return {
+	// 		result: "LOW",
+	// 		color: "hypertension-2",
+	// 	};
+	// }
+	if (
+		Low >= 13.0 &&
+		Normal <=  13.0 &&
+		Normal >= 17.0 &&
+		High <= 17.0
+	) {
+		return {
+			result: "Low",
+			color: "Low",
+			result: "Normal",
+			color: "Normal",
+			result: "High",
+			color: "High",
+		};
+	}
+	// if (
+	// 	(systolic >= 121 && systolic <= 140) ||
+	// 	(diastolic >= 81 && diastolic <= 90)
+	// ) {
+	// 	return {
+	// 		result: "PRE-Hypertension",
+	// 		color: "elevated",
+	// 	};
+	// }
+	// if (
+	// 	(systolic >= 141 && systolic <= 160) ||
+	// 	(diastolic >= 91 && diastolic <= 100)
+	// ) {
+	// 	return {
+	// 		result: "HIGH: Stage 1 Hypertension",
+	// 		color: "hypertension-1",
+	// 	};
+	// }
+	// if (systolic >= 161 || diastolic >= 101) {
+	// 	return {
+	// 		result: "HIGH: Stage 2 Hypertension",
+	// 		color: "hypertension-2",
+	// 	};
+	// }
+	return {
+		result: "",
+		color: "",
+	};
+};
+
+
 const keyByValue = (val = "") => {
 	return String(val).replace(/ /g, "");
 };
 export {
 	getSumObj,
 	formatCurrency,
+	// HemoglobinChecker,
+	// checkHemoglobin,
+	calculateHemoglobin,
 	months,
 	formatDate,
 	calculateAge,

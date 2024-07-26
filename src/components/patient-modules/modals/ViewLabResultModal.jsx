@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable react-refresh/only-export-components */
-
-import React, {
+import {
 	Fragment,
 	forwardRef,
 	useEffect,
@@ -17,14 +16,7 @@ import {
 	dataURItoBlob,
 	formatDateMMDDYYYY,
 	formatDateYYYYMMDD,
-	dateMMDDYYYY,
 	patientFullName,
-	patientAddress,
-	dateMM,
-	dateDD,
-	dateYYYY,
-	timeHH,
-	timeII,
 } from "../../../libs/helpers";
 import ActionBtn from "../../buttons/ActionBtn";
 import Axios from "../../../libs/axios";
@@ -34,144 +26,8 @@ import useNoBugUseEffect from "../../../hooks/useNoBugUseEffect";
 import ReactQuillField from "../../inputs/ReactQuillField";
 import ImagePicker from "../../inputs/ImagePicker";
 import InfoText from "../../InfoText";
-import InfoTextForBilling from "../../cashier-billing/component/billing/InfoTextForBilling";
-import InfoTextForPrint from "../../InfoTextForPrint";
-import { useReactToPrint } from "react-to-print";
-import FlatIcon from "../../FlatIcon";
-import QRCode from "qrcode.react";
-
-const FormHeading = ({ title }) => {
-	return (
-		
-		<div className="flex items-center h-12">
-		<div className="flex items-center">
-		  
-		</div>
-		<div className="flex-grow slanted bg-blue-500 flex items-center justify-start pl-1">
-		  <span className="text-white">www.laboratory.com</span>
-		</div>
-		<div className="flex-grow slanted-reverse bg-blue-700 flex items-center justify-start pl-1">
-		<span className="text-blue-700" value="">.</span>
-		</div>
-		
-		  <div className="slanted bg-blue-500 flex items-center justify-start pl-4"></div>
-		
-		  
-	  </div>
-	);
-};
-const FormBody = ({ className = "", children }) => {
-	return (
-		<div className={`flex flex-col border-b-2 p-1 text-sm ${className}`}>
-			{children}
-		</div>
-	);
-};
-const BoxInput = () => {
-	return (
-		<>
-			<label className="flex items-center border-l last:border-r border-y  border-black">
-				<input
-					type="text"
-					className="w-4 py-[2px] px-0 leading-none text-center border-0 !text-xs"
-					maxLength={1}
-				/>
-			</label>
-		</>
-	);
-};
-const BoxInputGroup = ({
-	children,
-	label = "",
-	className = "",
-	labelClassName = "",
-}) => {
-	return (
-		<div className={`flex flex-col items-center relative ${className}`}>
-			<div className="flex items-center">{children}</div>
-			{label && (
-				<label
-					className={` absolute !text-[10px] -bottom-4 ${labelClassName}`}
-					
-				>
-					{label}
-				</label>
-			)}
-		</div>
-	);
-};
-
-const UnderscoreGroup = ({ children, label }) => {
-	return (
-		<div className="flex flex-col items-center justify-center relative">
-			{children}
-			{label && (
-				<label className="text-[8px] fixed mt-7">{label}</label>
-			)}
-		</div>
-	);
-};
-
-const Underscore = ({ count = 1 }) => {
-	let arr = Array.from({ length: count });
-	return (
-		<div className="flex items-end pt-0">
-			{arr.map((x, index) => {
-				return (
-					<span
-						className="border-b-2 h-4 border-l-2 last:border-r-2 w-5 text-center text-xs"
-						contentEditable
-					></span>
-				);
-			})}
-		</div>
-	);
-};
-
-const Underscoredate = ({ count, value, }) => (
-	<span className="underscore">
-	  {value ? value.padStart(count, "_") : "_".repeat(count)}
-	</span>
-  );
-
-
-const CheckBox = ({ label, className = "", inputClassName = "" }) => {
-	return (
-		<label
-			className={`flex items-center text-xs gap-2 font-normal ${className}`}
-		>
-			<input type="checkbox" className={inputClassName} />
-			{label}
-		</label>
-	);
-};
-const UnderlineInput = ({ label, className = "", inputClassName = "" }) => {
-	return (
-		<div className={`flex flex-col text-center text-xs ${className}`}>
-			<span
-				className={`border-b w-full h-5 p-0 text-xs flex items-end justify-center ${inputClassName}`}
-				contentEditable={true}
-			></span>
-			{label ? <span className="text-[10px]">{label}</span> : ""}
-		</div>
-	);
-};
-const InlineInput = ({ label, className = "", inputClassName = "" }) => {
-	return (
-		<div
-			className={`flex text-center items-center text-xs gap-2 ${className}`}
-		>
-			{label && <span className="whitespace-pre">{label}</span>}
-			<span
-				className={`border-b w-full h-4 p-0 text-xs flex items-end justify-center ${inputClassName}`}
-				contentEditable={true}
-			></span>
-		</div>
-	);
-};
 
 const ViewLabResultModal = (props, ref) => {
-	const { loading: btnLoading, appointment, onSave} = props;
 	const { patient, onSuccess } = props;
 	const {
 		register,
@@ -186,7 +42,6 @@ const ViewLabResultModal = (props, ref) => {
 
 	const [showData, setShowData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
-	const componentRef = React.useRef(null);
 	const [tests, setTests] = useState([]);
 	useNoBugUseEffect({
 		functions: () => {},
@@ -230,9 +85,6 @@ const ViewLabResultModal = (props, ref) => {
 	const hasError = (name) => {
 		return errors[name]?.message;
 	};
-	const handlePrint = useReactToPrint({
-        content: () => componentRef.current,
-    });
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
 			<Dialog as="div" className="" onClose={hide}>
@@ -245,11 +97,11 @@ const ViewLabResultModal = (props, ref) => {
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<div className="fixed inset-0 bg-blue-200 bg-opacity-75 backdrop-blur z-[300] " />
+					<div className="fixed inset-0 bg-black bg-opacity-75 backdrop-blur z-[300]" />
 				</Transition.Child>
 
 				<div className="fixed inset-0 overflow-y-auto !z-[350]">
-					<div className="flex min-h-full w-full items-center justify-center p-4 text-center">
+					<div className="flex min-h-full items-center justify-center p-4 text-center">
 						<Transition.Child
 							as={Fragment}
 							enter="ease-out duration-300"
@@ -259,7 +111,7 @@ const ViewLabResultModal = (props, ref) => {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-[1500px] transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+							<Dialog.Panel className="w-full lg:max-w-xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
 								<Dialog.Title
 									as="div"
 									className=" p-4 font-medium leading-6 flex flex-col items-start text-gray-900 bg-slate-50 border-b"
@@ -269,316 +121,56 @@ const ViewLabResultModal = (props, ref) => {
 									</span>
 								</Dialog.Title>
 								<div className="p-6 flex flex-col gap-y-4 relative">
-								<div className="bg-gray-600 p-11 min-h-[14in]  overflow-auto phic-forms">
-
-<ActionBtn
-	className="text-base gap-2 ml-2 mb-2"
-	onClick={handlePrint}
-	type="success"
->
-	<FlatIcon icon="rr-print" /> Print
-</ActionBtn>
-
-<div
-className="bg-white p-[0.5in] w-[9.5in] gap-y-6 mx-auto "
-id="phic-form-printable" ref={componentRef}
->
-<div className="bg-white flex flex-col w-[8.5in] min-h-[13in]  border-gray-200 border-2 rounded-2xl px-4 py-4">
-	<div className="flex flex-row">
-		<div>
-			<img
-			className="w-[100px] left-4 object-contain"
-			src="/caduceus.png"
-			/>
-		</div>
-		<div>
-			<p className="text-sm">
-				<i>Republic of the Philippines</i>
-			</p>
-			<h4 className="font-bold text-xl">
-				LABORATORY REPORT
-			</h4>
-			<p className="text-sm">
-				Citystate Centre 709 Street, Address City
-			</p>
-			<p className="text-sm">
-				Call Center (02) 441-7442 l Trunkline (02)
-				441-7444
-			</p>
-			<p className="text-sm">www.laboratory.gov.ph</p>
-			<p className="text-sm">
-				{" "}
-				email: laboratory.gov.ph
-			</p>
-		</div>
-
-		<div className="flex flex-col text-sm justify-end ml-12">
-		<p className="">
-			  This form may be reproduced and <br /> is NOT
-			  FOR SALE
-		  </p>
-		  <h1 className="text-4xl font-bold mb-0">CBC</h1>
-		  <h3 className="text-lg font-bold mb-0">
-			  (Complete Blood Count)
-		  </h3>
-		  <p className="text-sm">Revised September 2018</p>
-		</div>
-	</div>
-	
-<FormHeading title="" />
-  <div className="flex items-center relative justify-center border-b-2  px-2 pt-2 pb-1">
-	  
-	  <div className="flex flex-col text-start w-full mx-auto">
-	  <div className="flex flex-row justify-between gap-5">
-                    <div className="border rounded-sm w-[350px] border-gray-200">
-					    {/* <div className=" bg-blue-600 text-white rounded-sm grid grid-cols-6 text-sm font-semibold text-center font-mono">
-						        <div className="col-span-3">
-                                ADMISSION DATE
-                                </div>
-						         <div className="col-span-3">
-                                DISCHARGE DATE
-                                </div>
-                            
-                                
-					    </div>
-                
-					    <div className="grid grid-cols-2 text-sm font-light font-mono shadow">
-							
-					
-
-						<div className="">
-		
-                        <InfoTextForBilling
-                            value={dateMMDDYYYY()}/>
-						</div>
-
-						<div className="">
-                        <InfoTextForBilling
-                                />
-                        </div>
-                        
-                        </div> */}
-
-
-						<div className="px-3 py-2 flex flex-col w-full justify-start">
-							
-						<div className="font-bold">
-							{patientFullName(patient)}
-						</div>
-						
-						<div className="text-sm">
-							{patientAddress(patient)}
-						</div>
-
-						<div className="text-sm">
-							{patient?.gender}
-						</div>
-
-						{/* <div className="text-sm">
-							Admission Date: {dateMMDDYYYY()}
-						</div> */}
-						
-						
-
-						
-						
-						
-                        
-                        </div>
-
-						
-                       
-					</div>
-
-
-                    <div className="items-center">
-
-		
-                    </div>
-                    
-                </div>
-	  		
-	  </div>
-	  <div className="flex flex-col text-center right-2 top-0">
-	  <p className="text-sm">Revised September 2018</p>
-					 <QRCode
-						value={`user-${showData?.receivedBy?.username}`}
-						level="H"
-						size={50}
-					/>
-		
-		 
-		  
-	  </div>
-  </div>
-
-  <div className="flex flex-col border-b-2 p-2 text-sm relative ">
-	  <b>IMPORTANT REMINDERS:</b>
-	  <div className="absolute top-2 right-2 ">
-		  <div className="flex items-center gap-2 ml-auto ">
-			  <span className="font-light">Series #</span>
-			  <div className="flex items-center">
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-x border-y w-5 h-5 p-0 text-xs"
-					  contentEditable={true}
-				  ></span>
-			  </div>
-		  </div>
-	  </div>
-	  <p className="text-xs ">
-		  PLEASE WRITE IN CAPITAL <b>LETTERS</b> AND{" "}
-		  <b>CHECK</b> THE APPROPRIATE BOXES.
-	  </p>
-	  <p className="text-xs">
-		  All information, fields and trick boxes required in
-		  this form are necessary. Claim forms with incomplete
-		  information shall not be processed.
-	  </p>{" "}
-	  <b className="text-xs">
-		  FALSE/INCORRECT INFORMATION OR MISREPRESENTATION
-		  SHALL BE SUBJECT TO CRIMINAL, CIVIL OR
-		  ADMINISTRATIVE LIABILITIES.
-	  </b>
-  </div>
-
-
-  							{showData?.type?.name == "CBC" ? (
-										<div className="px-5 py-5 font-mono justify-center items-center">
-											
-											<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Complete Blood Count (CBC)</h1>
-											<table className="flex flex-col gap-4">
+									{showData?.type?.name == "CBC" ? (
+										<div className="table">
+											<table>
 												<thead>
-													<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
-														<th>Investigation</th>
+													<tr>
+														<th>Name</th>
 														<th>Result</th>
-														<th>Reference Value</th>
-														<th>Unit</th>
-														
 													</tr>
 												</thead>
 												<tbody>
-													<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+													<tr>
 														<th className="capitalize">
 															hemoglobin
 														</th>
-														<td className="absolute ml-[285px]">
-														{
-																showData
-																	?.appointment
-																	?.hemoglobin
-															}{" "}
-														</td>
-														<td className="absolute ml-[515px]">
-														{
-																showData
-																	?.appointment
-																	?.hemoglobin
-															}{" "}
-														</td>
 														<td>
-															
+															{
+																showData
+																	?.appointment
+																	?.hemoglobin
+															}{" "}
 															g/L
 														</td>
-
 													</tr>
-													<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+													<tr>
 														<th className="capitalize">
 															hematocrit
 														</th>
-															<td className="absolute ml-[285px]">
+														<td>
 															{
 																showData
 																	?.appointment
 																	?.hematocrit
 															}{" "}
-															</td>
-															
-															<td className="absolute ml-[515px]">
-															{
-																	showData
-																		?.appointment
-																		?.hemoglobin
-																}{" "}
-															</td>
-															<td>
-																
 															L/L
-															</td>
-														
+														</td>
 													</tr>
-													<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+													<tr>
 														<th className="uppercase">
 															rcbc
 														</th>
-														<td className="absolute ml-[285px]">
-															{
-																showData
-																	?.appointment
-																	?.rcbc
-															}{" "}
-															
-														</td>
-														<td className="absolute ml-[515px]">
-															{
-																showData
-																	?.appointment
-																	?.rcbc
-															}{" "}
-															
-														</td>
 														<td>
+															{
+																showData
+																	?.appointment
+																	?.rcbc
+															}{" "}
 															x10¹²/L
 														</td>
 													</tr>
-													<tr className="flex flex-row justify-between gap-12 border-b border-dashed ">
+													<tr>
 														<th className="uppercase">
 															wbc
 														</th>
@@ -626,14 +218,6 @@ id="phic-form-printable" ref={componentRef}
 											</div>
 										</>
 									)}
-  
-</div>
-
-
-</div>
-
-</div>
-									
 
 									{/* <div className="flex flex-col mt-0">
 										<ReactQuillField

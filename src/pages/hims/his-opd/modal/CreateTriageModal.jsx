@@ -512,6 +512,7 @@ const CreateTriageModal = (props, ref) => {
 												Patient Symptoms
 											</h4>
 											<div className="lg:col-span-6 flex flex-col gap-y-">
+
 												{symptoms?.map(
 													(data, index) => {
 														if (index % 2 == 0)
@@ -548,6 +549,7 @@ const CreateTriageModal = (props, ref) => {
 															);
 													}
 												)}
+												
 											</div>
 											<div className="lg:col-span-6 flex flex-col gap-y-">
 												{symptoms?.map(

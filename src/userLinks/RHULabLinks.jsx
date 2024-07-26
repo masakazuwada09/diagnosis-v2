@@ -19,7 +19,7 @@ const RHULabLinks = ({ isActive }) => {
 				to="/patients"
 				active={isActive("/patients")}
 				icon="rr-users"
-				text="Patients"
+				text="Laboratory Results"
 			/>
 			<MenuLink
 				to="/patient-lab-queue"

@@ -26,8 +26,10 @@ import {
 	timeHH,
 	timeII,
 	calculateHemoglobin,
-	calculateBMI, calculateBPMeasurement
+	calculateBMI, calculateBPMeasurement,
+	keyByValue
 } from "../../../libs/helpers";
+import { symptoms } from "../../../libs/appointmentOptions";
 import ActionBtn from "../../buttons/ActionBtn";
 import Axios from "../../../libs/axios";
 import TextInputField from "../../inputs/TextInputField";
@@ -196,7 +198,7 @@ const InlineInput = ({ label, className = "", inputClassName = "" }) => {
 	);
 };
 
-const ViewLabResultModal = (props, ref) => {
+const PrintAllLabResultModal = (props, ref) => {
 	const { loading: btnLoading, appointment, onSave} = props;
 	const { patient, onSuccess } = props;
 	const {
@@ -295,7 +297,7 @@ const ViewLabResultModal = (props, ref) => {
 									</span>
 								</Dialog.Title>
 								<div className="p-6 flex flex-col gap-y-4 relative">
-								<div className="bg-gray-600 p-11 min-h-[14in]  overflow-auto phic-forms">
+								<div className="bg-gray-600 p-11 min-h-[14in]  overflow-auto phic-forms ">
 
 <ActionBtn
 	className="text-base gap-2 ml-2 mb-2"
@@ -304,7 +306,42 @@ const ViewLabResultModal = (props, ref) => {
 >
 	<FlatIcon icon="rr-print" /> Print
 </ActionBtn>
-
+											{symptoms?.map(
+													(data, index) => {
+														if (index % 2 == 0)
+															return (
+																<label
+																	className="mb-2 flex flex-row items-center text-base gap-2 text-gray-600 hover:bg-blue-100 duration-200 "
+																	key={`${keyByValue(
+																		data?.name
+																	)}`}
+																	onClick={() => {
+																		setTimeout(
+																			() => {
+																				onSymptomsChecked(
+																					data?.name
+																				);
+																			},
+																			50
+																		);
+																	}}
+																>
+																	<input
+																		type="checkbox"
+																		{...register(
+																			data?.name,
+																			{}
+																		)}
+																	/>
+																	<span>
+																		{
+																			data?.label
+																		}
+																	</span>
+																</label>
+															);
+													}
+												)}
 <div
 className="bg-white p-[0.5in] w-[9.5in] gap-y-6 mx-auto "
 id="phic-form-printable" ref={componentRef}
@@ -458,8 +495,61 @@ id="phic-form-printable" ref={componentRef}
 	  <b>IMPORTANT REMINDERS:</b>
 	  <div className="absolute top-2 right-2 ">
 		  <div className="flex items-center gap-2 ml-auto ">
-			  
-			 
+			  <span className="font-light">Series #</span>
+			  <div className="flex items-center">
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
+					  contentEditable={true}
+				  ></span>
+				  <span
+					  className="border-x border-y w-5 h-5 p-0 text-xs"
+					  contentEditable={true}
+				  ></span>
+			  </div>
 		  </div>
 	  </div>
 	  <p className="text-xs ">
@@ -479,7 +569,7 @@ id="phic-form-printable" ref={componentRef}
   </div>
 
 
-  							{showData?.type?.name == "CBC" ? (
+  				{showData?.type?.name == "CBC" ? (
 										<div className="px-5 py-5 font-mono justify-center items-center">
 
 											<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Complete Blood Count (CBC)</h1>
@@ -510,93 +600,6 @@ id="phic-form-printable" ref={componentRef}
 														</td>
 														
 														<td className=" ml-[200px] flex flex-row">
-															
-										{/* {InputFields?.map((data) => {
-											if (
-
-												data?.name == "bp_measurement"
-											) {
-												
-												let bp_measurement =
-													// watch("blood_systolic")
-													// 	?.length &&
-													watch("blood_systolic")
-														// ?.length
-														? calculateBPMeasurement(
-																watch(
-																	"blood_systolic"
-																)
-																// ,
-																// watch(
-																// 	"blood_diastolic"
-																// )
-														  )
-														: {};
-
-												console.log(
-													"bp_measurement",
-													bp_measurement
-												);
-												
-												return (
-													<TextInputField
-														type={"text"}
-														inputClassName={`${bp_measurement?.color}`}
-														className={`${data?.className} lg:!w-full ${bp_measurement?.color}`}
-														label={
-															<>BP Measurement</>
-														}
-														value={`${
-															bp_measurement?.result ||
-															""
-														}`}
-														placeholder={
-															data?.placeholder
-														}
-														error={
-															errors[data?.name]
-																?.message
-														}
-														helperText={""}
-														{...register(
-															"bp_measurement",
-															{
-																// required: true,
-															}
-														)}
-													/>
-												);
-											}
-											
-										
-											return (
-												<TextInputField
-													type={data?.type}
-													className={`${data?.className} lg:!w-full`}
-													label={
-														<>
-															{data?.label}:{""}
-														</>
-													}
-													placeholder={
-														data?.placeholder
-													}
-													options={data?.options}
-													error={
-														errors[data?.name]
-															?.message
-													}
-													helperText={""}
-													{...register(data?.name, {
-														required: data?.required
-															? data?.required
-															: false,
-													})}
-												/>
-											);
-										})} */}
-
-													
 															13.0 - 17.0
 														</td>
 														<td>
@@ -765,27 +768,225 @@ id="phic-form-printable" ref={componentRef}
 											
 											) : (
 										<>
-											<div>
-                        {/* <CollapseDiv
-							defaultOpen={
-								appointment?.status == "pending" &&
-								appointment?.hematocrit == null
-							}
-							withCaret={true}
-							title="Patient Vitals"
-							headerClassName="bg-blue-50"
-							bodyClassName="p-0"
-						>
-							""
+											<CollapseDiv
+													defaultOpen={
+														appointment?.status == "pending" &&
+														appointment?.vital_id == null
+													}
+													withCaret={true}
+													title="Patient Vitals"
+													headerClassName="bg-blue-50"
+													bodyClassName="p-0"
+												>
+												""
 							
-						</CollapseDiv> */}
+												</CollapseDiv>
+
+											<div className="px-5 py-5 font-mono justify-center items-center">
+
+												<h1 className="flex justify-center font-bold text-lg  mb-2">--------------------Complete Blood Count (CBC)--------------------</h1>
+
+												<table className="flex flex-col gap-4">
+													<tr className="flex flex-row justify-between gap-12  border-b-black">
+															
+															<th>Date</th>
+													</tr>
+														
+
+													<thead>
+														<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
+															
+															<th>Test Name</th>
+															<th>Result</th>
+															<th>Normal Range Value</th>
+															<th>Unit</th>
+															
+														</tr>
+													</thead>
+													<tbody>
+														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+															
+															<th className="capitalize">
+																hemoglobin
+															</th>
+															<td className="absolute ml-[200px]">
+															
+																{
+																	showData
+																		?.appointment
+																		?.hemoglobin
+																}
+															</td>
+															
+															<td className=" ml-[200px] flex flex-row">
+																13.0 - 17.0
+															</td>
+															<td>
+																
+																g/L
+															</td>
+
+														</tr>
+														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+															<th className="capitalize">
+																hematocrit
+															</th>
+																<td className="absolute ml-[285px]">
+																{
+																	showData
+																		?.appointment
+																		?.hematocrit
+																}{" "}
+																</td>
+																
+																<td className="absolute ml-[460px]">
+																40% - 50%
+																</td>
+																<td>
+																	
+																L/L
+																</td>
+															
+														</tr>
+														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+															<th className="uppercase">
+																rcbc
+															</th>
+															<td className="absolute ml-[285px]">
+																{
+																	showData
+																		?.appointment
+																		?.rcbc
+																}{" "}
+																
+															</td>
+															<td className="absolute ml-[460px]">
+																4.5 - 5.5
+																
+															</td>
+															<td>
+																x10¹²/L
+															</td>
+														</tr>
+														<tr className="flex flex-row justify-between gap-12 border-b border-dashed ">
+															<th className="uppercase">
+																wbc
+															</th>
+															<td className="absolute ml-[285px]">
+																{
+																	showData
+																		?.appointment
+																		?.wbc
+																}{" "}
+																
+															</td>
+															<td className="absolute ml-[450px]">
+																4000 - 11000
+																
+															</td>
+															<td>
+																x10⁹/L
+															</td>
+
+														</tr>
+													</tbody>
+												</table>
+												</div>
+											<div>
 												
-												
+
 											</div>
-											<div className="flex flex-col">
 												
-												
+											<div className="px-5 py-5 font-mono justify-center items-center">
+
+												<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Fast Blood Sugar (FBS)</h1>
+												<table className="flex flex-col gap-4">
+													
+
+													<thead>
+														<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
+															<th>Investigation</th>
+															<th>Result</th>
+															<th>Normal Range Value</th>
+															<th>Unit</th>
+															
+														</tr>
+													</thead>
+													<tbody>
+														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+															<th className="capitalize">
+																GLUCOSE, FASTING, PLASMA
+															</th>
+															<td className="absolute ml-[285px]">
+															
+																{
+																	showData
+																		?.appointment
+																		?.fbs
+																}
+															</td>
+															<td className=" ml-[80px] flex flex-row">
+														
+																70.00 - 100.00
+															</td>
+															<td>
+																
+																mg/dL
+															</td>
+
+														</tr>
+														
+														
+														
+													</tbody>
+												</table>
 											</div>
+
+											<div className="px-5 py-5 font-mono justify-center items-center">
+	
+												<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Random blood sugar (RBS)</h1>
+												<table className="flex flex-col gap-4">
+													
+											
+													<thead>
+														<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
+															<th>Investigation</th>
+															<th>Result</th>
+															<th>Normal Range Value</th>
+															<th>Unit</th>
+															
+														</tr>
+													</thead>
+													<tbody>
+														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+															<th className="capitalize">
+																GLUCOSE, FASTING, PLASMA
+															</th>
+															<td className="absolute ml-[285px]">
+															
+																{
+																	showData
+																		?.appointment
+																		?.rbs
+																}
+															</td>
+															<td className=" ml-[90px] flex flex-row">
+														
+																75.00 - 100.00
+															</td>
+															<td>
+																
+																mg/dL
+															</td>
+	
+														</tr>
+														
+														
+														
+													</tbody>
+												</table>
+											</div>
+											
 										</>
 									)}
   
@@ -824,4 +1025,4 @@ id="phic-form-printable" ref={componentRef}
 	);
 };
 
-export default forwardRef(ViewLabResultModal);
+export default forwardRef(PrintAllLabResultModal);

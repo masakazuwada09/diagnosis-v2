@@ -52,6 +52,7 @@ import InServiceSurgery from "./pages/department/his-surgical/InServiceSurgery.j
 import AppointmentDetailsForSurgery from "./pages/department/his-surgical/AppointmentDetailsForSurgery.jsx";
 import PACUQueue from "./pages/hims/his-pacu/PACUQueue.jsx";
 import OPDQueue from "./pages/hims/his-opd/components/OPDQueue.jsx";
+import PatientLaboratory from "./components/patient-modules/modals/PatientLaboratory.jsx";
 
 
 
@@ -165,7 +166,7 @@ const router = createBrowserRouter(
 
 			<Route path="his-laboratory">
 				<Route path="" element={<Dashboard />}></Route>
-				<Route path="patients" element={<Patients />}></Route>
+				<Route path="patients" element={<PatientLaboratory />}></Route>
 				<Route
 					path="patient-lab-queue"
 					element={<PatientLabQueue />}

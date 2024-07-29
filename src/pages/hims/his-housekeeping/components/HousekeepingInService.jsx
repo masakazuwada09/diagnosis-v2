@@ -442,7 +442,7 @@ const HouseKeepingInService = ({
 											</div>
 
 											
-											<h4 className="border-y-2 text-base font-bold p-2 mb-4">
+											{/* <h4 className="border-y-2 text-base font-bold p-2 mb-4">
 													Rest Room
 												</h4>
 											
@@ -513,7 +513,7 @@ const HouseKeepingInService = ({
 													</table>
 												</div>
 
-											</div>
+											</div> */}
 
 			<span className="border-b  pb-4 mb-4 "></span>
 

@@ -79,7 +79,9 @@ const ReleaseMedStep2 = ({
 					<p className="text-center w-full">
 						You are
 						<b> {result || "undecided"} </b> with our service.
+					
 					</p>
+					
 				</div>
 			</div>
 			<ActionBtn

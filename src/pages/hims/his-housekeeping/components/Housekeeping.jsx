@@ -102,11 +102,19 @@ const Housekeeping = (props, data) => {
 				</div>
 
 				<div className="p-4 flex items-center justify-end">
-					
+					<ActionBtn
+						type="teal"
+						className="ml-2 bg-green-500"
+						loading={btnLoading}
+						onClick={handleSave}
+					>
+						<FlatIcon icon="rr-check" />
+						Pending for Cashier
+					</ActionBtn>
 					{/* Adding more billing-related information here if needed */}
 					<ActionBtn
-						
-						className="ml-2 bg-green-500"
+						type="success"
+						className="ml-2"
 						loading={btnLoading}
 						onClick={handleSave}
 					>

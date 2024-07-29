@@ -30,36 +30,33 @@ import {
 	keyByValue
 } from "../../../libs/helpers";
 import { symptoms } from "../../../libs/appointmentOptions";
+import { laboratorytests } from "../../../libs/laboratoryOptions";
 import ActionBtn from "../../buttons/ActionBtn";
 import Axios from "../../../libs/axios";
-import TextInputField from "../../inputs/TextInputField";
-import ReactSelectInputField from "../../inputs/ReactSelectInputField";
 import useNoBugUseEffect from "../../../hooks/useNoBugUseEffect";
-import ReactQuillField from "../../inputs/ReactQuillField";
-import ImagePicker from "../../inputs/ImagePicker";
-import InfoText from "../../InfoText";
-import InfoTextForBilling from "../../cashier-billing/component/billing/InfoTextForBilling";
-import InfoTextForPrint from "../../InfoTextForPrint";
 import { useReactToPrint } from "react-to-print";
 import FlatIcon from "../../FlatIcon";
 import QRCode from "qrcode.react";
-import CollapseDiv from "../../CollapseDiv";
+import { PhotoIcon } from "@heroicons/react/24/solid";
+import Img from "../../Img";
+
+
 
 const FormHeading = ({ title }) => {
 	return (
 		
-		<div className="flex items-center h-12">
+		<div className="flex items-center">
 		<div className="flex items-center">
 		  
 		</div>
-		<div className="flex-grow slanted bg-blue-500 flex items-center justify-start pl-1">
-		  <span className="text-white">www.laboratory.com</span>
+		<div className="flex-grow slanted bg-blue-300 flex items-center justify-start ">
+		  <span className="text-white text-xs">www.laboratory.com</span>
 		</div>
-		<div className="flex-grow slanted-reverse bg-blue-700 flex items-center justify-start pl-1">
-		<span className="text-blue-700" value="">.</span>
+		<div className="flex-grow slanted-reverse bg-blue-500 flex items-center justify-start">
+		<span className="text-blue-700 text-xs" value="">.</span>
 		</div>
 		
-		  <div className="slanted bg-blue-500 flex items-center justify-start pl-4"></div>
+		  <div className="slanted bg-blue-500 flex items-end justify-end "></div>
 		
 		  
 	  </div>
@@ -88,116 +85,6 @@ const InputFields = [
 	},
 ]
 
-const FormBody = ({ className = "", children }) => {
-	return (
-		<div className={`flex flex-col border-b-2 p-1 text-sm ${className}`}>
-			{children}
-		</div>
-	);
-};
-const BoxInput = () => {
-	return (
-		<>
-			<label className="flex items-center border-l last:border-r border-y  border-black">
-				<input
-					type="text"
-					className="w-4 py-[2px] px-0 leading-none text-center border-0 !text-xs"
-					maxLength={1}
-				/>
-			</label>
-		</>
-	);
-};
-const BoxInputGroup = ({
-	children,
-	label = "",
-	className = "",
-	labelClassName = "",
-}) => {
-	return (
-		<div className={`flex flex-col items-center relative ${className}`}>
-			<div className="flex items-center">{children}</div>
-			{label && (
-				<label
-					className={` absolute !text-[10px] -bottom-4 ${labelClassName}`}
-					
-				>
-					{label}
-				</label>
-			)}
-		</div>
-	);
-};
-
-const UnderscoreGroup = ({ children, label }) => {
-	return (
-		<div className="flex flex-col items-center justify-center relative">
-			{children}
-			{label && (
-				<label className="text-[8px] fixed mt-7">{label}</label>
-			)}
-		</div>
-	);
-};
-
-const Underscore = ({ count = 1 }) => {
-	let arr = Array.from({ length: count });
-	return (
-		<div className="flex items-end pt-0">
-			{arr.map((x, index) => {
-				return (
-					<span
-						className="border-b-2 h-4 border-l-2 last:border-r-2 w-5 text-center text-xs"
-						contentEditable
-					></span>
-				);
-			})}
-		</div>
-	);
-};
-
-const Underscoredate = ({ count, value, }) => (
-	<span className="underscore">
-	  {value ? value.padStart(count, "_") : "_".repeat(count)}
-	</span>
-  );
-
-
-const CheckBox = ({ label, className = "", inputClassName = "" }) => {
-	return (
-		<label
-			className={`flex items-center text-xs gap-2 font-normal ${className}`}
-		>
-			<input type="checkbox" className={inputClassName} />
-			{label}
-		</label>
-	);
-};
-const UnderlineInput = ({ label, className = "", inputClassName = "" }) => {
-	return (
-		<div className={`flex flex-col text-center text-xs ${className}`}>
-			<span
-				className={`border-b w-full h-5 p-0 text-xs flex items-end justify-center ${inputClassName}`}
-				contentEditable={true}
-			></span>
-			{label ? <span className="text-[10px]">{label}</span> : ""}
-		</div>
-	);
-};
-const InlineInput = ({ label, className = "", inputClassName = "" }) => {
-	return (
-		<div
-			className={`flex text-center items-center text-xs gap-2 ${className}`}
-		>
-			{label && <span className="whitespace-pre">{label}</span>}
-			<span
-				className={`border-b w-full h-4 p-0 text-xs flex items-end justify-center ${inputClassName}`}
-				contentEditable={true}
-			></span>
-		</div>
-	);
-};
-
 const PrintAllLabResultModal = (props, ref) => {
 	const { loading: btnLoading, appointment, onSave} = props;
 	const { patient, onSuccess } = props;
@@ -215,6 +102,7 @@ const PrintAllLabResultModal = (props, ref) => {
 	const [showData, setShowData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	const componentRef = React.useRef(null);
+	const [image, setImage] = useState(null);
 	const [tests, setTests] = useState([]);
 	useNoBugUseEffect({
 		functions: () => {},
@@ -261,6 +149,28 @@ const PrintAllLabResultModal = (props, ref) => {
 	const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
+	const handleDownload = () => {
+		const data = () => componentRef.current;
+		const url = window.URL.createObjectURL(data);
+		const link = document.createElement('a');
+		link.href = url;
+		link.setAttribute('download', 'example.txt'); // or any other extension
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+	};
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+	
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
 			<Dialog as="div" className="" onClose={hide}>
@@ -290,90 +200,110 @@ const PrintAllLabResultModal = (props, ref) => {
 							<Dialog.Panel className="w-[1500px] transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
 								<Dialog.Title
 									as="div"
-									className=" p-4 font-medium leading-6 flex flex-col items-start text-gray-900 bg-slate-50 border-b"
+									className=" p-4 font-medium leading-6 flex flex-row justify-between items-center text-gray-900 bg-slate-50 border-b"
 								>
 									<span className="text-xl text-center font-bold  text-blue-900">
 										View Laboratory Result
 									</span>
+									<ActionBtn
+										// size="lg"
+										type="foreground"
+										className="px-5"
+										onClick={hide}
+									>
+										CLOSE
+									</ActionBtn>
 								</Dialog.Title>
-								<div className="p-6 flex flex-col gap-y-4 relative">
-								<div className="bg-gray-600 p-11 min-h-[14in]  overflow-auto phic-forms ">
+						<div className="p-6 flex flex-row gap-y-4 relative gap-5">
+							<div className="bg-gray-600 p-3 min-h-[14in]  overflow-auto phic-forms">
+								
+								<div className="flex flex-row justify-end">
+									<ActionBtn
+											className="text-base gap-2 ml-2 mb-2"
+											onClick={handlePrint}
+											type="success"
+										>
+											<FlatIcon icon="rr-print" /> Print
+										</ActionBtn>
+										<ActionBtn
+											className="text-base gap-2 ml-2 mb-2"
+											onClick={handleDownload}
+											type="success"
+										>
+											<FlatIcon icon="fi fi-bs-disk" /> Save
+										</ActionBtn>
+								</div>
+									
 
-<ActionBtn
-	className="text-base gap-2 ml-2 mb-2"
-	onClick={handlePrint}
-	type="success"
->
-	<FlatIcon icon="rr-print" /> Print
-</ActionBtn>
-											{symptoms?.map(
-													(data, index) => {
-														if (index % 2 == 0)
-															return (
-																<label
-																	className="mb-2 flex flex-row items-center text-base gap-2 text-gray-600 hover:bg-blue-100 duration-200 "
-																	key={`${keyByValue(
-																		data?.name
-																	)}`}
-																	onClick={() => {
-																		setTimeout(
-																			() => {
-																				onSymptomsChecked(
-																					data?.name
-																				);
-																			},
-																			50
-																		);
-																	}}
-																>
-																	<input
-																		type="checkbox"
-																		{...register(
-																			data?.name,
-																			{}
-																		)}
-																	/>
-																	<span>
-																		{
-																			data?.label
-																		}
-																	</span>
-																</label>
-															);
-													}
-												)}
+											
 <div
-className="bg-white p-[0.5in] w-[9.5in] gap-y-6 mx-auto "
+className="bg-white p-2 w-[9.5in] gap-y-6 "
 id="phic-form-printable" ref={componentRef}
 >
-<div className="bg-white flex flex-col w-[8.5in] min-h-[13in]  border-gray-200 border-2 rounded-2xl px-4 py-4">
-	<div className="flex flex-row">
+<div className="bg-white flex flex-col w-[9.3in] min-h-[11in]  border-blue-100 border-2 rounded-xl px-1 py-1">
+	<div className="flex flex-row justify-between w-full pb-1">
 		<div>
 			<img
-			className="w-[100px] left-4 object-contain"
-			src="/caduceus.png"
+			className="w-[800px]  object-contain absolute opacity-10 mb-[200px]"
+			src="/nucleus.png"
 			/>
+
+		{image ? (
+          <img src={image} alt="Uploaded" className="mx-auto h-24 w-24 object-cover rounded-full" />
+        ) : (
+          <Img src="/caduceus.png" className="mx-auto h-24 w-24 text-gray-300" aria-hidden="true" />
+        )}
+
 		</div>
-		<div>
-			<p className="text-sm">
+		
+		<div className="absolute ml-[100px]">
+			<p className="text-xs text-gray-900">
 				<i>Republic of the Philippines</i>
 			</p>
-			<h4 className="font-bold text-xl">
+			<h4 className="font-bold text-md text-gray-600">
 				LABORATORY REPORT
 			</h4>
-			<p className="text-sm">
+			<p className="text-xs text-gray-500">
 				Citystate Centre 709 Street, Address City
 			</p>
-			<p className="text-sm">
+			<p className="text-xs text-gray-500">
 				Call Center (02) 441-7442 l Trunkline (02)
 				441-7444
 			</p>
-			<p className="text-sm">www.laboratory.gov.ph</p>
-			<p className="text-sm">
-				{" "}
-				email: laboratory.gov.ph
-			</p>
+			<p className="text-xs text-gray-500">www.laboratory.gov.ph</p>
+			
 		</div>
+					
+
+					<div className="px-2 py-1 flex flex-row justify-end items-start absolute ml-[580px]">
+						<div className="flex-row">
+							<div className="font-bold text-md font-serif text-blue-700">
+								{patientFullName(patient)}
+							</div>
+							
+							<div className="text-xs font-mono">
+								{patientAddress(patient)}
+							</div>
+
+							<div className="text-xs">
+								{patient?.gender}
+							</div>
+
+							{/* <div className="text-sm">
+								Admission Date: {dateMMDDYYYY()}
+							</div> */}
+						</div>	
+						
+						
+                    </div>
+					<div className="flex justify-end items-start">
+							<QRCode
+							value={`user-${showData?.receivedBy?.username}`}
+							level="H"
+							size={60}
+							/>
+						</div>
+					
 
 		{showData?.type?.name == "CBC" ? (
 		<div className="flex flex-col text-sm items-end ml-12">
@@ -405,11 +335,11 @@ id="phic-form-printable" ref={componentRef}
 	</div>
 	
 <FormHeading title="" />
-  <div className="flex items-center relative justify-center border-b-2  px-2 pt-2 pb-1">
+  <div className="flex items-center relative justify-center border-b-2  px-2 pt-2">
 	  
 	  <div className="flex flex-col text-start w-full mx-auto">
 	  <div className="flex flex-row justify-between gap-5">
-                    <div className="border rounded-sm w-[350px] border-gray-200">
+                    <div className="">
 					    {/* <div className=" bg-blue-600 text-white rounded-sm grid grid-cols-6 text-sm font-semibold text-center font-mono">
 						        <div className="col-span-3">
                                 ADMISSION DATE
@@ -439,31 +369,7 @@ id="phic-form-printable" ref={componentRef}
                         </div> */}
 
 
-						<div className="px-3 py-2 flex flex-col w-full justify-start">
-							
-						<div className="font-bold">
-							{patientFullName(patient)}
-						</div>
 						
-						<div className="text-sm">
-							{patientAddress(patient)}
-						</div>
-
-						<div className="text-sm">
-							{patient?.gender}
-						</div>
-
-						{/* <div className="text-sm">
-							Admission Date: {dateMMDDYYYY()}
-						</div> */}
-						
-						
-
-						
-						
-						
-                        
-                        </div>
 
 						
                        
@@ -477,107 +383,48 @@ id="phic-form-printable" ref={componentRef}
                     
                 </div>
 	  		
-	  </div>
-	  <div className="flex flex-col text-center right-2 top-0">
-	  <p className="text-sm">Revised September 2018</p>
-					 <QRCode
-						value={`user-${showData?.receivedBy?.username}`}
-						level="H"
-						size={50}
-					/>
-		
-		 
-		  
-	  </div>
-  </div>
+									</div>
+									<div className="flex flex-col text-center right-2 top-0">
+									
+													
 
-  <div className="flex flex-col border-b-2 p-2 text-sm relative ">
-	  <b>IMPORTANT REMINDERS:</b>
-	  <div className="absolute top-2 right-2 ">
-		  <div className="flex items-center gap-2 ml-auto ">
-			  <span className="font-light">Series #</span>
-			  <div className="flex items-center">
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-l border-y w-5 h-5 p-0 flex items-center justify-center text-xs"
-					  contentEditable={true}
-				  ></span>
-				  <span
-					  className="border-x border-y w-5 h-5 p-0 text-xs"
-					  contentEditable={true}
-				  ></span>
-			  </div>
-		  </div>
-	  </div>
-	  <p className="text-xs ">
-		  PLEASE WRITE IN CAPITAL <b>LETTERS</b> AND{" "}
-		  <b>CHECK</b> THE APPROPRIATE BOXES.
-	  </p>
-	  <p className="text-xs">
-		  All information, fields and trick boxes required in
-		  this form are necessary. Claim forms with incomplete
-		  information shall not be processed.
-	  </p>{" "}
-	  <b className="text-xs">
-		  FALSE/INCORRECT INFORMATION OR MISREPRESENTATION
-		  SHALL BE SUBJECT TO CRIMINAL, CIVIL OR
-		  ADMINISTRATIVE LIABILITIES.
-	  </b>
-  </div>
+										
+									</div>
+									</div>
+
+										<div className="flex flex-col border-b-2 p-2 text-xs relative ">
+											<b>IMPORTANT REMINDERS:</b>
+											<div className="absolute">
+												<div className="flex items-center gap-2 ml-auto ">
+
+												</div>
+											</div>
+											<p className="text-xs ">
+												PLEASE WRITE IN CAPITAL <b>LETTERS</b> AND{" "}
+												<b>CHECK</b> THE APPROPRIATE BOXES.
+											</p>
+											<p className="text-xs">
+												All information, fields and trick boxes required in
+												this form are necessary. Claim forms with incomplete
+												information shall not be processed.
+											</p>{" "}
+											<b className="text-xs">
+												FALSE/INCORRECT INFORMATION OR MISREPRESENTATION
+												SHALL BE SUBJECT TO CRIMINAL, CIVIL OR
+												ADMINISTRATIVE LIABILITIES.
+											</b>
+										</div>
 
 
   				{showData?.type?.name == "CBC" ? (
 										<div className="px-5 py-5 font-mono justify-center items-center">
 
-											<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Complete Blood Count (CBC)</h1>
+											<h1 className="flex justify-center font-bold text-xs border-b border-t mb-2">Complete Blood Count (CBC)</h1>
 											<table className="flex flex-col gap-4">
 												
 										
 												<thead>
-													<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
+													<tr className="flex flex-row justify-between gap-12 border-b ">
 														<th>Investigation</th>
 														<th>Result</th>
 														<th>Normal Range Value</th>
@@ -682,7 +529,7 @@ id="phic-form-printable" ref={componentRef}
 												
 										
 												<thead>
-													<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
+													<tr className="flex flex-row justify-between gap-12 border-b ">
 														<th>Investigation</th>
 														<th>Result</th>
 														<th>Normal Range Value</th>
@@ -728,7 +575,7 @@ id="phic-form-printable" ref={componentRef}
 													
 											
 													<thead>
-														<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
+														<tr className="flex flex-row justify-between gap-12 border-b ">
 															<th>Investigation</th>
 															<th>Result</th>
 															<th>Normal Range Value</th>
@@ -768,49 +615,39 @@ id="phic-form-printable" ref={componentRef}
 											
 											) : (
 										<>
-											<CollapseDiv
-													defaultOpen={
-														appointment?.status == "pending" &&
-														appointment?.vital_id == null
-													}
-													withCaret={true}
-													title="Patient Vitals"
-													headerClassName="bg-blue-50"
-													bodyClassName="p-0"
-												>
-												""
-							
-												</CollapseDiv>
+										
 
-											<div className="px-5 py-5 font-mono justify-center items-center">
+											<div className="px-5 py-2 font-mono justify-center items-center">
 
-												<h1 className="flex justify-center font-bold text-lg  mb-2">--------------------Complete Blood Count (CBC)--------------------</h1>
+												
 
-												<table className="flex flex-col gap-4">
-													<tr className="flex flex-row justify-between gap-12  border-b-black">
+												<table className="flex flex-col gap-2">
+													<tr className="flex flex-row justify-end text-xs  border-b-black">
 															
-															<th>Date</th>
+															<th>10:10</th>
 													</tr>
 														
-
-													<thead>
-														<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
-															
-															<th>Test Name</th>
-															<th>Result</th>
-															<th>Normal Range Value</th>
+													<h1 className="flex justify-center font-italic text-xs border-t ">--------------------Complete Blood Count (CBC)--------------------</h1>
+													<thead className="text-xs">
+														<tr className="flex flex-row justify-between gap-12 border-b ">
+															<th>DATE</th>
+															<th className="absolute ml-[200px]">Test Name</th>
+															<th className="absolute ml-[380px]">Result</th>
+															<th className="absolute ml-[480px]">Normal Range Value</th>
 															<th>Unit</th>
 															
 														</tr>
 													</thead>
-													<tbody>
-														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
-															
+													<tbody className="text-xs">
+														<tr className="flex flex-row justify-between gap-12 bg-blue-100">
 															<th className="capitalize">
+																07/27/24
+															</th>
+															<th className="absolute ml-[195px]">
 																hemoglobin
 															</th>
-															<td className="absolute ml-[200px]">
-															
+															<td className="absolute ml-[395px]">
+																14
 																{
 																	showData
 																		?.appointment
@@ -818,7 +655,7 @@ id="phic-form-printable" ref={componentRef}
 																}
 															</td>
 															
-															<td className=" ml-[200px] flex flex-row">
+															<td className="absolute ml-[510px]">
 																13.0 - 17.0
 															</td>
 															<td>
@@ -827,11 +664,14 @@ id="phic-form-printable" ref={componentRef}
 															</td>
 
 														</tr>
-														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+														<tr className="flex flex-row justify-between gap-12">
 															<th className="capitalize">
+																07/27/24
+															</th>
+															<th className="absolute ml-[195px]">
 																hematocrit
 															</th>
-																<td className="absolute ml-[285px]">
+																<td className="absolute ml-[395px]">
 																{
 																	showData
 																		?.appointment
@@ -839,7 +679,7 @@ id="phic-form-printable" ref={componentRef}
 																}{" "}
 																</td>
 																
-																<td className="absolute ml-[460px]">
+																<td className="absolute ml-[510px]">
 																40% - 50%
 																</td>
 																<td>
@@ -848,11 +688,14 @@ id="phic-form-printable" ref={componentRef}
 																</td>
 															
 														</tr>
-														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
-															<th className="uppercase">
+														<tr className="flex flex-row justify-between gap-12 bg-blue-100">
+															<th className="capitalize">
+																07/27/24
+															</th>
+															<th className="absolute ml-[195px]">
 																rcbc
 															</th>
-															<td className="absolute ml-[285px]">
+															<td className="absolute ml-[395px]">
 																{
 																	showData
 																		?.appointment
@@ -860,7 +703,7 @@ id="phic-form-printable" ref={componentRef}
 																}{" "}
 																
 															</td>
-															<td className="absolute ml-[460px]">
+															<td className="absolute ml-[510px]">
 																4.5 - 5.5
 																
 															</td>
@@ -869,10 +712,13 @@ id="phic-form-printable" ref={componentRef}
 															</td>
 														</tr>
 														<tr className="flex flex-row justify-between gap-12 border-b border-dashed ">
-															<th className="uppercase">
+															<th className="capitalize">
+																07/27/24
+															</th>
+															<th className="absolute ml-[195px]	">
 																wbc
 															</th>
-															<td className="absolute ml-[285px]">
+															<td className="absolute ml-[395px]">
 																{
 																	showData
 																		?.appointment
@@ -880,7 +726,7 @@ id="phic-form-printable" ref={componentRef}
 																}{" "}
 																
 															</td>
-															<td className="absolute ml-[450px]">
+															<td className="absolute ml-[510px]">
 																4000 - 11000
 																
 															</td>
@@ -899,25 +745,29 @@ id="phic-form-printable" ref={componentRef}
 												
 											<div className="px-5 py-5 font-mono justify-center items-center">
 
-												<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Fast Blood Sugar (FBS)</h1>
+												<h1 className="flex justify-center font-italic text-xs border-t mb-2">--------------------Fast Blood Sugar (FBS)--------------------</h1>
 												<table className="flex flex-col gap-4">
 													
 
 													<thead>
-														<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
-															<th>Investigation</th>
-															<th>Result</th>
-															<th>Normal Range Value</th>
+														<tr className="flex flex-row justify-between gap-12 border-b text-xs ">
+															<th>DATE</th>
+															<th className="absolute ml-[200px]">Test Name</th>
+															<th className="absolute ml-[380px]">Result</th>
+															<th className="absolute ml-[480px]">Normal Range Value</th>
 															<th>Unit</th>
 															
 														</tr>
 													</thead>
 													<tbody>
-														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+														<tr className="flex flex-row justify-between gap-12 bg-blue-100 text-xs">
+															<th className="capitalize">
+																07/27/24
+															</th>
 															<th className="capitalize">
 																GLUCOSE, FASTING, PLASMA
 															</th>
-															<td className="absolute ml-[285px]">
+															<td className="absolute ml-[395px]">
 															
 																{
 																	showData
@@ -944,25 +794,29 @@ id="phic-form-printable" ref={componentRef}
 
 											<div className="px-5 py-5 font-mono justify-center items-center">
 	
-												<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Random blood sugar (RBS)</h1>
+												<h1 className="flex justify-center font-italic text-xs border-b border-t mb-2">-------------------- Random blood sugar (RBS) --------------------</h1>
 												<table className="flex flex-col gap-4">
 													
 											
 													<thead>
-														<tr className="flex flex-row justify-between gap-12 border-b shadow-xl ">
-															<th>Investigation</th>
-															<th>Result</th>
-															<th>Normal Range Value</th>
+														<tr className="flex flex-row justify-between gap-12 border-b text-xs">
+															<th>DATE</th>
+															<th className="absolute ml-[200px]">Test Name</th>
+															<th className="absolute ml-[380px]">Result</th>
+															<th className="absolute ml-[480px]">Normal Range Value</th>
 															<th>Unit</th>
-															
+
 														</tr>
 													</thead>
 													<tbody>
-														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+														<tr className="flex flex-row justify-between gap-12 bg-blue-100 text-xs">
+															<th className="capitalize">
+																07/27/24
+															</th>
 															<th className="capitalize">
 																GLUCOSE, FASTING, PLASMA
 															</th>
-															<td className="absolute ml-[285px]">
+															<td className="absolute ml-[395px]">
 															
 																{
 																	showData
@@ -985,17 +839,127 @@ id="phic-form-printable" ref={componentRef}
 														
 													</tbody>
 												</table>
+												<h1 className="flex justify-center font-italic text-xs text-gray-400 border-t py-5">*** End of Report ***</h1>
 											</div>
 											
 										</>
 									)}
   
-</div>
+									</div>
 
 
-</div>
+									</div>
 
-</div>
+
+
+									</div>
+
+											<div
+											className="bg-white p-2 w-[5in] gap-y-2 border rounded-md py-2 px-5 shadow-2xl"
+											>
+			<h2 className="block text-md font-sm leading-6 text-blue-900 font-semibold">
+				Edit Report
+			</h2>
+			<h2 className="block text-xs font-sm leading-6 text-gray-900">
+				Change Unit Logo
+			</h2>
+			<div className="mt-2 mb-4 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6-py-10">
+				<div className="text-center">
+					<PhotoIcon
+						className="mx-auto h-12 w-12 text-gray-300"
+						aria-hidden="true"
+					/>
+					<div className="mt-4 flex text-sm leading-b text-gray-600">
+						<label
+							htmlFor="file-input"
+							className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+						>
+							Upload Health Unit Logo
+							<input
+								type="file"
+								id="file-input"
+								accept="image/*"
+								className="sr-only"
+								onChange={handleFileChange}
+							/>
+						</label>
+					</div>
+					<p className="text-xs leading-5 text-gray-600">
+						PNG, JPG, GIF
+					</p>
+				</div>
+			</div>
+
+			<h2 className="block text-xs font-sm leading-6 text-gray-900">
+				Change Background
+			</h2>
+			<div className="mt-2 mb-4 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6-py-10">
+				<div className="text-center">
+					<PhotoIcon
+						className="mx-auto h-12 w-12 text-gray-300"
+						aria-hidden="true"
+					/>
+					<div className="mt-4 flex text-sm leading-b text-gray-600">
+						<label
+							htmlFor="file-input"
+							className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+						>
+							Upload Report Background
+							<input
+								type="file"
+								id="file-input"
+								accept="image/*"
+								className="sr-only"
+								onChange={handleFileChange}
+							/>
+						</label>
+					</div>
+					<p className="text-xs leading-5 text-gray-600">
+						PNG, JPG, GIF
+					</p>
+				</div>
+			</div>
+
+			<h2 className="block text-sm font-sm leading-6 text-gray-900 pt-2 border-t">
+				Filter Tests
+			</h2>
+												{laboratorytests?.map(
+													(data, index) => {
+														if (index % 1 == 0)
+															return (
+																<label
+																	className="mb-2 flex flex-row items-center text-xs gap-2 text-black hover:bg-blue-100 duration-200"
+																	key={`${keyByValue(
+																		data?.name
+																	)}`}
+																	onClick={() => {
+																		setTimeout(
+																			() => {
+																				onSymptomsChecked(
+																					data?.name
+																				);
+																			},
+																			50
+																		);
+																	}}
+																>
+																	<input
+																		type="checkbox"
+																		{...register(
+																			data?.name,
+																			{}
+																		)}
+																	/>
+																	<span>
+																		{
+																			data?.label
+																		}
+																	</span>
+																</label>
+															);
+													}
+												)}
+									</div>
 									
 
 									{/* <div className="flex flex-col mt-0">
@@ -1007,14 +971,7 @@ id="phic-form-printable" ref={componentRef}
 								</div>
 
 								<div className="px-4 py-4 border-t flex items-center justify-end bg-slate-">
-									<ActionBtn
-										// size="lg"
-										type="foreground"
-										className="px-5"
-										onClick={hide}
-									>
-										CLOSE
-									</ActionBtn>
+									
 								</div>
 							</Dialog.Panel>
 						</Transition.Child>

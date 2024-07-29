@@ -20,6 +20,7 @@ import OPDAppointmentDetails from './OPDAppointmentDetails';
 
 
 
+
 const Status = ({ appointment }) => {
 	const renderStatus = () => {
 		if (appointment?.has_for_reading?.length > 0) {
@@ -242,6 +243,7 @@ const OPDQueue = ({
 						</span>
 						<div>
 							{appointment?.patient ? (
+								
 								<Fade key={`order-${appointment?.id}`}>
 									<div>
 										<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
@@ -264,6 +266,18 @@ const OPDQueue = ({
 											/>
 										</div>
 										<div className="pb-4">
+
+										<OPDAppointmentDetails
+												appointment={appointment}
+												mutateAll={mutateAll}
+												
+												setOrder={(data) => {
+													if (data == null) {
+														// mutateAll();
+													}
+													setAppointment(data);
+												}}
+											/>
 												
 											
 											
@@ -274,6 +288,7 @@ const OPDQueue = ({
 							{doctorsNowServing?.data?.slice(0, 1).map((data) => (
 								<OPDAppointmentDetails
 								data={data}
+								patient={appointment?.patient} 
 								appointment={appointment}
 								mutateAll={mutateAll}
 								setOrder={(data) => {

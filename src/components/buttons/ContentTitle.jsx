@@ -7,8 +7,7 @@ const ContentTitle = ({ title, children }) => {
 				</h5>
 				{children}
 			</div>
-			<div className="h-[1.5px] w-2/5 bg-indigo-300 mb-[0.5px]" />
-			<div className="h-[1px] w-2/5 bg-red-300 mb-4" />
+			
 		</>
 	);
 };

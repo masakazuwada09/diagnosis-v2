@@ -368,8 +368,8 @@ const LaboratoryOrders = (props) => {
 };
 	return (
 		
-		<div className="flex flex-col items-start ">
-			<div className="flex flex-row justify-end ">
+		<div className="flex flex-col items-start px-8">
+			<div className="flex flex-row justify-between w-full">
 			{/* <TextInputField
 										label="Date"
 										type="date"
@@ -383,18 +383,8 @@ const LaboratoryOrders = (props) => {
 											},
 										})}
 									/> */}
-				<span
-                className="text-blue-700 flex items-center justify-end cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1 just"
-                onClick={() => printAllLabResultRef.current.show({...data, appointment})}
-            >
-                <FlatIcon icon="rs-document" />
-                View All Results
-            </span>
-			
-			</div>
-			
 
-			{showTitle ? (
+				{showTitle ? (
 				<ContentTitle
 					title={
 						laboratory_test_type == 1
@@ -434,6 +424,24 @@ const LaboratoryOrders = (props) => {
 
 				""
 			)}
+			
+
+				<ActionBtn
+                className="text-gray-700 flex items-center justify-end cursor-pointer hover:bg-green-600 py-2 rounded-3xl gap-2"
+                onClick={() => printAllLabResultRef.current.show({...data, appointment})}
+				type="info"
+            >
+                <FlatIcon icon="rs-document" />
+                Laboratory Results
+            </ActionBtn>
+
+			
+			
+			</div>
+			
+
+			<div className="h-[1.5px] w-2/5 bg-indigo-300 mb-[0.5px]" />
+			<div className="h-[1px] w-2/5 bg-red-300 mb-4" />
 
 			
 			<Table

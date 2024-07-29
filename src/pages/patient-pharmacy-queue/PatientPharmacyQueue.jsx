@@ -270,8 +270,8 @@ const PatientPharmacyQueue = () => {
 																<span className="-mb-1">
 
 																{doctorName(
-													queue?.referredToDoctor
-												)}
+															queue?.referredToDoctor
+														)}
 																</span>
 																<span className="font-light text-sm">
 																	{doctorSpecialty(

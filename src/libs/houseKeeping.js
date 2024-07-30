@@ -5,7 +5,7 @@ export const Bed = [
 		name: "Pillow",
 	},
     {
-		label: "Have the light switches been cleaned?",
+		label: "Linen",
 		value: "Linen",
 		name: "Linen",
 	},

@@ -134,14 +134,30 @@ const SummaryOfCharges = (props) => {
 							Room and Board
 						</div>
 						<div className="col-span-1">
-							{patient?.room_debit}
+						<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={patient?.room_debit}
+                            />
+							
 						</div>
 						<div className="col-span-1">
-							{patient?.room_discount}
+						<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={patient?.room_discount}
+                            />
 						</div>
-						<div className="col-span-1">{patient?.room_credit}</div>
 						<div className="col-span-1">
-							{patient?.room_balance}
+						<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={patient?.room_credit}
+                            />
+							</div>
+						<div className="col-span-1">
+						<InfoTextForSummary
+                                contentClassName="text-sm"
+								value={patient?.room_balance}
+                            />
+							
 						</div>
 					</div>
 					<div className="grid grid-cols-6 divide-x text-xs font-light text-center mt-2 font-mono">

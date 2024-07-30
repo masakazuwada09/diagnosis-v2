@@ -179,7 +179,7 @@ const BillingStatement = (props) => {
 
                 <div className="flex flex-row justify-between gap-5">
                     <div className="border rounded-sm w-[350px] border-gray-400">
-					    <div className=" bg-blue-600 text-white rounded-sm grid grid-cols-6 text-sm font-semibold text-center font-mono">
+					    <div className=" bg-gray-700 text-white rounded-sm grid grid-cols-6 text-sm font-semibold text-center font-mono">
 						        <div className="col-span-3">
                                 ADMISSION DATE
                                 </div>

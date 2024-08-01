@@ -63,8 +63,6 @@ const CashierDetails = ({
 	appointment: propAppointment,
 	loading: patient,
 	forCashier = false,
-	forBilling = false,
-	forHousekeeping = false,
 	setOrder,
 	hideServices = false,
 	mutateAll,

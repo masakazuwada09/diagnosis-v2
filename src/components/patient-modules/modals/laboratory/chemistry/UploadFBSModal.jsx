@@ -93,7 +93,7 @@ const UploadFBSModal = (props, ref) => {
 									className=" p-4 font-medium leading-6 flex flex-col items-start text-gray-900 bg-slate-50 border-b"
 								>
 									<span className="text-xl text-center font-bold  text-blue-900">
-										Chemestry Examination Result
+										Chemistry Examination Result
 									</span>
                                     <span className="text-sm text-center font-bold  text-blue-600 mt-2">
 										Fasting Blood Sugar Test Result

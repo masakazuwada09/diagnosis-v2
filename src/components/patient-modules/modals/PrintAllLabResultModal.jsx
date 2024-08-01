@@ -30,7 +30,7 @@ import {
 	keyByValue
 } from "../../../libs/helpers";
 import { symptoms } from "../../../libs/appointmentOptions";
-import { laboratorytests } from "../../../libs/laboratoryOptions";
+import { chemistry, hematology } from "../../../libs/laboratoryOptions";
 import ActionBtn from "../../buttons/ActionBtn";
 import Axios from "../../../libs/axios";
 import useNoBugUseEffect from "../../../hooks/useNoBugUseEffect";
@@ -40,7 +40,7 @@ import QRCode from "qrcode.react";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Img from "../../Img";
 
-
+const laboratory_tests = chemistry?.map((data) => data?.name);
 
 const FormHeading = ({ title }) => {
 	return (
@@ -63,27 +63,7 @@ const FormHeading = ({ title }) => {
 	);
 };
 
-const InputFields = [
-	{
-		label: "Blood Pressure (SYSTOLIC)",
-		name: "blood_systolic",
-		placeholder: "SYSTOLIC",
-		className: "lg:col-span-4",
-		type: "text",
-		required: {
-			value: true,
-			message: "This field is required.",
-		},
-	},
-
-	{
-		label: "BP Measurement",
-		name: "bp_measurement",
-		placeholder: "BP Measurement",
-		className: "lg:col-span-4",
-		type: "text",
-	},
-]
+	
 
 const PrintAllLabResultModal = (props, ref) => {
 	const { loading: btnLoading, appointment, onSave} = props;
@@ -100,10 +80,19 @@ const PrintAllLabResultModal = (props, ref) => {
 	} = useForm();
 
 	const [showData, setShowData] = useState(null);
+	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 	const componentRef = React.useRef(null);
 	const [image, setImage] = useState(null);
 	const [tests, setTests] = useState([]);
+	const [showAdvanced, setShowAdvanced] = useState(false);
+	const [hasChemistry, setHasChemistry] = useState(0);
+	const [hasHematology, setHasHematology] = useState(0);
+  
+	const handleToggleAdvanced = () => {
+	  setShowAdvanced(!showAdvanced);
+	};
+
 	useNoBugUseEffect({
 		functions: () => {},
 	});
@@ -170,6 +159,19 @@ const PrintAllLabResultModal = (props, ref) => {
       reader.readAsDataURL(file);
     }
   };
+
+  const onChemistryChecked = (name) => {
+	console.log("onChemistryChecked");
+	setHasChemistry(
+		getValues(laboratory_tests).filter((x) => x == true).length
+	);
+};
+const onHematologyChecked = (name) => {
+	console.log("onHematologyChecked");
+	setHasHematology(
+		getValues(laboratory_tests).filter((x) => x == true).length
+	);
+};
 	
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
@@ -336,7 +338,9 @@ id="phic-form-printable" ref={componentRef}
 	
 <FormHeading title="" />
   <div className="flex items-center relative justify-center border-b-2  px-2 pt-2">
-	  
+  <div className="flex flex-wrap -mx-3 mb-6">
+   
+    </div>
 	  <div className="flex flex-col text-start w-full mx-auto">
 	  <div className="flex flex-row justify-between gap-5">
                     <div className="">
@@ -415,11 +419,111 @@ id="phic-form-printable" ref={componentRef}
 											</b>
 										</div>
 
-
-  				{showData?.type?.name == "CBC" ? (
+									{hasChemistry ? (
 										<div className="px-5 py-5 font-mono justify-center items-center">
 
-											<h1 className="flex justify-center font-bold text-xs border-b border-t mb-2">Complete Blood Count (CBC)</h1>
+										<h1 className="flex justify-center font-bold text-xs border-b border-t mb-2">Complete Blood Count (CBC)</h1>
+										<table className="flex flex-col gap-4">
+											
+									
+											<thead>
+												<tr className="flex flex-row justify-between gap-12 border-b ">
+													<th>Investigation</th>
+													<th>Result</th>
+													<th>Normal Range Value</th>
+													<th>Unit</th>
+													
+												</tr>
+											</thead>
+											<tbody>
+												<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+													<th className="capitalize">
+														hemoglobin
+													</th>
+													<td className="absolute ml-[285px]">
+													
+														{
+															showData
+																?.appointment
+																?.hemoglobin
+														}
+													</td>
+													
+													<td className=" ml-[200px] flex flex-row">
+														13.0 - 17.0
+													</td>
+													<td>
+														
+														g/L
+													</td>
+
+												</tr>
+												<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+													<th className="capitalize">
+														hematocrit
+													</th>
+														<td className="absolute ml-[285px]">
+														{
+															showData
+																?.appointment
+																?.hematocrit
+														}{" "}
+														</td>
+														
+														<td className="absolute ml-[510px]">
+														40% - 50%
+														</td>
+														<td>
+															
+														L/L
+														</td>
+													
+												</tr>
+												<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+													<th className="uppercase">
+														rcbc
+													</th>
+													<td className="absolute ml-[285px]">
+														{
+															showData
+																?.appointment
+																?.rcbc
+														}{" "}
+														
+													</td>
+													<td className="absolute ml-[510px]">
+														4.5 - 5.5
+														
+													</td>
+													<td>
+														x10¹²/L
+													</td>
+												</tr>
+												<tr className="flex flex-row justify-between gap-12 border-b border-dashed ">
+													<th className="uppercase">
+														wbc
+													</th>
+													<td className="absolute ml-[285px]">
+														{
+															showData
+																?.appointment
+																?.wbc
+														}{" "}
+														
+													</td>
+													<td className="absolute ml-[500px]">
+														4000 - 11000
+														
+													</td>
+													<td>
+														x10⁹/L
+													</td>
+
+												</tr>
+											</tbody>
+										</table>
+
+										<h1 className="flex justify-center font-bold text-xs border-b border-t mb-2 mt-5">Fast Blood Sugar (FBS)</h1>
 											<table className="flex flex-col gap-4">
 												
 										
@@ -435,96 +539,84 @@ id="phic-form-printable" ref={componentRef}
 												<tbody>
 													<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
 														<th className="capitalize">
-															hemoglobin
+															GLUCOSE, FASTING, PLASMA
 														</th>
 														<td className="absolute ml-[285px]">
 														
-															{
-																showData
-																	?.appointment
-																	?.hemoglobin
-															}
+														{
+															showData
+																?.appointment
+																?.fbs
+														}{" "}
 														</td>
-														
-														<td className=" ml-[200px] flex flex-row">
-															13.0 - 17.0
+														<td className=" ml-[100px] flex flex-row">
+													
+															70.00 - 100.00
 														</td>
 														<td>
 															
-															g/L
+															mg/dL
 														</td>
 
 													</tr>
-													<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
-														<th className="capitalize">
-															hematocrit
-														</th>
-															<td className="absolute ml-[285px]">
-															{
-																showData
-																	?.appointment
-																	?.hematocrit
-															}{" "}
-															</td>
+													
+													
+													
+												</tbody>
+											</table>
+											<h1 className="flex justify-center font-bold text-xs border-b border-t mb-2 mt-5">Random blood sugar (RBS)</h1>
+												<table className="flex flex-col gap-4">
+													
+											
+													<thead>
+														<tr className="flex flex-row justify-between gap-12 border-b ">
+															<th>Investigation</th>
+															<th>Result</th>
+															<th>Normal Range Value</th>
+															<th>Unit</th>
 															
-															<td className="absolute ml-[460px]">
-															40% - 50%
+														</tr>
+													</thead>
+													<tbody>
+														<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
+															<th className="capitalize">
+																GLUCOSE, FASTING, PLASMA
+															</th>
+															<td className="absolute ml-[285px]">
+															
+																{
+																	showData
+																		?.appointment
+																		?.rbs
+																}
+															</td>
+															<td className=" ml-[90px] flex flex-row">
+														
+																75.00 - 100.00
 															</td>
 															<td>
 																
-															L/L
+																mg/dL
 															</td>
+	
+														</tr>
 														
-													</tr>
-													<tr className="flex flex-row justify-between gap-12 border-b border-dashed border-b-black">
-														<th className="uppercase">
-															rcbc
-														</th>
-														<td className="absolute ml-[285px]">
-															{
-																showData
-																	?.appointment
-																	?.rcbc
-															}{" "}
-															
-														</td>
-														<td className="absolute ml-[460px]">
-															4.5 - 5.5
-															
-														</td>
-														<td>
-															x10¹²/L
-														</td>
-													</tr>
-													<tr className="flex flex-row justify-between gap-12 border-b border-dashed ">
-														<th className="uppercase">
-															wbc
-														</th>
-														<td className="absolute ml-[285px]">
-															{
-																showData
-																	?.appointment
-																	?.wbc
-															}{" "}
-															
-														</td>
-														<td className="absolute ml-[450px]">
-															4000 - 11000
-															
-														</td>
-														<td>
-															x10⁹/L
-														</td>
-
-													</tr>
-												</tbody>
-											</table>
+														
+														
+													</tbody>
+												</table>	
 										</div>
 										
-									) : showData?.type?.name == "FBS" ? (
+
+									
+									) : (
+										""
+									)}
+
+								{hasHematology ? (
 										<div className="px-5 py-5 font-mono justify-center items-center">
 
-											<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Fast Blood Sugar (FBS)</h1>
+										<h1 className="flex justify-center font-bold text-lg border-b border-t mb-2">Hematology</h1>
 											<table className="flex flex-col gap-4">
 												
 										
@@ -550,7 +642,7 @@ id="phic-form-printable" ref={componentRef}
 																	?.fbs
 															}
 														</td>
-														<td className=" ml-[80px] flex flex-row">
+														<td className=" ml-[100px] flex flex-row">
 													
 															70.00 - 100.00
 														</td>
@@ -610,240 +702,15 @@ id="phic-form-printable" ref={componentRef}
 														
 														
 													</tbody>
-												</table>
-											</div>
-											
-											) : (
-										<>
-										
+												</table>	
+									</div>
 
-											<div className="px-5 py-2 font-mono justify-center items-center">
-
-												
-
-												<table className="flex flex-col gap-2">
-													<tr className="flex flex-row justify-end text-xs  border-b-black">
-															
-															<th>10:10</th>
-													</tr>
-														
-													<h1 className="flex justify-center font-italic text-xs border-t ">--------------------Complete Blood Count (CBC)--------------------</h1>
-													<thead className="text-xs">
-														<tr className="flex flex-row justify-between gap-12 border-b ">
-															<th>DATE</th>
-															<th className="absolute ml-[200px]">Test Name</th>
-															<th className="absolute ml-[380px]">Result</th>
-															<th className="absolute ml-[480px]">Normal Range Value</th>
-															<th>Unit</th>
-															
-														</tr>
-													</thead>
-													<tbody className="text-xs">
-														<tr className="flex flex-row justify-between gap-12 bg-blue-100">
-															<th className="capitalize">
-																07/27/24
-															</th>
-															<th className="absolute ml-[195px]">
-																hemoglobin
-															</th>
-															<td className="absolute ml-[395px]">
-																14
-																{
-																	showData
-																		?.appointment
-																		?.hemoglobin
-																}
-															</td>
-															
-															<td className="absolute ml-[510px]">
-																13.0 - 17.0
-															</td>
-															<td>
-																
-																g/L
-															</td>
-
-														</tr>
-														<tr className="flex flex-row justify-between gap-12">
-															<th className="capitalize">
-																07/27/24
-															</th>
-															<th className="absolute ml-[195px]">
-																hematocrit
-															</th>
-																<td className="absolute ml-[395px]">
-																{
-																	showData
-																		?.appointment
-																		?.hematocrit
-																}{" "}
-																</td>
-																
-																<td className="absolute ml-[510px]">
-																40% - 50%
-																</td>
-																<td>
-																	
-																L/L
-																</td>
-															
-														</tr>
-														<tr className="flex flex-row justify-between gap-12 bg-blue-100">
-															<th className="capitalize">
-																07/27/24
-															</th>
-															<th className="absolute ml-[195px]">
-																rcbc
-															</th>
-															<td className="absolute ml-[395px]">
-																{
-																	showData
-																		?.appointment
-																		?.rcbc
-																}{" "}
-																
-															</td>
-															<td className="absolute ml-[510px]">
-																4.5 - 5.5
-																
-															</td>
-															<td>
-																x10¹²/L
-															</td>
-														</tr>
-														<tr className="flex flex-row justify-between gap-12 border-b border-dashed ">
-															<th className="capitalize">
-																07/27/24
-															</th>
-															<th className="absolute ml-[195px]	">
-																wbc
-															</th>
-															<td className="absolute ml-[395px]">
-																{
-																	showData
-																		?.appointment
-																		?.wbc
-																}{" "}
-																
-															</td>
-															<td className="absolute ml-[510px]">
-																4000 - 11000
-																
-															</td>
-															<td>
-																x10⁹/L
-															</td>
-
-														</tr>
-													</tbody>
-												</table>
-												</div>
-											<div>
-												
-
-											</div>
-												
-											<div className="px-5 py-5 font-mono justify-center items-center">
-
-												<h1 className="flex justify-center font-italic text-xs border-t mb-2">--------------------Fast Blood Sugar (FBS)--------------------</h1>
-												<table className="flex flex-col gap-4">
-													
-
-													<thead>
-														<tr className="flex flex-row justify-between gap-12 border-b text-xs ">
-															<th>DATE</th>
-															<th className="absolute ml-[200px]">Test Name</th>
-															<th className="absolute ml-[380px]">Result</th>
-															<th className="absolute ml-[480px]">Normal Range Value</th>
-															<th>Unit</th>
-															
-														</tr>
-													</thead>
-													<tbody>
-														<tr className="flex flex-row justify-between gap-12 bg-blue-100 text-xs">
-															<th className="capitalize">
-																07/27/24
-															</th>
-															<th className="capitalize">
-																GLUCOSE, FASTING, PLASMA
-															</th>
-															<td className="absolute ml-[395px]">
-															
-																{
-																	showData
-																		?.appointment
-																		?.fbs
-																}
-															</td>
-															<td className=" ml-[80px] flex flex-row">
-														
-																70.00 - 100.00
-															</td>
-															<td>
-																
-																mg/dL
-															</td>
-
-														</tr>
-														
-														
-														
-													</tbody>
-												</table>
-											</div>
-
-											<div className="px-5 py-5 font-mono justify-center items-center">
-	
-												<h1 className="flex justify-center font-italic text-xs border-b border-t mb-2">-------------------- Random blood sugar (RBS) --------------------</h1>
-												<table className="flex flex-col gap-4">
-													
-											
-													<thead>
-														<tr className="flex flex-row justify-between gap-12 border-b text-xs">
-															<th>DATE</th>
-															<th className="absolute ml-[200px]">Test Name</th>
-															<th className="absolute ml-[380px]">Result</th>
-															<th className="absolute ml-[480px]">Normal Range Value</th>
-															<th>Unit</th>
-
-														</tr>
-													</thead>
-													<tbody>
-														<tr className="flex flex-row justify-between gap-12 bg-blue-100 text-xs">
-															<th className="capitalize">
-																07/27/24
-															</th>
-															<th className="capitalize">
-																GLUCOSE, FASTING, PLASMA
-															</th>
-															<td className="absolute ml-[395px]">
-															
-																{
-																	showData
-																		?.appointment
-																		?.rbs
-																}
-															</td>
-															<td className=" ml-[90px] flex flex-row">
-														
-																75.00 - 100.00
-															</td>
-															<td>
-																
-																mg/dL
-															</td>
-	
-														</tr>
-														
-														
-														
-													</tbody>
-												</table>
-												<h1 className="flex justify-center font-italic text-xs text-gray-400 border-t py-5">*** End of Report ***</h1>
-											</div>
-											
-										</>
+									
+									) : (
+										""
 									)}
+									
+  			
   
 									</div>
 
@@ -920,29 +787,49 @@ id="phic-form-printable" ref={componentRef}
 				</div>
 			</div>
 
-			<h2 className="block text-sm font-sm leading-6 text-gray-900 pt-2 border-t">
+			<h2 className="block text-sm font-sm leading-6 text-gray-900 pt-2 border-t mb-3">
 				Filter Tests
 			</h2>
-												{laboratorytests?.map(
-													(data, index) => {
-														if (index % 1 == 0)
-															return (
-																<label
-																	className="mb-2 flex flex-row items-center text-xs gap-2 text-black hover:bg-blue-100 duration-200"
-																	key={`${keyByValue(
-																		data?.name
-																	)}`}
-																	onClick={() => {
-																		setTimeout(
-																			() => {
-																				onSymptomsChecked(
-																					data?.name
-																				);
-																			},
-																			50
-																		);
-																	}}
-																>
+			   
+			<div className="flex flex-row w-full md:w-1/2 px-3 mb-6 md:mb-0 items-start gap-2">
+        
+        <input
+          type="checkbox"
+          className="form-checkbox"
+          id="advanced-filter"
+          name="advanced-filter"
+          onClick={handleToggleAdvanced}
+        />
+		<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ">
+          Laboratory Tests
+        </label>
+      </div>
+
+      {showAdvanced && (
+        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ml-5">
+          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+            Advanced Filter Options
+          </label>
+		  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ml-4">
+            Chemistry
+          </label>
+
+          {chemistry?.map(
+						(data, index) => {
+														
+								return (
+									<label
+										className="mb-2 ml-6 flex flex-row items-center text-xs gap-2 text-black hover:bg-blue-100 duration-200"
+										key={`${keyByValue(
+										data?.name
+										)}`}
+										onClick={() => {
+											setTimeout(
+											() => {
+											onChemistryChecked(
+											data?.name
+											);},
+											50);}}>
 																	<input
 																		type="checkbox"
 																		{...register(
@@ -950,6 +837,7 @@ id="phic-form-printable" ref={componentRef}
 																			{}
 																		)}
 																	/>
+																	
 																	<span>
 																		{
 																			data?.label
@@ -959,7 +847,48 @@ id="phic-form-printable" ref={componentRef}
 															);
 													}
 												)}
+		<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ml-4">
+            Hematology
+          </label>
+		{hematology?.map(
+						(data, index) => {
+														
+								return (
+									<label
+										className="mb-2 ml-6 flex flex-row items-center text-xs gap-2 text-black hover:bg-blue-100 duration-200"
+										key={`${keyByValue(
+										data?.name
+										)}`}
+										onClick={() => {
+											setTimeout(
+											() => {
+											onHematologyChecked(
+											data?.name
+											);},
+											50);}}>
+																	<input
+																		type="checkbox"
+																		{...register(
+																			data?.name,
+																			{}
+																		)}
+																	/>
+																	
+																	<span>
+																		{
+																			data?.label
+																		}
+																	</span>
+																</label>
+															);
+													}
+												)}
+        </div>
+      )}
+		
 									</div>
+
+									
 									
 
 									{/* <div className="flex flex-col mt-0">

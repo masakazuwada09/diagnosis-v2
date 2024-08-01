@@ -50,14 +50,14 @@ const ReleaseMedStep1 = ({ appointment, releasePrescription }) => {
 				</table>
 			</div>
 
-			<ActionBtn
+			{/* <ActionBtn
 				className="px-4 !rounded-2xl w-1/2 mx-auto mt-5"
 				type="success"
 				onClick={releasePrescription}
 			>
 				<FlatIcon icon="rr-check" className="mr-2 text-xl" />
 				Release Prescription
-			</ActionBtn>
+			</ActionBtn> */}
 		</>
 	);
 };

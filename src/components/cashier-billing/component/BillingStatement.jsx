@@ -22,60 +22,6 @@ import Img from "../../Img";
 
 /* eslint-disable react/prop-types */
 const BillingStatement = (props) => {
-    const { register, setValue, watch, getValues, handleSubmit } = useForm({
-		defaultValues: {
-			avatar: "",
-			prefix: "",
-			suffix: "",
-			firstname: "",
-			lastname: "",
-			middlename: "",
-			gender: "",
-			birthdate: "",
-			birthplace: "",
-			barangay: "",
-			city: "",
-			civil_status: "",
-			philhealth: "",
-			religion: "",
-			mother_firstname: "",
-			mother_lastname: "",
-			mother_middlename: "",
-			country: "",
-			region: "",
-			province: "",
-			municipality: "",
-			zip_code: "",
-			street: "",
-			floor: "",
-			subdivision: "",
-			house_number: "",
-			purok: "",
-			mobile: "",
-			lat: "",
-			lng: "",
-			tin: "",
-			unit: "",
-			profession: "",
-			salary: "",
-			direct_contributor: "",
-			indirect_contributor: "",
-			spouse_lastname: "",
-			spouse_firstname: "",
-			spouse_suffix: "",
-			spouse_middlename: "",
-			mailing_unit: "",
-			mailing_building: "",
-			mailing_house_number: "",
-			mailing_street: "",
-			mailing_subdivision: "",
-			mailing_barangay: "",
-			mailing_municipality: "",
-			mailing_city: "",
-			mailing_province: "",
-			mailing_zip_code: "",
-		},
-	});
     const { loading: btnLoading, appointment, patient, onSave} = props;
     const { user } = useAuth();
     const [loading, setLoading] = useState(true);
@@ -83,18 +29,6 @@ const BillingStatement = (props) => {
     const componentRef = React.useRef(null);
     const billingStatus = patient?.billing_status || "pending";
 
-	let diagnosis = caseCodes?.find(
-		(x) => x.CASE_CODE == appointment?.diagnosis_code
-	);
-
-	const mutateAll = () => {
-		mutatePending();
-		mutatePendingForResultReading();
-		mutateNowServing();
-		mutatePendingForRelease();
-		//mutatePendingPatient();
-		//mutateNowServingPatient();
-	};
 
     useNoBugUseEffect({
         functions: () => {

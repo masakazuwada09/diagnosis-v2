@@ -17,8 +17,22 @@ import NewPatientFormModal from "../../../components/modal/NewPatientFormModal";
 import { v4 as uuidv4 } from "uuid";
 import { useAuth } from "../../../hooks/useAuth";
 import PatientLaboratoryResults from "./PatientLaboratoryResults";
+import useLabQueue from "../../../hooks/useLabQueue";
+import InQueueRegular from "../../../pages/patient-queue/components/InQueueRegular";
+import { patientFullName, formatDate, doctorName, doctorSpecialty } from "../../../libs/helpers";
+import LaboratoryQueue from "../../../pages/patient-queue/components/InQueueRegular";
+
 
 const PatientLaboratory = () => {
+	const { user } = useAuth();
+	const { pending, mutatePending, nowServing } = useLabQueue();
+	const [order, setOrder] = useState(null);
+	const referToSphModalRef = useRef(null);
+	const uploadLabResultRef = useRef(null);
+	const [selectedTab, setSelectedTab] = useState("");
+	useNoBugUseEffect({
+		functions: () => {},
+	});
 	const {
 		data: patients,
 		setData: setPatients,
@@ -51,7 +65,13 @@ const PatientLaboratory = () => {
 			key: uuidv4(),
 		}));
 	};
+
+	const listPending = () => {
+		return pending?.data || [];
+		// return (isDoctor() ? doctorsPending?.data : pending?.data) || [];
+	};
 	return (
+		
 		<AppLayout>
 			{/* <PageHeader
 				title="Patients"
@@ -88,6 +108,7 @@ const PatientLaboratory = () => {
 								""
 							)}
 						</div>
+						
 						<div className="pr-5">
 							<TextInput
 								iconLeft={"rr-search"}
@@ -102,7 +123,8 @@ const PatientLaboratory = () => {
 						</div>
 						<div className="flex flex-col gap-y-4 relative">
 							{loading ? <LoadingScreen /> : ""}
-							<div className="flex flex-col gap-y-2 max-h-[calc(100vh-312px)] overflow-auto pr-5">
+							<div className="flex flex-col gap-y-2 max-h-[calc(100vh-312px)] overflow-auto pr-5">					
+
 								{patients?.map((patientData) => {
 									return (
 										<PatientMenu
@@ -121,6 +143,10 @@ const PatientLaboratory = () => {
 										/>
 									);
 								})}
+
+
+
+
 							</div>
 							<Pagination
 								setPageSize={setPaginate}

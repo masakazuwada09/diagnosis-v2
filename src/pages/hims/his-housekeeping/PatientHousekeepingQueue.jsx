@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useAuth } from '../../../hooks/useAuth';
 import useHousekeepingQueue from '../../../hooks/useHousekeepingQueue';
 import useNoBugUseEffect from '../../../hooks/useNoBugUseEffect';
@@ -15,11 +15,12 @@ import { Fade } from 'react-reveal';
 import InQueueForRelease from '../../patient-queue/components/InQueueForRelease';
 import AppLayout from '../../../components/container/AppLayout';
 import AppointmentDetailsForHousekeeping from './components/AppointmentDetailsForHousekeeping';
+import ReferToSPHModal from '../../../components/modal/ReferToSPHModal';
 
 const PatientHousekeepingQueue = () => {
   const { user } = useAuth();
 	const { pending, mutatePending } = useHousekeepingQueue();
-	// const referToSphModalRef = useRef(null);
+	const referToSphModalRef = useRef(null);
 	const [appointment, setAppointment] = useState(null);
 
 	useNoBugUseEffect({
@@ -48,7 +49,7 @@ const PatientHousekeepingQueue = () => {
 							{pending?.data?.map((queue, index) => {
 								return (
 									<InQueueForRelease
-										
+										selected={queue?.id == appointment?.id}
 										onClick={() => {
 											setAppointment(queue);
 										}}
@@ -120,15 +121,14 @@ const PatientHousekeepingQueue = () => {
 
 											<AppointmentDetailsForHousekeeping
 												forHousekeeping={true}
-												appointment={appointment}
 												mutateAll={mutateAll}
-												
-												
+												hideServices={false}
+												appointment={appointment}
 												setOrder={(data) => {
 													if (data == null) {
 														// mutateAll();
 													}
-												setAppointment(data);
+													setAppointment(data);
 												}}
 												
 												
@@ -194,7 +194,7 @@ const PatientHousekeepingQueue = () => {
 					</div>
 				</div>
 			</div>
-			{/* <ReferToSPHModal ref={referToSphModalRef} /> */}
+			<ReferToSPHModal ref={referToSphModalRef} />
 		</AppLayout>
   )
 }

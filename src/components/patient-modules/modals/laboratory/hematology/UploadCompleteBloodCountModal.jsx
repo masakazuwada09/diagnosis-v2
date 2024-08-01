@@ -136,7 +136,7 @@ const UploadCompleteBloodCountModal = (props, ref) => {
 										})}
 										errors={errors?.wbc?.message}
 									/>
-									<TextAreaField
+									{/* <TextAreaField
 										label="Remarks"
 										placeholder=""
                                         rows={3}
@@ -144,7 +144,7 @@ const UploadCompleteBloodCountModal = (props, ref) => {
 											required: "The rcbc is required.",
 										})}
 										errors={errors?.rcbc?.message}
-									/>
+									/> */}
 								</div>
 
 								<div className="px-4 py-4 border-t flex items-center justify-end bg-slate-">

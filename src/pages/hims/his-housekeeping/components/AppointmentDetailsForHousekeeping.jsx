@@ -49,9 +49,10 @@ const InfoText = ({
 
 const AppointmentDetailsForHousekeeping = ({
     appointment: propAppointment,
+	loading: patient,
 	forHousekeeping = false,
 	setOrder,
-	// hideServices = false,
+	hideServices = false,
 	mutateAll,
 }) => {
     const {
@@ -66,8 +67,6 @@ const AppointmentDetailsForHousekeeping = ({
 	} = useForm();
 	const [appointment, setAppointment] = useState(propAppointment);
 	const [key, setKey] = useState(uniq_id);
-
-	
 	useNoBugUseEffect({
 		functions: () => {
 			setTimeout(() => {
@@ -174,7 +173,7 @@ const AppointmentDetailsForHousekeeping = ({
 						
 					
 
-						
+						{!hideServices ? (
 							<CollapseDiv
 								defaultOpen={
 									(appointment.status == "pending" &&
@@ -204,6 +203,9 @@ const AppointmentDetailsForHousekeeping = ({
 								)}
 
 							</CollapseDiv>
+								) : (
+									""
+								)}
 						
 					</div>
 				</>

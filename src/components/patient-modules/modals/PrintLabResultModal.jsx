@@ -500,7 +500,7 @@ id="phic-form-printable" ref={componentRef}
 														<th className="capitalize">
 															hemoglobin
 														</th>
-														<td className="absolute ml-[285px]">
+														<td className="absolute ml-[260px]">
 														
 															{
 																showData
@@ -609,7 +609,7 @@ id="phic-form-printable" ref={componentRef}
 														<th className="capitalize">
 															hematocrit
 														</th>
-															<td className="absolute ml-[285px]">
+															<td className="absolute ml-[260px]">
 															{
 																showData
 																	?.appointment
@@ -630,7 +630,7 @@ id="phic-form-printable" ref={componentRef}
 														<th className="uppercase">
 															rcbc
 														</th>
-														<td className="absolute ml-[285px]">
+														<td className="absolute ml-[240px]">
 															{
 																showData
 																	?.appointment
@@ -650,7 +650,7 @@ id="phic-form-printable" ref={componentRef}
 														<th className="uppercase">
 															wbc
 														</th>
-														<td className="absolute ml-[285px]">
+														<td className="absolute ml-[260px]">
 															{
 																showData
 																	?.appointment
@@ -698,7 +698,7 @@ id="phic-form-printable" ref={componentRef}
 																showData
 																	?.appointment
 																	?.fbs
-															}
+															}{" "}
 														</td>
 														<td className=" ml-[80px] flex flex-row">
 													

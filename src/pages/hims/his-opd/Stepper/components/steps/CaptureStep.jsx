@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from "react";
-import ContentTitle from "../../../components/buttons/ContentTitle";
-import ActionBtn from "../../../components/buttons/ActionBtn";
-import FlatIcon from "../../../components/FlatIcon";
-import { useStepperContext } from "../../../libs/StepperContext";
+import ContentTitle from "../../../../../../components/buttons/ContentTitle";
+import ActionBtn from "../../../../../../components/buttons/ActionBtn";
+import FlatIcon from "../../../../../../components/FlatIcon";
+import { useStepperContext } from "../../../../../../libs/StepperContext";
 
-const ReleaseMedStep3 = ({
+const CaptureStep = ({
 	submitSelfie,
 	loading,
 	imageCaptured,
@@ -122,4 +122,4 @@ const ReleaseMedStep3 = ({
 	);
 };
 
-export default ReleaseMedStep3;
+export default CaptureStep;

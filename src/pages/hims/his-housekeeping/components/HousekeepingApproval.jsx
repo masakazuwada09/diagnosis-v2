@@ -8,17 +8,12 @@ import { useAuth } from '../../../../hooks/useAuth';
 import { toast } from 'react-toastify';
 import Housekeeping from './Housekeeping';
 import ActionBtn from '../../../../components/buttons/ActionBtn';
+import useHousekeepingQueue from '../../../../hooks/useHousekeepingQueue';
 
 const uniq_id = uuidv4();
 
-const HousekeepingApproval = ({
-	appointment: propAppointment,
-	setOrder,
-	mutateAll,
-
-}) => {
-	const [appointment, setAppointment] = useState(propAppointment);
-   
+const HousekeepingApproval = (props, data) => {
+	const { loading: appointment, setAppointment, mutateAll } = props;
 	const { user } = useAuth();
 	const {
 		register,
@@ -32,6 +27,15 @@ const HousekeepingApproval = ({
 	} = useForm();
 
 	const [loading, setLoading] = useState(false);
+
+	const {
+		pending: doctorsPending,
+		nowServing: housekeepingNowServing,
+		pendingForResultReading,
+		mutatePending,
+		mutatePendingForResultReading,
+		mutateNowServing,
+	} = useHousekeepingQueue();
 
 	useNoBugUseEffect({
 		functions: () => {
@@ -82,18 +86,18 @@ const HousekeepingApproval = ({
 						Send patient to Cashier
 					</h4> 
 					
-				</div>
-
-			
-									
+				</div>			
+				{housekeepingNowServing?.data?.map((data, queue) => {
+								return (
 					<Housekeeping
-					
-						setAppointment={setOrder}
+						data={data}			
 						loading={loading}
 						onSave={housekeepingApproval}
 						appointment={appointment}
-						patient={appointment?.patient}
+						
 					/> 
+				);
+			})}
 								
 				{/* <ActionBtn
 					className="px-4 !rounded-2xl w-full"

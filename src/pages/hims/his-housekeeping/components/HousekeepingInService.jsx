@@ -51,6 +51,7 @@ const HouseKeepingInService = ({
 			getValues(patient_bed).filter((x) => x == true).length
 		);
 	};
+	
 
 	const sendToInfectious = (data) => {
 		setLoading(true);

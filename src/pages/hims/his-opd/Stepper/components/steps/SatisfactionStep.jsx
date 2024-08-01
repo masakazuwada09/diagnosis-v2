@@ -1,10 +1,10 @@
 import { useState } from "react";
-import ContentTitle from "../../../components/buttons/ContentTitle";
-import ActionBtn from "../../../components/buttons/ActionBtn";
-import FlatIcon from "../../../components/FlatIcon";
-import { useStepperContext } from "../../../libs/StepperContext";
+import ContentTitle from "../../../../../../components/buttons/ContentTitle";
+import ActionBtn from "../../../../../../components/buttons/ActionBtn";
+import FlatIcon from "../../../../../../components/FlatIcon";
+import { useStepperContext } from "../../../../../../libs/StepperContext";
 
-const ReleaseMedStep2 = ({
+const SatisfactionStep = ({
 	satisfaction,
 	loading,
 	setStatisfaction,
@@ -88,33 +88,12 @@ const ReleaseMedStep2 = ({
 				</div>
 				<div>
 
-				{result || "unsatisfied" ? (
-					<span>"CAB"</span>
-				) == "neutral" ( 
-					<span>"CAB"</span>
-				) == "undecided" (
-					"CBA"
-				) : ( 
-					""
-				)}
+			
 
 				</div>
 			</div>
-			<ActionBtn
-				className="px-4 !rounded-2xl w-1/2 mt-5 mx-auto"
-				type="success"
-				disabled={!result}
-				loading={loading}
-				onClick={submitSatisfaction}
-			>
-				Proceed to next step
-				<FlatIcon
-					icon="rr-angle-double-small-right"
-					className="mr-2 text-xl"
-				/>
-			</ActionBtn>
 		</>
 	);
 };
 
-export default ReleaseMedStep2;
+export default SatisfactionStep;

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useEffect, useRef, useState, useImperativeHandle, Fragment, forwardRef, } from "react";
+import React, { useEffect, useRef, useState, useImperativeHandle, Fragment, forwardRef, } from "react";
 import FlatIcon from "../../../../components/FlatIcon";
 import ActionBtn from "../../../../components/buttons/ActionBtn";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
@@ -30,6 +30,17 @@ import ReleaseMedStep3 from "../../../appointments/components/ReleaseMedStep3";
 import { mutate } from "swr";
 import { geolocations, locations } from "../../../../libs/geolocations";
 import { patientRooms } from "../../../../libs/patientRooms";
+import Stepper from "../Stepper/components/Stepper";
+import { UseContextProvider } from "../../../../libs/StepperContext";
+import Account from "../Stepper/components/steps/PrescriptionStep";
+import Details from "../Stepper/components/steps/SatisfactionStep";
+import Final from "../Stepper/components/steps/Final";
+import Payment from "../Stepper/components/steps/CaptureStep";
+import StepperControl from "../Stepper/components/StepperControl";
+import PrescriptionStep from "../Stepper/components/steps/PrescriptionStep";
+import SatisfactionStep from "../Stepper/components/steps/SatisfactionStep";
+import CaptureStep from "../Stepper/components/steps/CaptureStep";
+
 
 
 const roomOptions = Object.values(patientRooms).map((loc) => ({
@@ -43,6 +54,7 @@ const uniq_id = uuidv4();
 const OPDServices = (props, ref) => {
 	const { onSuccess, specialties } = props;
 	const { appointment, setAppointment, mutateAll } = props;
+	const [currentStep, setCurrentStep] = useState(1);
 	const [modalData, setModalData] = useState(null);
 	const { user } = useAuth();
 	const {
@@ -87,6 +99,56 @@ const OPDServices = (props, ref) => {
 		},
 		params: [appointment?.id],
 	});
+
+	const steps = [
+		"Prescriptions",
+		"Satisfaction Rating",
+		"Capture Photo",
+		"Complete",
+	  ];
+	
+	  const displayStep = (step) => {
+		switch (step) {
+		  case 1:
+			return <PrescriptionStep
+			loading={loading}
+			setLoading={setLoading}
+			appointment={appointment}
+			releasePrescription={releasePrescription}
+			/>;
+		  case 2:
+			return <SatisfactionStep
+			loading={loading}
+			setLoading={setLoading}
+			appointment={appointment}
+			satisfaction={satisfaction}
+			setStatisfaction={setStatisfaction}
+			submitSatisfaction={submitSatisfaction}/>;
+		  case 3:
+			return <CaptureStep
+			imageCaptured={imageCaptured}
+			setImageCaptured={setImageCaptured}
+			loading={loading}
+			setLoading={setLoading}
+			appointment={appointment}
+			submitSelfie={submitSelfie}/>;
+		  case 4:
+			return <Final 
+			loading={loading}
+			setLoading={setLoading}
+			appointment={appointment}
+			/>;
+		  default:
+		}
+	  };
+	
+	  const handleClick = (direction) => {
+		let newStep = currentStep;
+	
+		direction === "next" ? newStep++ : newStep--;
+		// check if steps are within bounds
+		newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);
+	  };
 
 	const [step, setStep] = useState(1);
 	const [image, setImage] = useState(null);
@@ -527,78 +589,42 @@ const OPDServices = (props, ref) => {
 			{appointment?.status == "pending-for-his-release" ? (
 				<>
 					<div className="flex items-center w-full justify-center px-4 pb-4 gap-4">
-						<div
-							className={`h-14 w-1/4 rounded-lg bg-slate-200 flex items-center justify-center  flex-col duration-200 ${
-								step == 1
-									? "opacity-100 !bg-green-100"
-									: "opacity-50"
-							}`}
-						>
-							<b className="text-sm">Step 1</b>
-							<span className="text-xs">
-								Release medicine form
-							</span>
-						</div>
-						<div
-							className={`h-14 w-1/4 rounded-lg bg-slate-200 flex items-center justify-center  flex-col duration-200 ${
-								step == 2
-									? "opacity-100 !bg-green-100"
-									: "opacity-50"
-							}`}
-						>
-							<b className="text-sm">Step 2</b>
-							<span className="text-xs">Satisfaction Rating</span>
-						</div>
-						<div
-							className={`h-14 w-1/4 rounded-lg bg-slate-200 flex items-center justify-center  flex-col duration-200 ${
-								step == 3
-									? "opacity-100 !bg-green-100"
-									: "opacity-50"
-							}`}
-						>
-							<b className="text-sm">Step 3</b>
-							<span className="text-xs">
-								Proof of Patient and Personnel
-							</span>
-						</div>
+						
 					</div>
 					<div className="p-5 mx-auto w-4/5 border rounded-xl">
-						{step == 1 ? (
-							<ReleaseMedStep1
-								loading={loading}
-								setLoading={setLoading}
-								appointment={appointment}
-								releasePrescription={releasePrescription}
-							/>
-						) : (
-							""
-						)}
-						{step == 2 ? (
-							<ReleaseMedStep2
-								loading={loading}
-								setLoading={setLoading}
-								appointment={appointment}
-								satisfaction={satisfaction}
-								setStatisfaction={setStatisfaction}
-								submitSatisfaction={submitSatisfaction}
-							/>
-						) : (
-							""
-						)}
-						{step == 3 ? (
-							<ReleaseMedStep3
-								imageCaptured={imageCaptured}
-								setImageCaptured={setImageCaptured}
-								loading={loading}
-								setLoading={setLoading}
-								appointment={appointment}
-								submitSelfie={submitSelfie}
-							/>
-						) : (
-							""
-						)}
+
+
+	<div className="mx-auto rounded-2xl bg-white pb-2 shadow-xl w-full">
+     
+      <div className="horizontal container mt-5 ">
+        <Stepper steps={steps} currentStep={currentStep} />
+
+        <div className="my-10 p-10 ">
+          <UseContextProvider>{displayStep(currentStep)}</UseContextProvider>
+        </div>
+      </div>
+
+     
+      {currentStep !== steps.length && (
+        <StepperControl
+			loading={loading}
+			setLoading={setLoading}
+			appointment={appointment}
+			submitSelfie={submitSelfie}
+			handleClick={handleClick}
+			currentStep={currentStep}
+			steps={steps}
+        />
+      )}
+    </div>
+
+
 					</div>
 				</>
+
+
+  
+
 			) : (
 				""
 			)}

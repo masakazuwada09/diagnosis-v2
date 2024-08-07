@@ -9,9 +9,9 @@ const useHousekeepingQueue = () => {
 	} = useSWR(
 		"/v1/clinic/pending-housekeeping",
 		() =>
-			Axios.get("/v1/clinic/pending-housekeeping")
+			Axios.get("/v1/clinic/pending-housekeeping?status=pending")
 				.then((res) => {
-					console.log("res.data clinic/pending-housekeeping", res.data);
+					console.log("", res.data);
 					return res.data;
 				})
 				.catch((error) => {
@@ -26,33 +26,32 @@ const useHousekeepingQueue = () => {
 	);
 
 
-	const {
-		data: nowServing,
-		// error,
-		mutate: mutateNowServing,
-	} = useSWR(
-		"/v1/clinic/pending-housekeeping",
-		() =>
-			Axios.get("/v1/clinic/pending-housekeeping")
-				.then((res) => {
-					return res.data;
-				})
-				.catch((error) => {
-					if (error.response.status !== 409) throw error;
+	// const {
+	// 	data: nowServing,
+	// 	// error,
+	// 	mutate: mutateNowServing,
+	// } = useSWR(
+	// 	"/v1/clinic/pending-housekeeping",
+	// 	() =>
+	// 		Axios.get("/v1/clinic/pending-housekeeping")
+	// 			.then((res) => {
+	// 				console.log("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", res.data);
+	// 				return res.data;
+	// 			})
+	// 			.catch((error) => {
+	// 				if (error.response.status !== 409) throw error;
 
-					// mutate("/v1/clinic/doctor-pending-for-consultation");
-				}),
-		{
-			revalidateIfStale: true,
-			revalidateOnFocus: true,
-		}
-	);
+	// 				// mutate("/v1/clinic/doctor-pending-for-consultation");
+	// 			}),
+	// 	{
+	// 		revalidateIfStale: true,
+	// 		revalidateOnFocus: true,
+	// 	}
+	// );
 
   return {
 		pending,
-		nowServing,
 		mutatePending,
-		mutateNowServing,
 		
 	};
 }

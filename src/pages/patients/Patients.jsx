@@ -69,13 +69,13 @@ const Patients = () => {
 									Search and view patient data.
 								</span>
 							</div>
-							{checkUserType("ANESTHESIA") || checkUserType("ER") ? (
+							{checkUserType("FRONTDESK") || checkUserType("ER") ? (
 								<ActionBtn
 									type="success"
 									title="Add new patient"
 									className="h-11 w-11 ml-auto !rounded-full"
 									onClick={() => {
-										privacyRef.current.show();
+										newPatientFormRef.current.show();
 									}}
 								>
 									<FlatIcon

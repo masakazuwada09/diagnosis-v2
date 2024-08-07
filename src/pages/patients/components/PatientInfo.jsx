@@ -107,7 +107,7 @@ const PatientInfo = ({
 
 
 	return (
-		<div className='flex flex-row w-full'>
+		<div className='flex flex-row w-full '>
 			
 
 			<div className="  rounded-full aspect-square bg-background">
@@ -115,7 +115,7 @@ const PatientInfo = ({
 					type="user"
 					name={`${patient?.firstname}-${patient?.lastname}`}
 					src={patientSelfie ? patientSelfie : patient?.avatar || ""}
-					className="min-h-[108px] min-w-[108px] aspect-square object-cover rounded-xl"
+					className="min-h-[108px] min-w-[108px] aspect-square object-cover rounded-xl rotate-icon"
 					alt=""
 					id="user-image-sample"
 					key={`key-${patient?.id}-${patient?.avatar}`}
@@ -123,7 +123,7 @@ const PatientInfo = ({
 			</div>
 
 
-			<div className="pl-3 !text-sm w-full">
+			<div className="pl-3 !text-sm w-full ">
 				<h6
 					className={` text-xl font-semibold flex pt-4 items-center ${
 						String(patient?.gender).toLowerCase() == "male"

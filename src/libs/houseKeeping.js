@@ -20,6 +20,11 @@ export const Bed = [
 		value: "Bed Frame",
 		name: "Bed Frame",
 	},
+	{
+		label: "Others",
+		value: "Others",
+		name: "Others",
+	},
 
     
 ];

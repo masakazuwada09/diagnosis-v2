@@ -9,6 +9,10 @@ import { useAuth } from '../../hooks/useAuth';
 import FlatIcon from '../../components/FlatIcon';
 import Img from '../../components/Img';
 import AppLayout from '../../components/container/AppLayout';
+import LaboratoryOrders from '../../components/patient-modules/LaboratoryOrders';
+import LaboratoryFinalReport from '../patient-lab-queue/components/LaboratoryFinalReport';
+import ImagingFinalReport from './ImagingFinalReport';
+import TextInput from '../../components/inputs/TextInput';
 const PatientProfile = ({ patient }) => {
 	return (
 		<div className="flex flex-col lg:flex-row gap-4 items-center px-4 pt-4 border-b justify- md:justify-start bg-slate-50 p-4 h-full">
@@ -66,6 +70,7 @@ const PatientImagingQueue = () => {
 	const [order, setOrder] = useState(null);
 	const referToSphModalRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
+	const [appointment, setAppointment] = useState(null);
 	const [selectedTab, setSelectedTab] = useState("");
 	useNoBugUseEffect({
 		functions: () => {},
@@ -94,6 +99,18 @@ const PatientImagingQueue = () => {
 						<span className="noto-sans-thin text-slate-500 text-sm font-light">
 							Patients pending for laboratory services
 						</span>
+						<div className="pr-5">
+							<TextInput
+								iconLeft={"rr-search"}
+								placeholder="Search patient..."
+								onChange={(e) => {
+									setFilters((prevFilters) => ({
+										...prevFilters,
+										keyword: e.target.value,
+									}));
+								}}
+							/>
+						</div>
 						<div className="flex flex-col gap-y-4 py-4">
 							{/* <span className="font-medium text-md text-orange-500 -mb-2 ">
 								Priority Lane
@@ -117,101 +134,22 @@ const PatientImagingQueue = () => {
 									No patients in queue.
 								</span>
 							) : (
-								listPending()?.map((queue, index) => {
+								listPending()?.map((queue, patient, index) => {
 									return (
 										<InQueueRegular
-											selected={
-												queue?.patient?.id ===
-												order?.relationships?.patient
-													?.id
-											}
-											onClick={() => {
-												setOrder(queue);
-											}}
-											key={`iqr-${queue.id}`}
-											number={`${queue.id}`}
-											patientName={patientFullName(
-												queue?.relationships?.patient
-											)}
+										onClick={() => {
+											setOrder(queue);
+										}}
+										patient={
+										order?.relationships
+											?.patient
+										}
+										active={
+											queue?.id == patient?.id
+										}
+										patientName={patientFullName(queue?.relationships?.patient)}
 										>
-											<div className="w-full flex flex-col pl-16">
-												<div className="flex items-center gap-2 mb-2">
-													<span className="text-sm w-[58px]">
-														Imaging Order:
-													</span>
-													<span className="font-bold text-red-700">
-														{" "}
-														{queue?.type?.name}
-													</span>
-												</div>
-												<div className="flex items-center gap-2 mb-2">
-													<span className="text-sm w-[58px]">
-														Date:
-													</span>
-													<span className="font-light italic">
-														{formatDate(
-															new Date(
-																queue?.created_at
-															)
-														)}
-													</span>
-												</div>
-												<div className="flex items-start gap-2 mb-2">
-													<span className="text-sm w-[58px]">
-														Doctor:{" "}
-													</span>
-													<span className="flex flex-col font-bold">
-														<span className="-mb-1">
-															{doctorName(
-																queue
-																	?.relationships
-																	?.doctor
-															)}
-														</span>
-														<span className="font-light text-sm">
-															{doctorSpecialty(
-																queue
-																	?.relationships
-																	?.doctor
-															)}
-														</span>
-													</span>
-												</div>
-												<div className="flex items-center gap-2 mb-2">
-													<span className="text-sm w-[58px]">
-														Notes:
-													</span>
-													<span className="font-light italic">
-														{" "}
-														{queue?.notes}
-													</span>
-												</div>
-												{queue?.relationships
-													?.healthUnit ? (
-													<div className="flex items-center gap-2 mb-2">
-														<span className="text-sm w-[58px]">
-															{
-																queue
-																	?.relationships
-																	?.healthUnit
-																	?.type
-															}
-															:
-														</span>
-														<span className="font-medium ">
-															{" "}
-															{
-																queue
-																	?.relationships
-																	?.healthUnit
-																	?.name
-															}
-														</span>
-													</div>
-												) : (
-													""
-												)}
-											</div>
+											
 										</InQueueRegular>
 									);
 								})
@@ -236,27 +174,20 @@ const PatientImagingQueue = () => {
 							{order?.relationships?.patient ? (
 								<Fade key={`order-${order?.id}`}>
 									<div>
-										<PatientProfile
-											patient={
-												order?.relationships?.patient
-											}
+										<ImagingFinalReport
+										
+										appointment={appointment}
+										mutateAll={mutateAll}
+										setAppointment={setOrder}
+										patient={order?.relationships?.patient}
+										order_id={order?.id}
+										onUploadLabResultSuccess={() => {
+											console.log("onUploadLabResultSuccess");
+											mutatePending();
+											setOrder(null);
+										}}
 										/>
-										<div className="py-4">
-											<LaboratoryOrders
-												patient={
-													order?.relationships
-														?.patient
-												}
-												order_id={order?.id}
-												onUploadLabResultSuccess={() => {
-													console.log(
-														"onUploadLabResultSuccess"
-													);
-													mutatePending();
-													setOrder(null);
-												}}
-											/>
-										</div>
+									
 									</div>
 								</Fade>
 							) : (

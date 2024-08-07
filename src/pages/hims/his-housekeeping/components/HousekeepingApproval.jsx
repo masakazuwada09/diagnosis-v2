@@ -12,8 +12,11 @@ import useHousekeepingQueue from '../../../../hooks/useHousekeepingQueue';
 
 const uniq_id = uuidv4();
 
-const HousekeepingApproval = (props, data) => {
-	const { loading: appointment, setAppointment, mutateAll } = props;
+const HousekeepingApproval = ({
+	appointment: propAppointment,
+	setOrder
+}) => {
+	const [appointment, setAppointment] = useState(propAppointment);
 	const { user } = useAuth();
 	const {
 		register,
@@ -43,6 +46,7 @@ const HousekeepingApproval = (props, data) => {
 				setValue("rhu_id", user?.health_unit_id);
 			}
 		},
+		
 		params: [user?.health_unit_id],
 	});
 	const housekeepingApproval = (data) => {
@@ -50,7 +54,7 @@ const HousekeepingApproval = (props, data) => {
 		let formdata = new FormData();
 		formdata.append("rhu_id", data?.rhu_id);
 		formdata.append("_method", "PATCH");
-
+		
 		Axios.post(
 			`v1/clinic/send-from-housekeeping-to-cashier/${appointment?.id}`,
 			formdata
@@ -79,6 +83,7 @@ const HousekeepingApproval = (props, data) => {
 		return errors[name]?.message;
 	};
   return (
+	
    <div className="flex flex-col items-start">
 			<div className="flex flex-col w-full gap-4 pb-2">
 				<div className="p-0 flex flex-col gap-y-4 relative w-full">
@@ -88,15 +93,20 @@ const HousekeepingApproval = (props, data) => {
 					
 				</div>			
 				{housekeepingNowServing?.data?.map((data, queue) => {
+					
 								return (
+									
 					<Housekeeping
+					setAppointment={setOrder}
 						data={data}			
 						loading={loading}
 						onSave={housekeepingApproval}
-						appointment={appointment}
+						
 						
 					/> 
+					
 				);
+				
 			})}
 								
 				{/* <ActionBtn

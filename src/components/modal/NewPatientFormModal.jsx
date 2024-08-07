@@ -111,7 +111,7 @@ const NewPatientFormModal = (props, ref) => {
 		console.log("submitform", dependents, data);
 		let formdata = new FormData();
 		const file = dataURItoBlob(patientSelfie);
-		formdata.append("avatar", file);
+		// formdata.append("avatar", file);
 		formdata.append("prefix", data?.prefix || " ");
 		formdata.append("suffix", data?.suffix || " ");
 		formdata.append("firstname", data?.firstname || " ");

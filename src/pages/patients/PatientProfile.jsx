@@ -51,6 +51,9 @@ const PatientProfile = (props) => {
 
 
 <div className="flex flex-col lg:flex-row gap-4 items-center px-5 pt-4 pb-4 border-b justify-between  bg-slate-50 ">
+  
+
+  <div className="flex flex-row col-span-1 items-center">
   <div className="group relative h-[108px] w-[108px] min-h-[108px] min-w-[108px] rounded-full aspect-square bg-background">
     <Img
       type="user"
@@ -62,9 +65,8 @@ const PatientProfile = (props) => {
       key={`key-${patient?.id}-${patient?.avatar}`}
     />
   </div>
-
-  <div className="flex flex-col col-span-1 ">
-    <h6
+  <div className="flex flex-col ml-3">
+  <h6
       className={`text-left text-2xl mb-1 font-semibold flex items-center ${
         String(patient?.gender).toLowerCase() == "male"
           ? "text-blue-800"
@@ -94,10 +96,12 @@ const PatientProfile = (props) => {
       </div>
     </div>
   </div>
+    
+  </div>
 
   <div className="">
    
-    <div className="flex  w-80">
+    <div className="">
       <div className="capitalize flex flex-wrap font-bold text-sm text-gray-900 ">
         
       </div>
@@ -137,6 +141,18 @@ const PatientProfile = (props) => {
             EMERGENCY APPOINTMENT
           </ActionBtn>
         )}
+        {checkUserType("DC-NURSE") && (
+          <ActionBtn
+            type="secondary"
+            className="ml-auto h-12 !rounded-[30px] font-medium gap-2 px-4"
+            onClick={() => {
+              ERCareChoiceRef.current.show({ patient: patient });
+            }}
+          >
+            <FlatIcon icon="bs-add" />
+            EMERGENCY APPOINTMENT
+          </ActionBtn>
+        )}
 
         {checkUserType("OPD-NURSE") && (
           <ActionBtn
@@ -151,7 +167,7 @@ const PatientProfile = (props) => {
           </ActionBtn>
         )}
         
-        {checkUserType("ANESTHESIA") && (
+        {checkUserType("FRONTDESK") && (
           <ActionBtn
             type="secondary"
             className="ml-auto h-14 !rounded-[30px] font-medium gap-2 px-4"

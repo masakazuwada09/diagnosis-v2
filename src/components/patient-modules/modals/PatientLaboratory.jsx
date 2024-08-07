@@ -144,9 +144,6 @@ const PatientLaboratory = () => {
 									);
 								})}
 
-
-
-
 							</div>
 							<Pagination
 								setPageSize={setPaginate}

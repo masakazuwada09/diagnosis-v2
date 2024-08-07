@@ -57,6 +57,9 @@ export default {
 				},
 				
 			},
+			bgPattern: {
+				dots: "radial-gradient(#333 1px, transparent 1px)",
+			  },
 		},
 	},
 	plugins: [require("tw-elements-react/dist/plugin.cjs")],

@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { react, useRef } from "react";
+import React, { useRef } from "react";
 import { useAuth } from "../hooks/useAuth";
 import useDataTable from "../hooks/useDataTable";
 import { formatDateMMDDYYYYHHIIA } from "../libs/helpers";

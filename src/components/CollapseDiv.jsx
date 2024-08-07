@@ -14,7 +14,7 @@ const CollapseDiv = ({
 	return (
 		<Disclosure
 			as={"div"}
-			className=" border-b  border-gray-300 duration-200"
+			className="  border-gray-300 duration-200"
 			defaultOpen={defaultOpen}
 		>
 			{({ open }) => (
@@ -23,23 +23,24 @@ const CollapseDiv = ({
 				
 					<Disclosure.Button
 						as="div"
-						className={`bg-background p-3 gap-2 text-sm font-bold flex items-center cursor-pointer bg-gray-200  ${
-							!open && "bg-gray-200"
+						className={`bg-background p-3 gap-2 text-sm font-bold flex items-center cursor-pointer shadow-lg ${
+							!open && ""
 						} ${headerClassName}`}
 
 						
 					>
 						
 						{title}
-						<div className="flex items-center justify-center ml-auto text-gray-400 text-xs">
-							
 						<FlatIcon
 										
-										icon="fi fi-rr-angle-small-down"
-										className={`text-xl text-gray-500 duration-100  ${
+										icon="fi fi-rs-cursor-finger"
+										className={`text-sm text-gray-500 duration-100  ${
 											open ? "rotate-180 duration-400 " : ""
 										} duration-200`}
 									/>
+						<div className="flex items-center justify-center ml-auto text-gray-400 text-xs">
+							
+						
 									
 						</div>
 						

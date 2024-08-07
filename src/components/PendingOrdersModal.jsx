@@ -100,7 +100,7 @@ const PendingOrdersModal = (props, ref) => {
 										List of pending orders...
 									</span>
 								</Dialog.Title>
-								<div className="px-6 pt-5 pb-7 grid grid-cols-1 gap-5 relative">
+								<div className=" pt-5 grid grid-cols-1 gap-5 relative">
 									{console.log(
 										"modalData?.appointment",
 										modalData?.data
@@ -108,6 +108,7 @@ const PendingOrdersModal = (props, ref) => {
 									<LaboratoryOrders
 										showTitle={false}
 										patient={modalData?.data?.patient}
+										
 										laboratory_test_type={"all"}
 										appointment={modalData?.data}
 										allowCreate={false}
@@ -116,8 +117,8 @@ const PendingOrdersModal = (props, ref) => {
 
 								<div className="px-4 py-4 flex items-center justify-end bg-slate- border-t">
 									<ActionBtn
-										type="success"
-										className="ml-4 !px-10 !rounded-3xl"
+										type="teal"
+										className="ml-4 !px-10 !rounded-xl"
 										size="xl"
 										onClick={handleSubmit(submit)}
 									>

@@ -1,9 +1,9 @@
-/* eslint-disable react/prop-types */
-import { calculateAge, formatDate, patientFullName } from "../../../libs/helpers";
+import React from "react";
 import FlatIcon from "../../../components/FlatIcon";
+import ActionBtn from "../../../components/buttons/ActionBtn";
 import Img from "../../../components/Img";
 
-const InQueueRegular = ({ data, patientName, patient, active = false, ...rest }) => {
+const InQueueRegular = ({ active, number, patient, patientFullName, roomNumber, patientName, calculateAge, ...rest  }) => {
 	return (
 		<div
 			className={`outline-none rounded-xl p-3 flex items-center gap-3 hover:bg-white cursor-pointer duration-300 border border-blue-300 hover:border-blue-500 hover:shadow-lg ${
@@ -11,6 +11,7 @@ const InQueueRegular = ({ data, patientName, patient, active = false, ...rest })
 			}`}
 			{...rest}
 		>
+			
 			<Img
 				src={patient?.avatar || ""}
 				type="user"
@@ -19,7 +20,7 @@ const InQueueRegular = ({ data, patientName, patient, active = false, ...rest })
 			/>
 			<div className="flex flex-col">
 				<span className="text-base text-slate-800 font-semibold">
-				{patientName}
+					{patientName}
 				</span>
 				<div className="flex lg:gap-4">
 					<div className="flex gap-4 text-sm text-slate-500 mb-1">
@@ -36,17 +37,15 @@ const InQueueRegular = ({ data, patientName, patient, active = false, ...rest })
 						</div>
 					</div>
 					<div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
-						<FlatIcon
-							icon="rr-calendar-clock"
-							className="text-sm"
-						/>
-						<span>{calculateAge(patient?.birthday)} yrs old</span>
+				
+						
 					</div>
 				</div>
 				<div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
-					<FlatIcon icon="rr-calendar" className="text-sm" />
-					<span>{formatDate(patient?.birthday)}</span>
+					
+					
 				</div>
+				
 			</div>
 		</div>
 	);

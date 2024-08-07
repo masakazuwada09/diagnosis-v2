@@ -23,11 +23,9 @@ import useERQueue from "../../../../hooks/useERQueue";
 import useMDQueue from "../../../../hooks/useMDQueue";
 import useOPDQueue from "../../../../hooks/useOPDQueue";
 import { data } from "autoprefixer";
-
-
-
+z
 //In-Service
-const DoctorPatientQueue = () => {
+const DoctorQueue = () => {
 	const { user } = useAuth();
 	const {
 		pending: doctorsPending,
@@ -210,4 +208,4 @@ const DoctorPatientQueue = () => {
 	);
 };
 
-export default DoctorPatientQueue;
+export default DoctorQueue;

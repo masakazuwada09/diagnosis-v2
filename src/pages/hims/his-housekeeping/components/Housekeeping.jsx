@@ -4,17 +4,17 @@ import useNoBugUseEffect from '../../../../hooks/useNoBugUseEffect';
 import FlatIcon from '../../../../components/FlatIcon';
 import ActionBtn from '../../../../components/buttons/ActionBtn';
 import InfoTextForPrint from '../../../../components/InfoTextForPrint';
-import { dateToday, patientFullName, keyByValue } from '../../../../libs/helpers';
+import { dateToday, patientFullName, keyByValue, formatDateMMDDYYYYHHIIA } from '../../../../libs/helpers';
 import useHousekeepingQueue from '../../../../hooks/useHousekeepingQueue';
 import { Controller, useForm } from 'react-hook-form';
 import TextInputField from '../../../../components/inputs/TextInputField';
 import { Bed, Restroom } from "../../../../libs/housekeeping";
 
 const Housekeeping = (props) => {
-  const { loading: btnLoading, appointment, data, onSave } = props;
+  const { loading: patient, btnLoading, appointment, onSave } = props;
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
-  const [hasBed, setHasBed] = useState(0);
+  const [hasBed, setHasBed] = useState();
 
   const {
     register,
@@ -26,7 +26,7 @@ const Housekeeping = (props) => {
   } = useForm();
 
   const isForResultReading = () => {
-    return data?.status === "in-service-result-reading" || data?.has_for_reading?.length;
+    return appointment.status === "in-service-result-reading" || appointment.has_for_reading?.length;
   };
 
   const onBedChecked = () => {
@@ -48,21 +48,43 @@ const Housekeeping = (props) => {
     }
   };
 
+  const housekeepingApproval = (data) => {
+		setLoading(true);
+		let formdata = new FormData();
+		formdata.append("rhu_id", data?.rhu_id);
+		formdata.append("_method", "PATCH");
+		
+		Axios.post(
+			`v1/clinic/send-from-housekeeping-to-cashier/${appointment?.id}`,
+			formdata
+		)
+			.then((response) => {
+				let data = response.data;
+				// console.log(data);
+				if (mutateAll) {
+					mutateAll();
+				}
+				setTimeout(() => {
+					setAppointment(null);
+				}, 100);
+				setTimeout(() => {
+					toast.success("Patient sent to Cashier!");
+					setLoading(false);
+				}, 200);
+			})
+			.catch((err) => {
+				setLoading(false);
+				console.log(err);
+			});
+	};
+
   return (
     <div
       className={`flex flex-col border p-1 rounded-xl ${
         isForResultReading() ? "bg-orange-50 border-orange-100" : "bg-green-50 border-blue-100"
       }`}
     >
-      {isForResultReading() && (
-        <span className="text-red-500 text-center italic rounded-xl text-xs">
-          Pending{" "}
-          <span className="text-red-500 font-medium">
-            for {data?.has_for_reading?.includes("imaging") ? "IMAGING" : ""}{" "}
-            {data?.has_for_reading?.includes("laboratory-test") ? "LABORATORY" : ""} result reading
-          </span>
-        </span>
-      )}
+
       <div className="grid grid-cols-1 lg:grid-cols-2 divide-x">
         <div className="flex flex-col justify-center items-center">
           <span className="font-light text-sm text-slate-600 mb-1">Patient</span>
@@ -71,7 +93,9 @@ const Housekeeping = (props) => {
               isForResultReading() ? "text-indigo-600" : "text-success"
             } -mb-1`}
           >
-            {`#${data?.id} - ${patientFullName(data?.patient)}`}
+            {`#${appointment.id} - ${patientFullName(appointment.patient)}`}
+         
+          
           </h2>
           <span className="font-light text-sm text-slate-600 mb-1">Room No</span>
           <h2
@@ -79,7 +103,7 @@ const Housekeeping = (props) => {
               isForResultReading() ? "text-indigo-600" : "text-success"
             } -mb-1`}
           >
-            {data?.room_number}
+            {appointment?.room_number}
           </h2>
         </div>
         <div className="grid grid-cols-1">
@@ -87,17 +111,19 @@ const Housekeeping = (props) => {
             <InfoTextForPrint
               contentClassName="text-sm"
               title="Date"
-              value={dateToday()}
+              value={formatDateMMDDYYYYHHIIA(
+                new Date(appointment.created_at)
+              )}
             />
             <InfoTextForPrint
               contentClassName="text-sm mt-2"
               title="Room"
-              value={data?.room_number}
+              value={appointment.room_number}
             />
             <InfoTextForPrint
               contentClassName="text-sm"
               title="Philhealth no."
-              value={data?.philhealth}
+              value={appointment?.patient?.philhealth}
             />
             <InfoTextForPrint
               contentClassName="text-sm"
@@ -142,30 +168,30 @@ const Housekeeping = (props) => {
             <thead>
               <tr>
                 <th className="w-1/5">Click if Bed has issues</th>
-                <th className="flex justify-center">Issue Details</th>
+                <th className="flex justify-center">Remarks</th>
               </tr>
             </thead>
             <tbody>
               {Bed?.map((data, index) => (
                 <tr
-                  key={`${keyByValue(data?.label)}`}
+                  key={`${keyByValue(data.label)}`}
                   onClick={() => setTimeout(onBedChecked, 50)}
                 >
                   <td className="!py-0 align-middle">
                     <label className="mb-0 p-2 flex items-center text-sm gap-2 text-gray-600 cursor-pointer hover:!text-blue-600">
                       <input
                         type="checkbox"
-                        {...register(data?.name, {})}
+                        {...register(data.name, {})}
                       />
-                      <span>{data?.label}</span>
+                      <span>{data.label}</span>
                     </label>
                   </td>
                   <td className="p-1">
                     <TextInputField
                       inputClassName="bg-white"
-                      placeholder={`${data?.label} details...`}
-                      disabled={!watch(data?.name)}
-                      {...register(`${data?.name}_details`, {})}
+                      placeholder={`${data.label} details...`}
+                      disabled={!watch(data.name)}
+                      {...register(`${data.name}_details`, {})}
                     />
                   </td>
                 </tr>
@@ -177,26 +203,28 @@ const Housekeeping = (props) => {
 
       <div className="px-4 py-4 flex items-center justify-end bg-slate- border-t">
         {hasBed ? (
+          
           <ActionBtn
-            type="secondary"
-            size="xl"
+          type="success"
+          className="ml-2"
+          loading={btnLoading}
+          onClick={handleSave}
+        >
+          <FlatIcon icon="rr-check" />
+          Approve for Cashier
+        </ActionBtn>
+
+        ) : (
+          <span
+            
+            size="sm"
             loading={loading}
-            className="!rounded-[30px] ml-4 gap-4 px-6"
+            className="gap-4 px-6 bg-gray-100 text-slate-600"
             // onClick={handleSubmit(sendToInfectious)}
           >
-            <FlatIcon icon="rr-paper-plane" />
-            Has Issues
-          </ActionBtn>
-        ) : (
-          <ActionBtn
-            type="success"
-            size="xl"
-            loading={loading}
-            className="ml-4"
-            // onClick={handleSubmit(submit)}
-          >
-            Approved for Cashier
-          </ActionBtn>
+            
+            Check listed items
+          </span>
         )}
       </div>
 

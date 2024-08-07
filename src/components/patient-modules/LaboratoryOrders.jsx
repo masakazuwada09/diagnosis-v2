@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useRef } from "react";
+import React, { useRef } from "react";
 import useDataTable from "../../hooks/useDataTable";
 import {
 	doctorName,
@@ -392,7 +392,7 @@ const LaboratoryOrders = (props) => {
 							: "Laboratory Order"
 					}
 				>
-					{user?.type == "HIS-MD" && allowCreate ? (
+					{user?.type == "DC-NURSE" && allowCreate ? (
 						<ActionBtn
 							className="px-4 rounded-xl"
 							size="sm"
@@ -426,14 +426,14 @@ const LaboratoryOrders = (props) => {
 			)}
 			
 
-				<ActionBtn
+				{/* <ActionBtn
                 className="text-gray-700 flex items-center justify-end cursor-pointer hover:bg-green-600 py-2 rounded-3xl gap-2"
                 onClick={() => printAllLabResultRef.current.show({...data, appointment})}
 				type="info"
             >
                 <FlatIcon icon="rs-document" />
                 Laboratory Results
-            </ActionBtn>
+            </ActionBtn> */}
 
 			
 			
@@ -553,6 +553,7 @@ const LaboratoryOrders = (props) => {
 				pageSize={paginate}
 				setPageSize={setPaginate}
 			/>
+			
 			<CreateLabOrderModal
 				patient={patient}
 				onSuccess={() => {

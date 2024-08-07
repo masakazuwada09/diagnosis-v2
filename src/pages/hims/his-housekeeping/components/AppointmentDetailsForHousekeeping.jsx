@@ -11,6 +11,10 @@ import BillingApproval from '../../his-billing/component/BillingApproval';
 import PatientServices from '../../../../components/modal/PatientServices';
 import { symptoms } from '../../../../libs/appointmentOptions';
 import HousekeepingApproval from './HousekeepingApproval';
+import Housekeeping from './Housekeeping';
+import useHousekeepingQueue from '../../../../hooks/useHousekeepingQueue';
+import useDataTable from '../../../../hooks/useDataTable';
+import { data } from 'autoprefixer';
 const uniq_id = uuidv4();
 /* eslint-disable react/prop-types */
 const InfoText = ({
@@ -49,12 +53,26 @@ const InfoText = ({
 
 const AppointmentDetailsForHousekeeping = ({
     appointment: propAppointment,
+	data,
 	loading: patient,
 	forHousekeeping = false,
 	setOrder,
 	hideServices = false,
 	mutateAll,
 }) => {
+	const {
+		data: patients,
+		setData: setPatients,
+		page,
+		setPage,
+		meta,
+		filters,
+		paginate,
+		setPaginate,
+		setFilters,
+	} = useDataTable({
+		url: `/v1/patients`,
+	});
     const {
 		register,
 		getValues,
@@ -65,7 +83,48 @@ const AppointmentDetailsForHousekeeping = ({
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+
 	const [appointment, setAppointment] = useState(propAppointment);
+	const {
+		pending: doctorsPending,
+		nowServing: housekeepingNowServing,
+		pendingForResultReading,
+		mutatePending,
+		mutatePendingForResultReading,
+		mutateNowServing,
+	} = useHousekeepingQueue();
+
+	const [loading, setLoading] = useState(false);
+	const housekeepingApproval = (data) => {
+		setLoading(true);
+		let formdata = new FormData();
+		formdata.append("rhu_id", data?.rhu_id);
+		formdata.append("_method", "PATCH");
+		
+		Axios.post(
+			`v1/clinic/send-from-housekeeping-to-cashier/${appointment?.id}`,
+			formdata
+		)
+			.then((response) => {
+				let data = response.data;
+				// console.log(data);
+				if (mutateAll) {
+					mutateAll();
+				}
+				setTimeout(() => {
+					setAppointment(null);
+				}, 100);
+				setTimeout(() => {
+					toast.success("Patient sent to Cashier!");
+					setLoading(false);
+				}, 200);
+			})
+			.catch((err) => {
+				setLoading(false);
+				console.log(err);
+			});
+	};
+
 	const [key, setKey] = useState(uniq_id);
 	useNoBugUseEffect({
 		functions: () => {
@@ -175,32 +234,26 @@ const AppointmentDetailsForHousekeeping = ({
 
 						{!hideServices ? (
 							<CollapseDiv
-								defaultOpen={
-									(appointment.status == "pending" &&
-										appointment?.vital_id != null) ||
-									appointment?.status ==
-										"pending"
-								}
+								
 								withCaret={true}
 								title="Services"
 								headerClassName="bg-blue-50"
-								bodyClassName="p-0"
+								bodyClassName=""
 								
-							>
+							> 
 								
-								{forHousekeeping ? (
-									
-								<HousekeepingApproval
-										setAppointment={setOrder}
-										showTitle={false}
-										appointment={appointment}
-										patient={appointment?.patient}
-										mutateAll={mutateAll}
-									/>
-								) : (
-									""
-                                   
-								)}
+				
+					
+						
+						<Housekeeping
+							appointment={appointment}
+							// patient={patient}
+							data={data}
+							setAppointment={setOrder}		
+							loading={loading}
+							onSave={housekeepingApproval}
+
+							/> 
 
 							</CollapseDiv>
 								) : (

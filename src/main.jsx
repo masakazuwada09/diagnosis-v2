@@ -53,6 +53,9 @@ import AppointmentDetailsForSurgery from "./pages/department/his-surgical/Appoin
 import PACUQueue from "./pages/hims/his-pacu/PACUQueue.jsx";
 import OPDQueue from "./pages/hims/his-opd/components/OPDQueue.jsx";
 import PatientLaboratory from "./components/patient-modules/modals/PatientLaboratory.jsx";
+import PatientImagingQueue from "./pages/patient-imaging-queue/PatientImagingQueue.jsx";
+import FrontDeskQueue from "./pages/diagnostic-center/dc-frontdesk/components/FrontDeskQueue.jsx";
+import NurseQueue from "./pages/diagnostic-center/dc-nurse/components/NurseQueue.jsx";
 
 
 
@@ -179,7 +182,7 @@ const router = createBrowserRouter(
 				<Route path="patients" element={<Patients />}></Route>
 				<Route
 					path="patient-lab-queue"
-					element={<PatientLabQueue />}
+					element={<PatientImagingQueue />}
 				></Route>
 				<Route path="my-account" element={<MyAccount />}></Route>
 			</Route>
@@ -241,6 +244,27 @@ const router = createBrowserRouter(
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element = {<Patients />}></Route>
 				<Route path="opd-queue" element = {<OPDQueue />}></Route>
+			</Route>
+
+			<Route path="dc-frontdesk">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element = {<Patients />}></Route>
+				<Route path="frontdesk-queue" element = {<FrontDeskQueue />}></Route>
+			</Route>
+
+			<Route path="dc-nurse">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element = {<Patients />}></Route>
+				<Route path="nurse-queue" element = {<NurseQueue />}></Route>
+			</Route>
+			
+			<Route path="dc-doctor">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element = {<Patients />}></Route>
+				<Route
+					path="patient-queue"
+					element={<DoctorPatientQueue />}
+				></Route>
 			</Route>
 
 			<Route path="his-monitoring">

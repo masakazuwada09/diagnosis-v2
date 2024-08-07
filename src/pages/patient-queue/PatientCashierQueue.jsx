@@ -23,6 +23,7 @@ const PatientCashierQueue = () => {
 	const { pending, mutatePending } = useCashierQueue();
 	const referToSphModalRef = useRef(null);
 	const [appointment, setAppointment] = useState(null);
+	
 
 	useNoBugUseEffect({
 		functions: () => {},
@@ -67,6 +68,16 @@ const PatientCashierQueue = () => {
 												</span>
 												<span className="font-bold text-sm text-red-600">
 													FOR CASHIER APPROVAL
+												</span>
+											</div>
+										</div>
+										<div className="w-full flex flex-col pl-16">
+											<div className="flex items-center text-slate-700 gap-2 mb-2">
+												<span className="text-sm">
+													Room:<span className='font-bold text-red-600 ml-2'>{appointment.room_number}</span> 
+												</span>
+												<span className="font-bold text-sm text-red-600">
+													
 												</span>
 											</div>
 										</div>

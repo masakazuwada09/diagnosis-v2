@@ -95,6 +95,7 @@ const CreateLabOrderModal = (props, ref) => {
 	const submit = (data) => {
 		let formData = new FormData();
 		// formData.append("_method", "PATCH");
+		console.log("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data);
 		formData.append("laboratory_test_type", data?.laboratory_test_type);
 		formData.append("notes", data?.notes);
 		formData.append("order_date", data?.order_date);
@@ -109,6 +110,7 @@ const CreateLabOrderModal = (props, ref) => {
 			hide();
 		});
 	};
+	
 	const noHide = () => {};
 
 

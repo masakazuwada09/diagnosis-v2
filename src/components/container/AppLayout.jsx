@@ -29,6 +29,10 @@ import HISSurgeonLink from "../../userLinks/hmis/HISSurgeonLink";
 import HISPacuLink from "../../userLinks/hmis/HISPacuLink";
 import HISOpdLink from "../../userLinks/hmis/HISOpdLink";
 import HISCashierLink from "../../userLinks/hmis/HISCashierLink";
+import DCFrontDeskLink from "../../userLinks/dc/DCFrontdeskLinks";
+import DCFrontdeskLinks from "../../userLinks/dc/DCFrontdeskLinks";
+import DCNurseLinks from "../../userLinks/dc/DCNurseLinks";
+import DCDoctorLinks from "../../userLinks/dc/DCDoctorLinks";
 
 
 const AppLayout = (props) => {
@@ -99,23 +103,22 @@ const AppLayout = (props) => {
 			case "opd-nurse":
 			return <HISOpdLink isActive={isActive} />;
 			
+			case "dc-frontdesk":
+			return <DCFrontdeskLinks isActive={isActive} />;
+			case "dc-nurse":
+			return <DCNurseLinks isActive={isActive} />;
+			case "dc-doctor":
+			return <DCDoctorLinks isActive={isActive} />;
+			
 			//doctors
 			case "his-md":
 				return <HISDoctorLinks isActive={isActive} />;
-			case "vegapunk":
-				return <HISDoctorLinks isActive={isActive} />;
-				
+			
 			default:
 				break;
 		}
 	};
 
-	const renderLink = () => {
-		switch (String(user?.username).toLowerCase()) {
-			case "vegapunk-33":
-				return <HISDoctorLinks isActive={isActive} />;
-		}
-	};
 
 
 	return (
@@ -148,10 +151,10 @@ const AppLayout = (props) => {
 									className="h-[40px] w-[40px] rounded-full"
 								/>
 								<span
-									className="text-3xl font-semibold text-white tracking-wider"
-									// style={{ textShadow: "1px 1px 2px black" }}
+									className="text-lg font-semibold text-white tracking-wider"
+									style={{ textShadow: "1px 1px 2px black" }}
 								>
-									GTC HIS
+									Diagnostic Center
 								</span>
 							</div>
 						</Link>

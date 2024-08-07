@@ -11,6 +11,13 @@ html {
 .leaflet-container {
 	height: 100%;
 }
+.rotate-icon {
+	transition: transform 0.3s ease; /* Smooth rotation effect */
+  }
+  
+  .rotate-icon:hover {
+	transform: rotate(360deg); /* Rotate icon by 360 degrees on hover */
+  }
 .slanted {
 	clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 0% 100%);
   }
@@ -221,4 +228,54 @@ html {
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
 	background: #b9b9b9;
+  }
+
+  .dots-pattern {
+	background-image: radial-gradient(#333 1px, transparent 1px);
+	background-size: 20px 20px;
+  }
+
+  .bg-pattern {
+	background-size: 20px 20px;
+  }
+  
+  .bg-pattern.dots {
+	background-image: radial-gradient(#333 1px, transparent 1px);
+  }
+
+  .bg-dots {
+	background-image: radial-gradient(var(--dot-color) var(--dot-size), transparent var(--dot-size));
+	background-size: var(--dot-spacing) var(--dot-spacing);
+  }
+  
+  .bg-dots.sm {
+	--dot-size: 1px;
+	--dot-spacing: 10px;
+  }
+  
+  .bg-dots.md {
+	--dot-size: 2px;
+	--dot-spacing: 20px;
+  }
+  
+  .bg-dots.lg {
+	--dot-size: 3px;
+	--dot-spacing: 30px;
+  }
+  
+  .bg-dots.xl {
+	--dot-size: 4px;
+	--dot-spacing: 40px;
+  }
+  
+  .bg-dots.default {
+	--dot-color: #333;
+  }
+  
+  .bg-dots.primary {
+	--dot-color: #3498db;
+  }
+  
+  .bg-dots.secondary {
+	--dot-color: #f1c40f;
   }

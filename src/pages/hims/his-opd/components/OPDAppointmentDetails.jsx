@@ -218,6 +218,27 @@ const OPDAppointmentDetails = ({
 							/>
 						</CollapseDiv>
 
+						<CollapseDiv
+							defaultOpen={
+								appointment.status == "pending" &&
+								appointment?.vital_id == null
+							}
+							withCaret={true}
+							title="Laboratory"
+							headerClassName="bg-blue-50"
+							bodyClassName="p-0"
+						>
+							<PatientVitals
+								showTitle={false}
+								appointment={appointment}
+								patient={appointment?.patient}
+								mutateAll={mutateAll}
+								onSuccess={() => {
+									refreshData();
+								}}
+							/>
+						</CollapseDiv>
+
 
 						{appointment?.post_notes == "Tuberculosis" &&
 						appointment.tb_symptoms != null ? (
@@ -292,6 +313,7 @@ const OPDAppointmentDetails = ({
 									/>
 								) : (
 									<OPDServices
+										
 										setAppointment={setOrder}
 										showTitle={false}
 										mutateAll={mutateAll}

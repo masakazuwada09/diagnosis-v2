@@ -191,7 +191,7 @@ const NurseQueue = (props, ref) => {
 			}
 		});
 	};
-
+	console.log("APPOINTMENTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT", appointment);
 	return (
 		<AppLayout>
 			<div className="p-4 h-full ">
@@ -281,8 +281,7 @@ const NurseQueue = (props, ref) => {
 							&nbsp;
 						</span>
 						<div>
-							{appointment?.patient ? (
-								
+							{appointment?.patient ? (	
 								<Fade key={`order-${appointment?.id}`}>
 									<div>
 										<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12 ">
@@ -305,82 +304,7 @@ const NurseQueue = (props, ref) => {
 											appointment={appointment}
 											/>
 											
-											<div className="flex items-center justify-end  w-1/2 flex-wrap gap-3 ml-auto ">
-												{showData?.status ==
-												"pending" ? (
-													<>
-														""
-													</>
-												) : (
-													<ActionBtn
-															type="secondary"
-															loading={loading}
-															size="lg"
-															patient={appointment?.patient}
-															appointment={appointment}
-															onClick={() => {
-																if (
-																	pendingOrdersRef
-																) {
-																	console.log(
-																		"pendingOrdersRef",
-																		pendingOrdersRef
-																	);
-																	pendingOrdersRef?.current.show(
-																		{
-																			data: showData,
-																			fn: sendPatientToLab,
-																		}
-																	);
-																	hide();
-																}
-															}}
-															className="px-4"
-														>
-															<FlatIcon
-																className="text-3xl mr-1	rotate-icon"
-																icon="rr-right"
-															/>
-															<div className="flex flex-col text-left">
-																<span className="font-bold -mb-1">
-																	Send Order
-																</span>
-																<span className="text-[10px] font-light">
-																	laboratory/imaging
-																</span>
-															</div>
-														</ActionBtn>
-												)}
-
-												
-														
-
-												<ActionBtn
-												loading={loadingDone}
-												type="teal"
-												size="lg"
-												onClick={() => {
-													markAsDone();
-												}}
-												className="px-4"
-												>
-												<FlatIcon
-													className="text-3xl mr-1 rotate-icon"  // Add a specific class for rotation
-													icon="fi fi-rr-shield-check"
-												/>
-												<div className="flex flex-col text-left">
-													<span className="font-bold -mb-1">
-													Consultation
-													Done
-													</span>
-													<span className="text-[10px] font-light">
-													Patient is
-													free to go
-													</span>
-												</div>
-												</ActionBtn>
-											</div>	
-											
+										
 
 										</div>
 										<div className="pb-4">
@@ -391,39 +315,41 @@ const NurseQueue = (props, ref) => {
 
 							<div className="grid grid-cols-1 lg:grid-cols-1 gap-4 shadow-lg px-12 ">
 
-								<NurseAppointmentDetails
-								appointment={appointment}
-								mutateAll={mutateAll}
-								setOrder={(data) => {
-									if (data == null) {
-										// mutateAll();
-									}
-									setAppointment(data);
-								}}
-								openProfileAction={() => {
-									patientProfileRef.current.show(
-										data
-									);
-								}}
-							/>
-
-							
-							
-						</div>
-						
-						
 											
+							
+							
+							
+											</div>
 										</div>
 									</div>
 								</Fade>
+
 							) : (
 								""
 							)}
 						</div>
 
 						
+
 						{appointment?.id ? (
-							""
+							<NurseAppointmentDetails
+							appointment={appointment}
+							mutateAll={mutateAll}
+							setOrder={(data) => {
+								if (data == null) {
+									// mutateAll();
+								}
+								setAppointment(data);
+							}}
+							openProfileAction={() => {
+								patientProfileRef.current.show(
+									data
+								);
+								
+							}}
+						/>
+						
+
 						) : (
 							<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 

@@ -1,6 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Particles from "react-particles";
 import { loadFull } from "tsparticles";
+import { VANTA } from "vanta";
+import * as THREE from 'three';
+import VantaEffect from "./VantaEffect";
+// import ParticleImage, {ParticleOptions} from "react-particle-image";
 
 const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
 	const [ready, setReady] = useState(false);
@@ -23,16 +27,33 @@ const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
 		}, 200);
 	}, []);
 
+	// const particleOptions: ParticleOptions = {
+	// 	filter: ({ x, y, image }) => {
+	// 	  // Get pixel
+	// 	  const pixel = image.get(x, y);
+	// 	  // Make a particle for this pixel if blue > 50 (range 0-255)
+	// 	  return pixel.b > 50;
+	// 	},
+	// 	color: ({ x, y, image }) => "#61dafb"
+	//   };
 	return (
 		<div
-			className={`h-[100dvh] w-screen bg-blue-500 overflow-auto flex flex-col lg:flex-row items-center justify-start lg:justify-center px-6 pt-20 pb-11 lg:p-20 relative ${className}`}
+			className={`h-[100dvh] w-screen bg-slate-900 overflow-auto flex flex-col lg:flex-row items-center justify-center   ${className}`}
 		>
+	{/* <ParticleImage
+      src={"/react-logo.png"}
+      scale={0.75}
+      entropy={20}
+      maxParticles={4200}
+      particleOptions={particleOptions}
+    /> */}
+	<VantaEffect/>
 			{/* <img
 				src="/b1.jpg"
 				className="fixed top-0 left-0 w-[125%] h-[125%] opacity-75 object-cover z-[1]"
 			/> */}
 
-			<div
+			{/* <div
 				className="z-[1] pointer-events-none fixed h-[100dvh]  w-full top-0 left-0
 	 opacity-50
 "
@@ -125,7 +146,7 @@ const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
 						}}
 					/>
 				)}
-			</div>
+			</div> */}
 
 			{children}
 		</div>

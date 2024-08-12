@@ -30,6 +30,7 @@ const ProfessionalFeeSOA = (props) => {
 					<div className="grid grid-cols-6 divide-x text-xs font-light text-center mt-2 font-mono">
 						<div className="col-span-2 text-left ml-2">
 							{doctorName(appointment?.doctor)}
+							
 						</div>
 						<div className="col-span-1">
 							{/* add a code for Debit database */}

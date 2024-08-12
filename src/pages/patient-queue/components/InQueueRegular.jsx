@@ -33,7 +33,7 @@ const InQueueRegular = ({
 			</div>
 			{children}
 				<div className="flex items-center gap-2 text-sm -mt-0 ">
-						<FlatIcon icon="fi fi-rr-bed" />
+						
 						{roomNumber}
 					</div>
 			</div>

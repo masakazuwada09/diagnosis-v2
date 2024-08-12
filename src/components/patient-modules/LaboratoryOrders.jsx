@@ -88,6 +88,7 @@ import TextInputField from "../inputs/TextInputField";
 import { useForm } from "react-hook-form";
 import PrintLabResultModal from "./modals/PrintLabResultModal";
 import PrintAllLabResultModal from "./modals/PrintAllLabResultModal";
+import PrintReceipt from "../../pages/diagnostic-center/dc-cashier/components/PrintReceipt";
 
 const Status = ({ status }) => {
 	const color = () => {
@@ -130,7 +131,7 @@ const LaboratoryOrders = (props) => {
 	const { user } = useAuth();
 
 	const isLaboratoryUser = () => {
-		return user?.type == "RHU-XRAY" || user?.type == "HIS-LABORATORY";
+		return user?.type == "RHU-XRAY" || user?.type == "DC-LABORATORY";
 	};
 	const isXrayUser = () => {
 		return user?.type === "HIS-IMAGING";
@@ -154,16 +155,27 @@ const LaboratoryOrders = (props) => {
 		filters,
 		setFilters,
 		reloadData,
-	} = useDataTable({
+	  } = useDataTable({
 		url: `/v1/doctor/laboratory-order/patient/${patient?.id}`,
 		defaultFilters: {
-			...(order_id ? { order_id: order_id } : {}),
-			...(laboratory_test_type
-				? { laboratory_test_type: laboratory_test_type }
-				: {}),
-			...(appointment?.id > 0 ? { appointment_id: appointment?.id } : {}),
+		  ...(order_id ? { order_id: order_id } : {}),
+		  ...(laboratory_test_type ? { laboratory_test_type: laboratory_test_type } : {}),
+		  ...(appointment?.id > 0 ? { appointment_id: appointment?.id } : {}),
 		},
-	});
+	  });
+	  
+	  // Insert console logs to debug or inspect values
+	//   console.log("Page:", page);
+	//   console.log("Meta:", meta);
+	//   console.log("Loading:", loading);
+	//   console.log("Paginate:", paginate);
+	//   console.log("Data:", data);
+	//   console.log("Column:", column);
+	//   console.log("Direction:", direction);
+	  
+	  
+	  // You can also log specific actions, like reloading data
+	  
 	useNoBugUseEffect({
 		functions: () => {
 			setFilters((prevFilters) => ({
@@ -176,7 +188,7 @@ const LaboratoryOrders = (props) => {
 	const createLabOrderRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
 	const printLabResultRef = useRef(null);
-	const printAllLabResultRef = useRef(null);
+	const printReceipt = useRef(null);
 	//chemistry ref
 	const uploadFBSRef = useRef(null);
 	const uploadRBSRef = useRef(null);
@@ -366,6 +378,8 @@ const LaboratoryOrders = (props) => {
         return null;
     }
 };
+
+console.log("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data);
 	return (
 		
 		<div className="flex flex-col items-start px-8">
@@ -392,7 +406,7 @@ const LaboratoryOrders = (props) => {
 							: "Laboratory Order"
 					}
 				>
-					{user?.type == "DC-NURSE" && allowCreate ? (
+					{user?.type == "DC-NURSE"  &&  allowCreate ? (
 						<ActionBtn
 							className="px-4 rounded-xl"
 							size="sm"
@@ -428,12 +442,12 @@ const LaboratoryOrders = (props) => {
 
 				{/* <ActionBtn
                 className="text-gray-700 flex items-center justify-end cursor-pointer hover:bg-green-600 py-2 rounded-3xl gap-2"
-                onClick={() => printAllLabResultRef.current.show({...data, appointment})}
+                onClick={() => printReceipt.current.show({...data, appointment})}
 				type="info"
             >
                 <FlatIcon icon="rs-document" />
-                Laboratory Results
-            </ActionBtn> */}
+                Print Receipt
+            	</ActionBtn> */}
 
 			
 			
@@ -1118,15 +1132,7 @@ const LaboratoryOrders = (props) => {
 				}}
 				ref={printLabResultRef}
 			/>
-			<PrintAllLabResultModal
-				patient={patient}
-				onSuccess={() => {
-					onUploadLabResultSuccess();
-					reloadData();
-				}}
-				ref={printAllLabResultRef}
-			/>
-			
+		
 			<DeleteOrderModal
 				ref={deleteLabOrderRef}
 				onSuccess={() => {

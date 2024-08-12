@@ -1,3 +1,11 @@
+export const payment = [
+	{
+		label: "Paid",
+		value: "Paid",
+		name: "Paid",
+	},
+	
+]
 export const laboratory_tests = [
 	{
 		label: "chemistry",

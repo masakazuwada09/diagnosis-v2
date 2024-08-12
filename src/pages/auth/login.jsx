@@ -51,7 +51,7 @@ const Login = () => {
 	return (
 		<LayoutContainer>
 			<ToastContainer theme="colored" />
-			<div className=" z-20 mx-auto w-4/5 lg:w-[384px] p-11 border bg-white shadow-lg shadow-[rgba(0,0,0,0.4)] rounded-xl flex flex-col items-center">
+			<div className=" z-20 mx-auto w-4/5 lg:w-[630px] p-11 border bg-white shadow-lg shadow-[rgba(0,0,0,0.4)] rounded-xl flex flex-col items-center">
 				<img
 					src="/logo.png"
 					alt="gtc-logo"

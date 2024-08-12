@@ -22,16 +22,18 @@ import Axios from "../../../../libs/axios";
 import AppointmentStatus from "../../../../components/AppointmentStatus";
 import CashierApproval from "../../../appointments/components/CashierApproval";
 import NurseServices from './NurseServices';
-import LaboratoryOrders from '../../../../components/patient-modules/LaboratoryOrders';
+import LaboratoryOrders from './LaboratoryOrders';
 import TabGroup from '../../../../components/TabGroup';
 import MenuTitle from '../../../../components/buttons/MenuTitle';
 import PatientProfileDetails from '../../../../components/PatientProfileDetails';
-import PatientPrescriptions from '../../../../components/PatientPrescriptions';
+import PatientPrescriptions from './PatientPrescriptions';
 import PatientVitalCharts from '../../../../components/PatientVitalCharts';
 import PatientCSROrder from '../../../department/his-nurse/components/PatientCSROrder';
 import PatientPharmacyOrder from '../../../department/his-nurse/components/PatientPharmacyOrder';
 import AppointmentDetails from '../../../appointments/components/AppointmentDetails';
 import PatientProfileModal from '../../../../components/PatientProfileModal';
+import ActionBtn from '../../../../components/buttons/ActionBtn';
+import MedicalCertificate from './MedicalCertificate';
 
 
 const uniq_id = uuidv4();
@@ -97,6 +99,7 @@ const NurseAppointmentDetails = ({
 	const [showData, setShowData] = useState(null);
 	const pendingOrdersRef = useRef(null);
 	const patientProfileRef = useRef(null);
+	const printMedicalCertificate = useRef(null);
 	const show = (data) => {
 		setFull(false);
 		setShowData(data);
@@ -166,8 +169,40 @@ const NurseAppointmentDetails = ({
 											),
 
 							content: (
-								<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100 pt-5 pb-4 ">
-									<div className="grid grid-cols-1 lg:grid-cols-12 gap-3 px-4 ">
+								<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100  pb-4 ">
+									<div className='flex flex-row justify-end '>
+										
+									<ActionBtn
+										className="text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] "
+										onClick={() => printMedicalCertificate.current.show({...data, appointment})}
+										type="foreground-dark"
+										
+									>
+										
+									<FlatIcon icon="rs-document" />
+									Certificate Available
+									
+									{JSON.stringify(
+																	showData?.lab_orders ||
+																		{}
+																).includes(
+																	`"type":"laboratory-test"`
+																) ? (
+																	<>
+																		<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
+																		<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-"></span>
+																		<span className="absolute top-0 rounded-xl left-0 h-full w-full border border-red-500 animate-pulse"></span>
+																	</>
+																) : (
+																	""
+																)}
+									</ActionBtn>
+									
+									</div>
+									
+								<div className="grid grid-cols-1 lg:grid-cols-12 gap-3 px-4 ">
+
+			
 							<InfoText
 								className="lg:col-span-6"
 								label="Initial Diagnosis:"
@@ -409,8 +444,7 @@ const NurseAppointmentDetails = ({
 																	2
 																}
 																appointment={
-																	showData
-																}
+																	appointment}
 																allowCreate={
 																	true
 																}
@@ -567,7 +601,14 @@ const NurseAppointmentDetails = ({
 												]}
 											/>
 			
-		
+			<MedicalCertificate
+				patient={patient}
+				onSuccess={() => {
+					onUploadLabResultSuccess();
+					reloadData();
+				}}
+				ref={printMedicalCertificate}
+			/>
 		</div>
 		
 	);

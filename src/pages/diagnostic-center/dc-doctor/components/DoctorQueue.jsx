@@ -3,7 +3,7 @@ import AppLayout from "../../../../components/container/AppLayout";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
 import PageHeader from "../../../../components/layout/PageHeader";
 import FlatIcon from "../../../../components/FlatIcon";
-import DoctorInQueueRegular from "./DoctorInQueueRegular";
+import DoctorInQueueRegular from "../../../department/his-md/components/DoctorInQueueRegular";
 import useQueue from "../../../../hooks/useQueue";
 import {
 	formatDate,
@@ -14,16 +14,18 @@ import {
 import ReferToSPHModal from "../../../../components/modal/ReferToSPHModal";
 import { useAuth } from "../../../../hooks/useAuth";
 import useDoctorQueue from "../../../../hooks/useDoctorQueue";
-import ConsultPatientModal from "./ConsultPatientModal";
-import DoctorInServiceItem from "./DoctorInServiceItem";
-import PatientProfileModal from "../../../../components/PatientProfileModal";
-import DoctorInQueuePriority from "./DoctorInQueuePriority";
+import ConsultPatientModal from "../../../department/his-md/components/ConsultPatientModal";
+import DoctorInServiceItem from "../../../department/his-md/components/DoctorInServiceItem";
+import PatientProfileModal from "./modal/PatientProfileModal";
+import DoctorInQueuePriority from "../../../department/his-md/components/DoctorInQueuePriority";
 import PendingOrdersModal from "../../../../components/PendingOrdersModal";
 import useERQueue from "../../../../hooks/useERQueue";
 import useMDQueue from "../../../../hooks/useMDQueue";
 import useOPDQueue from "../../../../hooks/useOPDQueue";
 import { data } from "autoprefixer";
-z
+
+
+
 //In-Service
 const DoctorQueue = () => {
 	const { user } = useAuth();
@@ -49,7 +51,7 @@ const DoctorQueue = () => {
 		functions: () => {},
 	});
 	const isDoctor = () => {
-		return user?.type == "his-md" || user?.type == "HIS-DOCTOR"; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
+		return user?.type == "his-md" || user?.type == "DC-DOCTOR"; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
 	};
 
 	const listPending = () => {
@@ -193,16 +195,14 @@ const DoctorQueue = () => {
 			<ConsultPatientModal 
 				ref={acceptPatientRef} 
 				mutateAll={mutateAll}
-				
-				
 				/>
 			
 			<PatientProfileModal
 				pendingOrdersRef={pendingOrdersRef}
 				ref={patientProfileRef}
 				mutateAll={mutateAll}
-				
 			/>
+
 			<PendingOrdersModal ref={pendingOrdersRef} />
 		</AppLayout>
 	);

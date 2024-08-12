@@ -107,15 +107,15 @@ const PatientInfo = ({
 
 
 	return (
-		<div className='flex flex-row w-full '>
+		<div className='flex flex-row w-full items-center'>
 			
 
-			<div className="  rounded-full aspect-square bg-background">
+			<div className="  rounded-full aspect-square bg-background ">
 				<Img
 					type="user"
 					name={`${patient?.firstname}-${patient?.lastname}`}
 					src={patientSelfie ? patientSelfie : patient?.avatar || ""}
-					className="min-h-[108px] min-w-[108px] aspect-square object-cover rounded-xl rotate-icon"
+					className="min-h-[90px] min-w-[90px] aspect-square object-cover rounded-xl rotate-icon"
 					alt=""
 					id="user-image-sample"
 					key={`key-${patient?.id}-${patient?.avatar}`}

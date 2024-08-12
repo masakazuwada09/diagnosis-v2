@@ -14,8 +14,16 @@ import { toast } from "react-toastify";
 import LaboratoryOrders from "./patient-modules/LaboratoryOrders";
 import ActionBtn from "./buttons/ActionBtn";
 
-const PendingOrdersModal = (props, ref) => {
-	const { onSuccess, healthUnits = [], patient } = props;
+const PendingOrdersModal = ({
+	appointment: propAppointment,
+	forCashier = false,
+	forBilling = false,
+	forHousekeeping = false,
+	setOrder,
+	hideServices = false,
+	mutateAll,
+	data,
+}, ref,) => {
 	const {
 		register,
 		getValues,
@@ -26,7 +34,9 @@ const PendingOrdersModal = (props, ref) => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+
 	const [mount, setMount] = useState(0);
+	const [appointment, setAppointment] = useState(propAppointment);
 	const [modalData, setModalData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	useEffect(() => {
@@ -102,13 +112,19 @@ const PendingOrdersModal = (props, ref) => {
 								</Dialog.Title>
 								<div className=" pt-5 grid grid-cols-1 gap-5 relative">
 									{console.log(
-										"modalData?.appointment",
+										"MODALDATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 										modalData?.data
 									)}
 									<LaboratoryOrders
+										// patient={appointment?.patient}
+										// laboratory_test_type={
+										// 	2
+										// }
+										// appointment={
+										// 	showData
+										// }
 										showTitle={false}
 										patient={modalData?.data?.patient}
-										
 										laboratory_test_type={"all"}
 										appointment={modalData?.data}
 										allowCreate={false}

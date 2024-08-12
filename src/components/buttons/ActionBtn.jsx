@@ -27,7 +27,7 @@ const ActionBtn = (props) => {
 				return "py-2 text-sm px-4";
 
 			default:
-				return "py-3 px-2";
+				return " px-2";
 		}
 	};
 	const renderType = () => {
@@ -53,7 +53,7 @@ const ActionBtn = (props) => {
 			case "foreground":
 				return `bg-slate-100 hover:bg-slate-300 focus:bg-slate-300 text-slate-500 ${disabledClass}`;
 			case "foreground-dark":
-				return `bg-slate-200 hover:bg-slate-400 focus:bg-slate-400 text-slate-600 ${disabledClass}`;
+				return `bg-slate-200 hover:bg-slate-300 focus:bg-slate-400 text-slate-600 ${disabledClass}`;
 			case "success":
 				return `bg-green-600 hover:bg-green-700 focus:bg-green-700 text-white ${disabledClass}`;
 

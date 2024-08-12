@@ -33,6 +33,11 @@ import DCFrontDeskLink from "../../userLinks/dc/DCFrontdeskLinks";
 import DCFrontdeskLinks from "../../userLinks/dc/DCFrontdeskLinks";
 import DCNurseLinks from "../../userLinks/dc/DCNurseLinks";
 import DCDoctorLinks from "../../userLinks/dc/DCDoctorLinks";
+import DCLabLinks from "../../userLinks/dc/DCLabLinks";
+import DCImagingLinks from "../../userLinks/dc/DCImagingLinks";
+import DCCashierLinks from "../../userLinks/dc/DCCashierLinks";
+import DCPharmacyLinks from "../../userLinks/dc/DCPharmacyLinks";
+
 
 
 const AppLayout = (props) => {
@@ -102,13 +107,21 @@ const AppLayout = (props) => {
 					return <HISPacuLink isActive={isActive} />;
 			case "opd-nurse":
 			return <HISOpdLink isActive={isActive} />;
-			
+			//DIAGNOSTIC USERS
 			case "dc-frontdesk":
 			return <DCFrontdeskLinks isActive={isActive} />;
 			case "dc-nurse":
 			return <DCNurseLinks isActive={isActive} />;
 			case "dc-doctor":
 			return <DCDoctorLinks isActive={isActive} />;
+			case "dc-laboratory":
+			return <DCLabLinks isActive={isActive} />;
+			case "dc-imaging":
+			return <DCImagingLinks isActive={isActive} />;
+			case "dc-cashier":
+			return <DCCashierLinks isActive={isActive} />;
+			case "dc-pharmacy":
+			return <DCPharmacyLinks isActive={isActive} />;
 			
 			//doctors
 			case "his-md":

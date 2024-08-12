@@ -69,7 +69,7 @@ const Patients = () => {
 									Search and view patient data.
 								</span>
 							</div>
-							{checkUserType("FRONTDESK") || checkUserType("ER") ? (
+							{checkUserType("NURSE") || checkUserType("ER") ? (
 								<ActionBtn
 									type="success"
 									title="Add new patient"

@@ -128,7 +128,7 @@ const LaboratoryOrders = (props) => {
 	const { user } = useAuth();
 
 	const isLaboratoryUser = () => {
-		return user?.type == "RHU-XRAY" || user?.type == "HIS-LABORATORY";
+		return user?.type == "RHU-XRAY" || user?.type == "DC-LABORATORY";
 	};
 	const isXrayUser = () => {
 		return user?.type === "HIS-IMAGING";

@@ -38,7 +38,6 @@ import Inventories from "./pages/inventories/Inventories.jsx";
 import DoctorPatientReferrals from "./pages/department/his-md/components/DoctorPatientReferrals.jsx";
 import PatientCashierQueue from "./pages/patient-queue/PatientCashierQueue.jsx";
 import Echo from 'laravel-echo';
- 
 import Pusher from 'pusher-js';
 import PatientAnestesiaQueue from "./pages/department/his-anesthesia/PatientAnestesiaQueue.jsx";
 import Inventory from "./pages/department/his-nurse/Inventory.jsx";
@@ -52,10 +51,13 @@ import InServiceSurgery from "./pages/department/his-surgical/InServiceSurgery.j
 import AppointmentDetailsForSurgery from "./pages/department/his-surgical/AppointmentDetailsForSurgery.jsx";
 import PACUQueue from "./pages/hims/his-pacu/PACUQueue.jsx";
 import OPDQueue from "./pages/hims/his-opd/components/OPDQueue.jsx";
-import PatientLaboratory from "./components/patient-modules/modals/PatientLaboratory.jsx";
 import PatientImagingQueue from "./pages/patient-imaging-queue/PatientImagingQueue.jsx";
 import FrontDeskQueue from "./pages/diagnostic-center/dc-frontdesk/components/FrontDeskQueue.jsx";
 import NurseQueue from "./pages/diagnostic-center/dc-nurse/components/NurseQueue.jsx";
+import PatientLaboratory from "./components/patient-modules/modals/PatientLaboratory.jsx";
+import PatientCashierLab from "./pages/diagnostic-center/dc-cashier/components/PatientCashierLab.jsx";
+import DoctorQueue from "./pages/diagnostic-center/dc-doctor/components/DoctorQueue.jsx";
+
 
 
 
@@ -263,8 +265,43 @@ const router = createBrowserRouter(
 				<Route path="patients" element = {<Patients />}></Route>
 				<Route
 					path="patient-queue"
-					element={<DoctorPatientQueue />}
+					element={<DoctorQueue />}
 				></Route>
+			</Route>
+
+			<Route path="dc-laboratory">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element = {<Patients />}></Route>
+				<Route
+					path="patient-lab-queue"
+					element={<PatientLaboratory />}
+				></Route>
+			</Route>
+			<Route path="dc-imaging">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element = {<Patients />}></Route>
+				<Route
+					path="patient-lab-queue"
+					element={<PatientLabQueue />}
+				></Route>
+			</Route>
+			<Route path="dc-cashier">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element = {<Patients />}></Route>
+				<Route
+					path="patient-receipt"
+					element={<PatientCashierLab />}
+				></Route>
+			</Route>
+			<Route path="dc-pharmacy">
+				<Route path="" element={<Dashboard />}></Route>
+				<Route path="patients" element={<Patients />}></Route>
+				<Route path="inventory" element={<Inventories />}></Route>
+				<Route
+					path="patient-pharmacy-queue"
+					element={<PatientPharmacyQueue />}
+				></Route>
+				<Route path="my-account" element={<MyAccount />}></Route>
 			</Route>
 
 			<Route path="his-monitoring">

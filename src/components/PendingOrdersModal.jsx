@@ -116,13 +116,7 @@ const PendingOrdersModal = ({
 										modalData?.data
 									)}
 									<LaboratoryOrders
-										// patient={appointment?.patient}
-										// laboratory_test_type={
-										// 	2
-										// }
-										// appointment={
-										// 	showData
-										// }
+										
 										showTitle={false}
 										patient={modalData?.data?.patient}
 										laboratory_test_type={"all"}

@@ -182,20 +182,8 @@ const NurseAppointmentDetails = ({
 									<FlatIcon icon="rs-document" />
 									Certificate Available
 									
-									{JSON.stringify(
-																	showData?.lab_orders ||
-																		{}
-																).includes(
-																	`"type":"laboratory-test"`
-																) ? (
-																	<>
-																		<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
-																		<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-"></span>
-																		<span className="absolute top-0 rounded-xl left-0 h-full w-full border border-red-500 animate-pulse"></span>
-																	</>
-																) : (
-																	""
-																)}
+																
+															
 									</ActionBtn>
 									
 									</div>

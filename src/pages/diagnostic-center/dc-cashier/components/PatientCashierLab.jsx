@@ -39,11 +39,29 @@ import CashierAppointmentDetails from "./CashierAppointmentDetails";
 import PatientProfile from "./PatientProfile";
 import PendingOrdersModal from "./modal/PendingOrdersModal";
 import useMDQueue from "../../../../hooks/useMDQueue";
+import TextInput from "../../../../components/inputs/TextInput";
+import Pagination from "../../../../components/table/Pagination";
+import useDataTable from "../../../../hooks/useDataTable";
+import LoadingScreen from "../../../../components/loading-screens/LoadingScreen";
+import PatientMenu from "../../../../components/buttons/PatientMenu";
 
 
 
 const PatientCashierLab = () => {
-	
+	const {
+		data: patients,
+		setData: setPatients,
+		loading,
+		page,
+		setPage,
+		meta,
+		filters,
+		paginate,
+		setPaginate,
+		setFilters,
+	  } = useDataTable({
+		url: `/v1/patients`,
+	  });
 	const { user } = useAuth();
 	const {
 		pending: doctorsPending,
@@ -57,25 +75,48 @@ const PatientCashierLab = () => {
 	const patientProfileRef = useRef(null);
 	const pendingOrdersRef = useRef(null);
 	const [order, setOrder] = useState(null);
-	
+	const [filteredPatients, setFilteredPatients] = useState([]);
 	const [appointment, setAppointment] = useState(null);
-	const [loading, setLoading] = useState(false);
+	const [patient, setPatient] = useState(null);
 	const [loadingDone, setLoadingDone] = useState(false);
 	const [showData, setShowData] = useState(null);
 	const referToSphModalRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
 	const [selectedTab, setSelectedTab] = useState("");
-	useNoBugUseEffect({
-		functions: () => {},
-	});
+	
 
 	const listPending = () => {
 		return pending?.data || [];
 		// return (isDoctor() ? doctorsPending?.data : pending?.data) || [];
 	};
+	useEffect(() => {
+		// When the component mounts or pending data changes, set filtered patients
+		setFilteredPatients(listPending());
+	  }, [pending]);
 	const mutateAll = () => {
 		mutatePending();
 	};
+	const handleSearch = (e) => {
+		const keyword = e.target.value.toLowerCase();
+		setFilters((prevFilters) => ({
+		  ...prevFilters,
+		  keyword: keyword,
+		}));
+	
+		const filtered = listPending().filter((queue) => {
+		  const patientName = patientFullName(queue?.relationships?.patient).toLowerCase();
+		  return patientName.includes(keyword);
+		});
+	
+		setFilteredPatients(filtered);
+	  };
+
+	const handlePatientClick = (queue) => {
+    setOrder(queue);
+    setPatient(queue?.relationships?.patient);
+  };
+
+
 	return (
 		<AppLayout>
 			{/* <PageHeader
@@ -92,80 +133,42 @@ const PatientCashierLab = () => {
 						<span className="noto-sans-thin text-slate-500 text-sm font-light">
 							Patients pending for laboratory services
 						</span>
-						<div className="flex flex-col gap-y-4 py-4">
-							{/* <span className="font-medium text-md text-orange-500 -mb-2 ">
-								Priority Lane
-							</span> */}
-							{/* <InQueuePriority
-								number="3"
-								patientName="Raelyn Cameron"
-								priorityType="PWD"
-							/>
-							<InQueuePriority
-								number="4"
-								patientName="Kamdyn Castillo"
-								priorityType="PWD"
-							/> */}
-							{/* <span className="border-b border-b-slate-100"></span> */}
-							{/* <span className="font-medium text-md text-blue-500 -mb-2 ">
-								Regular
-							</span> */}
-							{listPending()?.length == 0 ? (
-								<span className="text-center py-20 font-bold text-slate-400">
-									No patients in queue.
-								</span>
-							) : (
-								listPending()?.map((queue, index) => {
-									return (
-										<InQueueRegular
-											selected={
-												queue?.patient?.id ===
-												order?.relationships?.patient
-													?.id
-											}
-											onClick={() => { 
-												setOrder(queue);
-											}}
-											key={`iqr-${queue.id}`}
-											number={`${queue.id}`}
-											patientName={patientFullName(
-												queue?.relationships?.patient
-											)}
-										>
-											<div className="w-full flex flex-col pl-16">
-												<div className="flex items-center gap-2 mb-2">
-													<span className="text-sm w-[100px]">
-														Lab Order:
-													</span>
-													<span className="font-bold text-red-700">
-														{" "}
-														{queue?.type?.name}
-													</span>
-												</div>
-												
-												<div className="flex items-center gap-2 mb-2">
-													<span className="text-sm w-[58px]">
-														Status
-													</span>
-													<span className="font-Bold text-red-700">
-														Pending for Payment
-													</span>
-												</div>
-												
-											</div>
-										</InQueueRegular>
-									);
-								})
-							)}
-							{/* <InQueueRegular
-								number="6"
-								patientName="Mylo Daugherty"
-							/>
-							<InQueueRegular
-								number="7"
-								patientName="Emmeline Larson"
-							/> */}
-						</div>
+			<div className="pr-5 py-3">
+              <TextInput
+                iconLeft={"rr-search"}
+                placeholder="Search patient..."
+                onChange={handleSearch}
+              />
+            </div>
+			<div className="flex flex-col gap-y-4 relative">
+              {loading && <LoadingScreen />}
+              <div className="flex flex-col gap-y-2 max-h-[calc(100vh-312px)] overflow-auto pr-5">
+                {filteredPatients.length === 0 ? (
+                  <span className="text-center py-20 font-bold text-slate-400">
+                    No patients in queue.
+                  </span>
+                ) : (
+                  filteredPatients.map((queue, index) => {
+                    const patientData = queue?.relationships?.patient;
+                    return (
+                      <PatientMenu
+                        key={index}
+                        onClick={() => handlePatientClick(queue)}
+                        patient={patientData}
+                        active={queue?.id === patient?.id}
+                        patientName={patientFullName(patientData)}
+                      />
+                    );
+                  })
+                )}
+              </div>
+              <Pagination
+                setPageSize={setPaginate}
+                page={page}
+                setPage={setPage}
+                pageCount={meta?.last_page}
+              />
+            </div>
 					</div>
 					<div className="lg:col-span-8 pl-4">
 						<div className="flex items-center gap-4 pb-4">

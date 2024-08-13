@@ -22,7 +22,7 @@ const Header = (props) => {
 	const acceptPatientRef = useRef(null);
 	console.log("datadatadatuser", user);
 	const cloudServerRef = useRef(null);
-
+	
 	const toRHUword = (str) => {
 		return str?.replace("RHU", "Rural Health Unit");
 	};

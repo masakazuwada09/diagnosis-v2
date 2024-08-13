@@ -74,10 +74,12 @@ const ActionBtn = (props) => {
 			}`}
 			{...rest}
 		>
+			
 			{loading ? "Loading..." : children}
+			
 		</LinkBtn>
 	) : (
-		<DefaultBtn
+		<DefaultBtn 
 			className={`gap-1 duration-200  !cursor-pointer shadow-sm ${btnClassName()} ${className} ${
 				loading ? "pointer-events-none opacity-50" : ""
 			}`}

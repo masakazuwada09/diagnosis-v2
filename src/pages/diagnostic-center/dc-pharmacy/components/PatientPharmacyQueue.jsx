@@ -1,33 +1,33 @@
-import { useEffect, useRef, useState } from "react";
-import AppLayout from "../../components/container/AppLayout";
-import useNoBugUseEffect from "../../hooks/useNoBugUseEffect";
-import FlatIcon from "../../components/FlatIcon";
-import InQueueRegular from "./components/InQueueRegular";
-import InQueuePriority from "./components/InQueuePriority";
+import React, { useEffect, useRef, useState } from "react";
+import AppLayout from "../../../../components/container/AppLayout";
+import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+import FlatIcon from "../../../../components/FlatIcon";
+import InQueueRegular from "../../../patient-pharmacy-queue/components/InQueueRegular";
+import InQueuePriority from "../../../patient-pharmacy-queue/components/InQueuePriority";
 import {
 	calculateAge,
 	doctorName,
 	doctorSpecialty,
 	formatDate,
 	patientFullName,
-} from "../../libs/helpers";
-import { useAuth } from "../../hooks/useAuth";
-import useLabQueue from "../../hooks/useLabQueue";
-import Img from "../../components/Img";
-import LaboratoryOrders from "../../components/patient-modules/LaboratoryOrders";
+} from "../../../../libs/helpers";
+import { useAuth } from "../../../../hooks/useAuth";
+import useLabQueue from "../../../../hooks/useLabQueue";
+import Img from "../../../../components/Img";
+import LaboratoryOrders from "../../../../components/patient-modules/LaboratoryOrders";
 import { Fade } from "react-reveal";
-import PatientInfo from "../patients/components/PatientInfo";
-import ContentTitle from "../../components/buttons/ContentTitle";
-import AppointmentDetails from "../appointments/components/AppointmentDetails";
-import usePharmaQueue from "../../hooks/usePharmaQueue";
-import ActionBtn from "../../components/buttons/ActionBtn";
-import Axios from "../../libs/axios";
+import PatientInfo from "../../../patients/components/PatientInfo";
+import ContentTitle from "../../../../components/buttons/ContentTitle";
+import AppointmentDetails from "../../../appointments/components/AppointmentDetails";
+import usePharmaQueue from "../../../../hooks/usePharmaQueue";
+import ActionBtn from "../../../../components/buttons/ActionBtn";
+import Axios from "../../../../libs/axios";
 import { toast } from "react-toastify";
-import TextInfo from "../../components/TextInfo";
-import InfoText from "../../components/InfoText";
-import CaseDetails from "../department/his-md/components/CaseDetails";
-import { caseCodes } from "../../libs/caseCodes";
-import { procedureRates } from "../../libs/procedureRates";
+import TextInfo from "../../../../components/TextInfo";
+import InfoText from "../../../../components/InfoText";
+import CaseDetails from "../../../department/his-md/components/CaseDetails";
+import { caseCodes } from "../../../../libs/caseCodes";
+import { procedureRates } from "../../../../libs/procedureRates";
 
 const PatientProfile = ({ patient }) => {
 	return (

@@ -19,6 +19,8 @@
 		"@tippyjs/react": "^4.2.6",
 		"agora-react-uikit": "^1.2.0",
 		"axios": "^0.21.1",
+		"html2canvas": "^1.4.1",
+		"jspdf": "^2.5.1",
 		"laravel-echo": "^1.16.0",
 		"leaflet": "^1.9.2",
 		"localforage": "^1.10.0",

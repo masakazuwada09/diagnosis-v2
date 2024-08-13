@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useAuth } from "../../../../hooks/useAuth";
 import useDataTable from "../../../../hooks/useDataTable";
 import { formatDateMMDDYYYYHHIIA } from "../../../../libs/helpers";
@@ -11,8 +11,18 @@ import Table from "../../../../components/table/Table";
 import CreatePrescriptionModal from "../../../../components/patient-modules/modals/CreatePrescriptionModal";
 import SelectItemModal from "../../../../components/modal/SelectItemModal";
 
-const PatientPrescriptions = (props) => {
+const PatientPrescriptions = ({
+	appointment: propAppointment,
+	forCashier = false,
+	forBilling = false,
+	forHousekeeping = false,
+	setOrder,
+	hideServices = false,
+	mutateAll,
+	
+},props) => {
 	const { patient, allowCreate } = props;
+    const [appointment, setAppointment] = useState(propAppointment);
 	const { user } = useAuth();
 	const {
 		page,
@@ -113,7 +123,9 @@ const PatientPrescriptions = (props) => {
 				setPageSize={setPaginate}
 			/>
 			<CreatePrescriptionModal
+            data={data}
 				ref={createPrescriptionRef}
+                patient={appointment?.patient}
 				selecItemRef={selecItemRef}
 			/>
 			<SelectItemModal ref={selecItemRef} />

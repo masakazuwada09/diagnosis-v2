@@ -2,7 +2,6 @@
 import React, { useRef, useState } from 'react'
 import Pagination from '../../../../components/table/Pagination';
 import useDataTable from '../../../../hooks/useDataTable';
-
 import Table from '../../../../components/table/Table';
 import ContentTitle from '../../../../components/buttons/ContentTitle';
 import { calculateAge, doctorName, doctorSpecialty, formatDate, formatDateMMDDYYYY, patientFullName } from '../../../../libs/helpers';

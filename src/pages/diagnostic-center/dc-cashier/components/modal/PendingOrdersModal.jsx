@@ -120,6 +120,28 @@ const PendingOrdersModal = ( props, ref,) => {
 		}
 	};
 
+	const sendPatientToLab = () => {
+		setLoading(true);
+		Axios.post(
+			`/v1/doctor/laboratory-order/send-patient-to-laboratory/${showData?.id}` ,
+			{
+				_method: "PATCH",
+			}
+		).then((res) => {
+			if (res?.data?.pending_lab_orders?.length == 0) {
+				toast.error("Error! NO PENDING LABORATORY ORDER.");
+			} else {
+				toast.success(
+					"Success! Patient sent to Laboratory for test(s)."
+				);
+				setLoading(false);
+				mutateAll();
+				hide();
+			}
+		});
+	};
+	
+
 	console.log("MODALLLLLLLLLLLL", modalData);
 
 	return (
@@ -164,10 +186,17 @@ const PendingOrdersModal = ( props, ref,) => {
 									
 									
 									<LaboratoryOrders
-										
-										data={data}	
 										patient={
-											order_id
+											patient
+										}
+										laboratory_test_type={
+											2
+										}
+										appointment={
+											showData
+										}
+										allowCreate={
+											true
 										}
 										
 									/>
@@ -180,7 +209,23 @@ const PendingOrdersModal = ( props, ref,) => {
 										type="secondary"
 										className="items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-300 px-2 py-1"
 										size="xl"
-										onClick={handleSubmit(submit)}
+										onClick={() => {
+											if (
+												pendingOrdersRef
+											) {
+												console.log(
+													"pendingOrdersRef",
+													pendingOrdersRef
+												);
+												pendingOrdersRef?.current.show(
+													{
+														data: showData,
+														fn: sendPatientToLab,
+													}
+												);
+												hide();
+											}
+										}}
 									>
 										<FlatIcon
 															className="text-sm mr-1	"

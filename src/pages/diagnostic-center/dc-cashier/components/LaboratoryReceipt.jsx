@@ -4,163 +4,123 @@ import React, {useState} from "react";
 import ActionBtn from "../../../../components/buttons/ActionBtn";
 import QRCode from "qrcode.react";
 import InfoTextForPrint from "../../../../components/InfoTextForPrint";
-import { formatDate } from "../../../../libs/helpers";
-import { data } from "autoprefixer";
 import { useReactToPrint } from "react-to-print";
 import FlatIcon from "../../../../components/FlatIcon";
-import { patientFullName,patientAddress, doctorName } from "../../../../libs/helpers";
+import { patientFullName, patientAddress, doctorName } from "../../../../libs/helpers";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const FormHeading = ({ title }) => {
 	return (
-
-		<div className="flex items-center h-12 bg-slate-300 ">
-		<div className="flex items-center ">
-
+		<div className="flex items-center bg-blue-200">
+			<div className="flex-grow slanted bg-blue-500 flex items-center justify-start pl-1">
+				<span className="text-white">Laboratory </span>
+			</div>
+			<div className="flex-grow slanted-reverse bg-blue-700 flex items-center justify-start pl-1">
+				<span className="text-blue-700" value="">.</span>
+			</div>
+			
 		</div>
-		<div className="flex-grow slanted bg-blue-500 flex items-center justify-start pl-1 ">
-		<span className="text-white">www.saranganiprovincialhospital.com</span>
-		</div>
-		<div className="flex-grow slanted-reverse bg-blue-700 flex items-center justify-start pl-1 ">
-		<span className="text-blue-700" value="">.</span>
-		</div>
-
-		<div className="slanted bg-blue-500 flex items-center justify-start pl-4"></div>
-
-
-	</div>
 	);
 };
 
 const LaboratoryReceipt = (props) => {
-const { loading: btnLoading, appointment, patient, onSave} = props;
-const [doctors, setDoctors] = useState([]);
-console.log('appointmentsssssssssssss', appointment)
-const [doctor, setDoctor] = useState(null);
-const componentRef = React.useRef(null);
-const handlePrint = useReactToPrint({
-	content: () => componentRef.current,
-});
-const handleDownload = () => {
-	const data = () => componentRef.current;
-	const url = window.URL.createObjectURL(data);
-	const link = document.createElement('a');
-	link.href = url;
-	link.setAttribute('download', 'example.txt'); // or any other extension
-	document.body.appendChild(link);
-	link.click();
-	document.body.removeChild(link);
-};
-const show = (data) => {
-	console.log("Accept Patient Referral", data);
-	setReferral(() => data);
-	getDoctors();
-	setModalOpen(true);
-};
-const getDoctors = () => {
-	Axios.get(`/v1/clinic/rhu-doctors`).then((res) => {
-		setDoctors(res.data.data);
+	const { loading: btnLoading, appointment, patient, onSave } = props;
+	const [doctor, setDoctor] = useState(null);
+	const componentRef = React.useRef(null);
+	
+	const handlePrint = useReactToPrint({
+		content: () => componentRef.current,
 	});
-};
 
-  return (
-	<div className="">
-		
-    <div className=" border-2 px-3 py-1 bg-gray-500" >
-								<div className="flex flex-row justify-end">
-								<ActionBtn
-											className="text-base gap-2 ml-2 mb-2"
-											onClick={handlePrint}
-											type="success"
-										>
-											<FlatIcon icon="rr-print" /> Print
-										</ActionBtn>
-										<ActionBtn
-											className="text-base gap-2 ml-2 mb-2"
-											onClick={handleDownload}
-											type="success"
-										>
-											<FlatIcon icon="fi fi-bs-disk" /> Save
-										</ActionBtn>
-								</div>
-										
-										
-		<div className="" ref={componentRef}>
-									
+	const handleDownload = async () => {
+		const input = componentRef.current;
+		const canvas = await html2canvas(input);
+		const imgData = canvas.toDataURL("image/png");
+		const pdf = new jsPDF("p", "mm", "a6");
+		const imgProps = pdf.getImageProperties(imgData);
+		const pdfWidth = pdf.internal.pageSize.getWidth();
+		const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+		pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+		pdf.save("LaboratoryReport.pdf");
+	};
+
+	return (
+		<div className="mt-5">
+			<div className="border-2 px-3 py-1 bg-gray-600 rounded-lg">
+				<div className="flex flex-row justify-end">
+					<ActionBtn
+						className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100"
+						onClick={handlePrint}
+						type="success"
+					>
+						<FlatIcon icon="rr-print" /> Print
+					</ActionBtn>
+					<ActionBtn
+						className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100"
+						onClick={handleDownload}
+						type="secondary"
+					>
+						<FlatIcon icon="fi fi-bs-disk" /> Save
+					</ActionBtn>
+				</div>
+				<div className="" ref={componentRef}>
+					{/* Add the content that you want to print or save as PDF */}
+					<div className="flex flex-col-4 gap-2 bg-blue-200 mx-auto p-2">
+						<div className="">
+							<img src="/laboratory.png" className="w-16 h-16 object-contain m-2" />
+						</div>
+						<div className="">
+							<div className="text-sm font-semibold">
+								<span>DIAGNOSTIC CENTER</span>
+							</div>
+							<div className="text-xs font-light">
+								<span>Capitol Complex, Alabel, Sarangani</span>
+							</div>
+							<div className="text-xs font-light">
+								<span>Tel. No. 083 508 0262</span>
+							</div>
+
+							<div className="text-base text-red-500 font-bold">
+								<span>LABORATORY REPORT</span>
+							</div>
+						</div>
+
+						<div className="flex flex-col-2 text-sm ml-auto m-2 bg-blue-200">
+							<div>
+								<InfoTextForPrint
+									contentClassName="text-sm"
+									title="Fullname"
+									value={patientFullName(patient)}
+								/>
+								<InfoTextForPrint
+									contentClassName="text-sm"
+									title="Address"
+									value={patientAddress(patient)}
+								/>
+								<InfoTextForPrint
+									contentClassName="text-sm"
+									title="Account No."
+								/>
+								<InfoTextForPrint
+									contentClassName="text-sm"
+									title="Laboratory Attendant"
+									value={doctorName(doctor)}
+								/>
 								
-        <div className="flex flex-col-4 gap-2 bg-white" >
-			<div className="" >
-					<img
-						src="/aLab.png"
-						className="w-24 h-24 object-contain m-2"
-					/>
-			</div>
-				<div className="">
-				<div className="flex  items-center my-2 ">
-				
-				</div>
-					<div className="text-sm font-semibold">
-					<span>DIAGNOSTIC CENTER</span>
-				</div>
-				<div className="text-xs font-light ">
-					<span>Capitol Complex, Alabel, Sarangani</span>
-				</div>
-				<div className="text-xs font-light ">
-					<span>Tel. No. 083 508 0262</span>
-				</div>
-                <div className="text-sm font-semibold">
-					<span>HOSPITAL LABORATORY DEPARTMENT</span>
-				</div>
-				<div className="text-base text-red-500 font-bold">
-                                <span>LABORATORY REPORT</span>
-                            </div>
-                </div>
-										
-			<div className="flex flex-col-2 text-sm ml-auto m-2 bg-white">
-				<div>
-                    <InfoTextForPrint
-								contentClassName="text-sm"
-								title="Fullname"
-								value= {patientFullName(patient)}
+							</div>
+							<QRCode
+								value={`user-${appointment?.scheduledBy?.username}`}
+								className="ml-8"
+								level="H"
+								size={50}
 							/>
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Address"
-								value={patientAddress(patient)}
-							/>
-                            <InfoTextForPrint
-								contentClassName="text-sm"
-								title="Account No."
-								// value={patient?.civil_status}
-							/>
+						</div>
+					</div>
 
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Attending Dr"
-								value={doctorName(doctor)}
-							/>
+					<FormHeading title="" />
 
-							<InfoTextForPrint
-								contentClassName="text-sm"
-								title="Room"
-								// value={patient?.civil_status}
-							/>
-                           
-                </div>
-                 <QRCode
-					value={`user-${appointment?.scheduledBy?.username}`}
-					className="ml-8"
-					level="H"
-					size={90}
-				/>
-			
-			</div>
-           
-		</div>
-										
-	<FormHeading title="" />
-		
-
-		<div className="flex flex-col p-2 text-sm relative bg-white ">
+					<div className="flex flex-col p-2 text-sm relative bg-white ">
 			<b>IMPORTANT REMINDERS:</b>
 		
 			<p className="text-xs">
@@ -354,12 +314,10 @@ const getDoctors = () => {
 		</div>
 			
 		</div>
-		</div> 					
+				</div>
+			</div>
+		</div>
+	);
+};
 
-								
-    </div>
-	</div>
-  )
-}
-
-export default LaboratoryReceipt
+export default LaboratoryReceipt;

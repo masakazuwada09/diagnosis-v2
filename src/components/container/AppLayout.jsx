@@ -159,7 +159,7 @@ const AppLayout = (props) => {
 						<Link to="/" className=" cursor-pointer w-full">
 							<div className="h-[44px]  flex items-center gap-4">
 								<img
-									src="/logo.png"
+									src="/laboratory.png"
 									alt="logo"
 									className="h-[40px] w-[40px] rounded-full"
 								/>

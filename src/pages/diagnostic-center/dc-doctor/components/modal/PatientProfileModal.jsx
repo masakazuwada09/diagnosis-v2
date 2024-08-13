@@ -217,6 +217,7 @@ const PatientProfileModal = (props, ref) => {
 			hide();
 		});
 	};
+
 	const sendPatientToLab = () => {
 		setLoading(true);
 		Axios.post(
@@ -408,7 +409,7 @@ const PatientProfileModal = (props, ref) => {
 																	free to go
 																</span>
 															</div>
-				a										</ActionBtn> */}
+														</ActionBtn> */}
 											</div>
 										</div>
 										<div>
@@ -696,7 +697,7 @@ const PatientProfileModal = (props, ref) => {
 
 								<div className="px-4 py-3 border-t flex items-center justify-end bg-slate-">
 									<ActionBtn type="danger" className="px-5">
-										CLOSEz
+										CLOSE
 									</ActionBtn>
 								</div>
 							</Dialog.Panel>

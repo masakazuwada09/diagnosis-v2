@@ -32,7 +32,6 @@ import LaboratoryTests from "./pages/laboratory-tests/LaboratoryTests.jsx";
 import DoctorPatientQueue from "./pages/department/his-md/components/DoctorPatientQueue.jsx";
 import PatientLabQueue from "./pages/patient-lab-queue/PatientLabQueue.jsx";
 import Error404 from "./Error404.jsx";
-import PatientPharmacyQueue from "./pages/patient-pharmacy-queue/PatientPharmacyQueue.jsx";
 import Consignments from "./pages/consignments/Consignments.jsx";
 import Inventories from "./pages/inventories/Inventories.jsx";
 import DoctorPatientReferrals from "./pages/department/his-md/components/DoctorPatientReferrals.jsx";
@@ -54,9 +53,10 @@ import OPDQueue from "./pages/hims/his-opd/components/OPDQueue.jsx";
 import PatientImagingQueue from "./pages/patient-imaging-queue/PatientImagingQueue.jsx";
 import FrontDeskQueue from "./pages/diagnostic-center/dc-frontdesk/components/FrontDeskQueue.jsx";
 import NurseQueue from "./pages/diagnostic-center/dc-nurse/components/NurseQueue.jsx";
-import PatientLaboratory from "./components/patient-modules/modals/PatientLaboratory.jsx";
+import PatientLaboratory from "./pages/diagnostic-center/dc-laboratory/components/PatientLaboratory.jsx";
 import PatientCashierLab from "./pages/diagnostic-center/dc-cashier/components/PatientCashierLab.jsx";
 import DoctorQueue from "./pages/diagnostic-center/dc-doctor/components/DoctorQueue.jsx";
+import PatientPharmacyQueue from "./pages/diagnostic-center/dc-pharmacy/components/PatientPharmacyQueue.jsx";
 
 
 

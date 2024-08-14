@@ -33,7 +33,8 @@ import PatientPharmacyOrder from '../../../department/his-nurse/components/Patie
 import AppointmentDetails from '../../../appointments/components/AppointmentDetails';
 import PatientProfileModal from '../../../../components/PatientProfileModal';
 import ActionBtn from '../../../../components/buttons/ActionBtn';
-import MedicalCertificate from './MedicalCertificate';
+import MedicalCertificate from './modal/MedicalCertificate';
+import Prescription from './modal/Prescription';
 
 
 const uniq_id = uuidv4();
@@ -100,6 +101,7 @@ const NurseAppointmentDetails = ({
 	const pendingOrdersRef = useRef(null);
 	const patientProfileRef = useRef(null);
 	const printMedicalCertificate = useRef(null);
+	const printPrescription = useRef(null);
 	const show = (data) => {
 		setFull(false);
 		setShowData(data);
@@ -164,27 +166,44 @@ const NurseAppointmentDetails = ({
 											{
 									title: (
 											<MenuTitle src="/public/medical-report.png">
-														Appointment Data
+														Diagnosis Data
 															</MenuTitle>
 											),
 
 							content: (
 								<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100  pb-4 ">
-									<div className='flex flex-row justify-end '>
+									<div className='flex flex-row justify-end gap-2'>
 										
 									<ActionBtn
-										className="text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] "
+										className="relative text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] "
 										onClick={() => printMedicalCertificate.current.show({...data, appointment})}
 										type="foreground-dark"
 										
 									>
+										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
+										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-pulse"></span>
+										<span className="absolute top-0 right-0 rounded-xl h-full w-full border border-red-500 animate-pulse"></span>
 										
 									<FlatIcon icon="rs-document" />
-									Certificate Available
-									
-																
-															
+									Certificate Available					
 									</ActionBtn>
+
+									<ActionBtn
+										className="relative text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px]"
+										onClick={() => printPrescription.current.show({...data, appointment})}
+										type="foreground-dark"
+									>
+										{/* Notification indicators */}
+										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
+										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-pulse"></span>
+										<span className="absolute top-0 right-0 rounded-xl h-full w-full border border-red-500 animate-pulse"></span>
+
+										{/* Button content */}
+										<FlatIcon icon="fi fi-ss-file-prescription" />
+										Prescription Available
+									</ActionBtn>
+
+									
 									
 									</div>
 									
@@ -408,7 +427,7 @@ const NurseAppointmentDetails = ({
 													{
 														title: (
 															<MenuTitle src="/public/laboratory.png">
-																Laboratory Order
+																Laboratory
 																{JSON.stringify(
 																	showData?.lab_orders ||
 																		{}
@@ -597,6 +616,15 @@ const NurseAppointmentDetails = ({
 				}}
 				ref={printMedicalCertificate}
 			/>
+			<Prescription
+				patient={patient}
+				onSuccess={() => {
+					onUploadLabResultSuccess();
+					reloadData();
+				}}
+				ref={printPrescription}
+			/>
+
 		</div>
 		
 	);

@@ -165,6 +165,7 @@ const NurseServices = (props, ref) => {
 	const [provinceList, setProvinceList] = useState([]);
 	const [roomList, setRoomList] = useState([]);
 	const [healthUnits, setHealthUnits] = useState([null]);
+	const [selectedDoctor, setSelectedDoctor] = useState(null);
 
 	const getOptionsForCategory = (category) => {
 		switch (category) {
@@ -639,434 +640,94 @@ const NurseServices = (props, ref) => {
 					<div className="flex flex-col w-full gap-4 pb-2 pt-5">
 					<div className="p-0 flex flex-col gap-y-4 relative w-full">
 						<h4 className="text-md text-indigo-800 border-b border-b-indigo-600 border-t border-t-pink-600 border-r border-r-pink-600 border-l border-l-indigo-600 pb-1 font-bold mb-0 px-2">
-							Send patient to Medical Doctor
+							Diagnosis Services
 						</h4>
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-
-
+						
+						
 				
 							
-							<Controller
-								name="referred_to"
-								control={control}
-								rules={{
-									required: {
-										value: true,
-										message: "This field is required",
-									},
-								}}
-								render={({
-									field: {
-										onChange,
-										onBlur,
-										value,
-										name,
-										ref,
-									},
-									fieldState: {
-										invalid,
-										isTouched,
-										isDirty,
-										error,
-									},
-								}) => (
-									<div className="flex flex-row gap-2">
-										<FlatIcon icon="fi fi-rr-user-md" ></FlatIcon>  
-									<ReactSelectInputField
-										isClearable={true}
-										label="Select Medical Doctor"
-										isLoading={isSelectorLoading}
-										onChangeGetData={(data) => {}}
-										inputClassName=" "
-										ref={ref}
-										value={value}
-										onChange={onChange}
-										onData
-										onBlur={onBlur} // notify when input is touched
-										error={error?.message}
-										placeholder={`Medical Doctor`}
-										options={doctorList?.map((doctor) => ({
-											label: `${doctorName(doctor)}`,
-											value: doctor?.id,
-											descriptionClassName:
-												" !opacity-100",
-											description: (
-												<div className="flex text-xs flex-col gap-1">
-													<span>
-														{doctorSpecialty(
-															doctor
-														)}
-													</span>
-													<span className="flex items-center gap-1">
-														Status:
-														<span className="text-green-600 drop-shadow-[0px_0px_1px_#ffffff] text-xs font-bold">
-															ONLINE
-														</span>
-													</span>
-												</div>
-											),
-										}))}
-									/>
-									</div>
-								)}
+						<Controller
+							name="referred_to"
+							control={control}
+							rules={{
+								required: {
+								value: true,
+								message: "This field is required",
+								},
+							}}
+							render={({
+								field: {
+								onChange,
+								onBlur,
+								value,
+								name,
+								ref,
+								},
+								fieldState: {
+								invalid,
+								isTouched,
+								isDirty,
+								error,
+								},
+							}) => (
+								<div className="flex flex-row gap-2">
+								<FlatIcon icon="fi fi-rr-user-md" />
+								<ReactSelectInputField
+									isClearable={true}
+									label="Select Medical Doctor"
+									isLoading={isSelectorLoading}
+									onChange={(option) => {
+									onChange(option);
+									setSelectedDoctor(option); // Update state with selected doctor
+									}}
+									inputClassName=" "
+									ref={ref}
+									value={value}
+									onBlur={onBlur}
+									error={error?.message}
+									placeholder={`Medical Doctor`}
+									options={doctorList?.map((doctor) => ({
+									label: `${doctorName(doctor)}`,
+									value: doctor?.id,
+									descriptionClassName: " !opacity-100",
+									description: (
+										<div className="flex text-xs flex-col gap-1">
+										<span>{doctorSpecialty(doctor)}</span>
+										<span className="flex items-center gap-1">
+											Status:
+											<span className="text-green-600 drop-shadow-[0px_0px_1px_#ffffff] text-xs font-bold">
+											ONLINE
+											</span>
+										</span>
+										</div>
+									),
+									}))}
+								/>
+								</div>
+							)}
 							/>
-									
-
-<div className="flex flex-row gap-2">
-<FlatIcon icon="fi fi-rr-bed" ></FlatIcon>  
-<Controller
-  name="room_category"
-  control={control}
-  rules={{
-    required: {
-      value: true,
-      message: "This field is required",
-    },
-  }}
-  render={({ field }) => (
-    <ReactSelectInputField
-      isClearable={true}
-      label="Room Category"
-	  
-      inputClassName=""
-      ref={field.ref}
-      value={field.value}
-      onChange={field.onChange}
-      onBlur={field.onBlur}
-      error={field.error?.message}
-      placeholder="Select Room Category"
-      options={[
-        { label: "Suite", value: "SUITE" },
-        { label: "Private", value: "PRIVATE" },
-        { label: "Non Private", value: "NON-PRIVATE" },
-        { label: "Bed", value: "BED" },
-      ]}
-    />
-  )}
-/>
-
-
-
-
-{["SUITE", "PRIVATE", "NON-PRIVATE", "BED"].includes(watch("room_category")) && (
-  <Controller
-    name="room_number"
-    control={control}
-    rules={{
-      required: {
-        value: true,
-        message: "This field is required",
-      },
-    }}
-    render={({ field }) => (
-      <ReactSelectInputField
-        isClearable={true}
-        label={watch("room_category") === "BED" ? "Bed Number" : "Room Number"}
-        inputClassName=""
-        ref={field.ref}
-        value={field.value}
-        onChange={field.onChange}
-        onBlur={field.onBlur}
-        error={field.error?.message}
-        placeholder={watch("room_category") === "BED" ? "Select Bed Number" : "Select Room Number"}
-        options={getOptionsForCategory(watch("room_category"))}
-      />
-    )}
-  />
-)}							
-</div>
-
-							
-						
-							{/* <Controller
-								name="room_category"
-								control={control}
-								rules={{
-									required: {
-										value: false,
-										message: "This field is required",
-									},
-								}}
-								render={({
-									field: {
-										onChange,
-										onBlur,
-										value,
-										name,
-										ref,
-									},
-									fieldState: {
-										invalid,
-										isTouched,
-										isDirty,
-										error,
-									},
-								}) => (
-									<ReactSelectInputField
-										isClearable={true}
-										label="Select Room Category"
-										isLoading={isSelectorLoading}
-										onChangeGetData={(data) => {}}
-										inputClassName=" "
-										ref={ref}
-										value={value}
-										onChange={onChange}
-										onData
-										onBlur={onBlur} // notify when input is touched
-										error={error?.message}
-										placeholder={`Room Category`}
-										// options={roomList?.map((doctor) => ({
-										// 	label: `${doctorName(doctor)}`,
-										// 	value: doctor?.id,
-										// }))}
-										options={[
-													// {
-													// 	label: "Provincial Hospital (PH)",
-													// 	value: "PH",
-													// },
-													{
-														label: "Suite",
-														value: "Suite",
-													},
-                                                    {
-														label: "Private",
-														value: "Private",
-													},
-                                                    {
-														label: "Non Private",
-														value: "Non Private",
-													},
-                                                    {
-														label: "Bed",
-														value: "Bed",
-													},
-                                                  
-                                                    
-													// {
-													// 	label: "Barangay Health Station (BHS)",
-													// 	value: "BHS",
-													// },
-												]}
-									/>
-								)}
-							/> 
-
-
-
-
-
-							{/* <Controller
-								name="room_number"
-								control={control}
-								rules={{
-									required: {
-										value: true,
-										message: "This field is required",
-									},
-								}}
-								render={({
-									field: {
-										onChange,
-										onBlur,
-										value,
-										name,
-										ref,
-									},
-									fieldState: {
-										invalid,
-										isTouched,
-										isDirty,
-										error,
-									},
-								}) => (
-									<ReactSelectInputField
-										isClearable={true}
-										label="Select Room"
-										isLoading={isSelectorLoading}
-										onChangeGetData={(data) => {}}
-										inputClassName=" "
-										ref={ref}
-										value={value}
-										onChange={onChange}
-										onData
-										onBlur={onBlur} // notify when input is touched
-										error={error?.message}
-										placeholder={`Select Room`}
-										// options={roomList?.map((doctor) => ({
-										// 	label: `${doctorName(doctor)}`,
-										// 	value: doctor?.id,
-										// }))}
-										options={[
-													// {
-													// 	label: "Provincial Hospital (PH)",
-													// 	value: "PH",
-													// },
-													{
-														label: "1",
-														value: "1",
-													},
-                                                    {
-														label: "2",
-														value: "2",
-													},
-                                                    {
-														label: "3",
-														value: "3",
-													},
-                                                    {
-														label: "4",
-														value: "4",
-													},
-                                                    {
-														label: "5",
-														value: "5",
-													},
-                                                    {
-														label: "6",
-														value: "6",
-													},
-                                                    {
-														label: "7",
-														value: "7",
-													},
-                                                    {
-														label: "8",
-														value: "8",
-													},
-                                                    {
-														label: "9",
-														value: "9",
-													},
-                                                    {
-														label: "10",
-														value: "10",
-													},
-                                                    
-													// {
-													// 	label: "Barangay Health Station (BHS)",
-													// 	value: "BHS",
-													// },
-												]}
-									/>
-								)}
-							/> */}
-
-
-
-
-							{/* <Controller
-								name="surgery_date"
-								control={control}
-								rules={{
-									required: {
-										value: true,
-										message: "This field is required",
-									},
-								}}
-								render={({
-									field: {
-										onChange,
-										onBlur,
-										value,
-										name,
-										ref,
-									},
-									fieldState: {
-										invalid,
-										isTouched,
-										isDirty,
-										error,
-									},
-								}) => (
-									<TextInputField
-											isLoading={isSelectorLoading}
-											onChangeGetData={(data) => {}}
-											inputClassName=" "
-											ref={ref}
-											value={value}
-											onChange={onChange}
-											onData
-											onBlur={onBlur} // notify when input is touched
-											error={error?.message}
-											label="Select Date"
-											type="date"
-											className="focus:outline-none focus:border-blue-500"
-											/>
-								)}
-							/> */}
-
-
-							{/* <Controller
-								name="surgery_time"
-								control={control}
-								rules={{
-									required: {
-										value: true,
-										message: "This field is required",
-									},
-								}}
-								render={({
-									field: {
-										onChange,
-										onBlur,
-										value,
-										name,
-										ref,
-									},
-									fieldState: {
-										invalid,
-										isTouched,
-										isDirty,
-										error,
-									},
-								}) => (
-										<TextInputField
-											isLoading={isSelectorLoading}
-											onChangeGetData={(data) => {}}
-											inputClassName=" "
-											ref={ref}
-											value={value}
-											onChange={onChange}
-											onData
-											onBlur={onBlur} // notify when input is touched
-											error={error?.message}
-											label="Time:"
-											type="time"
-											className="focus:outline-none focus:border-blue-500"
-											/>
-											
-								)}
-							/> */}
-
-							
-
+							<div className="flex flex-row justify-start items-center">
+							<ActionBtn
+							className="text-gray-700 flex items-center justify-end  cursor-pointer rounded-lg gap-2 w-[170px] h-[40px]"
+							onClick={handleSubmit(sendToDoctor)}
+							type="secondary"
+							disabled={!selectedDoctor} // Disable button if no doctor is selected
+							>
+							<FlatIcon icon="rs-document" />
+							Send to Doctor
+							</ActionBtn>
+							</div>
 							
 						</div>
-
-						
-						
-						
-						
-
-
+									
 
 					</div>
-					<div className=" flex items-center justify-center">
-							<ActionBtn
-							className="px-1 !rounded-md"
-							type="teal"
-							size="lg"
-							loading={loading}
-							onClick={handleSubmit(sendToDoctor)}
-							>
-							<FlatIcon
-								icon="rr-check"
-								className="mr-2 text-xl"
-							/>
-							Send patient to Medical Doctor
-						</ActionBtn>
-							</div>
+					
+
+					
+	
 				</div>
 				</>
 			) : (

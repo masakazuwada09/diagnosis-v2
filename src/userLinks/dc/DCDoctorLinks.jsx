@@ -1,10 +1,10 @@
 import React from 'react'
-import useMDQueue from '../../hooks/useMDQueue';
+import useLabQueue from '../../hooks/useLabQueue';
 import useReferralQueue from '../../hooks/useReferralQueue';
 import MenuLink from '../../components/buttons/MenuLink';
 
 const DCDoctorLinks = ({ isActive }) => {
-    const { pending } = useMDQueue();
+    const { pending } = useLabQueue();
 	// const { pending: referralsPending, pendingPrescription } =
 	// 	useReferralQueue();
   return (

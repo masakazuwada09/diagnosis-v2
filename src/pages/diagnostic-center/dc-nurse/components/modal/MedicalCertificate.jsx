@@ -28,18 +28,18 @@ import {
 	calculateHemoglobin,
 	calculateBMI, calculateBPMeasurement,
 	keyByValue
-} from "../../../../libs/helpers";
-import { chemistry, hematology } from "../../../../libs/laboratoryOptions";
-import ActionBtn from "../../../../components/buttons/ActionBtn";
-import Axios from "../../../../libs/axios";
-import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+} from "../../../../../libs/helpers";
+import { chemistry, hematology } from "../../../../../libs/laboratoryOptions";
+import ActionBtn from "../../../../../components/buttons/ActionBtn";
+import Axios from "../../../../../libs/axios";
+import useNoBugUseEffect from "../../../../../hooks/useNoBugUseEffect";
 import { useReactToPrint } from "react-to-print";
-import FlatIcon from "../../../../components/FlatIcon";
+import FlatIcon from "../../../../../components/FlatIcon";
 import QRCode from "qrcode.react";
 import Barcode from "react-barcode";
 import { PhotoIcon } from "@heroicons/react/24/solid";
-import Img from "../../../../components/Img";
-import LaboratorySummary from "../../dc-cashier/components/LaboratorySummary";
+import Img from "../../../../../components/Img";
+import LaboratorySummary from "../../../dc-cashier/components/LaboratorySummary";
 
 const laboratory_tests = chemistry?.map((data) => data?.name);
 
@@ -246,7 +246,7 @@ id="phic-form-printable" ref={componentRef}
 		<div>
 		
           <Img src="/aLab.png" className="mx-auto h-10 w-10 text-gray-300" aria-hidden="true" />
-        
+		
 
 		</div>
 		

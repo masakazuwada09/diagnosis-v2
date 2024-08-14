@@ -7,19 +7,14 @@ import {
 	useEffect,
 	useImperativeHandle,
 	useState,
-	useRef
 } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import LaboratoryOrders from "../../../../../components/patient-modules/LaboratoryOrders";
 import ActionBtn from "../../../../../components/buttons/ActionBtn";
-import useDataTable from "../../../../../hooks/useDataTable";
-import useNoBugUseEffect from "../../../../../hooks/useNoBugUseEffect";
-import FlatIcon from "../../../../../components/FlatIcon";
-import { Fade } from "react-reveal";
 
-const PendingOrdersModal = ( props, ref,) => {
+const PendingOrdersModal = (props, ref,) => {
 	const {
 		register,
 		getValues,
@@ -40,53 +35,9 @@ const PendingOrdersModal = ( props, ref,) => {
 		order_id,
 	} = props;
 	const [mount, setMount] = useState(0);
-	
-	const [modalData, setModalData] = useState(null);
 	const [showData, setShowData] = useState(null);
+	const [modalData, setModalData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
-	const pendingOrdersRef = useRef(null);
-	const [order, setOrder] = useState(null);
-
-	const {
-		page,
-		setPage,
-		meta,
-		setMeta,
-		loading,
-		setLoading,
-		paginate,
-		setPaginate,
-		data,
-		setData,
-		column,
-		setColumn,
-		direction,
-		setDirection,
-		filters,
-		setFilters,
-		reloadData,
-	} = useDataTable
-	({
-		url: `/v1/doctor/laboratory-order/patient/${patient?.id}`,
-		defaultFilters: {
-			...(order_id ? { order_id: order_id } : {}),
-			...(laboratory_test_type
-				? { laboratory_test_type: laboratory_test_type }
-				: {}),
-			...(appointment?.id > 0 ? { appointment_id: appointment?.id } : {}),
-		},
-	});
-
-	useNoBugUseEffect({
-		functions: () => {
-			setFilters((prevFilters) => ({
-				...prevFilters,
-
-				order_id: order_id,
-			}));
-		},
-	});
-
 	useEffect(() => {
 		let t = setTimeout(() => {
 			setMount(1);
@@ -119,31 +70,10 @@ const PendingOrdersModal = ( props, ref,) => {
 			hide();
 		}
 	};
-
-	const sendPatientToLab = () => {
-		setLoading(true);
-		Axios.post(
-			`/v1/doctor/laboratory-order/send-patient-to-laboratory/${showData?.id}` ,
-			{
-				_method: "PATCH",
-			}
-		).then((res) => {
-			if (res?.data?.pending_lab_orders?.length == 0) {
-				toast.error("Error! NO PENDING LABORATORY ORDER.");
-			} else {
-				toast.success(
-					"Success! Patient sent to Laboratory for test(s)."
-				);
-				setLoading(false);
-				mutateAll();
-				hide();
-			}
-		});
-	};
-	
-
-	console.log("MODALLLLLLLLLLLL", modalData);
-
+	{console.log(
+		"MODALDATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+		showData
+	)}
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
 			<Dialog as="div" className="" onClose={hide}>
@@ -184,58 +114,31 @@ const PendingOrdersModal = ( props, ref,) => {
 								</Dialog.Title>
 								<div className=" pt-5 grid grid-cols-1 gap-5 relative">
 									
-									
 									<LaboratoryOrders
+										
 										patient={
 											patient
 										}
 										laboratory_test_type={
-											2
+											"all"
 										}
 										appointment={
-											showData
+											showData?.data
 										}
 										allowCreate={
-											true
+											false
 										}
-										
 									/>
-									
 								</div>
 
-								<div className="px-5 py-2 flex items-center justify-end bg-slate- border-t">
-									
+								<div className="px-4 py-4 flex items-center justify-end bg-slate- border-t">
 									<ActionBtn
-										type="secondary"
-										className="items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-300 px-2 py-1"
+										type="teal"
+										className="ml-4 !px-10 !rounded-xl"
 										size="xl"
-										onClick={() => {
-											if (
-												pendingOrdersRef
-											) {
-												console.log(
-													"pendingOrdersRef",
-													pendingOrdersRef
-												);
-												pendingOrdersRef?.current.show(
-													{
-														data: showData,
-														fn: sendPatientToLab,
-													}
-												);
-												hide();
-											}
-										}}
+										onClick={handleSubmit(submit)}
 									>
-										<FlatIcon
-															className="text-sm mr-1	"
-															icon="rr-right"
-														/>
-														<div className="flex flex-col text-left ">
-															<span className="font- text-sm  ">
-															Send Order
-										</span>			
-									</div>
+										SEND ORDER
 									</ActionBtn>
 								</div>
 							</Dialog.Panel>

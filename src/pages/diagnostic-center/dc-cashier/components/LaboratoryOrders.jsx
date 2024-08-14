@@ -101,6 +101,8 @@ import PaymentTable from "./PaymentTable";
 import TotalAmount from "./TotalAmount";
 import { payment } from "../../../../libs/laboratoryOptions";
 import PendingOrdersModal from "./modal/PendingOrdersModal";
+import axios from "axios";
+import Axios from "../../../../libs/axios";
 
 const Status = ({ status }) => {
 	const color = () => {
@@ -155,7 +157,7 @@ const LaboratoryOrders = (props) => {
     });
 
 	const isLaboratoryUser = () => {
-		return user?.type == "RHU-XRAY" || user?.type == "DC-NURSE";
+		return user?.type == "RHU-XRAY" || user?.type == "DC-CASHIER";
 	};
 	const isXrayUser = () => {
 		return user?.type === "DC-NURSE";
@@ -193,6 +195,27 @@ const LaboratoryOrders = (props) => {
 			...(appointment?.id > 0 ? { appointment_id: appointment?.id } : {}),
 		},
 	});
+	const sendPatientToLab = () => {
+		setLoading(true);
+		Axios.post(
+			`/v1/doctor/laboratory-order/send-patient-to-laboratory/${showData?.id}`,
+			{
+				_method: "PATCH",
+			}
+		).then((res) => {
+			if (res?.data?.pending_lab_orders?.length == 0) {
+				toast.error("Error! NO PENDING LABORATORY ORDER.");
+			} else {
+				toast.success(
+					"Success! Patient sent to Laboratory for test(s)."
+				);
+				setLoading(false);
+				mutateAll();
+				hide();
+			}
+		});
+	};
+	
 	useNoBugUseEffect({
 		functions: () => {
 			setFilters((prevFilters) => ({
@@ -446,9 +469,21 @@ const LaboratoryOrders = (props) => {
 														
 														size=""
 														onClick={() => {
-															pendingOrdersRef.current.show(
-																data
-															);
+															if (
+																pendingOrdersRef
+															) {
+																console.log(
+																	"pendingOrdersRef",
+																	pendingOrdersRef
+																);
+																pendingOrdersRef?.current.show(
+																	{
+																		data: showData,
+																		fn: sendPatientToLab,
+																	}
+																);
+																hide();
+															}
 														}}
 														className="items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-300"
 													>
@@ -760,8 +795,8 @@ const LaboratoryOrders = (props) => {
 									
 
 									<PendingOrdersModal
-											pendingOrdersRef={pendingOrdersRef}
 											
+											pendingOrdersRef={pendingOrdersRef}
 											patient={
 												patient
 											}

@@ -2120,6 +2120,7 @@ const CreateEmergencyCareModal = (props, ref) => {
 											loading={loading}
 											className="ml-4"
 											onClick={handleSubmit(submit)}
+											
 										>
 											SUBMIT
 										</ActionBtn>

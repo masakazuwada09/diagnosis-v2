@@ -1,4 +1,4 @@
-import  { React, useRef, useState, forwardRef, useImperativeHandle, } from 'react'
+import  { React, useRef, useState, Fragment, forwardRef, useImperativeHandle, } from 'react'
 import { Controller, useForm } from "react-hook-form";
 import ReferToSPHModal from '../../../../components/modal/ReferToSPHModal';
 import InServiceER from '../../../hims/his-er/InServiceER';
@@ -213,14 +213,9 @@ const NurseQueue = (props, ref) => {
 										referToSphModalRef.current.show(queue);
 									}}
 									onClick={() => {
-										if (queue.status != "pending-doctor-consultation") {
+										if (queue.status == "pending") {
 											setAppointment(queue);
-											
-										} if (queue.status != "pending-surgery") {
-											setAppointment(queue);
-										}
-										
-										else {
+										} else {
 											setAppointment(null);
 										}
 									}}
@@ -284,8 +279,9 @@ const NurseQueue = (props, ref) => {
 							{appointment?.patient ? (	
 								<Fade key={`order-${appointment?.id}`}>
 									<div>
-										<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12 ">
+										<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12 justify-between">
 											<span>Patient Information</span>
+											
 											<ActionBtn
 												className="ml-auto"
 												type="danger"
@@ -295,6 +291,9 @@ const NurseQueue = (props, ref) => {
 											>
 												Close
 											</ActionBtn>
+											
+						
+											
 										</h4>
 										<div className="flex flex-col lg:flex-row gap-2 border-indigo-100 p-4 bg-slate-100">
 									
@@ -303,24 +302,18 @@ const NurseQueue = (props, ref) => {
 											patient={appointment?.patient} 
 											appointment={appointment}
 											/>
-											
-										
+											<ActionBtn
+												className="text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] h-[40px]"
+												onClick={() => printMedicalCertificate.current.show({...data, appointment})}
+												type="success"	
+													>
+												<FlatIcon icon="rr-check" />
+													Done Diagnosis
+											</ActionBtn>
+												
 
 										</div>
-										<div className="pb-4">
-											
 										
-											
-											
-
-							<div className="grid grid-cols-1 lg:grid-cols-1 gap-4 shadow-lg px-12 ">
-
-											
-							
-							
-							
-											</div>
-										</div>
 									</div>
 								</Fade>
 
@@ -330,26 +323,18 @@ const NurseQueue = (props, ref) => {
 						</div>
 
 						
-
+							
 						{appointment?.id ? (
+							<Fade key={`order-${appointment?.id}`}>
+							<>
 							<NurseAppointmentDetails
-							appointment={appointment}
+							appointment={appointment} 
+							patient={appointment?.patient}
 							mutateAll={mutateAll}
-							setOrder={(data) => {
-								if (data == null) {
-									// mutateAll();
-								}
-								setAppointment(data);
-							}}
-							openProfileAction={() => {
-								patientProfileRef.current.show(
-									data
-								);
-								
-							}}
-						/>
-						
-
+							/>
+		
+							</>
+							</Fade>
 						) : (
 							<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
@@ -363,6 +348,7 @@ const NurseQueue = (props, ref) => {
 								
 							</div>
 						)}
+					
 					</div>
 				</div>
 			</div>

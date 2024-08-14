@@ -188,7 +188,7 @@ const PatientCashierLab = () => {
 										/>
 										<div className="py-4">
 											<LaboratoryOrders
-												
+												pendingOrdersRef={pendingOrdersRef}
 												patient={
 													order?.relationships
 														?.patient

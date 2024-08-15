@@ -35,6 +35,8 @@ import PatientProfileModal from '../../../../components/PatientProfileModal';
 import ActionBtn from '../../../../components/buttons/ActionBtn';
 import MedicalCertificate from './modal/MedicalCertificate';
 import Prescription from './modal/Prescription';
+import ImagingReceipt from '../../dc-imaging/components/ImagingReceipt';
+import LaboratoryReceipt from '../../dc-cashier/components/LaboratoryReceipt';
 
 
 const uniq_id = uuidv4();
@@ -95,6 +97,8 @@ const NurseAppointmentDetails = ({
 	
 	const [appointment, setAppointment] = useState(propAppointment);
 	const [loading, setLoading] = useState(false);
+	const imagingReceiptRef = useRef(null);
+	const laboratoryReceiptRef = useRef(null);
 	const [key, setKey] = useState(uniq_id);
 	const [patient, setPatient] = useState(null);
 	const [showData, setShowData] = useState(null);
@@ -445,6 +449,7 @@ const NurseAppointmentDetails = ({
 															</MenuTitle>
 														),
 														content: (
+															<>
 															<LaboratoryOrders
 																patient={appointment?.patient}
 																laboratory_test_type={
@@ -456,6 +461,16 @@ const NurseAppointmentDetails = ({
 																	true
 																}
 															/>
+															<LaboratoryReceipt
+				
+																patient={patient}
+																onSuccess={() => {
+																	reloadData();
+																}}
+																ref={laboratoryReceiptRef}
+															/>
+															</>
+															
 														),
 													},
 													{
@@ -479,6 +494,7 @@ const NurseAppointmentDetails = ({
 															</MenuTitle>
 														),
 														content: (
+															<>
 															<LaboratoryOrders
 																appointment={
 																	showData
@@ -491,6 +507,17 @@ const NurseAppointmentDetails = ({
 																	true
 																}
 															/>
+															<ImagingReceipt
+																		patient={patient}
+																		appointment={appointment?.id}
+																		onSuccess={() => {
+																			reloadData();
+																		}}
+																		ref={imagingReceiptRef}
+																	/>
+															</>
+															
+															
 														),
 													},
 

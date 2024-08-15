@@ -47,7 +47,7 @@ const LaboratoryReceipt = (props) => {
 
 	return (
 		<div className="mt-5">
-			<div className="border-2 px-3 py-1 bg-gray-600 rounded-lg">
+			<div className="border-2 px-3 py-1 bg-gray-800 rounded-lg">
 				<div className="flex flex-row justify-end">
 					<ActionBtn
 						className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100"
@@ -120,7 +120,7 @@ const LaboratoryReceipt = (props) => {
 
 					<FormHeading title="" />
 
-					<div className="flex flex-col p-2 text-sm relative bg-white ">
+					<div className="flex flex-col p-2 text-sm relative bg-blue-200 ">
 			<b>IMPORTANT REMINDERS:</b>
 		
 			<p className="text-xs">

@@ -57,6 +57,7 @@ import PatientLaboratory from "./pages/diagnostic-center/dc-laboratory/component
 import PatientCashierLab from "./pages/diagnostic-center/dc-cashier/components/PatientCashierLab.jsx";
 import DoctorQueue from "./pages/diagnostic-center/dc-doctor/components/DoctorQueue.jsx";
 import PatientPharmacyQueue from "./pages/diagnostic-center/dc-pharmacy/components/PatientPharmacyQueue.jsx";
+import PatientImaging from "./pages/diagnostic-center/dc-imaging/components/PatientImaging.jsx";
 
 
 
@@ -281,8 +282,8 @@ const router = createBrowserRouter(
 				<Route path="" element={<Dashboard />}></Route>
 				<Route path="patients" element = {<Patients />}></Route>
 				<Route
-					path="patient-lab-queue"
-					element={<PatientLabQueue />}
+					path="patient-imaging-queue"
+					element={<PatientImaging />}
 				></Route>
 			</Route>
 			<Route path="dc-cashier">

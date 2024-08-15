@@ -290,7 +290,7 @@ id="phic-form-printable" ref={componentRef}
 								Admission Date: {dateMMDDYYYY()}
 							</div>
 							<h4 className="font-bold text-md font-mono text-gray-900 flex justify-end">
-								LABORATORY INVOICE
+								Medical Certificate
 							</h4>
 						</div>
 						<div className="mt-1">

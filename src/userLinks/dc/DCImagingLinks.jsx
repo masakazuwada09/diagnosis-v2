@@ -23,8 +23,8 @@ const DCImagingLinks = ({ isActive }) => {
 				text="Patients"
 			/>
 			<MenuLink
-				to="/patient-lab-queue"
-				active={isActive("/patient-lab-queue")}
+				to="/patient-imaging-queue"
+				active={isActive("/patient-imaging-queue")}
 				icon="rr-clipboard-list-check"
 				text="Patient Queue"
 				counter={pending?.data?.length}

@@ -720,8 +720,19 @@ const NurseServices = (props, ref) => {
 							</ActionBtn>
 							</div>
 							
+												
 						</div>
-									
+
+							<div className="flex justify-end">
+											<ActionBtn
+												className="text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] h-[40px]"
+												onClick={() => printMedicalCertificate.current.show({...data, appointment})}
+												type="success"	
+													>
+												<FlatIcon icon="rr-check" />
+													Done Diagnosis
+											</ActionBtn>
+							</div>		
 
 					</div>
 					

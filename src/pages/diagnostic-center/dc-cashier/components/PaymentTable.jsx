@@ -27,7 +27,7 @@ const TH = (props) => {
 				}
 			}}
 		>
-			<div className="relative text-xs flex flex-col w-[300px]">
+			<div className="relative text-xs flex flex-col w-[210px]">
 				{col?.header}
 				{col?.sortable ? (
 					<span className="flex flex-col absolute right-1 top-[-2px] scale-125">
@@ -88,7 +88,7 @@ const PaymentTable = (props) => {
 				</thead>
 				<tbody className="relative">
 					{loading ? (
-						<div className="flex items-center justify-center  absolute ml-[27px] top-0 left-0 h-full w-[880px] bg-gray-200 rounded-xl text-slate-900 bg-opacity-70 animate-pulse backdrop-blur-sm">
+						<div className="flex items-center justify-center  absolute top-0 left-0 h-full w-[700px] bg-gray-200  text-slate-900 bg-opacity-70 animate-pulse backdrop-blur-sm">
 							Loading Payment Details...
 						</div>
 					) : data?.length == 0 ? (

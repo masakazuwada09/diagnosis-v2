@@ -147,6 +147,7 @@ const LaboratoryOrders = (props) => {
 
 	const componentRef = React.useRef(null);
 	const [image, setImage] = useState(null);
+	
 	const pendingOrdersRef = useRef(null);
 	const [order, setOrder] = useState(null);
 	const [hasHematology, setHasHematology] = useState(0);
@@ -215,7 +216,12 @@ const LaboratoryOrders = (props) => {
 			}
 		});
 	};
-	
+	const show = (data) => {
+		setFull(false);
+		setShowData(data);
+		setPatient(data?.patient);
+		setModalOpen(true);
+	};
 	useNoBugUseEffect({
 		functions: () => {
 			setFilters((prevFilters) => ({
@@ -430,7 +436,7 @@ const LaboratoryOrders = (props) => {
 };
 	return (
 		<div
-			className="bg-gray-600 p-1 w-[9.5in] gap-y-6 rounded-lg ">
+			className="bg-gray-900 p-1 w-[8.3in] h-[7in] gap-y-6 mt- rounded-lg ">
 				<div className="flex flex-row mt-2 mb-2 px-2 justify-between gap-2">
 									{payment?.map((data, index) => (
 											<tr
@@ -498,25 +504,54 @@ const LaboratoryOrders = (props) => {
 														
 														</div>
 													</ActionBtn>
+													
 											</div>
 														
 													
 														 ) : (
+															<div className="flex flex-row gap-2">
+													
 															<span
 															  
 															  size="sm"
 															  loading={loading}
-															  className="gap-4 px-6 py-2 bg-gray-700 rounded-md text-sm text-gray-800"
+															  className="gap-4 px-6 py-2 bg-gray-800 rounded-md text-sm text-gray-400 "
 															  // onClick={handleSubmit(sendToInfectious)}
 															>
 															  
 															  Check Payment
 															</span>
+															<ActionBtn
+														className="font-bold transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-300"
+														onClick={handlePrint}
+														type="success"
+													>
+														<FlatIcon icon="rr-print" className="text-sm mr-1	"/> Print
+													</ActionBtn>
+															<ActionBtn
+														className="font-bold transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-300"
+														onClick={() => {
+															deleteLabOrderRef.current.show(
+																data
+															);
+														}}
+														type="danger"
+													>
+														<FlatIcon icon="rr-print" className="text-sm mr-1	"/> Delete
+															</ActionBtn>
+															</div>
+															
 														  )}
 						
 									</div>
-	<div className="bg-white flex flex-col w-[9.3in] min-h-[14in]  border-gray-200 border-2 rounded-xl mx-auto px-2 py-2" id="phic-form-printable" ref={componentRef}>
+	<div className="bg-white flex flex-col w-[8in] h-[1.2in]  border-gray-200 border-2 mt-3 rounded-xl mx-auto px-2 py-2" id="phic-form-printable" ref={componentRef}>
 		<div className="flex flex-row justify-between w-full pb-1">
+		{hasPayment ? (
+			
+		<span className="text-red-500 font-serif text-4xl -rotate-12 absolute mt-[280px] ml-[600px] opacity-50">PAID</span>
+	) : (
+		""
+	)}
 		<div>
 		
           <Img src="/aLab.png" className="mx-auto h-10 w-10 text-gray-300" aria-hidden="true" />
@@ -580,10 +615,10 @@ const LaboratoryOrders = (props) => {
 	
 
 
-                <div className="flex flex-col px-12  -ml-20">
+    <div className="flex flex-col px-12  -ml-2.5 mt-3 bg-white w-[8in] h-[3in]  border-gray-200 border-2 rounded-lg">
 		<div>
 			<PaymentTable
-				className={`pb-1 text-xs mt-12`}
+				className={`pb-1 text-xs mt-6`}
 				loading={loading}
 				columns={[
 					{
@@ -620,7 +655,7 @@ const LaboratoryOrders = (props) => {
 				</div>
 				
 				
-				<div className="flex flex-row justify-start ml-[600px] w-[200px] mt-5">
+				<div className="flex flex-row justify-start ml-[430px] w-[200px] mt-20 mb-5">
 				<TotalAmount
 				className={``}
 				loading={loading}
@@ -648,11 +683,11 @@ const LaboratoryOrders = (props) => {
 				
 								
 									
-										<div className="px-10 py-5 font-mono justify-center items-center">
+										<div className=" py-5 font-mono justify-start items-center bg-white mt-1 w-[8in] h-[3in] -ml-[10px]  border-gray-200 border-2 rounded-lg">
 										
 										
 
-										<div className="flex flex-col border-b-2 p-2 text-xs relative text-gray-500">
+										<div className="flex flex-col border-b-2 p-2 text-xs relative text-gray-500  bg-white">
 											<b>Terms and Conditions:</b>
 											<div className="absolute">
 												
@@ -793,6 +828,12 @@ const LaboratoryOrders = (props) => {
 									<div>
 									</div>
 									
+									<DeleteOrderModal
+									ref={deleteLabOrderRef}
+									onSuccess={() => {
+									reloadData();
+									}}
+									/>
 
 									<PendingOrdersModal
 											

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import { calculateAge, formatDate, patientFullName } from "../../libs/helpers";
-import FlatIcon from "../FlatIcon";
-import Img from "../Img";
+import { calculateAge, formatDate, patientFullName } from "../../../../libs/helpers";
+import FlatIcon from "../../../../components/FlatIcon";
+import Img from "../../../../components/Img";
 
 const PatientMenu = ({ patient, active = false, ...rest }) => {
 	return (
@@ -48,7 +48,7 @@ const PatientMenu = ({ patient, active = false, ...rest }) => {
 					<span>{formatDate(patient?.birthday)}</span>
 				</div>
 				<div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
-					<FlatIcon icon="fi fi-br-peso-sign" className="text-sm text-red-400" /> 
+					<FlatIcon icon="fi fi-rr-money-bill-wave" className="text-sm text-red-400" /> 
 					<span className="text-red-500 font-bold">PENDING FOR PAYMENT</span>
 				</div>
 			</div>

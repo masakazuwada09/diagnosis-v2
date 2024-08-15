@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import useDataTable from "../../../../hooks/useDataTable";
 import {
 	doctorName,
@@ -86,11 +86,11 @@ import UploadCrossMatchingModal from "../../../../components/patient-modules/mod
 import UploadMiscellaneousFormModal from "../../../../components/patient-modules/modals/laboratory/UploadMiscellaneousFormModal";
 import TextInputField from "../../../../components/inputs/TextInputField";
 import { useForm } from "react-hook-form";
-import PrintLabResultModal from "../../../../components/patient-modules/modals/PrintLabResultModal";
 import PrintAllLabResultModal from "../../../../components/patient-modules/modals/PrintAllLabResultModal";
+import PrintLabResultModal from "../../../../components/patient-modules/modals/PrintLabResultModal";
 import PrintReceipt from "../../dc-cashier/components/PrintReceipt";
-import ImagingReceipt from "../../dc-imaging/components/ImagingReceipt";
-import LaboratoryReceipt from "../../dc-cashier/components/LaboratoryReceipt";
+import ImagingReceipt from "./ImagingReceipt";
+
 
 const Status = ({ status }) => {
 	const color = () => {
@@ -111,10 +111,10 @@ const Status = ({ status }) => {
 		</span>
 	);
 };
-const LaboratoryOrders = (props) => {
+const ImagingOrders = (props) => {
 	const {
 		showTitle = true,
-		appointment: propAppointment,
+		appointment,
 		patient,
 		laboratory_test_type,
 		allowCreate = true,
@@ -131,9 +131,9 @@ const LaboratoryOrders = (props) => {
 		formState: { errors },
 	} = useForm();
 	const { user } = useAuth();
-    const [appointment, setAppointment] = useState(propAppointment);
+
 	const isLaboratoryUser = () => {
-		return user?.type == "RHU-XRAY" || user?.type == "DC-LABORATORY";
+		return user?.type == "DC-IMAGING" || user?.type == "DC-IMAGING";
 	};
 	const isXrayUser = () => {
 		return user?.type === "HIS-IMAGING";
@@ -180,8 +180,7 @@ const LaboratoryOrders = (props) => {
 	const createLabOrderRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
 	const printLabResultRef = useRef(null);
-	const imagingReceiptRef = useRef(null);
-	const laboratoryReceiptRef = useRef(null);
+	const printReceipt = useRef(null);
 	//chemistry ref
 	const uploadFBSRef = useRef(null);
 	const uploadRBSRef = useRef(null);
@@ -259,7 +258,7 @@ const LaboratoryOrders = (props) => {
 
 	const deleteLabOrderRef = useRef(null);
 	const isDoctor = () => {
-		return String(user?.type || "")
+		return String(user?.type || "DC-LABORATORY")
 			.toLowerCase()
 			.includes("doctor");
 	};
@@ -345,7 +344,11 @@ const LaboratoryOrders = (props) => {
 			};
     const modalRef = labModalRefs[data?.type?.name] || uploadLabResultRef;
             return (
-                <span
+                <Status status={data?.order_status} />
+            );
+        } else {
+            return (
+				<span
                     className="text-blue-700 flex items-center justify-center cursor-pointer hover:bg-slate-200 py-2 rounded-3xl gap-1"
                     onClick={() => modalRef.current.show(data)}
                 >
@@ -353,9 +356,9 @@ const LaboratoryOrders = (props) => {
                     {data?.type?.name === "CBC" || data?.type?.name === "RBS" || data?.type?.name === "FBS" ? "Add Result" : "Upload"}
 					
                 </span>
-            );
-        } else {
-            return <Status status={data?.order_status} />;
+
+
+			);
         }
     } else if (data?.order_status === "for-result-reading") {
         return (
@@ -373,8 +376,8 @@ const LaboratoryOrders = (props) => {
 };
 	return (
 		
-		<div className="flex flex-col items-start px-8">
-			<div className="flex flex-row justify-between w-full">
+		<div className="flex flex-col items-start px-2">
+			<div className="flex flex-row justify-between w-full mb-2">
 			{/* <TextInputField
 										label="Date"
 										type="date"
@@ -397,11 +400,11 @@ const LaboratoryOrders = (props) => {
 							: "Laboratory Order"
 					}
 				>
-					{user?.type == "DC-NURSE"  &&  allowCreate ? (
+					{user?.type == "DC-LABORATORY"  &&  allowCreate ? (
 						<ActionBtn
-							className="px-4 rounded-xl"
-							size="sm"
-							type="success"
+							className=""
+							size="md"
+							type="teal"
 							onClick={() => {
 								createLabOrderRef.current.show(
 									patient,
@@ -431,14 +434,14 @@ const LaboratoryOrders = (props) => {
 			)}
 			
 
-				{/* <ActionBtn
+				<ActionBtn
                 className="text-gray-700 flex items-center justify-end cursor-pointer hover:bg-green-600 py-2 rounded-3xl gap-2"
                 onClick={() => printReceipt.current.show({...data, appointment})}
-				type="info"
+				type="secondary"
             >
                 <FlatIcon icon="rs-document" />
                 Print Receipt
-            </ActionBtn> */}
+            	</ActionBtn>
 
 			
 			
@@ -448,10 +451,9 @@ const LaboratoryOrders = (props) => {
 			<div className="h-[1.5px] w-2/5 bg-indigo-300 mb-[0.5px]" />
 			<div className="h-[1px] w-2/5 bg-red-300 mb-4" />
 
-			<div className="flex flex-col w-full">
-				<div>
-				<Table
-				className={`pb-2`}
+			
+			<Table
+				className={`pb-2 `}
 				loading={loading}
 				columns={[
 					{
@@ -552,29 +554,31 @@ const LaboratoryOrders = (props) => {
 				]}
 				data={data}
 			/>
-				</div>
-			
-			<div classname="flex justify-end">
 			<Pagination
+				
 				page={page}
 				setPage={setPage}
 				pageCount={meta?.last_page}
 				pageSize={paginate}
 				setPageSize={setPaginate}
 			/>
-			</div>
-			
-			</div>
 			
 			<CreateLabOrderModal
 				patient={patient}
-                appointment={appointment?.id}
 				onSuccess={() => {
 					reloadData();
 				}}
 				ref={createLabOrderRef}
 			/>
 
+			<ImagingReceipt
+				patient={patient}
+				onSuccess={() => {
+					reloadData();
+				}}
+				ref={printReceipt}
+			/>
+			
 			<UploadLabResultModal
 				patient={patient}
 				onSuccess={() => {
@@ -1131,8 +1135,7 @@ const LaboratoryOrders = (props) => {
 				}}
 				ref={printLabResultRef}
 			/>
-			
-			
+		
 			<DeleteOrderModal
 				ref={deleteLabOrderRef}
 				onSuccess={() => {
@@ -1143,4 +1146,4 @@ const LaboratoryOrders = (props) => {
 	);
 };
 
-export default LaboratoryOrders;
+export default ImagingOrders;

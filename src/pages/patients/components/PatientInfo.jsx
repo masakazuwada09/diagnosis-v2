@@ -107,7 +107,7 @@ const PatientInfo = ({
 
 
 	return (
-		<div className='flex flex-row w-full items-center'>
+		<div className='flex flex-row w-full items-center bg-gray-200 px-3 py-3'>
 			
 
 			<div className="  rounded-full aspect-square bg-background ">
@@ -162,13 +162,29 @@ const PatientInfo = ({
 					</span>
 
 					
-				</div>
-
-
-				
+				</div>	
 			</div>
-								
+
+	<div className="flex flex-col items-center justify-center w-full">
+      <img
+        src="/vitals/philhealthlogo.png"
+        className="w-8 h-8 object-contain "
+      />
+	  <div className="capitalize font-bold text-sm text-gray-900 ">
+        <div>
+          PHILHEALTH IDENTIFICATION NUMBER (PIN)
+          
+        </div>
+		
+	</div>
+	<span >{patient?.philhealth}</span>
+    </div>
+
+	
+	
+				
 			{children}
+			
 			</div>
 
 			

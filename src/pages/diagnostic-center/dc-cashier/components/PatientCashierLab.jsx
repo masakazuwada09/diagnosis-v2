@@ -43,7 +43,9 @@ import TextInput from "../../../../components/inputs/TextInput";
 import Pagination from "../../../../components/table/Pagination";
 import useDataTable from "../../../../hooks/useDataTable";
 import LoadingScreen from "../../../../components/loading-screens/LoadingScreen";
-import PatientMenu from "../../../../components/buttons/PatientMenu";
+import PatientMenu from "./PatientMenu";
+import NurseQueue from "./LaboratoryOrders";
+
 
 
 
@@ -93,10 +95,13 @@ const PatientCashierLab = () => {
 		// When the component mounts or pending data changes, set filtered patients
 		setFilteredPatients(listPending());
 	  }, [pending]);
-	const mutateAll = () => {
-		mutatePending();
-	};
-	const handleSearch = (e) => {
+	
+	  const handlePatientClick = (queue) => {
+		setOrder(queue);
+		setPatient(queue?.relationships?.patient);
+	  };
+	
+	  const handleSearch = (e) => {
 		const keyword = e.target.value.toLowerCase();
 		setFilters((prevFilters) => ({
 		  ...prevFilters,
@@ -109,13 +114,16 @@ const PatientCashierLab = () => {
 		});
 	
 		setFilteredPatients(filtered);
+	
+		if (filtered.length === 1) {
+		  const singleQueue = filtered[0];
+		  setOrder(singleQueue);
+		  setPatient(singleQueue?.relationships?.patient);
+		} else if (filtered.length === 0) {
+		  setOrder(null);
+		  setPatient(null);
+		}
 	  };
-
-	const handlePatientClick = (queue) => {
-    setOrder(queue);
-    setPatient(queue?.relationships?.patient);
-  };
-
 
 	return (
 		<AppLayout>
@@ -179,7 +187,7 @@ const PatientCashierLab = () => {
 						<div>
 						{order?.relationships?.patient ? (
 								<Fade key={`order-${order?.id}`}>
-									<div>
+									<div className="flex flex-col items-center justify-center">
 										<PatientInfo
 											patient={
 												order?.relationships?.patient
@@ -187,7 +195,7 @@ const PatientCashierLab = () => {
 											
 										/>
 										<div className="py-4">
-											<LaboratoryOrders
+											<NurseQueue
 												pendingOrdersRef={pendingOrdersRef}
 												patient={
 													order?.relationships

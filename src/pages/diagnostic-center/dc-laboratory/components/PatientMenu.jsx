@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
-import { calculateAge, formatDate, patientFullName } from "../../libs/helpers";
-import FlatIcon from "../FlatIcon";
-import Img from "../Img";
+import { calculateAge, formatDate, patientFullName } from "../../../../libs/helpers";
+import FlatIcon from "../../../../components/FlatIcon";
+import Img from "../../../../components/Img";
 
 const PatientMenu = ({ patient, active = false, ...rest }) => {
 	return (

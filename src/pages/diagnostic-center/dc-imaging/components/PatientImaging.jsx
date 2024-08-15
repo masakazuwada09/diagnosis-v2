@@ -5,15 +5,15 @@ import TextInput from "../../../../components/inputs/TextInput";
 import Pagination from "../../../../components/table/Pagination";
 import LoadingScreen from "../../../../components/loading-screens/LoadingScreen";
 import PatientMenu from "./PatientMenu";
-import LaboratoryOrders from "./LaboratoryOrders";
-import PatientProfile from "./PatientProfile";
+import ImagingOrders from "./ImagingOrders";
+import PatientProfile from "../../dc-laboratory/components/PatientProfile";
 import { useAuth } from "../../../../hooks/useAuth";
 import useLabQueue from "../../../../hooks/useLabQueue";
 import useDataTable from "../../../../hooks/useDataTable";
 import { Fade } from "react-reveal";
 import { patientFullName } from "../../../../libs/helpers";
 
-const PatientLaboratory = () => {
+const PatientImaging = () => {
   const {
     data: patients,
     setData: setPatients,
@@ -134,7 +134,7 @@ const PatientLaboratory = () => {
                   <div>
                     <PatientProfile patient={order?.relationships?.patient} />
                     <div className="py-4">
-                      <LaboratoryOrders
+                      <ImagingOrders
                         patient={order?.relationships?.patient}
                         order_id={order?.id}
                         onUploadLabResultSuccess={() => {
@@ -158,4 +158,4 @@ const PatientLaboratory = () => {
   );
 };
 
-export default PatientLaboratory;
+export default PatientImaging;

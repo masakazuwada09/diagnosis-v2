@@ -563,9 +563,11 @@ console.log("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data);
 			<Pagination
 				page={page}
 				setPage={setPage}
-				pageCount={meta?.last_page}
+				pageCount={meta?.last_page || 0}
 				pageSize={paginate}
 				setPageSize={setPaginate}
+				onPageChange={(newPage) => setPage(newPage)}
+				onPageSizeChange={(newPageSize) => setPaginate(newPageSize)}
 			/>
 			
 			<CreateLabOrderModal

@@ -11,11 +11,11 @@ const InfoText = ({
 }) => {
 	return (
 		<div
-			className={`flex flex-col lg:flex-row items-center lg:gap-4 border-b pb-2 border-b-slate-50  ${className}`}
+			className={`flex flex-col lg:flex-row items-center lg:gap-2 border-b border-b-gray-400 border-dashed  ${className}`}
 			{...rest}
 		>
 			<label
-				className={`text-placeholder flex items-center text-xs font-light border-opacity-50 capitalize text-slate-400 lg:col-span-3 ${labelClassName}`}
+				className={` flex items-center text-xs font-md border-opacity-50 capitalize text-slate-900 lg:col-span-3 ${labelClassName}`}
 			>
 				{icon ? <FlatIcon icon={icon} className="mr-1" /> : ""} {title}:
 			</label>

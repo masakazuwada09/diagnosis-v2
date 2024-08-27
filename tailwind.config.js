@@ -13,8 +13,11 @@ export default {
 		// 	lg: ['20px', '28px'],
 		// 	xl: ['24px', '32px'],
 		//   },
+		
 		extend: {
-			
+			fontFamily: {
+				qwitcher: ['Qwitcher Grypen', 'cursive'],
+			  },
 			colors: {
 				dark: {
 					DEFAULT: "#353535",
@@ -62,5 +65,6 @@ export default {
 			  },
 		},
 	},
+	variants: {},
 	plugins: [require("tw-elements-react/dist/plugin.cjs")],
 };

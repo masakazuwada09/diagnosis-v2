@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { formatCurrency } from "../../../../libs/helpers";
-import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
+import { formatCurrency } from "../../../../../libs/helpers";
+import useNoBugUseEffect from "../../../../../hooks/useNoBugUseEffect";
 
 /* eslint-disable react/prop-types */
 const CaseDetails = (props) => {
@@ -32,26 +32,26 @@ const CaseDetails = (props) => {
 	});
 	return (
 		<div className="  ">
-			<b className="text-yellow-900 flex justify-start border-b border-yellow-400 mb-3">{title}</b>
+			<b className="text-gray-900 flex justify-start border-b border-gray-400 mb-3">{title}</b>
 			<table className="text-xs text-slate-900 mt-2">
 				<tbody className="">
-					<tr className="text-yellow-950 flex flex-row">
+					<tr className="text-gray-950 flex flex-row">
 						<td className="font-bold flex justify-between ">CASE CODE</td>
 						<td className="absolute ml-[210px]">{selectedCase?.CASE_CODE}</td>
 					</tr>
-					<tr className="text-yellow-950 flex flex-row">
+					<tr className="text-gray-950 flex flex-row">
 						<td className="font-bold flex  justify-between">CASE DESCRIPTION</td>
 						<td className="absolute ml-[210px]">{selectedCase?.CASE_DESCRIPTION}</td>
 					</tr>
-					<tr className="text-yellow-950 flex flex-row">
+					<tr className="text-gray-950 flex flex-row">
 						<td className="font-bold flex  justify-between">CASE TYPE</td>
 						<td className="absolute ml-[210px]">{selectedCase?.CASE_TYPE}</td>
 					</tr>
-					<tr className="text-yellow-950 flex flex-row">
+					<tr className="text-gray-950 flex flex-row">
 						<td className="font-bold flex  justify-between">CASE RATE</td>
 						<td className="absolute ml-[210px]">{selectedCase?.CASE_RATE}</td>
 					</tr>
-					<tr className="text-yellow-950 flex flex-row">
+					<tr className="text-gray-950 flex flex-row">
 						<td className="font-bold flex  justify-between">
 							PROFESSIONAL FEE(PF) SHARE
 						</td>
@@ -67,7 +67,7 @@ const CaseDetails = (props) => {
 						<td className="font-medium">HOSPITAL SHARE</td>
 						<td>{selectedCase?.HOSPITAL_SHARE}</td>
 					</tr> */}
-					<tr className="text-yellow-950 flex flex-row">
+					<tr className="text-gray-950 flex flex-row">
 						<td className="font-bold flex  justify-between">CASE RATE CODE</td>
 						<td className="absolute ml-[210px]">{selectedCase?.CASE_RATE_CODE}</td>
 					</tr>

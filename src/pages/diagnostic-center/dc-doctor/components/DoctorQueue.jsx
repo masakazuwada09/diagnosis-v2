@@ -26,9 +26,18 @@ import { data } from "autoprefixer";
 
 
 
-//In-Service
+
 const DoctorQueue = () => {
 	const { user } = useAuth();
+	
+	//In Queue
+	const referToSphModalRef = useRef(null);
+	const patientProfileRef = useRef(null);
+	const acceptPatientRef = useRef(null);
+	const pendingOrdersRef = useRef(null);
+	const { pending, nowServing } = useOPDQueue();
+
+	//In-Service
 	const {
 		pending: doctorsPending,
 		nowServing: doctorsNowServing,
@@ -38,12 +47,7 @@ const DoctorQueue = () => {
 		mutateNowServing,
 	} = useMDQueue();
 
-//In Queue
-	const referToSphModalRef = useRef(null);
-	const patientProfileRef = useRef(null);
-	const acceptPatientRef = useRef(null);
-	const pendingOrdersRef = useRef(null);
-	const { pending, nowServing } = useOPDQueue();
+
 
 	const [appointment, setAppointment] = useState(null);
 	
@@ -51,7 +55,7 @@ const DoctorQueue = () => {
 		functions: () => {},
 	});
 	const isDoctor = () => {
-		return user?.type == "his-md" || user?.type == "DC-DOCTOR"; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
+		return user?.type == "dc-doctor" ; // check if the doctor is RHU or HIS if HIS the queue will appear at the central-doctor user
 	};
 
 	const listPending = () => {
@@ -72,7 +76,7 @@ const DoctorQueue = () => {
 			<div className="p-4 h-full overflow-auto ">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x">
 					<div className="lg:col-span-4">
-						<h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider -mb-1">
+						<h1 className="text-xl font-bold font-opensans text-gray-400 tracking-wider -mb-1">
 							In Queue
 						</h1>
 						<span className="noto-sans-thin text-slate-500 text-sm font-light">
@@ -151,7 +155,7 @@ const DoctorQueue = () => {
 						</div>
 					</div>
 					<div className="lg:col-span-8 pl-4">
-						<h1 className="text-xl font-bold font-opensans text-success-dark tracking-wider -mb-1">
+						<h1 className="text-xl font-bold font-opensans text-gray-400 tracking-wider -mb-1">
 							In Service...
 						</h1>
 						<span className="mb-3 noto-sans-thin text-slate-500 text-sm font-light">
@@ -179,7 +183,7 @@ const DoctorQueue = () => {
 							})}
 
 							{doctorsNowServing?.data?.length == 0 ? (
-								<span className="py-20 text-center lg:col-span-2 text-slate-500 text-lg font-bold">
+								<span className="py-20 text-center lg:col-span-2 text-slate-300 text-lg font-bold">
 									No data available.
 								</span>
 							) : (
@@ -194,6 +198,7 @@ const DoctorQueue = () => {
 			<ReferToSPHModal ref={referToSphModalRef} mutateAll={mutateAll} />
 
 			<ConsultPatientModal 
+				appointment={appointment}
 				ref={acceptPatientRef} 
 				mutateAll={mutateAll}
 				/>

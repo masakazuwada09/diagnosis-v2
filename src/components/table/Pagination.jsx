@@ -25,9 +25,9 @@ const Pagination = ({
 		<div
 			className={`flex flex-col-reverse lg:flex-row flex-wrap items-start lg:items-center gap-2 pt-1 ${paginationClassName}`}
 		>
-			<div className="grid grid-cols-1 lg:grid-cols-2">
-				<div className="flex items-center text-dark text-sm w-full mr-2">
-					<label className="mb-0">Show:</label>
+			<div className="flex flex-row justify-between w-full">
+				<div className="flex items-center text-dark text-sm w-full mr-2 ">
+					<label className="mb-0 text-xs">Show:</label>
 					<SelectInput
 						value={pageSize}
 						onChange={(e) => setPageSize(Number(e.target.value))}
@@ -35,12 +35,12 @@ const Pagination = ({
 							label: x,
 							value: x,
 						}))}
-						className="ml-2 w-12 m-0"
+						className="ml-2 w-8 m-0"
 						inputClassName="!px-0 !py-1 h-8 !text-center"
 					/>
 				</div>
 				<div className="flex items-center text-dark text-sm w-full">
-					<label className="mb-0">Go to page:</label>
+					<label className="mb-0 text-xs">Go to page:</label>
 					<TextInput
 						value={page}
 						onChange={handlePageChange}

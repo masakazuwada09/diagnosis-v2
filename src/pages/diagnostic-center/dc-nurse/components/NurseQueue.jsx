@@ -93,7 +93,14 @@ const Status = ({ appointment }) => {
 	return renderStatus();
 };
 
-const NurseQueue = (props, ref) => {
+const NurseQueue = ({
+	children,
+	onClick,
+	referAction,
+	number,
+	selected,
+	patientName,
+}) => {
 	const { user } = useAuth();
 	const {
 		pending: doctorsPending,
@@ -133,7 +140,6 @@ const NurseQueue = (props, ref) => {
 
 	const [showData, setShowData] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const [loadingDone, setLoadingDone] = useState(false);
 	const pendingOrdersRef = useRef(null);
 	
 	useNoBugUseEffect({
@@ -252,12 +258,12 @@ const NurseQueue = (props, ref) => {
 									<div className="w-full flex flex-col pl-16">
 										<div className="flex items-center text-slate-700 gap-2 mb-2">
 											<span className="text-sm">Status:</span>
-											<span className={`font-bold text-sm text-orange-600 ${
+											<span className={`font-bold text-sm text-red-600 ${
 				selected
 					? "!bg-green-50 !border-green-800 text-green-600 shadow-green-500 "
 					: ""
 			}`}>
-												{"PENDING FOR RELEASE"}
+												{"Pending for Billing"}
 											</span>
 										</div>
 									</div>

@@ -48,8 +48,8 @@ const PatientMenu = ({ patient, active = false, ...rest }) => {
 					<span>{formatDate(patient?.birthday)}</span>
 				</div>
 				<div className="flex items-center gap-2 text-xs text-slate-500 mb-1">
-					<FlatIcon icon="fi fi-br-peso-sign" className="text-sm text-red-400" /> 
-					<span className="text-red-500 font-bold">PENDING FOR PAYMENT</span>
+					<FlatIcon icon="fi fi-rr-flask-potion" className="text-sm text-blue-400" /> 
+					<span className="text-blue-500 font-bold">For Laboratory Test</span>
 				</div>
 			</div>
 		</div>

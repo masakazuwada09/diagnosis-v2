@@ -16,7 +16,7 @@ const InfoTextForBilling = ({
 		>
 			<div
 				contentEditable
-				className={`text-darker  rounded-xl w-full text-sm font-semibold capitalize flex justify-center   ${contentClassName}`}
+				className={`text-teal-700   w-full text-sm font-semibold capitalize flex justify-center border-r border-r-slate-300 border-l border-l-slate-300 ${contentClassName}`}
 			>
 				{value || " "}
 				{/* {value || (

@@ -11,32 +11,206 @@
 	<title>Diagnostic Center</title>
 </head>
 
-<body style="position: relative">
+<body style="position: relative; height: 100vh; margin: 0; display: flex; justify-content: center; align-items: center;">
 	<div id="root"></div>
-	<div id="loader-page" style="
-				backdrop-filter: blur(10px);
-				position: fixed;
-				height: 100%;
-				background: rgba(1, 230, 247, 0.9);
-				width: 100%;
-				overflow: hidden;
-				z-index: 3000;
-				top: 0;
-				left: 0;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				transition: all 0.5s;
-				opacity: 0;
-				pointer-events: none;
-			">
-		<dotlottie-player src="https://lottie.host/c3629cf5-61f8-4c59-9a44-dfe665dcb35f/P6r6bqcyqQ.json"
-			background="transparent" speed="2.5" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
-		<span>Loading...</span>
+	<div class="container">
+		<div class="slice"></div>
+		<div class="slice"></div>
+		<div class="slice"></div>
+		<div class="slice"></div>
+		<div class="slice"></div>
+		<div class="slice"></div>
 	</div>
 
-	<script src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs" type="module"></script>
+	<style>
+		.container {
+			--uib-size: 45px;
+			--uib-color: gray;
+			--uib-speed: 2.5s;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: var(--uib-size);
+			width: var(--uib-size);
+			position: relative;
+		}
+
+		.slice {
+			position: relative;
+			height: calc(var(--uib-size) / 6);
+			width: 100%;
+		}
+
+		.slice::before,
+		.slice::after {
+			--uib-a: calc(var(--uib-speed) / -2);
+			--uib-b: calc(var(--uib-speed) / -6);
+			content: '';
+			position: absolute;
+			top: 0;
+			left: calc(50% - var(--uib-size) / 12);
+			height: 100%;
+			width: calc(100% / 6);
+			border-radius: 50%;
+			background-color: var(--uib-color);
+			flex-shrink: 0;
+			animation: orbit var(--uib-speed) linear infinite;
+			transition: background-color 0.3s ease;
+		}
+
+		.slice:nth-child(1)::after {
+			animation-delay: var(--uib-a);
+		}
+
+		.slice:nth-child(2)::before {
+			animation-delay: var(--uib-b);
+		}
+
+		.slice:nth-child(2)::after {
+			animation-delay: calc(var(--uib-a) + var(--uib-b));
+		}
+
+		.slice:nth-child(3)::before {
+			animation-delay: calc(var(--uib-b) * 2);
+		}
+
+		.slice:nth-child(3)::after {
+			animation-delay: calc(var(--uib-a) + var(--uib-b) * 2);
+		}
+
+		.slice:nth-child(4)::before {
+			animation-delay: calc(var(--uib-b) * 3);
+		}
+
+		.slice:nth-child(4)::after {
+			animation-delay: calc(var(--uib-a) + var(--uib-b) * 3);
+		}
+
+		.slice:nth-child(5)::before {
+			animation-delay: calc(var(--uib-b) * 4);
+		}
+
+		.slice:nth-child(5)::after {
+			animation-delay: calc(var(--uib-a) + var(--uib-b) * 4);
+		}
+
+		.slice:nth-child(6)::before {
+			animation-delay: calc(var(--uib-b) * 5);
+		}
+
+		.slice:nth-child(6)::after {
+			animation-delay: calc(var(--uib-a) + var(--uib-b) * 5);
+		}
+
+		@keyframes orbit {
+			0% {
+				transform: translateX(calc(var(--uib-size) * 0.25)) scale(0.73684);
+				opacity: 0.65;
+			}
+
+			5% {
+				transform: translateX(calc(var(--uib-size) * 0.235)) scale(0.684208);
+				opacity: 0.58;
+			}
+
+			10% {
+				transform: translateX(calc(var(--uib-size) * 0.182)) scale(0.631576);
+				opacity: 0.51;
+			}
+
+			15% {
+				transform: translateX(calc(var(--uib-size) * 0.129)) scale(0.578944);
+				opacity: 0.44;
+			}
+
+			20% {
+				transform: translateX(calc(var(--uib-size) * 0.076)) scale(0.526312);
+				opacity: 0.37;
+			}
+
+			25% {
+				transform: translateX(0%) scale(0.47368);
+				opacity: 0.3;
+			}
+
+			30% {
+				transform: translateX(calc(var(--uib-size) * -0.076)) scale(0.526312);
+				opacity: 0.37;
+			}
+
+			35% {
+				transform: translateX(calc(var(--uib-size) * -0.129)) scale(0.578944);
+				opacity: 0.44;
+			}
+
+			40% {
+				transform: translateX(calc(var(--uib-size) * -0.182)) scale(0.631576);
+				opacity: 0.51;
+			}
+
+			45% {
+				transform: translateX(calc(var(--uib-size) * -0.235)) scale(0.684208);
+				opacity: 0.58;
+			}
+
+			50% {
+				transform: translateX(calc(var(--uib-size) * -0.25)) scale(0.73684);
+				opacity: 0.65;
+			}
+
+			55% {
+				transform: translateX(calc(var(--uib-size) * -0.235)) scale(0.789472);
+				opacity: 0.72;
+			}
+
+			60% {
+				transform: translateX(calc(var(--uib-size) * -0.182)) scale(0.842104);
+				opacity: 0.79;
+			}
+
+			65% {
+				transform: translateX(calc(var(--uib-size) * -0.129)) scale(0.894736);
+				opacity: 0.86;
+			}
+
+			70% {
+				transform: translateX(calc(var(--uib-size) * -0.076)) scale(0.947368);
+				opacity: 0.93;
+			}
+
+			75% {
+				transform: translateX(0%) scale(1);
+				opacity: 1;
+			}
+
+			80% {
+				transform: translateX(calc(var(--uib-size) * 0.076)) scale(0.947368);
+				opacity: 0.93;
+			}
+
+			85% {
+				transform: translateX(calc(var(--uib-size) * 0.129)) scale(0.894736);
+				opacity: 0.86;
+			}
+
+			90% {
+				transform: translateX(calc(var(--uib-size) * 0.182)) scale(0.842104);
+				opacity: 0.79;
+			}
+
+			95% {
+				transform: translateX(calc(var(--uib-size) * 0.235)) scale(0.789472);
+				opacity: 0.72;
+			}
+
+			100% {
+				transform: translateX(calc(var(--uib-size) * 0.25)) scale(0.73684);
+				opacity: 0.65;
+			}
+		}
+	</style>
+
 	<script>
 		document.addEventListener("DOMContentLoaded", () => {
 			document.getElementById("loader-page").style.opacity = 1;

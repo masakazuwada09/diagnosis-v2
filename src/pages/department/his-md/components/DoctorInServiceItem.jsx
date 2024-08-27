@@ -31,9 +31,9 @@ const DoctorInServiceItem = ({
 			}`}
 		>
 			{isForResultReading() ? (
-				<span className=" text-red-500 mb-4 text-center italic rounded-xl px-3 text-xs">
+				<span className=" text-orange-500 mb-4 text-center italic rounded-xl px-3 text-xs">
 					Pending{" "}
-					<span className="text-red-500 font-medium ">
+					<span className="text-orange-500 font-medium ">
 						for
 						{labOrdersStr.includes(`"type":"imaging"`) &&
 						labOrdersStr.includes(`"type":"laboratory-test"`)
@@ -47,16 +47,14 @@ const DoctorInServiceItem = ({
 			) : (
 				""
 			)}
-			<div className="grid grid-cols-1 lg:grid-cols-2 divide-x">
+			<div className="grid grid-cols-1 lg:grid-cols-1 divide-x">
 				<div className="flex flex-col justify-center items-center">
-					<span className="font-light text-sm text-slate-600 mb-1">
-						Room No
-					</span>
+					
 					
 					<h2
 						className={`text-3xl font-bold ${
 							isForResultReading()
-								? "text-indigo-600"
+								? "text-teal-600"
 								: "text-success"
 						} -mb-1`}
 					>
@@ -73,7 +71,7 @@ const DoctorInServiceItem = ({
 					<h2
 						className={`text-3xl tracking-tight text-center font-bold ${
 							isForResultReading()
-								? "text-indigo-600"
+								? "text-teal-600"
 								: "text-success"
 						} -mb-1`}
 					>

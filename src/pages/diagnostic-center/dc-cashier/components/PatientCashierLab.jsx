@@ -18,7 +18,6 @@ import { useAuth } from "../../../../hooks/useAuth";
 import useDoctorQueue from "../../../../hooks/useDoctorQueue";
 import useLabQueue from "../../../../hooks/useLabQueue";
 import Img from "../../../../components/Img";
-import LaboratoryOrders from "./LaboratoryOrders";
 import { Fade } from "react-reveal";
 import UploadLabResultModal from "../../../../components/patient-modules/modals/UploadLabResultModal";
 import ActionBtn from "../../../../components/buttons/ActionBtn";
@@ -44,7 +43,8 @@ import Pagination from "../../../../components/table/Pagination";
 import useDataTable from "../../../../hooks/useDataTable";
 import LoadingScreen from "../../../../components/loading-screens/LoadingScreen";
 import PatientMenu from "./PatientMenu";
-import NurseQueue from "./LaboratoryOrders";
+import LaboratoryOrders from "./LaboratoryOrders";
+import BillingStatement from "./BillingStatement";
 
 
 
@@ -85,6 +85,7 @@ const PatientCashierLab = () => {
 	const referToSphModalRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
 	const [selectedTab, setSelectedTab] = useState("");
+	const billingStatus = patient?.billing_status || "pending";
 	
 
 	const listPending = () => {
@@ -124,6 +125,7 @@ const PatientCashierLab = () => {
 		  setPatient(null);
 		}
 	  };
+	  
 
 	return (
 		<AppLayout>
@@ -165,7 +167,10 @@ const PatientCashierLab = () => {
                         patient={patientData}
                         active={queue?.id === patient?.id}
                         patientName={patientFullName(patientData)}
-                      />
+                      >	<></>
+						<span className="text-gray-600 font-bold">Laboratory Test: </span>
+
+					  </PatientMenu>
                     );
                   })
                 )}
@@ -195,14 +200,39 @@ const PatientCashierLab = () => {
 											
 										/>
 										<div className="py-4">
-											<NurseQueue
+										{billingStatus === "pending" ? (
+											<>
+											<LaboratoryOrders
 												pendingOrdersRef={pendingOrdersRef}
 												patient={
 													order?.relationships
 														?.patient
 												}
-												
 											/>
+
+											<BillingStatement
+											loading={loading}
+											// onSave={cashierApproval}
+											appointment={appointment}
+											patient={
+												order?.relationships
+													?.patient
+											}
+											/>
+											</>
+                            
+						
+                        ) : (
+                            			<BillingStatement
+											loading={loading}
+											// onSave={cashierApproval}
+											appointment={appointment}
+											patient={appointment?.patient}
+										/>
+                        )}
+											
+
+										
 							
 										</div>
 									</div>

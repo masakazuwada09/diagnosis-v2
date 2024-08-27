@@ -107,15 +107,15 @@ const PatientInfo = ({
 
 
 	return (
-		<div className='flex flex-row w-full items-center bg-gray-200 px-3 py-3'>
+		<div className='flex flex-row w-full items-center  px-3 py-1'>
 			
 
-			<div className="  rounded-full aspect-square bg-background ">
+			<div className="  rounded-full aspect-square bg-background">
 				<Img
 					type="user"
 					name={`${patient?.firstname}-${patient?.lastname}`}
 					src={patientSelfie ? patientSelfie : patient?.avatar || ""}
-					className="min-h-[90px] min-w-[90px] aspect-square object-cover rounded-xl rotate-icon"
+					className="min-h-[90px] min-w-[90px] aspect-square object-cover rounded-lg"
 					alt=""
 					id="user-image-sample"
 					key={`key-${patient?.id}-${patient?.avatar}`}
@@ -127,7 +127,7 @@ const PatientInfo = ({
 				<h6
 					className={` text-xl font-semibold flex pt-4 items-center ${
 						String(patient?.gender).toLowerCase() == "male"
-							? "text-blue-800"
+							? "text-teal-800"
 							: "text-pink-800"
 					} mb-0`}
 				>
@@ -148,7 +148,7 @@ const PatientInfo = ({
 					<div className="flex items-center gap-2 text-base">
 						<FlatIcon icon="rr-venus-mars" className="text-base" />
 						{String(patient?.gender).toLowerCase() == "male" ? (
-							<span className="text-blue-700">Male</span>
+							<span className="text-teal-700 font-bold">Male</span>
 						) : (
 							<span className="text-pink-700">Female</span>
 						)}
@@ -165,7 +165,7 @@ const PatientInfo = ({
 				</div>	
 			</div>
 
-	<div className="flex flex-col items-center justify-center w-full">
+	{/* <div className="flex flex-col items-center justify-center w-full">
       <img
         src="/vitals/philhealthlogo.png"
         className="w-8 h-8 object-contain "
@@ -178,7 +178,7 @@ const PatientInfo = ({
 		
 	</div>
 	<span >{patient?.philhealth}</span>
-    </div>
+    </div> */}
 
 	
 	

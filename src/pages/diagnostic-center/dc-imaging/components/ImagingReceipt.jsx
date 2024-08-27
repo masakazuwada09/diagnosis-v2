@@ -48,7 +48,7 @@ const ImagingReceipt = (props) => {
 
 	return (
 		<div className="mt-5">
-			<div className="border-2 px-3 py-1 bg-gray-300 rounded-lg">
+			<div className="border-2 px-3 py-1 bg-gray-900 rounded-lg">
 				<div className="flex flex-row justify-end">
 					<ActionBtn
 						className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100"

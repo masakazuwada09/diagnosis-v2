@@ -406,32 +406,28 @@ console.log("DATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", data);
 							: "Laboratory Order"
 					}
 				>
-					{user?.type == "DC-NURSE"  &&  allowCreate ? (
-						<ActionBtn
-							className="px-4 rounded-xl"
-							size="sm"
-							type="success"
-							onClick={() => {
-								createLabOrderRef.current.show(
-									patient,
-									appointment,
-									laboratory_test_type == 1
-										? "imaging"
-										: "laboratory-test"
-								);
-								// setUpdate(true);
-							}}
-						>
-							<FlatIcon icon="rr-edit" className="mr-1" />
-							Create{" "}
-							{laboratory_test_type == 1
-								? "Imaging"
-								: "Laboratory"}{" "}
-							Order
-						</ActionBtn>
-					) : (
-						""
-					)}
+					{(user?.type === "DC-NURSE" || user?.type === "DC-DOCTOR") && allowCreate ? (
+							<ActionBtn
+								className="px-4 rounded-xl"
+								size="sm"
+								type="success"
+								onClick={() => {
+									createLabOrderRef.current.show(
+										patient,
+										appointment,
+										laboratory_test_type === 1 ? "imaging" : "laboratory-test"
+									);
+									// setUpdate(true);
+								}}
+							>
+								<FlatIcon icon="rr-edit" className="mr-1" />
+								Create{" "}
+								{laboratory_test_type === 1 ? "Imaging" : "Laboratory"}{" "}
+								Order
+							</ActionBtn>
+						) : (
+							""
+						)}
 				</ContentTitle>
 
 			) : (

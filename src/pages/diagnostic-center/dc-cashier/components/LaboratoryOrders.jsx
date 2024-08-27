@@ -3,10 +3,7 @@ import React, { useRef, useState } from "react";
 import useDataTable from "../../../../hooks/useDataTable";
 import Img from "../../../../components/Img";
 import {
-	doctorName,
-	doctorSpecialty,
 	formatDateMMDDYYYY,
-	formatDateMMDDYYYYHHIIA,
 	patientFullName,
 	patientAddress,
 	keyByValue,
@@ -14,94 +11,16 @@ import {
 } from "../../../../libs/helpers";
 import FlatIcon from "../../../../components/FlatIcon";
 import ActionBtn from "../../../../components/buttons/ActionBtn";
-import LaboratorySummary from "./LaboratorySummary";
 import QRCode from "qrcode.react";
-import ContentTitle from "../../../../components/buttons/ContentTitle";
-import Pagination from "../../../../components/table/Pagination";
-import Table from "../../../../components/table/Table";
-import CreateLabOrderModal from "../../../../components/patient-modules/modals/CreateLabOrderModal";
 import { useAuth } from "../../../../hooks/useAuth";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
-import UploadLabResultModal from "../../../../components/patient-modules/modals/UploadLabResultModal";
-import ViewLabResultModal from "../../../../components/patient-modules/modals/ViewLabResultModal";
-import UploadCBCModal from "../../../../components/patient-modules/modals/UploadCBCModal";
 import DeleteOrderModal from "../../../../components/patient-modules/modals/DeleteOrderModal";
-import UploadOGTTModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadOGTTModal";
-import UploadPregnancyTestModal from "../../../../components/patient-modules/modals/laboratory/microscopy/urine-examination/UploadPregnancyTestModal";
-import UploadFBSModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadFBSModal";
-import UploadRBSModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadRBSModal";
-import UploadCreatinineModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadCreatinineModal";
-import UploadUricAcidModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadUricAcidModal";
-import UploadSGOTModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadSGOTModal";
-import UploadSGPTModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadSGPTModal";
-import UploadAlkalinePhosModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadAlkalinePhosModal";
-import UploadLDHModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadLDHModal";
-import UploadGGTModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadGGTModal";
-import UploadMagnesiumModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadMagnesiumModal";
-import UploadPhosphurosModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadPhosphurosModal";
-import UploadAmylaseModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadAmylaseModal";
-import UploadCultureSensitiveInitialModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadCultureSensitiveInitialModal";
-import UploadLipidProfileModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadLipidProfileModal";
-import UploadElectrolytesModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadElectrolytesModal";
-import UploadBilirubinModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadBilirubinModal";
-import UploadTotalProteinModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadTotalProteinModal";
-import UploadUreaModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadUreaModal";
-import UploadUrineCreatinineClearanceModal from "../../../../components/patient-modules/modals/laboratory/chemistry/UploadUrineCreatinineClearanceModal";
-import UploadCompleteBloodCountModal from "../../../../components/patient-modules/modals/laboratory/hematology/UploadCompleteBloodCountModal";
-import UploadCuagulationStudiesModal from "../../../../components/patient-modules/modals/laboratory/hematology/UploadCuagulationStudiesModal";
-import UploadDifferentialCountModal from "../../../../components/patient-modules/modals/laboratory/hematology/UploadDifferentialCountModal";
-import UploadErythrocyteModal from "../../../../components/patient-modules/modals/laboratory/hematology/UploadErythrocyteModal";
-import UploadPlateletCountModal from "../../../../components/patient-modules/modals/laboratory/hematology/UploadPlateletCountModal";
-import UploadRedCellIndicesModal from "../../../../components/patient-modules/modals/laboratory/hematology/UploadRedCellIndicesModal";
-import UploadReticulocyteCount from "../../../../components/patient-modules/modals/laboratory/hematology/UploadReticulocyteCount";
-import UploadAFBStainModal from "../../../../components/patient-modules/modals/laboratory/microbiology/UploadAFBStainModal";
-import UploadCultureSensitivityFinalModal from "../../../../components/patient-modules/modals/laboratory/microbiology/UploadCultureSensitivityFinalModal";
-import UploadGramStainModal from "../../../../components/patient-modules/modals/laboratory/microbiology/UploadGramStainModal";
-import UploadKOHModal from "../../../../components/patient-modules/modals/laboratory/microbiology/UploadKOHModal";
-import UploadAscarisModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadAscarisModal";
-import UploadEntamoebaColiCystModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadEntamoebaColiCystModal";
-import UploadEntamoebaColiTrophozoiteModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadEntamoebaColiTrophozoiteModal";
-import UploadEntamoebaHistolyticaCystModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadEntamoebaHistolyticaCystModal";
-import UploadEntamoebaHistolyticaTrophozoiteModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadEntamoebaHistolyticaTrophozoiteModal";
-import UploadFecalOccultBloodModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadFecalOccultBloodModal";
-import UploadGiardiaLambliaCystModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadGiardiaLambliaCystModal";
-import UploadGiardiaLambliaTrophozoiteModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadGiardiaLambliaTrophozoiteModal";
-import UploadHookWormModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadHookWormModal";
-import UploadMacroscopicModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadMacroscopicModal";
-import UploadMicroscopicModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadMicroscopicModal";
-import UploadTrichiurisModal from "../../../../components/patient-modules/modals/laboratory/microscopy/fecalysis/UploadTrichiurisModal";
-import UploadCastsModal from "../../../../components/patient-modules/modals/laboratory/microscopy/urine-examination/UploadCastsModal";
-import UploadCrystalsModal from "../../../../components/patient-modules/modals/laboratory/microscopy/urine-examination/UploadCrystalsModal";
-import UploadChemicalExamModal from "../../../../components/patient-modules/modals/laboratory/microscopy/urine-examination/UploadChemicalExamModal";
-import UploadMacroscopicExamModal from "../../../../components/patient-modules/modals/laboratory/microscopy/urine-examination/UploadMacroscopicExamModal";
-import UploadMicroscopicExamModal from "../../../../components/patient-modules/modals/laboratory/microscopy/urine-examination/UploadMicroscopicExamModal";
-import UploadAntiHBSModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadAntiHBSModal";
-import UploadAntiHCVModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadAntiHCVModal";
-import UploadASOModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadASOModal";
-import UploadCKMBModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadCKMBModal";
-import UploadCRPModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadCRPModal";
-import UploadDengueDuoModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadDengueDuoModal";
-import UploadHBsAgModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadHBsAgModal";
-import UploadRheumatoidModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadRheumatoidModal";
-import UploadSyphilisModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadSyphilisModal";
-import UploadTroponinModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadTroponinModal";
-import UploadTyphoidTestModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadTyphoidTestModal";
-import UploadWidalTestModal from "../../../../components/patient-modules/modals/laboratory/serology/UploadWidalTestModal";
-import UploadBloodTypingModal from "../../../../components/patient-modules/modals/laboratory/UploadBloodTypingModal";
-import UploadCovidRapidTestModal from "../../../../components/patient-modules/modals/laboratory/UploadCovidRapidTestModal";
-import UploadCrossMatchingModal from "../../../../components/patient-modules/modals/laboratory/UploadCrossMatchingModal";
-import UploadMiscellaneousFormModal from "../../../../components/patient-modules/modals/laboratory/UploadMiscellaneousFormModal";
-import TextInputField from "../../../../components/inputs/TextInputField";
 import { useForm } from "react-hook-form";
-import PrintLabResultModal from "../../../../components/patient-modules/modals/PrintLabResultModal";
-import PrintAllLabResultModal from "../../../../components/patient-modules/modals/PrintAllLabResultModal";
-import PrintReceipt from "./PrintReceipt";
 import { useReactToPrint } from "react-to-print";
 import PaymentTable from "./PaymentTable";
 import TotalAmount from "./TotalAmount";
 import { payment } from "../../../../libs/laboratoryOptions";
 import PendingOrdersModal from "./modal/PendingOrdersModal";
-import axios from "axios";
 import Axios from "../../../../libs/axios";
 
 const Status = ({ status }) => {
@@ -152,7 +71,9 @@ const LaboratoryOrders = (props) => {
 	const [order, setOrder] = useState(null);
 	const [hasHematology, setHasHematology] = useState(0);
 	const [hasPayment, setHasPayment] = useState();
+	const [modalData, setModalData] = useState(null);
 	const [showData, setShowData] = useState(null);
+	
 	const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
@@ -222,6 +143,8 @@ const LaboratoryOrders = (props) => {
 		setPatient(data?.patient);
 		setModalOpen(true);
 	};
+
+	
 	useNoBugUseEffect({
 		functions: () => {
 			setFilters((prevFilters) => ({
@@ -231,84 +154,7 @@ const LaboratoryOrders = (props) => {
 			}));
 		},
 	});
-	const createLabOrderRef = useRef(null);
-	const uploadLabResultRef = useRef(null);
-	const printLabResultRef = useRef(null);
-	const printLabReceiptRef = useRef(null);
-	const printAllLabResultRef = useRef(null);
-	//chemistry ref
-	const uploadFBSRef = useRef(null);
-	const uploadRBSRef = useRef(null);
-	const uploadCreatinineRef = useRef(null);
-	const uploadUricAcidRef = useRef(null);
-	const uploadSGOTRef = useRef(null);
-	const uploadSGPTRef = useRef(null);
-	const uploadAlkalinePhosRef = useRef(null);
-	const uploadLDHRef = useRef(null);
-	const uploadGGTRef = useRef(null);
-	const uploadMagnesiumRef = useRef(null);
-	const uploadPhophorusRef = useRef(null);
-	const uploadAmylaseRef = useRef(null);
-	const uploadcultureInitialRef = useRef(null);
-	const uploadLipidProfileRef = useRef(null);
-	const uploadElectrolytesRef = useRef(null);
-	const uploadBilirubinRef = useRef(null);
-	const uploadTotalProteinRef = useRef(null);
-	const uploadUreaRef = useRef(null);
-	const uploadOralGlucoseRef = useRef(null);
-	const uploadUrineCreatinineRef = useRef(null);
-	// hematology ref
-	const uploadCBCResultRef = useRef(null);
-	const uploadCuagulationStudiesRef = useRef(null);
-	const uploadDifferentialCountRef = useRef(null);
-	const uploadErythrocyteRef = useRef(null);
-	const uploadPlateletCountRef = useRef(null);
-	const uploadRedcellInficesRef = useRef(null);
-	const uploadReticulocyteRef = useRef(null);
-	// microbiology ref
-	const uploadAFBStainRef = useRef(null);
-	const uploadCultureSensitivityFinalRef = useRef(null);
-	const uploadGramStainRef = useRef(null);
-	const uploadKOHRef = useRef(null);
-	// microscopy ref
-		// fecalysis ref
-		const uploadAscarisRef = useRef(null);
-		const uploadEntomoebaCystRef = useRef(null);
-		const uploadEntomoebaTrophozoiteRef = useRef(null);
-		const uploadFecalOccultRef = useRef(null);
-		const uploadGiardiaCystRef = useRef(null);
-		const uploadGiardiaTrophozoiteRef = useRef(null);
-		const uploadHookwormRef = useRef(null);
-		const uploadMacroscopicFecalysisRef = useRef(null);
-		const uploadMicroscopicFecalysisRef = useRef(null);
-		const uploadTrichiurisRef = useRef(null);
-		const uploadEntamoebaHistolyticaCystRef = useRef(null);
-		const uploadEntamoebaHistolyticaTrophozoiteRef = useRef(null);
-		// urine ref
-		const uploadCastsRef = useRef(null);
-		const uploadChemicalRef = useRef(null);
-		const uploadCrystalRef = useRef(null);
-		const uploadMacroscopicUrineRef = useRef(null);
-		const uploadMicroscopicUrineRef = useRef(null);
-		const uploadPregnancyTestRef = useRef(null);
-	// serology ref
-	const uploadAntiHBSRef = useRef(null);
-	const uploadAntiHCVRef = useRef(null);
-	const uploadASORef = useRef(null);
-	const uploadCKMBRef = useRef(null);
-	const uploadCRPRef = useRef(null);
-	const uploadDengueDuoRef = useRef(null);
-	const uploadHBsAGRef = useRef(null);
-	const uploadRheumatoidRef = useRef(null);
-	const uploadSyphilisRef = useRef(null);
-	const uploadTroponinRef = useRef(null);
-	const uploadTyphoidRef = useRef(null);
-	const uploadWidalTestRef = useRef(null);
-
-	const uploadBloodTypeRef = useRef(null);
-	const uploadCovidTestRef = useRef(null);
-	const uploadCrossMatchingRef = useRef(null);
-	const uploadMiscellaneousRef = useRef(null);
+	
 
 
 	const deleteLabOrderRef = useRef(null);
@@ -488,7 +334,7 @@ const LaboratoryOrders = (props) => {
 																		fn: sendPatientToLab,
 																	}
 																);
-																hide();
+																
 															}
 														}}
 														className="items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-300"
@@ -848,7 +694,7 @@ const LaboratoryOrders = (props) => {
 												showData
 											}
 											allowCreate={
-												true
+												false
 											}
 											ref={pendingOrdersRef} />
 											

@@ -43,7 +43,7 @@ const ConsultPatientModal = (props, ref) => {
 	} = useDoctorQueue();
 
 	const isDoctor = () => {
-		return user?.type == "his-md" || user?.type == "HIS-MD";
+		return user?.type == "dc-doctor" || user?.type == "dc-doctor";
 	};
 
 
@@ -92,7 +92,7 @@ const ConsultPatientModal = (props, ref) => {
 					leaveFrom="opacity-100"
 					leaveTo="opacity-0"
 				>
-					<div className="fixed inset-0 bg-black bg-opacity-75 backdrop-blur z-20" />
+					<div className="inset-0 bg-opacity-75 z-20 " />
 				</Transition.Child>
 
 				<div className="fixed inset-0 overflow-y-auto !z-[100]">
@@ -106,7 +106,7 @@ const ConsultPatientModal = (props, ref) => {
 							leaveFrom="opacity-100 scale-100"
 							leaveTo="opacity-0 scale-95"
 						>
-							<Dialog.Panel className="w-full lg:max-w-5xl transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
+							<Dialog.Panel className="w-full lg:max-w-4xl  transform overflow-hidden rounded-2xl bg-gray-100 text-left absolute ml-[800px] mb-[490px] shadow-2xl transition-all">
 								{/* <Dialog.Title
 									as="div"
 									className=" p-4 font-medium leading-6 flex flex-col items-start text-gray-900 bg-slate-50 border-b"
@@ -115,53 +115,42 @@ const ConsultPatientModal = (props, ref) => {
 								</Dialog.Title> */}
 						
 								<div>
-									<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
-										<span>Patient Information</span>
+									<h4 className="border flex items-center text-base font-bold p-2 mb-0 text-gray-700 border-indigo-100 px-8">
+										<span>Diagnosis Information</span>
 									</h4>
-									<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-4">
+									<div className="flex flex-col lg:flex-row gap-2 border-x border-indigo-100 p-2">
 										<PatientInfo
 											patient={showData?.patient}
 											appointment={appointment}
 										>
 											<div className="ml-auto pt-6">
-											<div className="">
-												<img
-													src="/vitals/philhealthlogo.png"
-													className="w-8 h-8 object-contain "
-												/>
-												</div>
+											
 
-												<div className="capitalize font-bold text-sm text-gray-900 ">
-													<div>
-													PHILHEALTH IDENTIFICATION NUMBER (PIN)
-													
-													</div>
-													
-												</div>
+												
 												<span >{patient?.philhealth}</span>
-												{/* <ActionBtn
-													type="success"
+												<ActionBtn
+													type="teal"
 													// loading={loading}
 													size="lg"
 													onClick={handleSubmit(
 														submit
 													)}
-													className="px-4"
+													className="px-4 w-[200px] h-10 gap-2"
 												>
 													<FlatIcon
-														className="text-3xl mr-1	"
-														icon="rr-memo-circle-check"
+														className="text-2xl mr-2 "
+														icon="fi fi-rr-time-check"
 													/>
 													<div className="flex flex-col text-left">
 														<span className="font-bold -mb-1">
 															Accept Patient
 														</span>
-														<span className="text-[10px] font-light max-w-[256px]">
+														<span className="text-[10px] font-light max-w-full">
 															Patient will be on
 															service list
 														</span>
 													</div>
-												</ActionBtn> */}
+												</ActionBtn>
 											</div>
 										</PatientInfo>
 									</div>
@@ -183,23 +172,7 @@ const ConsultPatientModal = (props, ref) => {
 									
 								</div>
 
-								<div className="px-4 pt-3 pb-5 flex items-center justify-center bg-slate-">
-									{/* <ActionBtn
-										type="foreground-dark"
-										className="ml-auto uppercase"
-										onClick={hide}
-									>
-										Read more...
-									</ActionBtn> */}
-									<ActionBtn
-										size="lg"
-										type="success"
-										className="px-5"
-										onClick={handleSubmit(submit)}
-									>
-										ACCEPT PATIENT
-									</ActionBtn>
-								</div>
+								
 							</Dialog.Panel>
 						</Transition.Child>
 					</div>

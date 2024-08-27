@@ -25,12 +25,6 @@ const DCDoctorLinks = ({ isActive }) => {
 				text="Patients"
 			/>
 
-			{/* <MenuLink
-				to="/telemedicine"
-				active={isActive("/telemedicine")}
-				icon="rr-wifi"
-				text="TeleMedicine"
-			/> */}
 			<MenuLink
 				to="/patient-queue"
 				active={isActive("/patient-queue")}
@@ -39,23 +33,8 @@ const DCDoctorLinks = ({ isActive }) => {
 				counter={pending?.data?.length}
 			/>
 			
-			{/* <MenuLink
-				to="/patient-referrals"
-				active={isActive("/patient-referrals")}
-				icon="rr-chart-user"
-				text="Patient Referrals"
-				counter={
-					parseInt(referralsPending?.data?.length) +
-					parseInt(pendingPrescription?.data?.length)
-				}
-			/> */}
-			<MenuLink
-				to="/teleconsult"
-				active={isActive("/patient-queue")}
-				icon="rr-clipboard-list-check"
-				text="Tele-consult"
-				// counter={pending?.data?.length}
-			/>
+			
+			
 		</>
   )
 }

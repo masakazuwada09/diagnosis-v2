@@ -30,20 +30,20 @@ const SummaryWithPhic = (props) => {
 	);
 	return (
 		<>
-			<div className="border border-gray-400">
-				<h5 className="text-sm font-md font-mono text-center  bg-slate-700 text-white">
+			<div className="border border-slate-400 py-2">
+				<h5 className="text-xs font-md font-mono text-center py-3 text-slate-800">
 					SUMMARY OF CHARGES - PHIC
 				</h5>
 
 				
-				<div className="grid grid-cols-4 items-center">
-				<div className="flex text-base font-semibold m-2 font-mono col-span-2 text-red-600">
+				<div className="grid grid-cols-4 items-center px-2 ">
+				<div className="flex text-base font-semibold  font-mono col-span-2 px-9 text-red-600">
 					<p>
-						ICD-10 Code: {diagnosis?.CASE_CODE} -{" "}
+						ICD-10 Code: {diagnosis?.CASE_CODE} -{"10045 "}
 						{diagnosis?.CASE_RATE_CODE}
 					</p>
 				</div>
-					<div className="text-xs items-center w-full flex-col font-bold">
+					<div className="text-xs items-center w-full flex-row font-bold">
 						Firstcase description: 
 
 						<p className="font-bold text-red-600">
@@ -62,8 +62,8 @@ const SummaryWithPhic = (props) => {
 				</div>
 
 				
-				<div className=" rounded-md mt-2">
-					<div className="border bg-gray-200 rounded-sm grid grid-cols-7 divide-x text-sm font-mono font-semibold text-center items-center">
+				<div className=" rounded-md mt-3 px-9">
+					<div className="border  rounded-sm grid grid-cols-7 divide-x text-xs font-mono font-semibold text-center items-center">
 						<div className="col-span-2">PARTICULARS</div>
 						<div className="col-span-1">ACTUAL CHARGES</div>
 						<div className="col-span-1">

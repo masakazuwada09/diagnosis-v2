@@ -23,7 +23,7 @@ const CollapseDiv = ({
 				
 					<Disclosure.Button
 						as="div"
-						className={`bg-background p-3 gap-2 text-sm font-bold flex items-center cursor-pointer shadow-lg ${
+						className={`bg-gray-100 p-3 gap-2 text-sm font-bold flex items-center cursor-pointer shadow-lg ${
 							!open && ""
 						} ${headerClassName}`}
 

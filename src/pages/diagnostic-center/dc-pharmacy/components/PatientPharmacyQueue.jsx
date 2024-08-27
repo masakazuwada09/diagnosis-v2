@@ -28,6 +28,10 @@ import InfoText from "../../../../components/InfoText";
 import CaseDetails from "../../../department/his-md/components/CaseDetails";
 import { caseCodes } from "../../../../libs/caseCodes";
 import { procedureRates } from "../../../../libs/procedureRates";
+import TextInput from "../../../../components/inputs/TextInput";
+import Pagination from "../../../../components/table/Pagination";
+import useDataTable from "../../../../hooks/useDataTable";
+import LoadingScreen from "../../../../components/loading-screens/LoadingScreen";
 
 const PatientProfile = ({ patient }) => {
 	return (
@@ -83,16 +87,32 @@ const PatientProfile = ({ patient }) => {
 const PatientPharmacyQueue = () => {
 	const { user } = useAuth();
 	const {
-		pending,
+		data: patients,
+		setData: setPatients,
+		selected,
+		page,
+		setPage,
+		meta,
+		filters,
+		paginate,
+		setPaginate,
+		setFilters,
+	  } = useDataTable({
+		url: `/v1/patients`,
+	  });
+	const {
+		pending: doctorsPending,
 		mutatePending,
-		pendingMedsRelease,
+
 		mutatePendingMedsRelease,
 	} = usePharmaQueue();
-	
+	const { pending, pendingMedsRelease } = usePharmaQueue();
 	const [order, setOrder] = useState(null);
-	const [stat, setStat] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [filteredPatients, setFilteredPatients] = useState([]);
+	const [stat, setStat] = useState(null);
 	const [appointment, setAppointment] = useState(null);
+	const [patient, setPatient] = useState(null);
 	const referToSphModalRef = useRef(null);
 	const uploadLabResultRef = useRef(null);
 
@@ -108,9 +128,23 @@ const PatientPharmacyQueue = () => {
 		mutatePending();
 		mutatePendingMedsRelease();
 	};
+	// const approveRelease = () => {
+	// 	setLoading(true);
+	// 	Axios.post(`v1/clinic/tb-approve-release-medication/${order?.id}`, {
+	// 		_method: "PATCH",
+	// 	}).then((res) => {
+	// 		toast.success(
+	// 			"Patient prescription successfully approved for release!"
+	// 		);
+	// 		setLoading(false);
+	// 		mutateAll();
+	// 		setOrder(null);
+	// 	});
+	// };
+
 	const approveRelease = () => {
 		setLoading(true);
-		Axios.post(`v1/clinic/tb-approve-release-medication/${order?.id}`, {
+		Axios.post(`v1/clinic/send-from-pharmacy-to-nurse-for-release/${order?.id}`, {
 			_method: "PATCH",
 		}).then((res) => {
 			toast.success(
@@ -121,6 +155,43 @@ const PatientPharmacyQueue = () => {
 			setOrder(null);
 		});
 	};
+
+
+	
+	useEffect(() => {
+		// When the component mounts or pending data changes, set filtered patients
+		setFilteredPatients(listPending());
+	  }, [pending]);
+	
+	  const handlePatientClick = (queue) => {
+		setOrder(queue);
+		setPatient(queue?.relationships?.patient);
+	  };
+	
+	  const handleSearch = (e) => {
+		const keyword = e.target.value.toLowerCase();
+		setFilters((prevFilters) => ({
+		  ...prevFilters,
+		  keyword: keyword,
+		}));
+	
+		const filtered = listPending().filter((queue) => {
+		  const patientName = patientFullName(queue?.relationships?.patient).toLowerCase();
+		  return patientName.includes(keyword);
+		});
+	
+		setFilteredPatients(filtered);
+	
+		if (filtered.length === 1) {
+		  const singleQueue = filtered[0];
+		  setOrder(singleQueue);
+		  setPatient(singleQueue?.relationships?.patient);
+		} else if (filtered.length === 0) {
+		  setOrder(null);
+		  setPatient(null);
+		}
+	  };
+
 	return (
 		<AppLayout>
 			{/* <PageHeader
@@ -131,33 +202,25 @@ const PatientPharmacyQueue = () => {
 			<div className="p-4 h-full overflow-auto ">
 				<div className="grid grid-cols-1 lg:grid-cols-12 gap-5 divide-x">
 					<div className="lg:col-span-4">
-						<h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider -mb-1">
+						<h1 className="text-xl font-bold font-opensans text-gray-500 tracking-wider -mb-1">
 							Patient Queue
 						</h1>
 						<span className="noto-sans-thin text-slate-500 text-sm font-light">
 							Patients pending for pharmacy release
 						</span>
-						<div className="flex flex-col gap-y-4 py-4">
-							{/* <span className="font-medium text-md text-orange-500 -mb-2 ">
-								Priority Lane
-							</span> */}
-							{/* <InQueuePriority
-								number="3"
-								patientName="Raelyn Cameron"
-								priorityType="PWD"
-							/>
-							<InQueuePriority
-								number="4"
-								patientName="Kamdyn Castillo"
-								priorityType="PWD"
-							/> */}
-							{/* <span className="border-b border-b-slate-100"></span> */}
-							{/* <span className="font-medium text-md text-blue-500 -mb-2 ">
-								Regular
-							</span> */}
-
-
-							{listPending()?.length == 0 &&
+						<div className="pr-5 py-3">
+              <TextInput
+                iconLeft={"rr-search"}
+                placeholder="Search patient..."
+                onChange={handleSearch}
+              />
+            </div>
+			<div className="flex flex-col gap-y-4 relative">
+							{loading && <LoadingScreen />}
+			
+              
+              <div className="flex flex-col gap-y-2 max-h-[calc(100vh-312px)] overflow-auto pr-5">
+			  {listPending()?.length == 0 &&
 							pendingMedsRelease?.data?.length == 0 ? (
 								<span className="text-center py-20 font-bold text-slate-400">
 									No patients in queue.
@@ -167,17 +230,19 @@ const PatientPharmacyQueue = () => {
 									{listPending()?.map((queue, index) => {
 										return (
 											<InQueueRegular
+												key={index}
 												selected={
 													queue?.patient?.id ===
 													order?.patient?.id
 												}
 												onClick={() => {
+													handlePatientClick(queue)
 													setOrder(queue);
 													setStat(
 														`FOR APPROVE RELEASING MEDICINE`
 													);
 												}}
-												key={`iqr-${queue.id}`}
+												
 												number={`${queue.id}`}
 												patientName={patientFullName(
 													queue?.patient
@@ -185,11 +250,11 @@ const PatientPharmacyQueue = () => {
 											>
 												<div className="w-full flex flex-col lg:pl-16">
 													<div className="flex items-start gap-2 mb-2">
-														<span className="text-sm w-[46px]">
+														<span className="text-sm w-[46px] ">
 															Doctor:{" "}
 														</span>
-														<span className="flex flex-col font-bold">
-															<span className="-mb-1">
+														<span className="flex flex-col font-bold ">
+															<span className="-mb-1 ">
 															{doctorName(data?.referredToDoctor)}
 															</span>
 															<span className="font-light text-sm">
@@ -248,6 +313,7 @@ const PatientPharmacyQueue = () => {
 													}
 													onClick={() => {
 														setOrder(queue);
+														handlePatientClick(queue)
 														setStat(
 															"FOR RELEASING MEDICINE"
 														);
@@ -255,15 +321,16 @@ const PatientPharmacyQueue = () => {
 													priorityType={
 														"MEDICINE RELEASE"
 													}
-													key={`iqr-${queue.id}`}
+													key={index}
 													number={`${queue.id}`}
 													patientName={patientFullName(
 														queue?.patient
 													)}
+													active={queue?.id === patient?.id}
 												>
 													<div className="w-full flex flex-col lg:pl-16">
-														<div className="flex items-start gap-2 mb-2">
-															<span className="text-sm w-[46px]">
+														<div className="flex items-start gap-2 mb-2 text-yellow-950">
+															<span className="text-sm w-[46px] ">
 																Doctor:{" "}
 															</span>
 															<span className="flex flex-col font-bold">
@@ -318,6 +385,16 @@ const PatientPharmacyQueue = () => {
 									)}
 								</>
 							)}
+              </div>
+              <Pagination
+                setPageSize={setPaginate}
+                page={page}
+                setPage={setPage}
+                pageCount={meta?.last_page}
+              />
+            </div>
+
+							
 							{/* <InQueueRegular
 								number="6"
 								patientName="Mylo Daugherty"
@@ -326,11 +403,11 @@ const PatientPharmacyQueue = () => {
 								number="7"
 								patientName="Emmeline Larson"
 							/> */}
-						</div>
+						
 					</div>
 					<div className="lg:col-span-8 pl-4">
 						<div className="flex items-center gap-4 pb-4">
-							<h1 className="text-xl font-bold font-opensans text-success-dark tracking-wider -mb-1">
+							<h1 className="text-xl font-bold font-opensans text-gray-500 tracking-wider -mb-1">
 								In Service...
 							</h1>
 						</div>
@@ -356,60 +433,56 @@ const PatientPharmacyQueue = () => {
 											customStatus={stat}
 											serviceComponent={
 												<>
-													<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-5">
-														<div className="flex flex-col">
-															<ContentTitle title="Diagnosis"></ContentTitle>
+													<div className="grid grid-cols-1 lg:grid-cols-2 gap-2 pb-2 mt-2 text-slate-700">
+														<div className="flex flex-col px-5 py-5 bg-[linear-gradient(to_right,_var(--tw-gradient-stops))] rounded-xl border border-yellow-400">
+															<div className="flex flex-row justify-between">
+															<span className="font-bold bg-teal-800 text-transparent bg-clip-text text-2xl">Diagnosis</span >
 															<InfoText
-																className="w-full"
+																className=""
 																title="Diagnosed By"
 																value={doctorName(
 																	order?.prescribedByDoctor
 																)}
 															/>
+															</div>
+															<div>
 															<CaseDetails
 																code={
 																	order?.diagnosis_code
 																}
 																title="Diagnosis Details"
+																
 																cases={
 																	caseCodes ||
 																	[]
 																}
 															/>
+															</div>
+															
+															
 														</div>
-														<div className="flex flex-col">
-															<ContentTitle title="Procedure Rendered"></ContentTitle>
-
-															<InfoText
-																className="w-full"
-																title="Doctor"
-																value={doctorName(
-																	order?.prescribedByDoctor
-																)}
-															/>
-
-															<CaseDetails
-																code={
-																	order?.procedure_code
-																}
-																title="Procedure Details"
-																cases={
-																	procedureRates ||
-																	[]
-																}
-															/>
-														</div>
-													</div>
-													<ContentTitle title="Medicine To Be Released"></ContentTitle>
+														
+														<div className="px-5 border border-yellow-400 rounded-xl bg-yellow-50">
+													<div className="flex flex-row justify-start px-2 py-5 gap-2">
+													<FlatIcon
+										
+										
+										icon ="fi fi-sr-medicine"
+										className="text-md text-slate-900"
+									/>
+													<span icon="fi fi-rs-cursor-finger" className="text-md font-bold  text-teal-800  text-xl ">Medicine to Released</span>
 
 													<InfoText
-														className="w-full"
+														className=" text-slate-900"
+														
 														title="Prescribed By"
 														value={doctorName(
 															order?.prescribedByDoctor
 														)}
 													/>
-													<div className="table w-full">
+													</div>
+
+														<div className="table w-full px-1 mt-2">
 														<table>
 															<thead>
 																<tr>
@@ -481,9 +554,17 @@ const PatientPharmacyQueue = () => {
 															</tbody>
 														</table>
 													</div>
+													</div>
+
+
+													</div>
+
+													
+													
+													
 													<ActionBtn
-														className="mt-4 ml-auto"
-														type="success"
+														className="mt-4 ml-auto transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100"
+														type="teal"
 														loading={loading}
 														onClick={approveRelease}
 													>

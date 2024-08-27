@@ -13,16 +13,16 @@ const DoctorInQueueRegular = ({
 }) => {
 	return (
 		<div
-			className={`p-3 gap-5 relative rounded-[20px] border border-blue-300 bg-blue-100 flex items-center justify-start ${className}`}
+			className={`p-3 gap-5 relative rounded-[20px] border border-gray-300 bg-gray-100 flex items-center justify-start ${className}`}
 			onClick={onClick}
 			>
-			<span className="flex items-center justify-center bg-blue-50 border border-blue-700 text-blue-800 tracking-tight rounded-full font-bold w-12 aspect-square">
+			<span className="flex items-center justify-center bg-blue-50 border border-teal-700 text-teal-700 tracking-tight rounded-full font-bold w-12 aspect-square">
 				#{number}
 			</span>
 
 			<div>
 				{date ? (
-					<div className="flex items-center gap-2 text-sm -ml-3 -mt-3 font-bold">
+					<div className="flex items-center gap-2 text-sm text-gray-600 -ml-3 -mt-3 font-bold">
 						<FlatIcon icon="rr-calendar" />
 						{date}
 					</div>
@@ -30,15 +30,11 @@ const DoctorInQueueRegular = ({
 					""
 				)}
 
-				<span className="tracking-tight font-bold text-lg select-none">
+				<span className="tracking-tight font-bold text-gray-700 text-lg select-none">
 					{patientName}
 					
 				</span>
-				<div className="flex items-center gap-2 text-sm -ml-3 -mt-0">
-					
-						<FlatIcon icon="fi fi-rr-bed" />
-						{data?.room_number}
-					</div>
+			
 				
 				
 			</div>
@@ -50,13 +46,15 @@ const DoctorInQueueRegular = ({
 				<FlatIcon icon="rr-bars-sort" className="text-blue-600 ml-2" />
 			</span> */}
 			{acceptAction ? (
+				
 				<ActionBtn
-					type="success"
+					type="teal"
 					className="absolute right-4 !rounded-3xl"
 					onClick={acceptAction}
 				>
-					<FlatIcon icon="rr-check" className=" font-bold" /> Accept
+					<FlatIcon icon="rr-check" className=" font-bold"  /> Accept
 				</ActionBtn>
+				
 			) : (
 				""
 			)}

@@ -40,5 +40,38 @@ html {
 .rbc-event-content {
 	@apply !text-xs;
 }
+@font-face {
+	font-family: 'Qwitcher Grypen';
+	src: url('/QwitcherGrypen-Regular.woff2') format('woff2'),
+		 url('/QwitcherGrypen-Regular.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+  }
 
-
+  .draggable-container {
+	position: absolute;
+	transition: all 0.3s ease; /* Smooth transition for size changes */
+  }
+  
+  .minimized {
+	width: 180px; /* Adjust as needed */
+	height: 40px; /* Adjust as needed */
+	overflow: hidden;
+	z-index: 1000; /* Ensure it's on top when minimized */
+  }
+  
+  .expanded {
+	width: 300px; /* Adjust as needed */
+	height: 200px; /* Adjust as needed */
+	z-index: 500; /* Lower z-index when expanded */
+  }
+  
+  .minimized-position {
+	top: 50px; /* Adjust as needed */
+	left: 200px; /* Adjust as needed */
+  }
+  
+  .expanded-position {
+	top: auto; /* Adjust as needed */
+	left: auto; /* Adjust as needed */
+  }

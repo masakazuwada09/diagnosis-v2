@@ -1,6 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-mixed-spaces-and-tabs */
-/* eslint-disable react-refresh/only-export-components */
 import {
 	Fragment,
 	forwardRef,
@@ -13,8 +10,10 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import LaboratoryOrders from "../../../../../components/patient-modules/LaboratoryOrders";
 import ActionBtn from "../../../../../components/buttons/ActionBtn";
+import Axios from "../../../../../libs/axios";
+import useDataTable from "../../../../../hooks/useDataTable";
 
-const PendingOrdersModal = (props, ref,) => {
+const PendingOrdersModal = (props, ref) => {
 	const {
 		register,
 		getValues,
@@ -25,6 +24,7 @@ const PendingOrdersModal = (props, ref,) => {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
+
 	const {
 		showTitle = true,
 		patient,
@@ -34,10 +34,41 @@ const PendingOrdersModal = (props, ref,) => {
 		onUploadLabResultSuccess,
 		order_id,
 	} = props;
+	const {
+		page,
+		setPage,
+		meta,
+		setMeta,
+		loading,
+		setLoading,
+		paginate,
+		setPaginate,
+		data,
+		setData,
+		column,
+		setColumn,
+		direction,
+		setDirection,
+		filters,
+		setFilters,
+		reloadData,
+	} = useDataTable
+	({
+		url: `/v1/doctor/laboratory-order/patient/${patient?.id}`, 
+		defaultFilters: {
+			...(order_id ? { order_id: order_id } : {}),
+			...(laboratory_test_type
+				? { laboratory_test_type: laboratory_test_type }
+				: {}),
+			...(appointment?.id > 0 ? { appointment_id: appointment?.id } : {}),
+		},
+	});
 	const [mount, setMount] = useState(0);
 	const [showData, setShowData] = useState(null);
-	const [modalData, setModalData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
+	const [modalData, setModalData] = useState(null);
+	
+
 	useEffect(() => {
 		let t = setTimeout(() => {
 			setMount(1);
@@ -52,17 +83,16 @@ const PendingOrdersModal = (props, ref,) => {
 		hide: hide,
 	}));
 
-	const show = (showData = null) => {
+	const show = (modalData = null) => {
 		setModalOpen(true);
-		if (showData) {
-			setModalData(showData);
+		if (modalData) {
+			setModalData(modalData);
 		}
 	};
+
 	const hide = () => {
 		setModalOpen(false);
 	};
-	const nohide = () => {};
-
 	const submit = (data) => {
 		let formData = new FormData();
 		if (modalData.fn) {
@@ -70,13 +100,32 @@ const PendingOrdersModal = (props, ref,) => {
 			hide();
 		}
 	};
-	{console.log(
-		"MODALDATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-		showData
-	)}
+	// const submit = (data) => {
+	// 	console.log("Form data being submitted:", data);
+	// 	console.log("Show data:", showData);
+	// 	setLoading(true);
+	// 	Axios.post(
+	// 		`/v1/doctor/laboratory-order/send-patient-to-laboratory/${modalData?.id}`,
+	// 		{
+	// 			_method: "PATCH",
+	// 		}
+	// 	).then((res) => {
+	// 		if (res?.data?.pending_lab_orders?.length == 0) {
+	// 			toast.error("Error! NO PENDING LABORATORY ORDER.");
+	// 		} else {
+	// 			toast.success(
+	// 				"Success! Patient sent to Laboratory for test(s)."
+	// 			);
+	// 			setLoading(false);
+	// 			mutateAll();
+				
+	// 		}
+	// 	});
+	// };
+
 	return (
 		<Transition appear show={modalOpen} as={Fragment}>
-			<Dialog as="div" className="" onClose={hide}>
+			<Dialog as="div" onClose={hide}>
 				<Transition.Child
 					as={Fragment}
 					enter="ease-out duration-300"
@@ -105,37 +154,28 @@ const PendingOrdersModal = (props, ref,) => {
 									as="div"
 									className="py-3 px-4 flex flex-col border-b "
 								>
-									<span className="text-xl font-bold  text-blue-900">
+									<span className="text-xl font-bold text-blue-900">
 										Send Patient to Laboratory/Imaging
 									</span>
-									<span className="text-sm font-light text-blue-900 ">
+									<span className="text-sm font-light text-blue-900">
 										List of pending orders...
 									</span>
 								</Dialog.Title>
-								<div className=" pt-5 grid grid-cols-1 gap-5 relative">
-									
+								<div className="pt-5 grid grid-cols-1 gap-5 relative">
 									<LaboratoryOrders
-										
-										patient={
-											patient
-										}
-										laboratory_test_type={
-											"all"
-										}
-										appointment={
-											showData?.data
-										}
-										allowCreate={
-											false
-										}
+										showTitle={false}
+										patient={patient}
+										laboratory_test_type={"all"}
+										appointment={modalData?.data}
+										allowCreate={false}
 									/>
 								</div>
 
 								<div className="px-4 py-4 flex items-center justify-end bg-slate- border-t">
 									<ActionBtn
-										type="teal"
-										className="ml-4 !px-10 !rounded-xl"
-										size="xl"
+										type="secondary"
+										className="ml-4 !px-5 !rounded-md"
+										size="md"
 										onClick={handleSubmit(submit)}
 									>
 										SEND ORDER

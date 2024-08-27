@@ -80,10 +80,10 @@ const TabGroup = ({
 						>
 							{({ selected }) => (
 								<div
-									className={`outline-0 relative px-3 mx-0 py-2 duration-200 text-base flex gap-2 justify-center items-center bg-white cursor-pointer hover:bg-primary/[0.1] ${
+									className={`outline-0 rounded-2xl relative px-2 w-[170px] py-2 duration-200  flex gap-2 justify-center items-center bg-white cursor-pointer hover:bg-primary/[0.1] ${
 										selected
-											? "bg-slate-100 text-slate-800 border border-primary"
-											: "border border-transparent"
+											? " shadow-lg  text-slate-800 border border-teal-400"
+											: " text-xs border border-transparent"
 									}`}
 								>
 									{typeof title == "function"
@@ -108,7 +108,7 @@ const TabGroup = ({
 							selectedIndex == i ? "selected" : ""
 						}
 						as="div"
-						className={`p-3 duration-200 text-base rounded-xl flex flex-col  mx-8 ${contentClassName} ${
+						className={`p-3 duration-200 text-base rounded-xl flex flex-col ${contentClassName} ${
 							contentClassName.includes("max-h")
 								? ""
 								: " max-h-[calc(100vh-300px)]   min-h-[288px]"

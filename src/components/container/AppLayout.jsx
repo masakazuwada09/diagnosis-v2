@@ -161,7 +161,7 @@ const AppLayout = (props) => {
 								<img
 									src="/laboratory.png"
 									alt="logo"
-									className="h-[40px] w-[40px] rounded-full"
+									className="h-[20px] w-[20px] rounded-full"
 								/>
 								<span
 									className="text-lg font-semibold text-white tracking-wider"

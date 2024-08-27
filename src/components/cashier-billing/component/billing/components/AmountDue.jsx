@@ -12,32 +12,33 @@ const AmountDue = (props) => {
 	);
 
   return (
-    <div className="border rounded-sm w-[360px] border-gray-900 ">
+    <div className="border rounded-sm w-[360px] border-gray-300 ">
 					
                     	<div className="">
 
-						<div className="  text-white  grid grid-cols-3 divide-x  font-light text-start font-mono ">
-						<div className=" text-xs items-center justify-center flex  bg-gray-200 text-slate-800">
+						<div className="  text-white flex flex-row justify-center gap-9 divide-x  font-light text-start font-mono  items-center mb-3">
+						<div className=" text-xs items-center justify-center flex  bg-gray-200 text-slate-800 ">
                             
                            ACCOUNT NUMBERS
                         </div>
 
-						<div className="col-span-1 text-xs items-center justify-center flex  bg-gray-200 text-slate-800">
+						<div className=" text-xs items-center justify-center flex  bg-gray-200 text-slate-800">
                             
                            ACCOUNT BALANCE
                         </div>
 
-						<div className="col-span-1 text-xs items-center justify-center flex  bg-gray-700">
+						<div className=" text-xs items-center justify-center flex text-slate-800 bg-gray-200">
                             
                            AMOUNT DUE
                         </div>
 						
 					</div>
 
-					<div className="    grid grid-cols-3 divide-x  font-light text-start font-mono border-t border-t-slate-500">
-						<div className=" text-xs items-center justify-center flex   text-slate-800">
+					<div className="    grid grid-cols-3 divide-x  font-light text-start font-mono border-t  border-t-slate-500 ">
+						<div className=" text-xs items-center justify-center flex   text-slate-800 ">
                             
                            <InfoTextForBilling
+                            className=''
                             contentClassName="font-bold "
                             value=""/>
                         </div>
@@ -159,15 +160,15 @@ const AmountDue = (props) => {
                     
 					
 
-                    <div className="flex flex-row w-full text-sm font-light font-mono border-t border-t-slate-500 ">
+                    <div className="flex flex-row w-full text-sm font-light font-mono border-t border-t-slate-500 items-center">
 
 						
-                        <div className=" text-xs font-bold items-center justify-center flex  bg-gray-200 text-slate-800 border-r  border-r-slate-500 w-full ">
+                        <div className=" text-xs font-bold justify-center flex-col flex  bg-gray-200 text-slate-800 border-r  border-r-slate-400 w-full ">
 							AMOUNT ENCLOSED
                         </div>
 					
 
-						<div className="w-full  border-r  border-r-slate-500 ">
+						<div className="w-full  ">
 
                         <InfoTextForBilling
                             contentClassName="font-bold"
@@ -175,12 +176,12 @@ const AmountDue = (props) => {
                         </div>
 
 					
-						<div className=" text-xs font-bold items-center justify-center flex  bg-gray-800 text-slate-50 border-r  border-r-slate-500 w-full">
-							TOTAL AMOUNT DUE
+						<div className=" text-xs font-bold items-center justify-center flex h-8 bg-gray-700 text-white  w-full">
+							TOTAL AMOUNT
                         </div>
                         
 
-						<div className="w-full  ">
+						<div className="w-full justify-center ">
 
                         <InfoTextForBilling
                             contentClassName="font-bold "

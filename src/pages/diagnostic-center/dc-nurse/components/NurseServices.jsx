@@ -40,6 +40,11 @@ import StepperControl from "../../../hims/his-opd/Stepper/components/StepperCont
 import PrescriptionStep from "../../../hims/his-opd/Stepper/components/steps/PrescriptionStep";
 import SatisfactionStep from "../../../hims/his-opd/Stepper/components/steps/SatisfactionStep";
 import CaptureStep from "../../../hims/his-opd/Stepper/components/steps/CaptureStep";
+import TabGroup from "../../../../components/TabGroup";
+import MenuTitle from "../../../../components/buttons/MenuTitle";
+import MedicalCertificate from "./Forms/MedicalCertificate";
+import Prescription from "./Forms/Prescription";
+import Diagnosis from "./Forms/Diagnosis";
 
 
 
@@ -51,12 +56,31 @@ const roomOptions = Object.values(patientRooms).map((loc) => ({
 
 const uniq_id = uuidv4();
 
-const NurseServices = (props, ref) => {
-	const { onSuccess, specialties } = props;
-	const { appointment, setAppointment, mutateAll } = props;
+const NurseServices = ({
+	appointment: propAppointment,
+	forCashier = false,
+	forBilling = false,
+	forHousekeeping = false,
+	setOrder,
+	hideServices = false,
+	mutateAll,
+	data,
+}) => {
+	
+	const [appointment, setAppointment] = useState(propAppointment);
 	const [currentStep, setCurrentStep] = useState(1);
 	const [modalData, setModalData] = useState(null);
+	const [patient, setPatient] = useState(null);
+	const [showData, setShowData] = useState(null);
+	const printMedicalCertificate = useRef(null);
+	const printPrescription = useRef(null);
 	const { user } = useAuth();
+	const show = (data) => {
+		setFull(false);
+		setShowData(data);
+		setPatient(data?.patient);
+		setModalOpen(true);
+	};
 	const {
 		register,
 		getValues,
@@ -149,7 +173,20 @@ const NurseServices = (props, ref) => {
 		// check if steps are within bounds
 		newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);
 	  };
-
+	  const approveRelease = () => {
+		setLoading(true);
+		Axios.post(`v1/clinic/tb-approve-release-medication/${order?.id}`, {
+			_method: "PATCH",
+		}).then((res) => {
+			toast.success(
+				"Patient prescription successfully approved for release!"
+			);
+			setLoading(false);
+			mutateAll();
+			setOrder(null);
+		});
+	};
+	
 	const [step, setStep] = useState(1);
 	const [image, setImage] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -166,6 +203,7 @@ const NurseServices = (props, ref) => {
 	const [roomList, setRoomList] = useState([]);
 	const [healthUnits, setHealthUnits] = useState([null]);
 	const [selectedDoctor, setSelectedDoctor] = useState(null);
+	
 
 	const getOptionsForCategory = (category) => {
 		switch (category) {
@@ -449,7 +487,35 @@ const NurseServices = (props, ref) => {
 				toast.error("Something went wrong!");
 			});
 	};
+	const cashierApproval = (data) => {
+		setLoading(true);
+		let formdata = new FormData();
+		formdata.append("rhu_id", data?.rhu_id);
+		formdata.append("_method", "PATCH");
 
+		Axios.post(
+			`v1/clinic/send-from-cashier-to-nurse-for-release/${appointment?.id}`,
+			formdata
+		)
+			.then((response) => {
+				let data = response.data;
+				// console.log(data);
+				if (mutateAll) {
+					mutateAll();
+				}
+				setTimeout(() => {
+					setAppointment(null);
+				}, 100);
+				setTimeout(() => {
+					toast.success("Patient sent to OPD Nurse!");
+					setLoading(false);
+				}, 200);
+			})
+			.catch((err) => {
+				setLoading(false);
+				console.log(err);
+			});
+	};
 	const sendToDoctor = (data) => {
 		setLoading(true);
 		let formdata = new FormData();
@@ -502,6 +568,8 @@ const NurseServices = (props, ref) => {
 				setIsSelectorLoading(false);
 			});
 	};
+
+	
 	const releasePrescription = (data) => {
 		// setLoading(true);
 		// console.log("prescriptionItems", prescriptionItems);
@@ -547,6 +615,8 @@ const NurseServices = (props, ref) => {
 				setLoading(false);
 			});
 	};
+
+
 	const submitSelfie = () => {
 		const config = {
 			headers: {
@@ -586,38 +656,122 @@ const NurseServices = (props, ref) => {
 
 
 	return (
-		<div className="flex flex-col items-start">
+		<div className="flex flex-col items-start overflow-x-scroll ">
 			{appointment?.status == "pending-for-his-release" ? (
 				<>
+					<TabGroup
+						tabClassName="py-3 bg-slate-100 border-b w-[660px] "
+						contentClassName="max-h-[unset]"
+						contents={[
+							{
+							title: (
+								<MenuTitle src="/profile.png">
+								Medical Certificate
+								</MenuTitle>
+							),
+							content: (
+								<div className=" flex rotate-180">
+								<div className="transform rotate-180">
+									<MedicalCertificate
+									loading={loading}
+									onSave={cashierApproval}
+									patient={appointment?.patient}
+									appointment={appointment}
+									/>
+								</div>
+								</div>
+							),
+							},
+							{
+							title: (
+								<MenuTitle src="/profile.png">
+								Prescription
+								</MenuTitle>
+							),
+							content: (
+								<div className="overflow-x-auto transform rotate-180">
+								<div className="transform rotate-180">
+									<Prescription
+									loading={loading}
+									appointment={appointment}
+									patient={appointment?.patient}
+									/>
+								</div>
+								</div>
+							),
+							},
+							{
+							title: (
+								<MenuTitle src="/profile.png">
+								Diagnosis
+								</MenuTitle>
+							),
+							content: (
+								<div className="overflow-x-auto transform rotate-180">
+								<div className="transform rotate-180">
+									<Diagnosis
+									
+									loading={loading}
+									appointment={appointment}
+									patient={appointment?.patient}
+									/>
+								</div>
+								</div>
+							),
+							},
+							
+						]}
+						/>
+
+
 					<div className="flex items-center w-full justify-center px-4 pb-4 gap-4">
-						
+						<ActionBtn
+							className="text-gray-700 flex items-center  cursor-pointer rounded-lg gap-2 "
+							onClick={approveRelease}
+							type="secondary"
+							>
+							<FlatIcon icon="rs-document" />
+							Send to Billing
+						</ActionBtn>
 					</div>
 					<div className="p-5 mx-auto w-4/5 border rounded-xl">
 
 
-	<div className="mx-auto rounded-2xl bg-white pb-2 shadow-xl w-full">
-     
-      <div className="horizontal container mt-5 ">
-        <Stepper steps={steps} currentStep={currentStep} />
+					<div className="mx-auto rounded-2xl bg-white pb-2 shadow-xl w-full flex gap-3">
+									
+									{/* <ActionBtn
+										className="relative text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] "
+										onClick={() => printMedicalCertificate.current.show({...data, appointment})}
+										type="foreground-dark"
+										
+									>
+										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
+										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-pulse"></span>
+										<span className="absolute top-0 right-0 rounded-xl h-full w-full border border-red-500 animate-pulse"></span>
+										
+									<FlatIcon icon="rs-document" />
+									Certificate Available					
+									</ActionBtn> */}
 
-        <div className="my-10 p-10 ">
-          <UseContextProvider>{displayStep(currentStep)}</UseContextProvider>
-        </div>
-      </div>
+									{/* <ActionBtn
+										className="relative text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px]"
+										onClick={() => printPrescription.current.show({...data, appointment})}
+										type="foreground-dark"
+									>
+										
+										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
+										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-pulse"></span>
+										<span className="absolute top-0 right-0 rounded-xl h-full w-full border border-red-500 animate-pulse"></span>
 
-     
-      {currentStep !== steps.length && (
-        <StepperControl
-			loading={loading}
-			setLoading={setLoading}
-			appointment={appointment}
-			submitSelfie={submitSelfie}
-			handleClick={handleClick}
-			currentStep={currentStep}
-			steps={steps}
-        />
-      )}
-    </div>
+										
+										<FlatIcon icon="fi fi-ss-file-prescription" />
+										Prescription Available
+									</ActionBtn> */}
+
+							
+   								 </div>
+
+							
 
 
 					</div>
@@ -627,7 +781,7 @@ const NurseServices = (props, ref) => {
   
 
 			) : (
-				""
+										""
 			)}
 
 
@@ -635,7 +789,7 @@ const NurseServices = (props, ref) => {
 
 
 
-{appointment?.status == "pending" ? (
+			{appointment?.status == "pending" ? (
 				<>
 					<div className="flex flex-col w-full gap-4 pb-2 pt-5">
 					<div className="p-0 flex flex-col gap-y-4 relative w-full">
@@ -746,7 +900,9 @@ const NurseServices = (props, ref) => {
 			)}
 
 
-
+			
+			
+		
 
 		</div>
 	);

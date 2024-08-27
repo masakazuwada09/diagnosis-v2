@@ -14,13 +14,13 @@ const SummaryOfCharges = (props) => {
 
 	return (
 		<>
-			<div className="border ">
+			<div className="border border-slate-400 mt-2">
 			
-				<h5 className="text-sm bg-gray-700 font-md font-mono text-center text-white ">
+				<h5 className="text-xs py-2 font-md font-mono text-center text-slate-800 ">
 					SUMMARY OF CHARGES
 				</h5>
-				<div className="">
-					<div className="border  bg-gray-100  grid grid-cols-6 divide-x text-sm font-semibold text-center font-mono">
+				<div className="px-12 py-2 ">
+					<div className="bg-gray-00  grid grid-cols-6 divide-x text-sm font-semibold text-center font-mono">
 						<div className="col-span-2">PARTICULARS</div>
 						<div className="col-span-1">DEBIT</div>
 						<div className="col-span-1">DISCOUNT</div>
@@ -211,7 +211,7 @@ const SummaryOfCharges = (props) => {
 
 					</div>
 					<div className="grid grid-cols-6 border-t divide-x text-sm font-semibold text-center mt-2 font-mono">
-						<div className="col-span-2 text-right mr-1">Total:</div>
+						<div className="col-span-2 mr-1">Total:</div>
 						<div className="col-span-1">
 							{/* add a code for Debit database */}
 							<InfoTextForSummary

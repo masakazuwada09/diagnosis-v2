@@ -27,7 +27,8 @@ import {
 	timeII,
 	calculateHemoglobin,
 	calculateBMI, calculateBPMeasurement,
-	keyByValue
+	keyByValue,
+    doctorName
 } from "../../../../../libs/helpers";
 import { chemistry, hematology } from "../../../../../libs/laboratoryOptions";
 import ActionBtn from "../../../../../components/buttons/ActionBtn";
@@ -39,7 +40,9 @@ import QRCode from "qrcode.react";
 import Barcode from "react-barcode";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import Img from "../../../../../components/Img";
-import LaboratorySummary from "../../../dc-cashier/components/LaboratorySummary";
+import InfoText from "../../../../../components/InfoText";
+import CaseDetails from "./CaseDetails";
+import { caseCodes } from "../../../../../libs/caseCodes";
 
 const laboratory_tests = chemistry?.map((data) => data?.name);
 
@@ -64,7 +67,7 @@ const FormHeading = ({ title }) => {
 
 	
 
-const MedicalCertificate = (props, ref) => {
+const Diagnosis = (props, ref) => {
 	const { loading: btnLoading, appointment, onSave} = props;
 	const { patient, onSuccess } = props;
 	const {
@@ -79,6 +82,7 @@ const MedicalCertificate = (props, ref) => {
 	} = useForm();
 
 	const [showData, setShowData] = useState(null);
+    const [order, setOrder] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
 	const componentRef = React.useRef(null);
@@ -87,6 +91,7 @@ const MedicalCertificate = (props, ref) => {
 	const [showAdvanced, setShowAdvanced] = useState(false);
 	const [hasChemistry, setHasChemistry] = useState(0);
 	const [hasHematology, setHasHematology] = useState(0);
+	const [isMinimized, setIsMinimized] = useState(true);
   
 	const handleToggleAdvanced = () => {
 	  setShowAdvanced(!showAdvanced);
@@ -171,65 +176,38 @@ const onHematologyChecked = (name) => {
 		getValues(laboratory_tests).filter((x) => x == true).length
 	);
 };
+
+const approveRelease = () => {
+    setLoading(true);
+    Axios.post(`v1/clinic/send-from-pharmacy-to-nurse-for-release/${order?.id}`, {
+        _method: "PATCH",
+    }).then((res) => {
+        toast.success(
+            "Patient prescription successfully approved for release!"
+        );
+        setLoading(false);
+        mutateAll();
+        setOrder(null);
+    });
+};
 	
 	return (
-		<Transition appear show={modalOpen} as={Fragment}>
-			<Dialog as="div" className="" onClose={hide}>
-				<Transition.Child
-					as={Fragment}
-					enter="ease-out duration-300"
-					enterFrom="opacity-0"
-					enterTo="opacity-100"
-					leave="ease-in duration-200"
-					leaveFrom="opacity-100"
-					leaveTo="opacity-0"
-				>
-					<div className="fixed inset-0 bg-blue-200 bg-opacity-75 backdrop-blur z-[300] " />
-				</Transition.Child>
-
-				<div className="fixed inset-0 overflow-y-auto !z-[350]">
-					<div className="flex min-h-full w-full items-center justify-center p-4 text-center">
-						<Transition.Child
-							as={Fragment}
-							enter="ease-out duration-300"
-							enterFrom="opacity-0 scale-95"
-							enterTo="opacity-100 scale-100"
-							leave="ease-in duration-200"
-							leaveFrom="opacity-100 scale-100"
-							leaveTo="opacity-0 scale-95"
-						>
-							<Dialog.Panel className="w-[1500px] transform overflow-hidden rounded-2xl bg-white text-left align-middle shadow-xl transition-all">
-								<Dialog.Title
-									as="div"
-									className=" p-4 font-medium leading-6 flex flex-row justify-between items-center text-gray-900 bg-slate-50 border-b"
-								>
-									<span className="text-xl text-center font-bold  text-blue-900">
-										View Laboratory Result
-									</span>
-									<ActionBtn
-										// size="lg"
-										type="foreground"
-										className="px-5"
-										onClick={hide}
-									>
-										CLOSE
-									</ActionBtn>
-								</Dialog.Title>
-						<div className="p-6 flex flex-row gap-y-4 relative gap-5">
+		<>
+            <div className=" flex flex-row gap-y-4 relative gap-5">
 							<div className="bg-gray-600 p-3 min-h-[14in]  overflow-auto phic-forms">
 								
 								<div className="flex flex-row justify-end">
 									<ActionBtn
 											className="text-base gap-2 ml-2 mb-2"
 											onClick={handlePrint}
-											type="success"
+											type="secondary"
 										>
 											<FlatIcon icon="rr-print" /> Print
 										</ActionBtn>
 										<ActionBtn
 											className="text-base gap-2 ml-2 mb-2"
 											onClick={handleDownload}
-											type="success"
+											type="teal"
 										>
 											<FlatIcon icon="fi fi-bs-disk" /> Download
 										</ActionBtn>
@@ -237,20 +215,17 @@ const onHematologyChecked = (name) => {
 									
 
 											
-<div
-className="bg-white p-2 w-[9.5in] gap-y-6 "
-id="phic-form-printable" ref={componentRef}
->
-<div className="bg-white flex flex-col w-[9.3in] min-h-[11in]  border-blue-100 border-2 rounded-xl px-1 py-1">
-<div className="flex flex-row justify-between w-full pb-1">
+		<div
+		className="bg-white p-2 w-[9.3in] gap-y-6 "
+		id="phic-form-printable" ref={componentRef}
+		>
+		<div className="bg-white flex flex-col w-[9.1in] min-h-[11in]  border-gray-100 border-2 rounded-xl px-1 py-1">
+		<div className="flex flex-row justify-between w-full pb-1">
 		<div>
-		
-          <Img src="/aLab.png" className="mx-auto h-10 w-10 text-gray-300" aria-hidden="true" />
-		
-
+          <Img src="/laboratory.png" className="mx-auto h-16 w-16 text-gray-300"  />
 		</div>
 		
-		<div className="absolute ml-[40px]">
+		<div className="absolute ml-[90px]">
 			<p className="text-xs font-mono font-bold text-gray-900">
 				<i>GTC Diagnostic Center</i>
 			</p>
@@ -272,8 +247,8 @@ id="phic-form-printable" ref={componentRef}
 					
 
 					<div className="px-2 flex flex-row justify-end items-start  gap-2">
-										
-					<div className="flex-row">
+						<div className="mt-1 flex flex-row gap-2">
+						<div className="flex-row">
 							<div className="font-semibold text-sm  text-gray-800 justify-end flex">
 								{patientFullName(patient)}
 							</div>
@@ -287,13 +262,10 @@ id="phic-form-printable" ref={componentRef}
 							</div>
 
 							<div className="text-xs font-mono justify-end flex">
-								Admission Date: {dateMMDDYYYY()}
+								Diagnosis Date: {dateMMDDYYYY()}
 							</div>
-							<h4 className="font-bold text-md font-mono text-gray-900 flex justify-end">
-								Medical Certificate
-							</h4>
+							
 						</div>
-						<div className="mt-1">
 										<QRCode
 											value={`user-${appointment?.scheduledBy?.username}`}
 											className=""
@@ -343,87 +315,149 @@ id="phic-form-printable" ref={componentRef}
 	  <div className="flex flex-col text-start w-full mx-auto">
 	  <div className="flex flex-row justify-between ">
                     <div className="">
-                        
-					    {/* <div className=" bg-blue-600 text-white rounded-sm grid grid-cols-6 text-sm font-semibold text-center font-mono">
-						        <div className="col-span-3">
-                                ADMISSION DATE
-                                </div>
-						         <div className="col-span-3">
-                                DISCHARGE DATE
-                                </div>
-                            
-                                
-					    </div>
-                
-					    <div className="grid grid-cols-2 text-sm font-light font-mono shadow">
-							
-					
-
-						<div className="">
-		
-                        <InfoTextForBilling
-                            value={dateMMDDYYYY()}/>
-						</div>
-
-						<div className="">
-                        <InfoTextForBilling
-                                />
-                        </div>
-                        
-                        </div> */}
-
-
-						
-
-						
-                       
 					</div>
-
-                    
                                 </div>
 	  		
 									</div>
 									
 									</div>
                                     <div className="flex flex-row justify-center mt-5">
-                                    <h4 className="font-bold text-3xl text-gray-600">
-				                        MEDICAL CERTIFICATE
+                                    <h4 className="font-bold text-2xl text-gray-600">
+				                        Diagnosis
 			                        </h4>
                                    
                                     </div>
-                                   
 
-								
-										<div className="px-5 py-5 font-mono justify-center items-center">
-											
-										
+										<div className="px-5  font-mono justify-center items-center">
+                                        <>
+													<div className="grid grid-cols-1 lg:grid-cols-2 gap-2 pb-2 mt-2 text-slate-700">
+														<div className="flex flex-col px-5 py-5 bg-[linear-gradient(to_right,_var(--tw-gradient-stops))] rounded-xl  ">
+															<div className="flex flex-row justify-between">
+															</div>
+															<div>
+															<CaseDetails
+																code={
+																	order?.diagnosis_code
+																}
+																title="Diagnosis Details"
+																
+																cases={
+																	caseCodes ||
+																	[]
+																}
+															/>
+															<InfoText
+																className=""
+																title="Diagnosed By"
+																value={doctorName(
+																	order?.prescribedByDoctor
+																)}
+															/>
+															</div>	
+														</div>	
+
+							<div className=" border border-gray-200 rounded-xl bg-gray-50">
+								<div className="flex flex-row justify-start px-3 py-5 gap-2">
+													<span icon="fi fi-rs-cursor-finger" className="text-md font-bold  text-md text-gray-800">Medicine to Released</span>
+
+													<InfoText
+														className=" text-slate-900"
+														
+														title="Prescribed By"
+														value={doctorName(
+															order?.prescribedByDoctor
+														)}
+													/>
+													</div>
+
+														<div className="table w-full px-3 mt-2">
+														<table>
+															<thead>
+																<tr>
+																	<th>
+																		Item
+																		Code
+																	</th>
+																	<th>
+																		Item
+																		Information
+																	</th>
+																	<th className="text-center">
+																		Qty
+																	</th>
+																</tr>
+															</thead>
+															<tbody>
+																{order?.prescriptions?.map(
+																	(item) => {
+																		return (
+																			<>
+																				<tr
+																					key={`opri-${item?.id}`}
+																				>
+																					<td>
+																						{
+																							item
+																								?.item
+																								?.code
+																						}
+																					</td>
+																					<td>
+																						{
+																							item
+																								?.item
+																								?.name
+																						}
+																					</td>
+																					<td className="text-center">
+																						{
+																							item?.quantity
+																						}
+																					</td>
+																				</tr>
+																				<tr>
+																					<td
+																						colSpan={
+																							3
+																						}
+																					>
+																						<div className="flex gap-4">
+																							<span className="font-bold">
+																								{" "}
+																								Sig.:
+																							</span>
+																							<div
+																								className="bg-yellow-100 px-4"
+																								dangerouslySetInnerHTML={{
+																									__html: item?.details,
+																								}}
+																							></div>
+																						</div>
+																					</td>
+																				</tr>
+																			</>
+																		);
+																	}
+																)}
+															</tbody>
+														</table>
+													</div>
+													</div>
+
+													</div>
+
+							
+												</>
+
+
+						
 
 										<div className="flex flex-col border-b-2 p-2 text-sm relative">
 											
-											<div className="absolute">
-												<div className="flex items-center gap-2 ml-auto ">
-
-												</div>
-											</div>
-                                            <div class="content">
-                                                <p>To whom it may concern:</p>
-                                                <br></br>
-                                                <p>This is to certify that ____________________, __ years old M/F, presently residing at ______________________________, consulted/was examined/treated for _______________________ on ___________ for the purpose of ________________________________.</p>
-                                            </div>
-											
-											<div class="flex flex-row">
-                                            <p><strong>Clinical Impression:</strong></p>
-                                                </div>
-
-                                                <div class="recommendation">
-                                                    <p><strong>Recommendation/s:</strong></p>
-                                                </div>
-											
+										
 											
 										</div>
-										<div className="flex flex-row items-end justify-end">
-							
-						                     </div>
+										
 										</div>
 										
 
@@ -538,144 +572,6 @@ id="phic-form-printable" ref={componentRef}
 
 									</div>
 
-											<div
-											className="bg-white p-2 w-[5in] gap-y-2 border rounded-md py-2 px-5 shadow-2xl"
-											>
-			<h2 className="block text-md font-sm leading-6 text-blue-900 font-semibold">
-				Edit Report
-			</h2>
-			<h2 className="block text-xs font-sm leading-6 text-gray-900">
-				Change Unit Logo
-			</h2>
-			<div className="mt-2 mb-4 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6-py-10">
-				<div className="text-center">
-					<PhotoIcon
-						className="mx-auto h-12 w-12 text-gray-300"
-						aria-hidden="true"
-					/>
-					<div className="mt-4 flex text-sm leading-b text-gray-600">
-						<label
-							htmlFor="file-input"
-							className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-						>
-							Upload Health Unit Logo
-							<input
-								type="file"
-								id="file-input"
-								accept="image/*"
-								className="sr-only"
-								onChange={handleFileChange}
-							/>
-						</label>
-					</div>
-					<p className="text-xs leading-5 text-gray-600">
-						PNG, JPG, GIF
-					</p>
-				</div>
-			</div>
-
-			
-
-			<h2 className="block text-sm font-sm leading-6 text-gray-900 pt-2 border-t mb-3">
-				Filter Tests
-			</h2>
-			   
-			<div className="flex flex-row w-full md:w-1/2 px-3 mb-6 md:mb-0 items-start gap-2">
-        
-        <input
-          type="checkbox"
-          className="form-checkbox"
-          id="advanced-filter"
-          name="advanced-filter"
-          onClick={handleToggleAdvanced}
-        />
-		<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ">
-          Laboratory Tests
-        </label>
-      </div>
-
-      {showAdvanced && (
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 ml-5">
-          <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-            Advanced Filter Options
-          </label>
-		  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ml-4">
-            Chemistry
-          </label>
-
-          {chemistry?.map(
-						(data, index) => {
-														
-								return (
-									<label
-										className="mb-2 ml-6 flex flex-row items-center text-xs gap-2 text-black hover:bg-blue-100 duration-200"
-										key={`${keyByValue(
-										data?.name
-										)}`}
-										onClick={() => {
-											setTimeout(
-											() => {
-											onChemistryChecked(
-											data?.name
-											);},
-											50);}}>
-																	<input
-																		type="checkbox"
-																		{...register(
-																			data?.name,
-																			{}
-																		)}
-																	/>
-																	
-																	<span>
-																		{
-																			data?.label
-																		}
-																	</span>
-																</label>
-															);
-													}
-												)}
-		<label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ml-4">
-            Hematology
-          </label>
-		{hematology?.map(
-						(data, index) => {
-														
-								return (
-									<label
-										className="mb-2 ml-6 flex flex-row items-center text-xs gap-2 text-black hover:bg-blue-100 duration-200"
-										key={`${keyByValue(
-										data?.name
-										)}`}
-										onClick={() => {
-											setTimeout(
-											() => {
-											onHematologyChecked(
-											data?.name
-											);},
-											50);}}>
-																	<input
-																		type="checkbox"
-																		{...register(
-																			data?.name,
-																			{}
-																		)}
-																	/>
-																	
-																	<span>
-																		{
-																			data?.label
-																		}
-																	</span>
-																</label>
-															);
-													}
-												)}
-        </div>
-      )}
-		
-									</div>
 
 									
 									
@@ -691,13 +587,11 @@ id="phic-form-printable" ref={componentRef}
 								<div className="px-4 py-4 border-t flex items-center justify-end bg-slate-">
 									
 								</div>
-							</Dialog.Panel>
-						</Transition.Child>
-					</div>
-				</div>
-			</Dialog>
-		</Transition>
+        
+        </>
+						
+							
 	);
 };
 
-export default forwardRef(MedicalCertificate);
+export default forwardRef(Diagnosis);

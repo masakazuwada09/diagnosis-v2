@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 const useNoBugUseEffect = ({ functions, params = [1], timeout = 300 }) => {
 	useEffect(() => {

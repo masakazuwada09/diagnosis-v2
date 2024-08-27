@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Particles from "react-particles";
 import { loadFull } from "tsparticles";
-import { VANTA } from "vanta";
-import * as THREE from 'three';
+
 import VantaEffect from "./VantaEffect";
 // import ParticleImage, {ParticleOptions} from "react-particle-image";
 
@@ -38,7 +37,7 @@ const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
 	//   };
 	return (
 		<div
-			className={`h-[100dvh] w-screen bg-slate-900 overflow-auto flex flex-col lg:flex-row items-center justify-center   ${className}`}
+			className={`h-[100dvh] w-screen overflow-auto flex flex-col lg:flex-row items-center justify-center    ${className}`}
 		>
 	{/* <ParticleImage
       src={"/react-logo.png"}
@@ -47,7 +46,7 @@ const LayoutContainer = ({ className = " animate-fadeIn", children }) => {
       maxParticles={4200}
       particleOptions={particleOptions}
     /> */}
-	<VantaEffect/>
+	
 			{/* <img
 				src="/b1.jpg"
 				className="fixed top-0 left-0 w-[125%] h-[125%] opacity-75 object-cover z-[1]"

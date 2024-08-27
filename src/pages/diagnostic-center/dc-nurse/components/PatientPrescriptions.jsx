@@ -8,7 +8,7 @@ import ActionBtn from "../../../../components/buttons/ActionBtn";
 import ContentTitle from "../../../../components/buttons/ContentTitle";
 import Pagination from "../../../../components/table/Pagination";
 import Table from "../../../../components/table/Table";
-import CreatePrescriptionModal from "../../../../components/patient-modules/modals/CreatePrescriptionModal";
+import CreatePrescriptionModal from "./modal/CreatePrescriptionModal";
 import SelectItemModal from "../../../../components/modal/SelectItemModal";
 
 const PatientPrescriptions = ({
@@ -123,7 +123,7 @@ const PatientPrescriptions = ({
 				setPageSize={setPaginate}
 			/>
 			<CreatePrescriptionModal
-            data={data}
+           		data={data}
 				ref={createPrescriptionRef}
                 patient={appointment?.patient}
 				selecItemRef={selecItemRef}

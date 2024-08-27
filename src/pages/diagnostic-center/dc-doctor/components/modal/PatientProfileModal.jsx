@@ -29,6 +29,8 @@ import useNoBugUseEffect from "../../../../../hooks/useNoBugUseEffect";
 import PatientVitalCharts from "../../../../../components/PatientVitalCharts";
 import PatientCSROrder from "../../../../department/his-nurse/components/PatientCSROrder";
 import PatientPharmacyOrder from "../../../../department/his-nurse/components/PatientPharmacyOrder";
+import MedicalCertificate from "../MedicalCertificate";
+
 
 const AppointmentData = ({ mutateAll, appointment = null }) => {
 	const {
@@ -88,6 +90,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 				setItems(res.data.data);
 			}
 		);
+		
 	};
 	const prescribeItems = () => {
 		setLoading(true);
@@ -132,12 +135,29 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 				<AppointmentDetails
 					appointment={appointment}
 					showService
+					medicalcertificateComponent={
+
+						<MedicalCertificate
+									diagnosis={diagnosis}
+									setDiagnosis={setDiagnosis}
+									procedure={procedure}
+									setProcedure={setProcedure}
+									items={items}
+									setItems={setItems}
+									selectedItems={selectedItems}
+									setSelectedItems={setSelectedItems}
+									prescribeItems={prescribeItems}
+									loading={loading}
+								/>
+					}
+
+
 					serviceComponent={
 						<>
 							{(appointment?.status ==
-								"pending-for-pharmacy-release" &&
+								"pending" &&
 								appointment?.prescribed_by == null) ||
-							appointment?.has_for_reading?.length > 0 ? (
+								appointment?.has_for_reading?.length > 0 ? (
 								<AddPrescription
 									diagnosis={diagnosis}
 									setDiagnosis={setDiagnosis}
@@ -151,7 +171,7 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 									loading={loading}
 								/>
 							) : appointment?.status ==
-									"pending-doctor-confirmation" &&
+									"in-service-result-reading" &&
 							  appointment?.vital_id != null &&
 							  appointment?.referred_to != null ? (
 								<TBConfirmation
@@ -303,7 +323,7 @@ const PatientProfileModal = (props, ref) => {
 										<FlatIcon icon="br-cross-small" /> Close
 									</ActionBtn>
 								</Dialog.Title>
-								<div className="flex flex-col gap-y-4 relative min-h-[calc(100dvh-152px)]">
+								<div className="flex flex-col gap-y-4 relative min-h-[calc(100dvh-152px)] bg-slate-300">
 									<div className="flex flex-col">
 										<div className="flex flex-col lg:flex-row gap-4 items-center px-4 pt-4 border-b justify- md:justify-start bg-slate-50 p-4 h-full">
 											<PatientInfo 
@@ -358,7 +378,7 @@ const PatientProfileModal = (props, ref) => {
 												)}
 
 												
-												<ActionBtn
+												{/* <ActionBtn
 															loading={
 																loadingDone
 															}
@@ -382,9 +402,9 @@ const PatientProfileModal = (props, ref) => {
 																	Patient Queue to Operation Screening
 																</span>
 															</div>
-														</ActionBtn>
+														</ActionBtn> */}
 
-														{/* <ActionBtn
+														<ActionBtn
 															loading={
 																loadingDone
 															}
@@ -393,7 +413,7 @@ const PatientProfileModal = (props, ref) => {
 															onClick={() => {
 																markAsDone();
 															}}
-															className="px-4"
+															className="px-5 py-1"
 														>
 															<FlatIcon
 																className="text-3xl mr-1	"
@@ -409,20 +429,20 @@ const PatientProfileModal = (props, ref) => {
 																	free to go
 																</span>
 															</div>
-														</ActionBtn> */}
+														</ActionBtn>
 											</div>
 										</div>
 										<div>
 											<TabGroup
-												tabClassName={`py-3 bg-slate-100 border-b`}
+												tabClassName={`py-2 bg-slate-100 border-b`}
 												contentClassName={
 													"max-h-[unset]"
 												}
 												contents={[
 													{
 														title: (
-															<MenuTitle src="/profile.png">
-																Appointment Data
+															<MenuTitle src="/vitals/consulting.png">
+																Diagnostic Data
 															</MenuTitle>
 														),
 
@@ -696,9 +716,7 @@ const PatientProfileModal = (props, ref) => {
 								</div>
 
 								<div className="px-4 py-3 border-t flex items-center justify-end bg-slate-">
-									<ActionBtn type="danger" className="px-5">
-										CLOSE
-									</ActionBtn>
+									
 								</div>
 							</Dialog.Panel>
 						</Transition.Child>

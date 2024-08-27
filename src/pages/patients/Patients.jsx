@@ -62,7 +62,7 @@ const Patients = () => {
 					<div className=" lg:col-span-4 xl:col-span-3 flex flex-col gap-y-4">
 						<div className="flex items-center pr-4">
 							<div>
-								<h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider -mb-1">
+								<h1 className="text-xl font-bold font-opensans text-primary-dark tracking-wider -mb-1 ">
 									Patients Lists
 								</h1>
 								<span className="noto-sans-thin text-slate-500 text-sm font-light">
@@ -71,18 +71,16 @@ const Patients = () => {
 							</div>
 							{checkUserType("NURSE") || checkUserType("ER") ? (
 								<ActionBtn
-									type="success"
-									title="Add new patient"
-									className="h-11 w-11 ml-auto !rounded-full"
-									onClick={() => {
-										newPatientFormRef.current.show();
-									}}
-								>
-									<FlatIcon
-										icon="rr-plus"
-										className="mt-1 text-xl"
-									/>
-								</ActionBtn>
+								className="text-base gap-2 ml-2 mb-2 items-center transition ease-in-out delay-30 hover:-translate-y-1 hover:scale-100 duration-100 "
+								onClick={() => {
+									newPatientFormRef.current.show();
+								}}
+								title="Add new patient"
+								type="success"
+							>
+								<FlatIcon icon="fi fi-ss-clipboard-user" /> Add new patient
+							</ActionBtn>
+								
 							) : (
 								""
 							)}
@@ -122,6 +120,7 @@ const Patients = () => {
 								})}
 							</div>
 							<Pagination
+								
 								setPageSize={setPaginate}
 								page={page}
 								setPage={setPage}

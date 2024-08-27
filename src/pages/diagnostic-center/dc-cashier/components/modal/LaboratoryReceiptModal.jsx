@@ -1,15 +1,17 @@
 /* eslint-disable react/prop-types */
-
-import React, {useState} from "react";
-import ActionBtn from "../../../../components/buttons/ActionBtn";
-import QRCode from "qrcode.react";
-import InfoTextForPrint from "../../../../components/InfoTextForPrint";
+import React, { Fragment, forwardRef, useImperativeHandle, useState } from 'react'
+import ActionBtn from '../../../../../components/buttons/ActionBtn';
+import TextInputField from '../../../../../components/inputs/TextInputField';
+import { Dialog, Transition } from '@headlessui/react';
+import { toast } from 'react-toastify';
+import Axios from '../../../../../libs/axios';
+import useNoBugUseEffect from '../../../../../hooks/useNoBugUseEffect';
+import { useForm } from 'react-hook-form';
 import { useReactToPrint } from "react-to-print";
-import FlatIcon from "../../../../components/FlatIcon";
-import { patientFullName, patientAddress, doctorName } from "../../../../libs/helpers";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-
+import FlatIcon from '../../../../../components/FlatIcon';
+import InfoTextForPrint from '../../../../../components/InfoTextForPrint';
+import { patientFullName, patientAddress, doctorName } from '../../../../../libs/helpers';
+import QRCode from "qrcode.react";
 const FormHeading = ({ title }) => {
 	return (
 		<div className="flex items-center bg-blue-200">
@@ -23,13 +25,62 @@ const FormHeading = ({ title }) => {
 		</div>
 	);
 };
+const LaboratoryReceiptModal = (props, ref) => {
+    const { patient, onSuccess, appointment } = props;
+	const {
+        register,
+		getValues,
+		watch,
+		control,
+		setValue,
+		reset,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
+    const [showData, setShowData] = useState(null);
+	const [saving, setSaving] = useState(null);
+	const [modalOpen, setModalOpen] = useState(false);
+    const componentRef = React.useRef(null);
+    const [doctor, setDoctor] = useState(null);
+    useNoBugUseEffect({
+		functions: () => {},
+	});
+	useImperativeHandle(ref, () => ({
+		show: show,
+		hide: hide,
+	}));
 
-const LaboratoryReceipt = (props) => {
-	const { loading: btnLoading, appointment, patient, onSave } = props;
-	const [doctor, setDoctor] = useState(null);
-	const componentRef = React.useRef(null);
-	
-	const handlePrint = useReactToPrint({
+	const show = (data) => {
+		console.log("patient", patient?.id);
+		console.log("/v1/laboratory/tests/list");
+		setShowData(data);
+		setModalOpen(true);
+	};
+	const hide = () => {
+		setModalOpen(false);
+	};
+	const submit = (data) => {
+		setSaving(true);
+
+		let formdata = new FormData();
+
+		formdata.append("_method", "PATCH");
+		formdata.append("rbs", data?.rbs);
+		Axios.post(`v1/clinic/tb-lab-result/${showData?.id}`, formdata)
+			.then((res) => {
+				reset();
+				toast.success("Laboratory result submitted successfully!");
+				onSuccess();
+				hide();
+			})
+			.finally(() => {
+				setTimeout(() => {
+					setSaving(false);
+				}, 1000);
+			});
+	};
+
+    const handlePrint = useReactToPrint({
 		content: () => componentRef.current,
 	});
 
@@ -45,8 +96,35 @@ const LaboratoryReceipt = (props) => {
 		pdf.save("LaboratoryReport.pdf");
 	};
 
-	return (
-		<div className="mt-5">
+  return (
+    <Transition appear show={modalOpen} as={Fragment}>
+			<Dialog as="div" className="" onClose={hide}>
+				<Transition.Child
+					 as={Fragment}
+      enter="transform transition ease-out duration-300"
+      enterFrom="translate-x-full opacity-0"
+      enterTo="translate-x-0 opacity-100"
+      leave="transform transition ease-in duration-200"
+      leaveFrom="translate-x-0 opacity-100"
+      leaveTo="translate-x-full opacity-0"
+				>
+					<div className="fixed inset-0  z-[300]" />
+				</Transition.Child>
+
+				<div className="fixed inset-0 overflow-y-auto h-full !z-[550]">
+      <div className="flex min-h-full items-center justify-center p-4 text-center">
+        <Transition.Child
+          as={Fragment}
+          enter="transform transition ease-out duration-300"
+          enterFrom="-translate-y-full opacity-0"
+          enterTo="translate-y-0 opacity-100"
+          leave="transform transition ease-in duration-200"
+          leaveFrom="translate-y-0 opacity-100"
+          leaveTo="-translate-y-full opacity-0"
+        >
+							<Dialog.Panel className=" w-[900px] rounded-2xl bg-slate-200 text-left align-middle shadow-xl transition-all">
+								
+		<div className="mt-5 w-[900px] flex justify-center">
 			<div className="border-2 px-3 py-1 bg-gray-800 rounded-lg">
 				<div className="flex flex-row justify-end">
 					<ActionBtn
@@ -317,7 +395,17 @@ const LaboratoryReceipt = (props) => {
 				</div>
 			</div>
 		</div>
-	);
-};
 
-export default LaboratoryReceipt;
+								<div className="px-4 py-4 border-t flex items-center justify-end bg-slate-">
+									
+								</div>
+							</Dialog.Panel>
+						</Transition.Child>
+					</div>
+				</div>
+			</Dialog>
+		</Transition>
+  )
+}
+
+export default forwardRef(LaboratoryReceiptModal)

@@ -45,28 +45,28 @@ const usePharmaQueue = () => {
 		}
 	);
 
-	// const {
-	// 	data: nowServing,
-	// 	// error,
-	// 	mutate: mutateNowServing,
-	// } = useSWR(
-	// 	"/v1/laboratory/get-queue",
-	// 	() =>
-	// 		Axios.get("/v1/laboratory/get-queue")
-	// 			.then((res) => {
-	// 				console.log("res.data clinic/rhu-patient-queue", res.data);
-	// 				return res.data;
-	// 			})
-	// 			.catch((error) => {
-	// 				if (error.response.status !== 409) throw error;
+	const {
+		data: nowServing,
+		// error,
+		mutate: mutateNowServing,
+	} = useSWR(
+		"/v1/laboratory/get-queue",
+		() =>
+			Axios.get("/v1/laboratory/get-queue")
+				.then((res) => {
+					console.log("res.data clinic/rhu-patient-queue", res.data);
+					return res.data;
+				})
+				.catch((error) => {
+					if (error.response.status !== 409) throw error;
 
-	// 				// mutate("/v1/laboratory/get-queue");
-	// 			}),
-	// 	{
-	// 		revalidateIfStale: false,
-	// 		revalidateOnFocus: true,
-	// 	}
-	// );
+					// mutate("/v1/laboratory/get-queue");
+				}),
+		{
+			revalidateIfStale: false,
+			revalidateOnFocus: true,
+		}
+	);
 
 	return {
 		pending,

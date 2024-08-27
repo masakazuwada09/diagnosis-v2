@@ -3,23 +3,11 @@ import { useForm } from "react-hook-form";
 import CollapseDiv from "../../../../components/CollapseDiv";
 import FlatIcon from "../../../../components/FlatIcon";
 import PatientVitals from "../../../../components/PatientVitals";
-import {
-	generalHistories,
-	medicalSurgicalHistories,
-	symptoms,
-	viral_infectious,
-	bacterial_infectious,
-	fungal_infectious,
-	parasitic_infectious
 
-} from "../../../../libs/appointmentOptions";
-import { formatDateMMDDYYYYHHIIA, keyByValue, doctorName } from "../../../../libs/helpers";
+import { formatDateMMDDYYYYHHIIA, keyByValue, doctorName, formatDateTime, dateMMDDYYYY } from "../../../../libs/helpers";
 import useNoBugUseEffect from "../../../../hooks/useNoBugUseEffect";
-import TextInputField from "../../../../components/inputs/TextInputField";
-import PatientServices from "../../../../components/modal/PatientServices";
 import { v4 as uuidv4 } from "uuid";
 import Axios from "../../../../libs/axios";
-import AppointmentStatus from "../../../../components/AppointmentStatus";
 import CashierApproval from "../../../appointments/components/CashierApproval";
 import NurseServices from './NurseServices';
 import LaboratoryOrders from './LaboratoryOrders';
@@ -30,13 +18,11 @@ import PatientPrescriptions from './PatientPrescriptions';
 import PatientVitalCharts from '../../../../components/PatientVitalCharts';
 import PatientCSROrder from '../../../department/his-nurse/components/PatientCSROrder';
 import PatientPharmacyOrder from '../../../department/his-nurse/components/PatientPharmacyOrder';
-import AppointmentDetails from '../../../appointments/components/AppointmentDetails';
-import PatientProfileModal from '../../../../components/PatientProfileModal';
-import ActionBtn from '../../../../components/buttons/ActionBtn';
-import MedicalCertificate from './modal/MedicalCertificate';
+import MedicalCertificate from './Forms/MedicalCertificate';
 import Prescription from './modal/Prescription';
 import ImagingReceipt from '../../dc-imaging/components/ImagingReceipt';
 import LaboratoryReceipt from '../../dc-cashier/components/LaboratoryReceipt';
+import PrescriptionReceipt from './PrescriptionReceipt';
 
 
 const uniq_id = uuidv4();
@@ -106,6 +92,7 @@ const NurseAppointmentDetails = ({
 	const patientProfileRef = useRef(null);
 	const printMedicalCertificate = useRef(null);
 	const printPrescription = useRef(null);
+	const printPrescriptionRef = useRef(null);
 	const show = (data) => {
 		setFull(false);
 		setShowData(data);
@@ -178,7 +165,7 @@ const NurseAppointmentDetails = ({
 								<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100  pb-4 ">
 									<div className='flex flex-row justify-end gap-2'>
 										
-									<ActionBtn
+									{/* <ActionBtn
 										className="relative text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] "
 										onClick={() => printMedicalCertificate.current.show({...data, appointment})}
 										type="foreground-dark"
@@ -190,22 +177,8 @@ const NurseAppointmentDetails = ({
 										
 									<FlatIcon icon="rs-document" />
 									Certificate Available					
-									</ActionBtn>
+									</ActionBtn> */}
 
-									<ActionBtn
-										className="relative text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px]"
-										onClick={() => printPrescription.current.show({...data, appointment})}
-										type="foreground-dark"
-									>
-										{/* Notification indicators */}
-										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-ping"></span>
-										<span className="text-white bg-red-600 absolute top-1 right-1 rounded-full w-3 h-3 flex items-center justify-center animate-pulse"></span>
-										<span className="absolute top-0 right-0 rounded-xl h-full w-full border border-red-500 animate-pulse"></span>
-
-										{/* Button content */}
-										<FlatIcon icon="fi fi-ss-file-prescription" />
-										Prescription Available
-									</ActionBtn>
 
 									
 									
@@ -219,11 +192,7 @@ const NurseAppointmentDetails = ({
 								label="Initial Diagnosis:"
 								value={appointment?.post_notes}
 							/>
-							<InfoText
-								className="lg:col-span-6"
-								label="PHIC:"
-								value={patient?.philhealth}
-							/>
+							
 							<InfoText
 								className="lg:col-span-6"
 								label="Date:"
@@ -255,11 +224,7 @@ const NurseAppointmentDetails = ({
 							/>
 							
 							
-							<InfoText
-								className="lg:col-span-12"
-								label="Brief Clinical History and Pertinent Physical Examination:"
-								value={appointment?.history}
-							/>
+							
 							{/* <InfoText
 								className="lg:col-span-12"
 								label="Laboratory Findings (Including ECG, X-ray, and other diagnostic procedures):"
@@ -349,7 +314,6 @@ const NurseAppointmentDetails = ({
 									/>
 								) : (
 									<NurseServices
-										
 										setAppointment={setOrder}
 										showTitle={false}
 										mutateAll={mutateAll}
@@ -462,8 +426,8 @@ const NurseAppointmentDetails = ({
 																}
 															/>
 															<LaboratoryReceipt
-				
-																patient={patient}
+																
+																patient={appointment?.patient} 
 																onSuccess={() => {
 																	reloadData();
 																}}
@@ -508,13 +472,13 @@ const NurseAppointmentDetails = ({
 																}
 															/>
 															<ImagingReceipt
-																		patient={patient}
+																		patient={appointment?.patient} 
 																		appointment={appointment?.id}
 																		onSuccess={() => {
 																			reloadData();
 																		}}
 																		ref={imagingReceiptRef}
-																	/>
+															/>
 															</>
 															
 															
@@ -528,9 +492,27 @@ const NurseAppointmentDetails = ({
 															</MenuTitle>
 														),
 														content: (
+															<>
 															<PatientPrescriptions
 															patient={appointment?.patient}
 															/>
+															<PrescriptionReceipt
+																patient={appointment?.patient} 
+																date={dateMMDDYYYY(
+																	new Date(appointment?.created_at)
+																	)}
+																appointment={appointment?.id}
+																onSuccess={() => {
+																	onUploadLabResultSuccess();
+																	reloadData();
+																}}
+																ref={printPrescriptionRef}
+															/>
+
+			
+															</>
+															
+															
 														),
 													},
 													{
@@ -635,14 +617,8 @@ const NurseAppointmentDetails = ({
 												]}
 											/>
 			
-			<MedicalCertificate
-				patient={patient}
-				onSuccess={() => {
-					onUploadLabResultSuccess();
-					reloadData();
-				}}
-				ref={printMedicalCertificate}
-			/>
+			
+			
 			<Prescription
 				patient={patient}
 				onSuccess={() => {

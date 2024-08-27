@@ -1,7 +1,7 @@
 import React, {useEffect, useState}  from 'react'
-import InfoTextForPrint from '../../../../InfoTextForPrint';
+import InfoTextForPrint from '../../../../../components/InfoTextForPrint';
 import { useForm } from 'react-hook-form';
-import FlatIcon from '../../../../FlatIcon';
+import FlatIcon from '../../../../../components/FlatIcon';
 
 const CheckBox = ({
 	label,
@@ -102,17 +102,15 @@ const CreditCardDetails = () => {
 	});
 
   return (
-    <div className="border rounded-sm w-[360px] border-gray-400 mb-2">
+    <div className="border rounded-sm w-[400px] border-gray-300 mb-2">
 					
                     <div className="">
-					<div className=" bg-gray-300 text-slate-500 text-background  grid grid-cols-1 divide-x  font-light text-start font-mono ">
+					<div className=" bg-gray-00 text-slate-600   grid grid-cols-1 divide-x  font-light text-start font-mono ">
 						<div className="flex-col text-xs items-start justify-start flex px-2">
                             <span>
-							IF PAYING BY MASTERCARD,VISA OR Gcash,
+							IF PAYING BY MASTERCARD,VISA OR Gcash, FILL OUT BELOW
 							</span>
-							<span>
-							FILL OUT BELOW
-							</span>
+							
                             
 
                         </div>
@@ -123,7 +121,7 @@ const CreditCardDetails = () => {
                     
 					<div className="flex flex-row gap-2 px-5 text-xs font-light mt-2 font-mono justify-center">
 
-                    <div className="flex flex-row  ">
+                    <div className="flex flex-row  mb-2">
 										<div className="flex flex-row gap-5 ">
                                         
 											<CheckBox
@@ -233,9 +231,9 @@ const CreditCardDetails = () => {
                         
 					</div>
 
-                    <div className="flex flex-row columns-3 w-full text-sm font-light font-mono border-t border-t-slate-500 ">
+                    <div className="flex flex-row columns-2 w-full text-sm font-light font-mono border-t border-t-slate-500 ">
 
-						<div className=" w-full  border-r border-dashed border-r-slate-500 px-2">
+						<div className=" w-full flex border-dashed border-r-slate-500 px-2 mb-2">
                         
                         <InfoTextForPrint
                             contentClassName="text-sm"
@@ -243,7 +241,7 @@ const CreditCardDetails = () => {
                             value=""/>
 						</div>
 
-						<div className="w-full  px-2 ">
+						<div className="w-full ">
                         <InfoTextForPrint
                             contentClassName="text-sm "
                             title="Security Code."

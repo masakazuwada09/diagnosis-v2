@@ -57,6 +57,7 @@ const AppointmentDetails = ({
 	showService = true,
 	appointment,
 	serviceComponent,
+	medicalcertificateComponent,
 	forResult = false,
 	customStatus = null,
 }) => {
@@ -105,9 +106,9 @@ const AppointmentDetails = ({
 	});
 
 	return (
-		<div className="flex flex-col">
-			<h4 className="border flex items-center text-base font-bold p-2 mb-0 border-indigo-100 lg:col-span-12">
-				<span>Appointment Information</span>
+		<div className="flex flex-col ">
+			<h4 className="border flex items-center text-base font-bold p-2 mb-0 bg-white border-indigo-100 lg:col-span-12">
+				<span>Patient Information</span>
 				<span className="ml-auto">
 					Status:{" "}
 					<b className="uppercase font-normal">
@@ -121,23 +122,31 @@ const AppointmentDetails = ({
 			</h4>
 			{appointment?.id ? (
 				<>
-					<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100 pt-5 pb-4">
-						
-						
-
-						
+					<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl shadow-lg bg-white pt-5 pb-4">
 						{showService &&
 						(appointment?.vital_id ||
 							appointment?.has_for_reading?.length) ? (
-							<CollapseDiv
+								<>
+								<CollapseDiv
 								defaultOpen={true}
 								withCaret={true}
-								title="Services"
+								title="Diagnosis and Procedure"
 								headerClassName="bg-blue-50"
 								bodyClassName="p-0"
 							>
 								{serviceComponent}
 							</CollapseDiv>
+							{/* <CollapseDiv
+							defaultOpen={true}
+							withCaret={true}
+							title="Medical Certificate"
+							headerClassName="bg-blue-50"
+							bodyClassName="p-0"
+						>
+							{medicalcertificateComponent}
+						</CollapseDiv> */}
+								</>
+							
 						) : (
 							""
 						)}

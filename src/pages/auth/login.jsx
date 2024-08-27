@@ -51,19 +51,18 @@ const Login = () => {
 	return (
 		<LayoutContainer>
 			<ToastContainer theme="colored" />
-			<div className=" z-20 mx-auto w-4/5 lg:w-[630px] p-11 border bg-white shadow-lg shadow-[rgba(0,0,0,0.4)] rounded-xl flex flex-col items-center">
+			<div className=" z-20 mx-auto w-4/5 lg:w-[384px] p-11  absolute opacity rounded-xl flex flex-col items-center  bg-clip-padding shadow-lg">
 				<img
-					src="/logo.png"
+					src="/laboratory.png"
 					alt="gtc-logo"
-					className="w-[144px] mb-2"
+					className="w-[70px] mb-2"
 				/>
-				<h5 className="text-primary-darker font-bold uppercase mb-5 ">
-					HIS LOGIN FORM
+				<h5 className="text-gray-700 font-bold uppercase mb-5 ">
+					DIAGNOSTIC CENTER
 				</h5>
 				<form className="w-full" onSubmit={handleSubmit(submit)}>
 					<TextInputField
 						className="w-full mb-4"
-						label="Username"
 						placeholder="Input username"
 						id="username"
 						{...register("username", {
@@ -73,7 +72,7 @@ const Login = () => {
 					/>
 					<TextInputField
 						className="w-full mb-6"
-						label="Password"
+				
 						placeholder="Input password"
 						type="password"
 						error={errors?.password?.message}
@@ -83,14 +82,15 @@ const Login = () => {
 					/>
 					<ActionBtn
 						buttonType="submit"
-						type="primary-dark"
-						className="w-full "
+						type="teal"
+						className="w-full border border-teal-800"
 						ref={submitBtnRef}
 						loading={loading}
 						onClick={handleSubmit(submit)}
 					>
 						Login
 					</ActionBtn>
+					
 				</form>
 			</div>
 		</LayoutContainer>

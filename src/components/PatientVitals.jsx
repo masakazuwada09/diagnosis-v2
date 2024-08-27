@@ -9,6 +9,9 @@ import FlatIcon from "./FlatIcon";
 import useNoBugUseEffect from "../hooks/useNoBugUseEffect";
 import Axios from "../libs/axios";
 import ContentTitle from "./buttons/ContentTitle";
+import { cardio } from 'ldrs'
+
+
 
 const Card = ({ title, children, icon, color }) => {
 	return (
@@ -70,6 +73,9 @@ const PatientVitals = (props) => {
 				}, 1000);
 			});
 	};
+	cardio.register()
+
+
 	return (
 		<div className="flex flex-col items-start">
 			{showTitle ? (
@@ -119,10 +125,13 @@ const PatientVitals = (props) => {
 			{loading ? (
 				<div className="p-5 flex items-center justify-center w-full">
 					<h2 className="text-2xl font-bold animate-pulse flex items-center gap-2">
-						<span className="flex items-center justify-center animate-spin">
-							<FlatIcon icon="rr-loading" />
-						</span>
-						Loading...
+							<l-cardio
+							size="35"
+							stroke="4"
+							speed="2" 
+							color="black" 
+							></l-cardio>
+						
 					</h2>
 				</div>
 			) : appointment?.vital_id ? (

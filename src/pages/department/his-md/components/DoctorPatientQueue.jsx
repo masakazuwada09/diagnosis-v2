@@ -203,7 +203,6 @@ const DoctorPatientQueue = () => {
 				pendingOrdersRef={pendingOrdersRef}
 				ref={patientProfileRef}
 				mutateAll={mutateAll}
-				
 			/>
 			<PendingOrdersModal ref={pendingOrdersRef} />
 		</AppLayout>

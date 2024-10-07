@@ -19,11 +19,11 @@ import PatientVitalCharts from '../../../../components/PatientVitalCharts';
 import PatientCSROrder from '../../../department/his-nurse/components/PatientCSROrder';
 import PatientPharmacyOrder from '../../../department/his-nurse/components/PatientPharmacyOrder';
 import MedicalCertificate from './Forms/MedicalCertificate';
-import Prescription from './modal/Prescription';
+import Prescription from './Forms/Prescription';
 import ImagingReceipt from '../../dc-imaging/components/ImagingReceipt';
 import LaboratoryReceipt from '../../dc-cashier/components/LaboratoryReceipt';
 import PrescriptionReceipt from './PrescriptionReceipt';
-
+import TabGroupHorizontal from '../../../../components/TabGroupHorizontal';
 
 const uniq_id = uuidv4();
 /* eslint-disable react/prop-types */
@@ -35,23 +35,18 @@ const InfoText = ({
 	value,
 }) => {
 	return (
-		<div className={`flex flex-col ${className}`}>
+		<div className={`flex flex-row gap-2 items-center ${className}`}>
 			{label ? (
-				<span className="text-slate-800 text-xs capitalize mb-1">
+				<span className="text-slate-800 text-xs capitalize ">
 					{label}
 				</span>
 			) : (
 				""
 			)}
-			<div className="flex items-center mb-0 gap-2">
-				<span className="flex items-center justify-center">
-					<FlatIcon
-						icon={icon || "bs-arrow-turn-down-right"}
-						className="text-[10px] text-slate-600 ml-1"
-					/>
-				</span>
+			<div className="flex items-center gap-2">
+				
 				<span
-					className={`capitalize gap-1 text-slate-900 flex text-base flex-wrap ${valueClassName} `}
+					className={`capitalize gap-1 text-slate-900 font-mono flex text-base  ${valueClassName} `}
 				>
 					{value}
 				</span>
@@ -147,12 +142,12 @@ const NurseAppointmentDetails = ({
 
 
 	return (
-		<div className="flex flex-col ">
+		<div className="flex flex-col mt-4 overflow-auto">
 			
-							<TabGroup
+							<TabGroupHorizontal
 								tabClassName={`py-1 shadow-lg `}
 								contentClassName={
-									"max-h-[unset] "
+									"h-[670px] "
 											} contents={[
 											{
 									title: (
@@ -163,7 +158,7 @@ const NurseAppointmentDetails = ({
 
 							content: (
 								<div className="flex flex-col gap-y-4 px-4 border-x border-b rounded-b-xl border-indigo-100  pb-4 ">
-									<div className='flex flex-row justify-end gap-2'>
+									<div className='flex flex-row justify-end gap-2 '>
 										
 									{/* <ActionBtn
 										className="relative text-gray-700 flex items-center cursor-pointer rounded-lg gap-2 w-[200px] "
@@ -184,7 +179,7 @@ const NurseAppointmentDetails = ({
 									
 									</div>
 									
-								<div className="grid grid-cols-1 lg:grid-cols-12 gap-3 px-4 ">
+								<div className="grid grid-cols-1 lg:grid-cols-12 gap-3 px-4  ">
 
 			
 							<InfoText
@@ -301,7 +296,7 @@ const NurseAppointmentDetails = ({
 								withCaret={true}
 								title="Services"
 								headerClassName=""
-								bodyClassName="p-0"
+								bodyClassName="p-0 "
 							>
 
 								{forCashier ? (
@@ -347,13 +342,14 @@ const NurseAppointmentDetails = ({
 													},
 													{
 														title: (
-															<MenuTitle src="/public/walk-in-plus.png">
+															<MenuTitle src="/walk-in-plus.png">
 																Profile
 															</MenuTitle>
 														),
 
 														content: (
 															<PatientProfileDetails
+																
 																patient={appointment?.patient}
 																openProfileAction={() => {
 																	patientProfileRef.current.show(
@@ -496,7 +492,7 @@ const NurseAppointmentDetails = ({
 															<PatientPrescriptions
 															patient={appointment?.patient}
 															/>
-															<PrescriptionReceipt
+															<Prescription
 																patient={appointment?.patient} 
 																date={dateMMDDYYYY(
 																	new Date(appointment?.created_at)
@@ -619,14 +615,7 @@ const NurseAppointmentDetails = ({
 			
 			
 			
-			<Prescription
-				patient={patient}
-				onSuccess={() => {
-					onUploadLabResultSuccess();
-					reloadData();
-				}}
-				ref={printPrescription}
-			/>
+			
 
 		</div>
 		

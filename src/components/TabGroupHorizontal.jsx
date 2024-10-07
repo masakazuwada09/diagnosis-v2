@@ -1,7 +1,7 @@
 import { Tab } from "@headlessui/react";
 import { Fragment, useState } from "react";
 const TabGroupHorizontal = ({
-	tabClassName,
+	tabClassName = "",
 	contentClassName = "",
 	contents,
 }) => {
@@ -19,21 +19,22 @@ const TabGroupHorizontal = ({
 	return (
 		<Tab.Group
 			as="div"
-			className="flex"
+			className="flex "
 			selectedIndex={selectedIndex}
 			onChange={setSelectedIndex}
 		>
 			<Tab.List
 				as="div"
-				className="rounded- border-r flex flex-col pr-3 pb-3  gap-3 overflow-auto flex-wrap min-w-[252px]"
+				className=" border rounded-xl flex flex-col pr-2 pl-2 mt-2 pb-3  gap-1 min-w-[212px]"
+				tabClassName = ""
 			>
 				{contents.map(({ title }, i) => (
 					<Tab as={Fragment} key={`tab-g-${i}`}>
 						{({ selected }) => (
 							<div
-								className={`px-3 py-2 duration-200 text-base rounded-lg flex gap-2 justify- items-center cursor-pointer hover:bg-primary/[0.1] ${
+								className={`px-3 py-1  duration-200 text-base rounded-lg flex gap-2 cursor-pointer hover:bg-primary/[0.2] ${
 									selected
-										? "bg-primary/[0.05] text-primary border border-secondary/25"
+										? "bg-primary/[0.2] text-primary border border-secondary/25"
 										: "border border-transparent"
 								}`}
 							>
@@ -54,7 +55,7 @@ const TabGroupHorizontal = ({
 						className={`p-0 duration-200 text-base rounded-xl flex flex-col overflow-auto ${contentClassName} ${
 							contentClassName?.includes("max-h")
 								? ""
-								: "min-h-[288px] max-h-[calc(100vh-428px)]"
+								: "min-h-[288px] max-h-[calc(100vh-228px)]"
 						}`}
 					>
 						{content}

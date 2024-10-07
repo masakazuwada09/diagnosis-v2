@@ -108,7 +108,7 @@ const LaboratoryOrders = (props) => {
 		reloadData,
 	} = useDataTable
 	({
-		url: `/v1/doctor/laboratory-order/patient/${patient?.id}`, 
+		url: patient?.id ? `/v1/doctor/laboratory-order/patient/${patient?.id}` : null, 
 		defaultFilters: {
 			...(order_id ? { order_id: order_id } : {}),
 			...(laboratory_test_type
@@ -120,7 +120,7 @@ const LaboratoryOrders = (props) => {
 	const sendPatientToLab = () => {
 		setLoading(true);
 		Axios.post(
-			`/v1/doctor/laboratory-order/send-patient-to-laboratory/${showData?.id}`,
+			`/v1/doctor/laboratory-order/send-patient-to-laboratory/${modalData?.id}`,
 			{
 				_method: "PATCH",
 			}
@@ -330,7 +330,7 @@ const LaboratoryOrders = (props) => {
 																);
 																pendingOrdersRef?.current.show(
 																	{
-																		data: showData,
+																		data: modalData,
 																		fn: sendPatientToLab,
 																	}
 																);
@@ -691,7 +691,7 @@ const LaboratoryOrders = (props) => {
 												2
 											}
 											appointment={
-												showData
+												modalData
 											}
 											allowCreate={
 												false

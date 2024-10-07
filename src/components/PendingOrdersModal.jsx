@@ -14,16 +14,16 @@ import { toast } from "react-toastify";
 import LaboratoryOrders from "./patient-modules/LaboratoryOrders";
 import ActionBtn from "./buttons/ActionBtn";
 
-const PendingOrdersModal = ({
-	appointment: propAppointment,
-	forCashier = false,
-	forBilling = false,
-	forHousekeeping = false,
-	setOrder,
-	hideServices = false,
-	mutateAll,
-	data,
-}, ref,) => {
+const PendingOrdersModal = (props, ref) => {
+// 	appointment: propAppointment,
+// 	forCashier = false,
+// 	forBilling = false,
+// 	forHousekeeping = false,
+// 	setOrder,
+// 	hideServices = false,
+// 	mutateAll,
+// 	data,
+// }, ref,
 	const {
 		register,
 		getValues,
@@ -34,9 +34,9 @@ const PendingOrdersModal = ({
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
-
+	
 	const [mount, setMount] = useState(0);
-	const [appointment, setAppointment] = useState(propAppointment);
+	// const [appointment, setAppointment] = useState(propAppointment);
 	const [modalData, setModalData] = useState(null);
 	const [modalOpen, setModalOpen] = useState(false);
 	useEffect(() => {
@@ -65,7 +65,7 @@ const PendingOrdersModal = ({
 	const nohide = () => {};
 
 	const submit = (data) => {
-		let formData = new FormData();
+		let modalData = new FormData();
 		if (modalData.fn) {
 			modalData.fn();
 			hide();
@@ -112,7 +112,7 @@ const PendingOrdersModal = ({
 								</Dialog.Title>
 								<div className=" pt-5 grid grid-cols-1 gap-5 relative">
 									{console.log(
-										"MODALDATAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+										" ",
 										modalData?.data
 									)}
 									<LaboratoryOrders

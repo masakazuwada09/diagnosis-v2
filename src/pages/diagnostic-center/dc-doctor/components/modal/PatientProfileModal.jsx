@@ -150,8 +150,6 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 									loading={loading}
 								/>
 					}
-
-
 					serviceComponent={
 						<>
 							{(appointment?.status ==

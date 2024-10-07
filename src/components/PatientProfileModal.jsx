@@ -186,7 +186,11 @@ const AppointmentData = ({ mutateAll, appointment = null }) => {
 
 
 const PatientProfileModal = (props, ref) => {
-	const { mutateAll, pendingOrdersRef } = props;
+	const { 
+		mutateAll, 
+		pendingOrdersRef 
+	} = props;
+	
 	const [patient, setPatient] = useState(null);
 	const [showData, setShowData] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -361,7 +365,6 @@ const PatientProfileModal = (props, ref) => {
 													""
 												)}
 
-												
 												<ActionBtn
 															loading={
 																loadingDone
